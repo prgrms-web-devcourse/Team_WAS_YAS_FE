@@ -1,8 +1,11 @@
+// eslint-disable-next-line
+import { Container } from '@/components';
+
 const App = function () {
   return (
-    <div>
+    <Container>
       <h1>hello, YAS!</h1>
-    </div>
+    </Container>
   );
 };
 

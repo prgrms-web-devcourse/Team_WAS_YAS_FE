@@ -1,4 +1,5 @@
 {
+  "extends": "./tsconfig.paths.json",
   "compilerOptions": {
     "target": "es6",
     "lib": [
@@ -22,5 +23,9 @@
   },
   "include": [
     "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "**/node_modules/*"
   ]
 }
