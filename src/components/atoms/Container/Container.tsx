@@ -6,6 +6,10 @@ import { media, fontSize } from '@/styles';
 
 type DivProps = React.ComponentProps<'div'>;
 
+const Container = ({ children, ...props }: DivProps): JSX.Element => {
+  return <StyledDiv {...props}>{children}</StyledDiv>;
+};
+
 const StyledDiv = styled.div`
   display: flex;
   justify-content: center;
@@ -25,9 +29,5 @@ const StyledDiv = styled.div`
     padding: 0 40px;
   }
 `;
-
-const Container = ({ children, ...props }: DivProps): JSX.Element => {
-  return <StyledDiv {...props}>{children}</StyledDiv>;
-};
 
 export default Container;
