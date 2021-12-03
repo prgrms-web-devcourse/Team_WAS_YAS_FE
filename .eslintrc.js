@@ -23,6 +23,7 @@ module.exports = {
   plugins: ['react', '@typescript-eslint'],
   rules: {
     'react/react-in-jsx-scope': 0,
+    'import/no-unresolved': 0,
   },
   settings: {
     'import/resolver': {
