@@ -10,9 +10,13 @@ export default {
 };
 
 const StyledContainer = styled(Container)`
-  color: ${colors.red};
+  color: ${colors['text-primary']};
 `;
 
 export const Default = () => {
-  return <StyledContainer>Hello World!</StyledContainer>;
+  return (
+    <>
+      <StyledContainer>컨텐츠</StyledContainer>
+    </>
+  );
 };
