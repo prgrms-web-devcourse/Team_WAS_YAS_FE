@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Close = () => {
+const Close = (): JSX.Element => {
   return (
     <svg
       width="20"

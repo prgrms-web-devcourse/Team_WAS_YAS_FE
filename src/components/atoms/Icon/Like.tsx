@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Like = () => {
+const Like = (): JSX.Element => {
   return (
     <svg
       width="18"

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const List = () => {
+const List = (): JSX.Element => {
   return (
     <svg
       width="18"

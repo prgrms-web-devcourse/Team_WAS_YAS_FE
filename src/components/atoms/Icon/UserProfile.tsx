@@ -1,6 +1,6 @@
 import React from 'react';
 
-const UserProfile = () => {
+const UserProfile = (): JSX.Element => {
   return (
     <svg
       width="48"

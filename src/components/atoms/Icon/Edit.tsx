@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Edit = () => {
+const Edit = (): JSX.Element => {
   return (
     <svg
       width="12"

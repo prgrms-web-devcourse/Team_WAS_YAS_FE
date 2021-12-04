@@ -1,42 +1,42 @@
 import styled from '@emotion/styled';
 import React from 'react';
-import { Colors } from '@/styles';
+import { Colors, Media } from '@/styles';
 
 type SvgType = React.ComponentProps<'svg'>;
 
-interface SvgProps extends SvgType {
-  size?: number;
-}
-
-const StyledSvg = styled.svg<SvgProps>`
-  ${({ size }) => size && `width: ${size}px; height: ${size}px;`}
+const StyledSvg = styled.svg<SvgType>`
+  @media ${Media.sm} {
+    width: 2rem;
+    height: 2rem;
+  }
+  @media ${Media.md} {
+    width: 4rem;
+    height: 4rem;
+  }
+  @media ${Media.lg} {
+    width: 4rem;
+    height: 4rem;
+  }
 `;
 
-interface Props extends SvgProps {
-  size?: number;
+interface Props extends React.ComponentProps<'svg'> {
   color?: string;
 }
 
-const ArrowBack = ({ size, color, ...props }: Props): JSX.Element => {
+const ArrowBack = ({ ...props }: Props): JSX.Element => {
   return (
     <StyledSvg
-      size={size}
-      viewBox="0 0 18 18"
+      viewBox="0 0 38 66"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <path
-        d="M10.3742 14.25C10.2622 14.2503 10.1515 14.2256 10.0502 14.1776C9.94899 14.1296 9.8598 14.0595 9.78921 13.9725L6.16671 9.47246C6.0564 9.33826 5.99609 9.16993 5.99609 8.99621C5.99609 8.82249 6.0564 8.65416 6.16671 8.51996L9.91671 4.01996C10.044 3.8668 10.2269 3.77048 10.4253 3.7522C10.6236 3.73391 10.821 3.79516 10.9742 3.92246C11.1274 4.04977 11.2237 4.2327 11.242 4.43102C11.2603 4.62934 11.199 4.8268 11.0717 4.97996L7.71921 8.99996L10.9592 13.02C11.0509 13.1301 11.1092 13.2641 11.1271 13.4063C11.145 13.5484 11.1218 13.6927 11.0603 13.8221C10.9987 13.9515 10.9014 14.0606 10.7798 14.1364C10.6582 14.2122 10.5175 14.2516 10.3742 14.25Z"
-        fill={color}
+        d="M36.3925 7.87694C37.9546 6.31484 37.9546 3.78218 36.3925 2.22008L36.0008 1.82842C34.4387 0.266328 31.9061 0.26633 30.344 1.82843L1.82843 30.344C0.266331 31.9061 0.26633 34.4387 1.82843 36.0008L30.344 64.5163C31.9061 66.0784 34.4387 66.0784 36.0008 64.5163L36.3925 64.1247C37.9546 62.5626 37.9546 60.0299 36.3925 58.4678L13.9255 36.0008C12.3634 34.4387 12.3634 31.9061 13.9255 30.344L36.3925 7.87694Z"
+        fill={Colors.textSecondary}
       />
     </StyledSvg>
   );
-};
-
-ArrowBack.defaultProps = {
-  size: 18,
-  color: Colors.textSecondary,
 };
 
 export default ArrowBack;

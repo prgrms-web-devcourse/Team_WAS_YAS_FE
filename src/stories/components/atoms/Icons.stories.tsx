@@ -23,3 +23,19 @@ export const Default = () => {
     </>
   );
 };
+
+export const ArrowBack = ({ ...props }) => <Icon.ArrowBack {...props} />;
+
+ArrowBack.argTypes = {
+  size: { control: { type: 'range', min: 16, max: 200 } },
+  color: { control: 'color' },
+};
+
+const StyledArrowBackIcon = styled(Icon.ArrowBack)`
+  size: 64px;
+  color: red;
+`;
+
+export const Custom = () => {
+  return <StyledArrowBackIcon />;
+};
