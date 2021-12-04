@@ -27,7 +27,9 @@ const Base = styled.button`
   }
 `;
 
-export interface NavButtonProps {
+type Props = React.ComponentProps<'button'>;
+
+export interface NavButtonProps extends Props {
   active?: boolean;
 }
 

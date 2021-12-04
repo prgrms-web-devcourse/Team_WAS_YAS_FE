@@ -2,9 +2,9 @@ import { media } from '@/styles';
 import styled from '@emotion/styled';
 import Base, { NavButtonProps } from './Base';
 
-const Analysis = ({ active }: NavButtonProps): JSX.Element => {
+const Analysis = ({ active, ...props }: NavButtonProps): JSX.Element => {
   return (
-    <Base>
+    <Base {...props}>
       {active ? (
         <Svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path
