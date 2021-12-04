@@ -1,4 +1,4 @@
-import { media } from '@/styles';
+import { Media } from '@/styles';
 import styled from '@emotion/styled';
 import Base, { ButtonProps } from '@/components/atoms/Button/Base';
 
@@ -16,27 +16,27 @@ const Add = ({ ...props }: ButtonProps): JSX.Element => {
 };
 
 const PlayBase = styled(Base)`
-  @media ${media.sm} {
+  @media ${Media.sm} {
     border-radius: 50%;
   }
-  @media ${media.md} {
+  @media ${Media.md} {
     border-radius: 50%;
   }
-  @media ${media.lg} {
+  @media ${Media.lg} {
     border-radius: 50%;
   }
 `;
 
 const Svg = styled.svg`
-  @media ${media.sm} {
+  @media ${Media.sm} {
     width: 18px;
     height: 18px;
   }
-  @media ${media.md} {
+  @media ${Media.md} {
     width: 30px;
     height: 30px;
   }
-  @media ${media.lg} {
+  @media ${Media.lg} {
     width: 30px;
     height: 30px;
   }

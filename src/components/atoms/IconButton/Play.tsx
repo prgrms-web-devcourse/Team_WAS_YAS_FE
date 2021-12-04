@@ -1,4 +1,4 @@
-import { media } from '@/styles';
+import { Media } from '@/styles';
 import styled from '@emotion/styled';
 import { useState } from 'react';
 import Base, { ButtonProps } from '@/components/atoms/Button/Base';
@@ -44,37 +44,37 @@ const Play = ({ ...props }: ButtonProps): JSX.Element => {
 };
 
 const PlayBase = styled(Base)`
-  @media ${media.sm} {
+  @media ${Media.sm} {
     width: 48px;
     height: 48px;
   }
 `;
 
 const PlaySvg = styled.svg`
-  @media ${media.sm} {
+  @media ${Media.sm} {
     width: 18px;
     height: 22.5px;
   }
-  @media ${media.md} {
+  @media ${Media.md} {
     width: 24px;
     height: 30px;
   }
-  @media ${media.lg} {
+  @media ${Media.lg} {
     width: 24px;
     height: 30px;
   }
 `;
 
 const PauseSvg = styled.svg`
-  @media ${media.sm} {
+  @media ${Media.sm} {
     width: 18px;
     height: 20.25px;
   }
-  @media ${media.md} {
+  @media ${Media.md} {
     width: 24px;
     height: 28px;
   }
-  @media ${media.lg} {
+  @media ${Media.lg} {
     width: 24px;
     height: 28px;
   }
