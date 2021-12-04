@@ -1,4 +1,4 @@
-import { media } from '@/styles';
+import { Media } from '@/styles';
 import styled from '@emotion/styled';
 import Base, { ButtonProps } from '@/components/atoms/Button/Base';
 
@@ -25,15 +25,15 @@ const Home = ({ active, ...props }: ButtonProps): JSX.Element => {
 };
 
 const Svg = styled.svg`
-  @media ${media.sm} {
+  @media ${Media.sm} {
     width: 24px;
     height: 24px;
   }
-  @media ${media.md} {
+  @media ${Media.md} {
     width: 40px;
     height: 40px;
   }
-  @media ${media.lg} {
+  @media ${Media.lg} {
     width: 40px;
     height: 40px;
   }

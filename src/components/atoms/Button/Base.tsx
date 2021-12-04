@@ -1,8 +1,8 @@
-import { colors, media } from '@/styles';
+import { Colors, Media } from '@/styles';
 import styled from '@emotion/styled';
 
 const Base = styled.button`
-  background: ${colors['background-modal']};
+  background: ${Colors.backgroundModal};
   border: none;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   display: inline-flex;
@@ -10,17 +10,17 @@ const Base = styled.button`
   align-items: center;
   cursor: pointer;
 
-  @media ${media.sm} {
+  @media ${Media.sm} {
     width: 40px;
     height: 40px;
     border-radius: 12px;
   }
-  @media ${media.md} {
+  @media ${Media.md} {
     width: 64px;
     height: 64px;
     border-radius: 24px;
   }
-  @media ${media.lg} {
+  @media ${Media.lg} {
     width: 64px;
     height: 64px;
     border-radius: 24px;
