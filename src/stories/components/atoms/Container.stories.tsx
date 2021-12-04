@@ -1,7 +1,5 @@
-// eslint-disable-next-line
 import { Container } from '@/components';
-// eslint-disable-next-line
-import { colors } from '@/styles';
+import { Colors } from '@/styles';
 import styled from '@emotion/styled';
 
 export default {
@@ -10,9 +8,13 @@ export default {
 };
 
 const StyledContainer = styled(Container)`
-  color: ${colors.red};
+  color: ${Colors.textPrimary};
 `;
 
 export const Default = () => {
-  return <StyledContainer>Hello World!</StyledContainer>;
+  return (
+    <>
+      <StyledContainer>컨텐츠</StyledContainer>
+    </>
+  );
 };
