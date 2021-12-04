@@ -1,8 +1,6 @@
 import React from 'react';
-// eslint-disable-next-line
 import styled from '@emotion/styled';
-// eslint-disable-next-line
-import { media, fontSize } from '@/styles';
+import { Media } from '@/styles';
 
 type DivProps = React.ComponentProps<'div'>;
 
@@ -16,15 +14,15 @@ const StyledDiv = styled.div`
   margin: 0 auto;
   height: 100vh;
 
-  @media ${media.sm} {
+  @media ${Media.sm} {
     max-width: 320px;
     padding: 0 15px;
   }
-  @media ${media.md} {
+  @media ${Media.md} {
     max-width: 768px;
     padding: 0 40px;
   }
-  @media ${media.lg} {
+  @media ${Media.lg} {
     max-width: 768px;
     padding: 0 40px;
   }

@@ -1,6 +1,6 @@
-export { colors } from './colors';
-export { fontSize } from './font';
-export { fontWeight } from './font';
-export { fontStyle } from './font';
-export { media } from './media';
-export { shadow } from './shadow';
+export { Colors } from './colors';
+export { FontSize } from './font';
+export { FontWeight } from './font';
+export { FontStyle } from './font';
+export { Media } from './media';
+export { Shadow } from './shadow';

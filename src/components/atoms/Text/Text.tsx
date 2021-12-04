@@ -1,4 +1,4 @@
-import { colors, fontSize, fontWeight } from '@/styles';
+import { Colors, FontSize, FontWeight } from '@/styles';
 import styled from '@emotion/styled';
 import { HTMLAttributes } from 'react';
 
@@ -17,9 +17,9 @@ const Text = styled.span<Props>`
 `;
 
 Text.defaultProps = {
-  color: colors['text-primary'],
-  fontSize: fontSize.base,
-  fontWeight: fontWeight.regular,
+  color: Colors.textPrimary,
+  fontSize: FontSize.base,
+  fontWeight: FontWeight.regular,
   block: true,
 };
 

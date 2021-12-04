@@ -1,7 +1,6 @@
-// eslint-disable-next-line
 import { Container } from '@/components';
 
-const App = function () {
+const App = (): JSX.Element => {
   return (
     <Container>
       <h1>hello, YAS!</h1>
