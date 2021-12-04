@@ -14,6 +14,7 @@ export const Default = ({ ...args }): JSX.Element => {
       <NavButton.Community {...args} />
       <NavButton.Home {...args} />
       <NavButton.Analysis {...args} />
+      <NavButton.User />
     </>
   );
 };
