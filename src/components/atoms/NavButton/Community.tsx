@@ -1,8 +1,8 @@
 import { media } from '@/styles';
 import styled from '@emotion/styled';
-import Base, { NavButtonProps } from './Base';
+import Base, { ButtonProps } from '@/components/atoms/Button/Base';
 
-const Community = ({ active, ...props }: NavButtonProps): JSX.Element => {
+const Community = ({ active, ...props }: ButtonProps): JSX.Element => {
   return (
     <Base {...props}>
       {active ? (
