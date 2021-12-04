@@ -1,18 +1,18 @@
-export const FontSize = {
+export const FontSize = Object.freeze({
   micro: `0.75rem`,
   small: `0.875rem`,
   base: `1rem`,
   medium: `1.125rem`,
   large: `1.5rem`,
-};
+});
 
-export const FontWeight = {
+export const FontWeight = Object.freeze({
   regular: 400,
   medium: 500,
   bold: 700,
-};
+});
 
-export const FontStyle = {
+export const FontStyle = Object.freeze({
   micro: (): string => `
   font-size: 0.75rem;
   line-height: 16px;
@@ -38,4 +38,4 @@ export const FontStyle = {
   line-height: 34px;
   letter-spacing: -0.01em;
   `,
-};
+});
