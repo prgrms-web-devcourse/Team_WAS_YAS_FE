@@ -1,4 +1,4 @@
-export const shadow = {
+export const Shadow = {
   menu: '3px 2px 8px rgba(0, 0, 0, 0.7)',
   modal: '7px 14px 20px rgba(0, 0, 0, 1.2)',
   routine: '2px 5px 6px rgba(0, 0, 0, 1.2)',
