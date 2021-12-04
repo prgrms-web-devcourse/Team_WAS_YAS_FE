@@ -18,14 +18,21 @@ const CategoryButtonStyle = styled.button`
   border-radius: 32px;
   border: 1px solid ${colors['point-light']};
   cursor: pointer;
-  font-size: ${fontSize.base};
   font-weight: ${fontWeight.medium};
-  min-width: 100px;
-  min-height: 40px;
   @media ${media.sm} {
     min-width: 64px;
     min-height: 32px;
     font-size: ${fontSize.micro};
+  }
+  @media ${media.md} {
+    min-width: 100px;
+    min-height: 40px;
+    font-size: ${fontSize.base};
+  }
+  @media ${media.lg} {
+    min-width: 100px;
+    min-height: 40px;
+    font-size: ${fontSize.base};
   }
   :hover {
     background-color: ${colors.point};
