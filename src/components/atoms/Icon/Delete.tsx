@@ -2,18 +2,14 @@ import React from 'react';
 import { Colors, FontSize } from '@/styles';
 import styled from '@emotion/styled';
 
-type SvgType = React.ComponentProps<'svg'>;
+type SvgProps = React.ComponentProps<'svg'>;
 
-const StyledSvg = styled.svg<SvgType>`
+const StyledSvg = styled.svg<SvgProps>`
   width: ${FontSize.small};
   height: auto;
 `;
 
-interface Props extends React.ComponentProps<'svg'> {
-  color?: string;
-}
-
-const Delete = ({ ...props }: Props): JSX.Element => {
+const Delete = ({ ...props }: SvgProps): JSX.Element => {
   return (
     <StyledSvg
       viewBox="0 0 12 14"

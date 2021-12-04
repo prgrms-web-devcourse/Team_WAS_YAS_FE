@@ -2,9 +2,9 @@ import React from 'react';
 import { Colors, Media } from '@/styles';
 import styled from '@emotion/styled';
 
-type SvgType = React.ComponentProps<'svg'>;
+type SvgProps = React.ComponentProps<'svg'>;
 
-const StyledSvg = styled.svg<SvgType>`
+const StyledSvg = styled.svg<SvgProps>`
   @media ${Media.sm} {
     width: 2rem;
     height: 2rem;
@@ -19,11 +19,7 @@ const StyledSvg = styled.svg<SvgType>`
   }
 `;
 
-interface Props extends React.ComponentProps<'svg'> {
-  color?: string;
-}
-
-const ArrowForward = ({ ...props }: Props): JSX.Element => {
+const ArrowForward = ({ ...props }: SvgProps): JSX.Element => {
   return (
     <StyledSvg
       viewBox="0 0 38 66"
