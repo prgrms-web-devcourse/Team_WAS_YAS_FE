@@ -1,4 +1,4 @@
-import { media } from '@/styles';
+import { Media } from '@/styles';
 import styled from '@emotion/styled';
 import Base, { ButtonProps } from '@/components/atoms/Button/Base';
 
@@ -19,30 +19,30 @@ const UserBase = styled(Base)`
   background: none;
   box-shadow: none;
 
-  @media ${media.sm} {
+  @media ${Media.sm} {
     width: 32px;
     height: 32px;
   }
-  @media ${media.md} {
+  @media ${Media.md} {
     width: 48px;
     height: 48px;
   }
-  @media ${media.lg} {
+  @media ${Media.lg} {
     width: 48px;
     height: 48px;
   }
 `;
 
 const Svg = styled.svg`
-  @media ${media.sm} {
+  @media ${Media.sm} {
     width: 28px;
     height: 28px;
   }
-  @media ${media.md} {
+  @media ${Media.md} {
     width: 42px;
     height: 42px;
   }
-  @media ${media.lg} {
+  @media ${Media.lg} {
     width: 42px;
     height: 42px;
   }
