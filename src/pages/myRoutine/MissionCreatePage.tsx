@@ -1,12 +1,12 @@
 import React from 'react';
 import { Container } from '@/components';
 
-const RoutinePostPage = (): JSX.Element => {
+const MissionCreatePage = (): JSX.Element => {
   return (
     <Container>
-      <h1>RoutinePostPage</h1>
+      <h1>MissionCreatePage</h1>
     </Container>
   );
 };
 
-export default RoutinePostPage;
+export default MissionCreatePage;
