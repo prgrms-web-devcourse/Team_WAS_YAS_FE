@@ -3,9 +3,10 @@ export { RoutineCreatePage } from './myRoutine';
 export { RoutineDetailPage } from './myRoutine';
 export { RoutineFinishPage } from './myRoutine';
 export { RoutineProgressPage } from './myRoutine';
+export { MissionCreatePage } from './myRoutine';
 
 export { RoutineCommunityPage } from './routineCommunity';
-export { RoutinePostPage } from './routineCommunity';
+export { RoutinePostCreatePage } from './routineCommunity';
 export { RoutinePostDetailPage } from './routineCommunity';
 
 export { SignInPage } from './user';
@@ -14,3 +15,5 @@ export { UserEditPage } from './user';
 export { UserPage } from './user';
 
 export { AnalysisPage } from './analysis';
+
+export { NotFoundPage } from './etc';
