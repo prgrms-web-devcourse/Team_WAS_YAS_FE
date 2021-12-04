@@ -1,14 +1,14 @@
 import { Colors, FontWeight, Media, FontSize } from '@/styles';
 import styled from '@emotion/styled';
-import { ButtonProps } from './Button';
+import { StyledButtonProps } from './Button';
 
-const Sub = ({ children, ...props }: ButtonProps): JSX.Element => {
+const Sub = ({ children, ...props }: StyledButtonProps): JSX.Element => {
   return <SubStyle {...props}>{children}</SubStyle>;
 };
 
-const SubStyle = styled.button`
+const SubStyle = styled.button<StyledButtonProps>`
   width: 50%;
-  background-color: ${Colors.point};
+  background-color: ${({ basicColor }) => basicColor};
   color: ${Colors.textQuaternary};
   border-radius: 16px;
   border: none;
@@ -16,11 +16,11 @@ const SubStyle = styled.button`
   font-weight: ${FontWeight.bold};
   cursor: pointer;
   :hover {
-    background-color: ${Colors.pointLight};
+    background-color: ${({ hoverColor }) => hoverColor};
   }
   :active {
     color: ${Colors.textPrimary};
-    background-color: ${Colors.backgroundPoint};
+    background-color: ${({ activeColor }) => activeColor};
   }
   @media ${Media.sm} {
     height: 40px;
@@ -35,5 +35,11 @@ const SubStyle = styled.button`
     font-size: ${FontSize.medium};
   }
 `;
+
+Sub.defaultProps = {
+  basicColor: Colors.point,
+  hoverColor: Colors.pointLight,
+  activeColor: Colors.backgroundPoint,
+};
 
 export default Sub;
