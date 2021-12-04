@@ -19,7 +19,7 @@ export const Colors = Object.freeze({
 
   background: '#FFFFFF',
   backgroundMenu: '#E5E5E5',
-  backgroundPointe: '#F3F4F8',
+  backgroundPoint: '#F3F4F8',
   backgroundModal: '#F3F4F8',
 
   textPrimary: '#373737',
