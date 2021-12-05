@@ -4,15 +4,15 @@ import React, { useState } from 'react';
 import Base from './Base';
 
 interface PlayButtonProps extends React.ComponentProps<'button'> {
-  onPlayClick?: () => void;
+  onClick?: () => void;
 }
 
-const Play = ({ onPlayClick, ...props }: PlayButtonProps): JSX.Element => {
+const Play = ({ onClick, ...props }: PlayButtonProps): JSX.Element => {
   const [isPlay, setIsPlay] = useState<boolean>(true);
 
   const handleClickPlayButton = (): void => {
     setIsPlay((isPlay) => !isPlay);
-    onPlayClick && onPlayClick();
+    onClick && onClick();
   };
 
   return (
