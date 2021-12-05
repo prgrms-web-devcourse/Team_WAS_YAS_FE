@@ -1,8 +1,8 @@
 import { Media } from '@/styles';
 import styled from '@emotion/styled';
-import Base, { ButtonProps } from './Base';
+import Base, { RoundedButtonProps } from './Base';
 
-const Home = ({ active, ...props }: ButtonProps): JSX.Element => {
+const Home = ({ active, ...props }: RoundedButtonProps): JSX.Element => {
   return (
     <Base {...props}>
       {active ? (
