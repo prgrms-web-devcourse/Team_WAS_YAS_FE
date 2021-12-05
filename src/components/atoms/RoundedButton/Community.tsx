@@ -1,6 +1,6 @@
 import { Media } from '@/styles';
 import styled from '@emotion/styled';
-import Base, { ButtonProps } from '@/components/atoms/Button/Base';
+import Base, { ButtonProps } from './Base';
 
 const Community = ({ active, ...props }: ButtonProps): JSX.Element => {
   return (
@@ -29,17 +29,15 @@ const Community = ({ active, ...props }: ButtonProps): JSX.Element => {
 };
 
 const Svg = styled.svg`
+  height: auto;
   @media ${Media.sm} {
-    width: 25px;
-    height: 22.5px;
+    width: 1.5rem;
   }
   @media ${Media.md} {
-    width: 40px;
-    height: 36px;
+    width: 2.5rem;
   }
   @media ${Media.lg} {
-    width: 40px;
-    height: 36px;
+    width: 2.5rem;
   }
 `;
 

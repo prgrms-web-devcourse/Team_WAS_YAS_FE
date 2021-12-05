@@ -1,13 +1,11 @@
 import Community from './Community';
 import Home from './Home';
 import Analysis from './Analysis';
-import User from './User';
 
-const NavButton = {
+const RoundedButton = {
   Community,
   Home,
   Analysis,
-  User,
 };
 
-export default NavButton;
+export default RoundedButton;

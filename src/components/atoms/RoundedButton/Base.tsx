@@ -2,7 +2,7 @@ import { Colors, Media } from '@/styles';
 import styled from '@emotion/styled';
 
 const Base = styled.button`
-  background: ${Colors.backgroundModal};
+  background: ${Colors.backgroundButton};
   border: none;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   display: inline-flex;
@@ -11,25 +11,23 @@ const Base = styled.button`
   cursor: pointer;
 
   @media ${Media.sm} {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.75rem;
   }
   @media ${Media.md} {
-    width: 64px;
-    height: 64px;
-    border-radius: 24px;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 1.5rem;
   }
   @media ${Media.lg} {
-    width: 64px;
-    height: 64px;
-    border-radius: 24px;
+    width: 4rem;
+    height: 4rem;
+    border-radius: 1.5rem;
   }
 `;
 
-type Props = React.ComponentProps<'button'>;
-
-export interface ButtonProps extends Props {
+export interface ButtonProps extends React.ComponentProps<'button'> {
   active?: boolean;
 }
 
