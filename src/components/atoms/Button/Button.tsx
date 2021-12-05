@@ -2,16 +2,16 @@ import { Colors, FontWeight, FontSize, Media } from '@/styles';
 import styled from '@emotion/styled';
 
 export interface ButtonProps extends React.ComponentProps<'button'> {
-  buttonType?: 'blue' | 'white';
+  colorType?: 'blue' | 'white';
 }
 
 const Button = ({
   children,
-  buttonType,
+  colorType,
   ...props
 }: ButtonProps): JSX.Element => {
   return (
-    <ButtonStyle buttonType={buttonType} {...props}>
+    <ButtonStyle colorType={colorType} {...props}>
       {children}
     </ButtonStyle>
   );
@@ -19,10 +19,10 @@ const Button = ({
 
 const ButtonStyle = styled.button<ButtonProps>`
   width: 100%;
-  background-color: ${({ buttonType }) =>
-    buttonType === 'blue' ? Colors.point : Colors.backgroundMenu};
-  color: ${({ buttonType }) =>
-    buttonType === 'blue' ? Colors.textQuaternary : Colors.textPrimary};
+  background-color: ${({ colorType }) =>
+    colorType === 'blue' ? Colors.point : Colors.backgroundMenu};
+  color: ${({ colorType }) =>
+    colorType === 'blue' ? Colors.textQuaternary : Colors.textPrimary};
   border-radius: 16px;
   border: none;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
@@ -33,10 +33,10 @@ const ButtonStyle = styled.button<ButtonProps>`
     background-color: ${Colors.pointLight};
   }
   :active {
-    color: ${({ buttonType }) =>
-      buttonType === 'blue' ? Colors.textPrimary : Colors.textQuaternary};
-    background-color: ${({ buttonType }) =>
-      buttonType === 'blue' ? Colors.backgroundMenu : Colors.point};
+    color: ${({ colorType }) =>
+      colorType === 'blue' ? Colors.textPrimary : Colors.textQuaternary};
+    background-color: ${({ colorType }) =>
+      colorType === 'blue' ? Colors.backgroundMenu : Colors.point};
   }
   @media ${Media.sm} {
     height: 40px;
@@ -53,7 +53,7 @@ const ButtonStyle = styled.button<ButtonProps>`
 `;
 
 Button.defaultProps = {
-  buttonType: 'blue',
+  colorType: 'blue',
 };
 
 export default Button;
