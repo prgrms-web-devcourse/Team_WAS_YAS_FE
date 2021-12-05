@@ -13,11 +13,15 @@ import { Colors } from '@/styles';
 
 export type IconButtonProps = Omit<React.ComponentProps<'button'>, 'children'>;
 
-export const BaseButton = styled.button`
+export type TransparentButtonProps = React.ComponentProps<'button'>;
+
+export const TransparentButton = styled.button`
   background-color: transparent;
   border: none;
   cursor: pointer;
+`;
 
+export const BaseButton = styled(TransparentButton)`
   &:hover {
     & path {
       fill: ${Colors.pointLight};

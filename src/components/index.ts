@@ -7,5 +7,7 @@ export { Input } from './atoms/Input';
 export type { InputProps } from './atoms/Input';
 export { IconButton } from './atoms/IconButton';
 export type { IconButtonProps } from './atoms/IconButton';
+export { TransparentButton } from './atoms/IconButton';
+export type { TransparentButtonProps } from './atoms/IconButton';
 export { RoundedButton } from './atoms/RoundedButton';
 export type { RoundedButtonProps } from './atoms/RoundedButton/Base';

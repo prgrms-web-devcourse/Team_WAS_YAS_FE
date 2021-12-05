@@ -1,4 +1,9 @@
-import { IconButton, IconButtonProps } from '@/components';
+import {
+  IconButton,
+  IconButtonProps,
+  TransparentButton,
+  TransparentButtonProps,
+} from '@/components';
 import styled from '@emotion/styled';
 
 export default {
@@ -24,4 +29,8 @@ export const Default = ({ ...props }: IconButtonProps): JSX.Element => (
     <IconButton.Add {...props} />
     <IconButton.Back {...props} />
   </Container>
+);
+
+export const Transparent = ({ ...props }: TransparentButtonProps) => (
+  <TransparentButton {...props}>투명한버튼</TransparentButton>
 );
