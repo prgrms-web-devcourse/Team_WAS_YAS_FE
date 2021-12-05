@@ -1,4 +1,4 @@
-import { Container } from '@/components';
+import { Container, ContainerProps } from '@/components';
 import { Colors } from '@/styles';
 import styled from '@emotion/styled';
 
@@ -11,10 +11,10 @@ const StyledContainer = styled(Container)`
   color: ${Colors.textPrimary};
 `;
 
-export const Default = () => {
+export const Default = ({ ...props }: ContainerProps): JSX.Element => {
   return (
     <>
-      <StyledContainer>컨텐츠</StyledContainer>
+      <StyledContainer {...props}>컨텐츠</StyledContainer>
     </>
   );
 };

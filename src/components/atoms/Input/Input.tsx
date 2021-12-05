@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
 import { Colors, Media, FontSize } from '@/styles';
 
+export type InputProps = React.ComponentProps<'input'>;
+
 const Input = styled.input`
   display: block;
   padding: 0 16px;
