@@ -16,6 +16,10 @@ export const Default = ({ ...args }: RoundedButtonProps): JSX.Element => {
         <RoundedButton.Community {...args} />
         <RoundedButton.Analysis {...args} />
       </div>
+      <div>
+        <RoundedButton.Play />
+        <RoundedButton.Edit />
+      </div>
     </>
   );
 };
