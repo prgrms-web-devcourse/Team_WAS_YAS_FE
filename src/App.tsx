@@ -1,11 +1,7 @@
-import { Container } from '@/components';
+import Router from './routes/Router';
 
 const App = (): JSX.Element => {
-  return (
-    <Container>
-      <h1>hello, YAS!</h1>
-    </Container>
-  );
+  return <Router />;
 };
 
 export default App;
