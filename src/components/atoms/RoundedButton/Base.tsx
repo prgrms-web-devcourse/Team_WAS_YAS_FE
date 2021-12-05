@@ -27,7 +27,7 @@ const Base = styled.button`
   }
 `;
 
-export interface ButtonProps extends React.ComponentProps<'button'> {
+export interface RoundedButtonProps extends React.ComponentProps<'button'> {
   active?: boolean;
 }
 
