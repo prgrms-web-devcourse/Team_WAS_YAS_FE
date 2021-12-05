@@ -7,6 +7,7 @@ import Close from './Close';
 import UserProfile from './UserProfile';
 import Check from './Check';
 import Add from './Add';
+import Back from './Back';
 
 export type IconButtonProps = Omit<React.ComponentProps<'button'>, 'children'>;
 
@@ -24,6 +25,7 @@ const IconButton = {
   UserProfile,
   Check,
   Add,
+  Back,
 };
 
 export default IconButton;
