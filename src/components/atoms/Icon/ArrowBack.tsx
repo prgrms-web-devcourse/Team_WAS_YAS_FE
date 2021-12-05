@@ -3,7 +3,6 @@ import { Colors, Media } from '@/styles';
 import { IconProps } from './Icon';
 
 const ArrowBack = ({ color, size, ...props }: IconProps): JSX.Element => {
-  console.log(size);
   return (
     <StyledSvg
       size={size}
