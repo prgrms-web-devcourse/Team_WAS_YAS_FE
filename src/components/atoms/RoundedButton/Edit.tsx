@@ -1,8 +1,8 @@
 import { Media } from '@/styles';
 import styled from '@emotion/styled';
-import Base, { ButtonProps } from './Base';
+import Base, { RoundedButtonProps } from './Base';
 
-const RoutineUpdate = ({ ...props }: ButtonProps): JSX.Element => {
+const RoutineUpdate = ({ ...props }: RoundedButtonProps): JSX.Element => {
   return (
     <RoutineBase {...props}>
       <Svg viewBox="0 0 26 32" fill="none" xmlns="http://www.w3.org/2000/svg">
