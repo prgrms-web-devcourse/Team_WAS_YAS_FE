@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
-import { colors, media, fontSize, fontWeight } from '@/styles';
+import { Colors, FontWeight, FontSize, Media } from '@/styles';
 
-type CategoryButtonProps = React.ComponentProps<'button'>;
+export type CategoryButtonProps = React.ComponentProps<'button'>;
 
 const CategoryButton = ({
   children,
@@ -13,29 +13,29 @@ const CategoryButton = ({
 export default CategoryButton;
 
 const CategoryButtonStyle = styled.button`
-  background-color: ${colors['background-menu']};
-  color: ${colors['text-secondary']};
+  background-color: ${Colors.backgroundButton};
+  color: ${Colors.textSecondary};
   border-radius: 32px;
-  border: 1px solid ${colors['point-light']};
+  border: 1px solid ${Colors.pointLight};
   cursor: pointer;
-  font-weight: ${fontWeight.medium};
-  @media ${media.sm} {
+  font-weight: ${FontWeight.medium};
+  @media ${Media.sm} {
     min-width: 64px;
     min-height: 32px;
-    font-size: ${fontSize.micro};
+    font-size: ${FontSize.micro};
   }
-  @media ${media.md} {
+  @media ${Media.md} {
     min-width: 100px;
     min-height: 40px;
-    font-size: ${fontSize.base};
+    font-size: ${FontSize.base};
   }
-  @media ${media.lg} {
+  @media ${Media.lg} {
     min-width: 100px;
     min-height: 40px;
-    font-size: ${fontSize.base};
+    font-size: ${FontSize.base};
   }
   :hover {
-    background-color: ${colors.point};
-    color: white;
+    background-color: ${Colors.point};
+    color: ${Colors.textQuaternary};
   }
 `;

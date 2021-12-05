@@ -1,4 +1,4 @@
-import { CategoryButton } from '@/components';
+import { CategoryButton, CategoryButtonProps } from '@/components';
 import styled from '@emotion/styled';
 
 export default {
@@ -6,19 +6,14 @@ export default {
   component: CategoryButton,
 };
 
-export const Default = (): JSX.Element => {
+export const Default = ({ ...args }: CategoryButtonProps): JSX.Element => {
   return (
     <CategoryButtonContainer>
-      <CategoryButton>전체</CategoryButton>
-      <CategoryButton>운동</CategoryButton>
-      <CategoryButton>게임</CategoryButton>
-      <CategoryButton>음식</CategoryButton>
-      <CategoryButton>취미</CategoryButton>
-      <CategoryButton>전체</CategoryButton>
-      <CategoryButton>운동</CategoryButton>
-      <CategoryButton>게임</CategoryButton>
-      <CategoryButton>음식</CategoryButton>
-      <CategoryButton>취미</CategoryButton>
+      <CategoryButton {...args}>전체</CategoryButton>
+      <CategoryButton {...args}>운동</CategoryButton>
+      <CategoryButton {...args}>게임</CategoryButton>
+      <CategoryButton {...args}>음식</CategoryButton>
+      <CategoryButton {...args}>취미</CategoryButton>
     </CategoryButtonContainer>
   );
 };
