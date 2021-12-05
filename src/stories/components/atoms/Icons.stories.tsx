@@ -1,4 +1,4 @@
-import { Icon } from '@/components';
+import { Icon, IconProps } from '@/components';
 
 export default {
   title: 'Components/Atoms/Icon',
@@ -11,7 +11,7 @@ export default {
   },
 };
 
-export const Default = () => {
+export const Default = (): JSX.Element => {
   return (
     <>
       <Icon.ArrowBack />
@@ -28,24 +28,42 @@ export const Default = () => {
   );
 };
 
-export const ArrowBack = ({ ...props }) => <Icon.ArrowBack {...props} />;
-
-export const ArrowForward = ({ ...props }) => <Icon.ArrowForward {...props} />;
-
-export const Close = ({ ...props }) => <Icon.Close {...props} />;
-
-export const Delete = ({ ...props }) => <Icon.Delete {...props} />;
-
-export const Edit = ({ ...props }) => <Icon.Edit {...props} />;
-
-export const Like = ({ ...props }) => <Icon.Like {...props} />;
-
-export const LikeBorder = ({ ...props }) => <Icon.LikeBorder {...props} />;
-
-export const List = ({ ...props }) => <Icon.List {...props} />;
-
-export const UserProfile = ({ ...props }) => <Icon.UserProfile {...props} />;
-
-export const UserProfileImageUploader = ({ ...props }) => (
-  <Icon.UserProfileImageUploader {...props} />
+export const ArrowBack = ({ ...props }: IconProps): JSX.Element => (
+  <Icon.ArrowBack {...props} />
 );
+
+export const ArrowForward = ({ ...props }: IconProps): JSX.Element => (
+  <Icon.ArrowForward {...props} />
+);
+
+export const Close = ({ ...props }: IconProps): JSX.Element => (
+  <Icon.Close {...props} />
+);
+
+export const Delete = ({ ...props }: IconProps): JSX.Element => (
+  <Icon.Delete {...props} />
+);
+
+export const Edit = ({ ...props }: IconProps): JSX.Element => (
+  <Icon.Edit {...props} />
+);
+
+export const Like = ({ ...props }: IconProps): JSX.Element => (
+  <Icon.Like {...props} />
+);
+
+export const LikeBorder = ({ ...props }: IconProps): JSX.Element => (
+  <Icon.LikeBorder {...props} />
+);
+
+export const List = ({ ...props }: IconProps): JSX.Element => (
+  <Icon.List {...props} />
+);
+
+export const UserProfile = ({ ...props }: IconProps): JSX.Element => (
+  <Icon.UserProfile {...props} />
+);
+
+export const UserProfileImageUploader = ({
+  ...props
+}: IconProps): JSX.Element => <Icon.UserProfileImageUploader {...props} />;
