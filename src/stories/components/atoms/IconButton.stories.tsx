@@ -31,6 +31,8 @@ export const Default = ({ ...props }: IconButtonProps): JSX.Element => (
   </Container>
 );
 
-export const Transparent = ({ ...props }: TransparentButtonProps) => (
+export const Transparent = ({
+  ...props
+}: TransparentButtonProps): JSX.Element => (
   <TransparentButton {...props}>투명한버튼</TransparentButton>
 );
