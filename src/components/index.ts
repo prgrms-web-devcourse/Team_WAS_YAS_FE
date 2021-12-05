@@ -15,3 +15,7 @@ export { TransparentButton } from './atoms/IconButton';
 export type { TransparentButtonProps } from './atoms/IconButton';
 export { RoundedButton } from './atoms/RoundedButton';
 export type { RoundedButtonProps } from './atoms/RoundedButton/Base';
+
+export { default as EditBox } from './molecules/ToolBox/EditBox';
+export { default as DeleteBox } from './molecules/ToolBox/DeleteBox';
+export type { DeleteBoxProps } from './molecules/ToolBox/DeleteBox';
