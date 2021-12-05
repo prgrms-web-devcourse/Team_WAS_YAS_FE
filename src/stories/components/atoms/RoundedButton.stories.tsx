@@ -1,4 +1,4 @@
-import { RoundedButton } from '@/components';
+import { RoundedButton, RoundedButtonProps } from '@/components';
 
 export default {
   title: 'Components/Atoms/RoundedButton',
@@ -8,7 +8,7 @@ export default {
   },
 };
 
-export const Default = ({ ...args }): JSX.Element => {
+export const Default = ({ ...args }: RoundedButtonProps): JSX.Element => {
   return (
     <>
       <div>
