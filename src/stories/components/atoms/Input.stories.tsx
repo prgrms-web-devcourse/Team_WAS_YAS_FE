@@ -1,7 +1,7 @@
 import { Input, InputProps } from '@/components';
 
 export default {
-  title: 'Components/Atoms/Container',
+  title: 'Components/Atoms/Input',
   component: Input,
 };
 
