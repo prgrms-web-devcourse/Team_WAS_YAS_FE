@@ -1,12 +1,7 @@
-// eslint-disable-next-line
-import { Container } from '@/components';
+import Router from './routes/Router';
 
-const App = function () {
-  return (
-    <Container>
-      <h1>hello, YAS!</h1>
-    </Container>
-  );
+const App = (): JSX.Element => {
+  return <Router />;
 };
 
 export default App;

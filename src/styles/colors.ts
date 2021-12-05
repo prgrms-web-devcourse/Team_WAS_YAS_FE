@@ -1,6 +1,6 @@
-export const colors = {
+export const Colors = Object.freeze({
   point: '#4859A4',
-  'point-light': '#BEC6E4',
+  pointLight: '#BEC6E4',
 
   red: '#E8587B',
   pink: '#FFABC7',
@@ -18,15 +18,16 @@ export const colors = {
   grey: '#9EABB6',
 
   background: '#FFFFFF',
-  'background-menu': '#E5E5E5',
-  'background-pointer': '#F3F4F8',
-  'background-modal': '#F3F4F8',
+  backgroundMenu: '#E5E5E5',
+  backgroundButton: '#F3F4F8',
+  backgroundModal: '#F9F9F9',
 
-  'text-primary': '#373737',
-  'text-secondary': '#5A5A5A',
-  'text-tertiary': '#797B83',
+  textPrimary: '#373737',
+  textSecondary: '#5A5A5A',
+  textTertiary: '#797B83',
+  textQuaternary: '#FFFFFF',
 
-  'function-confirm': '#39DBB2',
-  'function-positive': '#395DDB',
-  'function-negative': '#E93550',
-};
+  functionConfirm: '#39DBB2',
+  functionPositive: '#395DDB',
+  functionNegative: '#E93550',
+});
