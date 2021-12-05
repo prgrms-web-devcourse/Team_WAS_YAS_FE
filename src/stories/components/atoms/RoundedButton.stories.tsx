@@ -18,7 +18,7 @@ export const Default = ({ ...args }): JSX.Element => {
       </div>
       <div>
         <RoundedButton.Play />
-        <RoundedButton.RoutineUpdate />
+        <RoundedButton.Edit />
       </div>
     </>
   );
