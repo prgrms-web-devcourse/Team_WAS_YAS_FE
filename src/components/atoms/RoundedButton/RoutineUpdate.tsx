@@ -1,6 +1,6 @@
 import { Media } from '@/styles';
 import styled from '@emotion/styled';
-import Base, { ButtonProps } from '@/components/atoms/Button/Base';
+import Base, { ButtonProps } from './Base';
 
 const RoutineUpdate = ({ ...props }: ButtonProps): JSX.Element => {
   return (
@@ -17,33 +17,31 @@ const RoutineUpdate = ({ ...props }: ButtonProps): JSX.Element => {
 
 const RoutineBase = styled(Base)`
   @media ${Media.sm} {
-    width: 32px;
-    height: 32px;
+    width: 2rem;
+    height: 2rem;
   }
   @media ${Media.md} {
-    width: 48px;
-    height: 48px;
-    border-radius: 18px;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 1.125rem;
   }
   @media ${Media.lg} {
-    width: 48px;
-    height: 48px;
-    border-radius: 18px;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 1.125rem;
   }
 `;
 
 const Svg = styled.svg`
+  height: auto;
   @media ${Media.sm} {
-    width: 17px;
-    height: 21px;
+    width: 1rem;
   }
   @media ${Media.md} {
-    width: 26px;
-    height: 32px;
+    width: 1.5rem;
   }
   @media ${Media.lg} {
-    width: 26px;
-    height: 32px;
+    width: 1.5rem;
   }
 `;
 
