@@ -1,5 +1,15 @@
 export { Container } from './atoms/Container';
+export type { ContainerProps } from './atoms/Container';
+export { Icon } from './atoms/Icon';
+export type { IconProps } from './atoms/Icon';
 export { Text } from './atoms/Text';
 export { Input } from './atoms/Input';
 export { TabBar } from './molecules/TabBar';
 export type { TabItemProps } from './molecules/TabBar';
+export type { InputProps } from './atoms/Input';
+export { IconButton } from './atoms/IconButton';
+export type { IconButtonProps } from './atoms/IconButton';
+export { TransparentButton } from './atoms/IconButton';
+export type { TransparentButtonProps } from './atoms/IconButton';
+export { RoundedButton } from './atoms/RoundedButton';
+export type { RoundedButtonProps } from './atoms/RoundedButton/Base';

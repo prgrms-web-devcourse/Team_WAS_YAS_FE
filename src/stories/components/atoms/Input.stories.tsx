@@ -1,8 +1,10 @@
-import { Input } from '@/components';
+import { Input, InputProps } from '@/components';
 
 export default {
-  title: 'Components/Atoms/Container',
+  title: 'Components/Atoms/Input',
   component: Input,
 };
 
-export const Default = () => <Input />;
+export const Default = ({ ...props }: InputProps): JSX.Element => (
+  <Input {...props} />
+);
