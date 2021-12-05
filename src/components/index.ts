@@ -7,3 +7,6 @@ export { Input } from './atoms/Input';
 export type { InputProps } from './atoms/Input';
 export { RoundedButton } from './atoms/RoundedButton';
 export type { RoundedButtonProps } from './atoms/RoundedButton/Base';
+
+export { default as EditBox } from './molecules/ToolBox/EditBox';
+export { default as DeleteBox } from './molecules/ToolBox/DeleteBox';
