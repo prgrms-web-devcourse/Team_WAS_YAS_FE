@@ -1,4 +1,6 @@
 export { Container } from './atoms/Container';
+export { Button } from './atoms/Button';
+export type { ButtonProps } from './atoms/Button';
 export { CategoryButton } from './atoms/CategoryButton';
 export type { CategoryButtonProps } from './atoms/CategoryButton';
 export type { ContainerProps } from './atoms/Container';
