@@ -19,3 +19,6 @@ export type { RoundedButtonProps } from './atoms/RoundedButton/Base';
 export { default as EditBox } from './molecules/ToolBox/EditBox';
 export { default as DeleteBox } from './molecules/ToolBox/DeleteBox';
 export type { DeleteBoxProps } from './molecules/ToolBox/DeleteBox';
+
+export { LikeToggleButton } from './atoms/LikeToggleButton';
+export type { LikeToggleButtonProps } from './atoms/LikeToggleButton';
