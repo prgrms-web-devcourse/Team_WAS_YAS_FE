@@ -2,9 +2,9 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { Media } from '@/styles';
 
-type DivProps = React.ComponentProps<'div'>;
+export type ContainerProps = React.ComponentProps<'div'>;
 
-const Container = ({ children, ...props }: DivProps): JSX.Element => {
+const Container = ({ children, ...props }: ContainerProps): JSX.Element => {
   return <StyledDiv {...props}>{children}</StyledDiv>;
 };
 
