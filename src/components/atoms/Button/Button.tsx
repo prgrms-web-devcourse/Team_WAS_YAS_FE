@@ -11,18 +11,20 @@ const Button = ({
   ...props
 }: ButtonProps): JSX.Element => {
   return (
-    <ButtonStyle colorType={colorType} {...props}>
+    <StyledButton colorType={colorType} {...props}>
       {children}
-    </ButtonStyle>
+    </StyledButton>
   );
 };
 
-const ButtonStyle = styled.button<ButtonProps>`
+const StyledButton = styled.button<ButtonProps>`
   width: 100%;
-  background-color: ${({ colorType }) =>
-    colorType === 'blue' ? Colors.point : Colors.backgroundButton};
-  color: ${({ colorType }) =>
-    colorType === 'blue' ? Colors.textQuaternary : Colors.textPrimary};
+  ${({ colorType }) => `
+    background-color: ${
+      colorType === 'blue' ? Colors.point : Colors.backgroundButton
+    };
+    color: ${colorType === 'blue' ? Colors.textQuaternary : Colors.textPrimary};
+  `}
   border-radius: 16px;
   border: none;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
@@ -33,10 +35,13 @@ const ButtonStyle = styled.button<ButtonProps>`
     background-color: ${Colors.pointLight};
   }
   :active {
-    color: ${({ colorType }) =>
-      colorType === 'blue' ? Colors.textPrimary : Colors.textQuaternary};
-    background-color: ${({ colorType }) =>
-      colorType === 'blue' ? Colors.backgroundButton : Colors.point};
+    ${({ colorType }) => `
+      color: ${
+        colorType === 'blue' ? Colors.textPrimary : Colors.textQuaternary
+      };
+    background-color: ${
+      colorType === 'blue' ? Colors.backgroundButton : Colors.point
+    };`}
   }
   @media ${Media.sm} {
     height: 40px;
