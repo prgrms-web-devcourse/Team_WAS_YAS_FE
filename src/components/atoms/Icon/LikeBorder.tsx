@@ -1,21 +1,11 @@
-import React from 'react';
-import { Colors, FontSize } from '@/styles';
+import { Colors, Media, FontSize } from '@/styles';
 import styled from '@emotion/styled';
+import { IconProps } from './Icon';
 
-type SvgProps = React.ComponentProps<'svg'>;
-
-const StyledSvg = styled.svg<SvgProps>`
-  width: ${FontSize.base};
-  height: ${FontSize.base};
-`;
-
-interface Props extends SvgProps {
-  color?: string;
-}
-
-const LikeBorder = ({ color, ...props }: Props): JSX.Element => {
+const LikeBorder = ({ color, size, ...props }: IconProps): JSX.Element => {
   return (
     <StyledSvg
+      size={size}
       viewBox="0 0 18 18"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -32,5 +22,31 @@ const LikeBorder = ({ color, ...props }: Props): JSX.Element => {
 LikeBorder.defaultProps = {
   color: Colors.point,
 };
+
+const StyledSvg = styled.svg<IconProps>`
+  ${({ size }) => {
+    if (size) {
+      return `
+        width: ${size}px;
+        height: auto;
+      `;
+    } else {
+      return `
+        @media ${Media.sm} {
+          width: ${FontSize.base};
+          height: ${FontSize.base};
+        }
+        @media ${Media.md} {
+          width: ${FontSize.medium};
+          height: ${FontSize.medium};
+        }
+        @media ${Media.lg} {
+          width: ${FontSize.medium};
+          height: ${FontSize.medium};
+        }
+      `;
+    }
+  }}
+`;
 
 export default LikeBorder;

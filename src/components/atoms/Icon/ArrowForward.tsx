@@ -2,9 +2,10 @@ import styled from '@emotion/styled';
 import { Colors, Media } from '@/styles';
 import { IconProps } from './Icon';
 
-const ArrowForward = ({ color, ...props }: IconProps): JSX.Element => {
+const ArrowForward = ({ color, size, ...props }: IconProps): JSX.Element => {
   return (
     <StyledSvg
+      size={size}
       viewBox="0 0 38 66"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -22,19 +23,30 @@ ArrowForward.defaultProps = {
   color: Colors.textSecondary,
 };
 
-const StyledSvg = styled.svg`
-  @media ${Media.sm} {
-    width: 2rem;
-    height: 2rem;
-  }
-  @media ${Media.md} {
-    width: 4rem;
-    height: 4rem;
-  }
-  @media ${Media.lg} {
-    width: 4rem;
-    height: 4rem;
-  }
+const StyledSvg = styled.svg<IconProps>`
+  ${({ size }) => {
+    if (size) {
+      return `
+        width: ${size}px;
+        height: auto;
+      `;
+    } else {
+      return `
+        @media ${Media.sm} {
+          width: 2rem;
+          height: 2rem;
+        }
+        @media ${Media.md} {
+          width: 4rem;
+          height: 4rem;
+        }
+        @media ${Media.lg} {
+          width: 4rem;
+          height: 4rem;
+        }
+      `;
+    }
+  }}
 `;
 
 export default ArrowForward;

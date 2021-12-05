@@ -11,6 +11,7 @@ import UserProfileImageUploader from './UserProfileImageUploader';
 
 export interface IconProps extends React.ComponentProps<'svg'> {
   color?: string;
+  size?: number;
 }
 
 const Icon = {

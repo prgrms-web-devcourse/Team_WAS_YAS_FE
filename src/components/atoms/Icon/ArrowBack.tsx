@@ -2,35 +2,48 @@ import styled from '@emotion/styled';
 import { Colors, Media } from '@/styles';
 import { IconProps } from './Icon';
 
-const ArrowBack = ({ color, ...props }: IconProps): JSX.Element => {
+const ArrowBack = ({ color, size, ...props }: IconProps): JSX.Element => {
+  console.log(size);
   return (
     <StyledSvg
-      viewBox="0 0 38 66"
+      size={size}
+      viewBox="0 0 7 12"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <path
-        d="M36.3925 7.87694C37.9546 6.31484 37.9546 3.78218 36.3925 2.22008L36.0008 1.82842C34.4387 0.266328 31.9061 0.26633 30.344 1.82843L1.82843 30.344C0.266331 31.9061 0.26633 34.4387 1.82843 36.0008L30.344 64.5163C31.9061 66.0784 34.4387 66.0784 36.0008 64.5163L36.3925 64.1247C37.9546 62.5626 37.9546 60.0299 36.3925 58.4678L13.9255 36.0008C12.3634 34.4387 12.3634 31.9061 13.9255 30.344L36.3925 7.87694Z"
+        d="M5.37421 11.25C5.26216 11.2503 5.15146 11.2256 5.05022 11.1776C4.94899 11.1296 4.8598 11.0595 4.78921 10.9725L1.16671 6.47246C1.0564 6.33826 0.996094 6.16993 0.996094 5.99621C0.996094 5.82249 1.0564 5.65416 1.16671 5.51996L4.91671 1.01996C5.04401 0.8668 5.22695 0.770482 5.42527 0.752197C5.62359 0.733912 5.82105 0.795159 5.97421 0.922463C6.12737 1.04977 6.22369 1.2327 6.24197 1.43102C6.26026 1.62934 6.19901 1.8268 6.07171 1.97996L2.71921 5.99996L5.95921 10.02C6.05092 10.1301 6.10918 10.2641 6.12709 10.4063C6.145 10.5484 6.12181 10.6927 6.06027 10.8221C5.99873 10.9515 5.90141 11.0606 5.77982 11.1364C5.65824 11.2122 5.51749 11.2516 5.37421 11.25Z"
         fill={color}
       />
     </StyledSvg>
   );
 };
 
-const StyledSvg = styled.svg`
-  @media ${Media.sm} {
-    width: 2rem;
-    height: 2rem;
-  }
-  @media ${Media.md} {
-    width: 4rem;
-    height: 4rem;
-  }
-  @media ${Media.lg} {
-    width: 4rem;
-    height: 4rem;
-  }
+const StyledSvg = styled.svg<IconProps>`
+  ${({ size }) => {
+    if (size) {
+      return `
+        width: ${size}px;
+        height: auto;
+      `;
+    } else {
+      return `
+        @media ${Media.sm} {
+          width: 2rem;
+          height: 2rem;
+        }
+        @media ${Media.md} {
+          width: 4rem;
+          height: 4rem;
+        }
+        @media ${Media.lg} {
+          width: 4rem;
+          height: 4rem;
+        }
+      `;
+    }
+  }}
 `;
 
 ArrowBack.defaultProps = {

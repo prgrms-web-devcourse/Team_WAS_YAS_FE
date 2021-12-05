@@ -1,29 +1,12 @@
 import React from 'react';
-import { Colors, Media } from '@/styles';
+import { Colors } from '@/styles';
 import styled from '@emotion/styled';
+import { IconProps } from './Icon';
 
-type SvgProps = React.ComponentProps<'svg'>;
-
-const StyledSvg = styled.svg<SvgProps>`
-  height: auto;
-  @media ${Media.sm} {
-    width: 32px;
-  }
-  @media ${Media.md} {
-    width: 48px;
-  }
-  @media ${Media.lg} {
-    width: 48px;
-  }
-`;
-
-interface Props extends SvgProps {
-  color?: string;
-}
-
-const UserProfile = ({ color, ...props }: Props): JSX.Element => {
+const UserProfile = ({ color, size, ...props }: IconProps): JSX.Element => {
   return (
     <StyledSvg
+      size={size}
       viewBox="0 0 42 43"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +21,23 @@ const UserProfile = ({ color, ...props }: Props): JSX.Element => {
 };
 
 UserProfile.defaultProps = {
-  color: Colors.point,
+  color: Colors.pointLight,
 };
+
+const StyledSvg = styled.svg<IconProps>`
+  ${({ size }) => {
+    if (size) {
+      return `
+        width: ${size}px;
+        height: auto;
+      `;
+    } else {
+      return `
+        width: 36px;
+        height: auto;
+      `;
+    }
+  }}
+`;
 
 export default UserProfile;

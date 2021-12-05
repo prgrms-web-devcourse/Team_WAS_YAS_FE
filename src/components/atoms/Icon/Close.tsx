@@ -2,9 +2,10 @@ import styled from '@emotion/styled';
 import { Colors, Media, FontSize } from '@/styles';
 import { IconProps } from './Icon';
 
-const Close = ({ color, ...props }: IconProps): JSX.Element => {
+const Close = ({ color, size, ...props }: IconProps): JSX.Element => {
   return (
     <StyledSvg
+      size={size}
       viewBox="0 0 20 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -22,19 +23,30 @@ Close.defaultProps = {
   color: Colors.textSecondary,
 };
 
-const StyledSvg = styled.svg`
-  @media ${Media.sm} {
-    width: ${FontSize.base};
-    height: ${FontSize.base};
-  }
-  @media ${Media.md} {
-    width: ${FontSize.large};
-    height: ${FontSize.large};
-  }
-  @media ${Media.lg} {
-    width: ${FontSize.large};
-    height: ${FontSize.large};
-  }
+const StyledSvg = styled.svg<IconProps>`
+  ${({ size }) => {
+    if (size) {
+      return `
+        width: ${size}px;
+        height: auto;
+      `;
+    } else {
+      return `
+        @media ${Media.sm} {
+          width: ${FontSize.base};
+          height: ${FontSize.base};
+        }
+        @media ${Media.md} {
+          width: ${FontSize.large};
+          height: ${FontSize.large};
+        }
+        @media ${Media.lg} {
+          width: ${FontSize.large};
+          height: ${FontSize.large};
+        }
+      `;
+    }
+  }}
 `;
 
 export default Close;
