@@ -20,7 +20,7 @@ const Button = ({
 const ButtonStyle = styled.button<ButtonProps>`
   width: 100%;
   background-color: ${({ colorType }) =>
-    colorType === 'blue' ? Colors.point : Colors.backgroundMenu};
+    colorType === 'blue' ? Colors.point : Colors.backgroundButton};
   color: ${({ colorType }) =>
     colorType === 'blue' ? Colors.textQuaternary : Colors.textPrimary};
   border-radius: 16px;
@@ -36,7 +36,7 @@ const ButtonStyle = styled.button<ButtonProps>`
     color: ${({ colorType }) =>
       colorType === 'blue' ? Colors.textPrimary : Colors.textQuaternary};
     background-color: ${({ colorType }) =>
-      colorType === 'blue' ? Colors.backgroundMenu : Colors.point};
+      colorType === 'blue' ? Colors.backgroundButton : Colors.point};
   }
   @media ${Media.sm} {
     height: 40px;
