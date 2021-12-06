@@ -37,11 +37,7 @@ const Router = (): JSX.Element => {
 
       <Route path="/community" exact component={RoutineCommunityPage} />
       <Route path="/community/create" exact component={RoutinePostCreatePage} />
-      <Route
-        path="/community/detail/:id"
-        exact
-        component={RoutinePostDetailPage}
-      />
+      <Route path="/community/:id" exact component={RoutinePostDetailPage} />
 
       <Route path="/signin" exact component={SignInPage} />
       <Route path="/signup" exact component={SignUpPage} />
