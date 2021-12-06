@@ -25,6 +25,7 @@ export const Default = (): JSX.Element => {
       <Icon.UserProfile />
       <Icon.UserProfileImageUploader />
       <Icon.Community />
+      <Icon.Add />
     </>
   );
 };
