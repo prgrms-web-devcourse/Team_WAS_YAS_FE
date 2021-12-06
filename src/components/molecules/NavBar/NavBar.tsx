@@ -1,7 +1,7 @@
 import { RoundedButton } from '@/components';
 import { Media } from '@/styles';
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 interface clickedNav {
   community: boolean;
@@ -9,71 +9,33 @@ interface clickedNav {
   analysis: boolean;
 }
 
-interface NavBarProps {
-  onClick?: (navName: string) => void;
-}
-
-const NavBar = ({ onClick }: NavBarProps): JSX.Element => {
-  const [isClicked, setIsClicked] = useState<Partial<clickedNav>>({
-    community: false,
-    home: false,
-    analysis: false,
-  });
-
-  const clickHandler = (e: any): void => {
-    const clickedNav = e.target.closest('button').className;
-    let navName: string;
-
-    if (clickedNav.includes('community')) {
-      setIsClicked({
-        community: true,
-        home: false,
-        analysis: false,
-      });
-      navName = 'community';
-    } else if (clickedNav.includes('home')) {
-      setIsClicked({
-        community: false,
-        home: true,
-        analysis: false,
-      });
-      navName = 'home';
-    } else if (clickedNav.includes('analysis')) {
-      setIsClicked({
-        community: false,
-        home: false,
-        analysis: true,
-      });
-      navName = 'analysis';
-    } else {
-      setIsClicked({
-        community: false,
-        home: false,
-        analysis: false,
-      });
-      navName = 'not';
-    }
-
-    onClick && onClick(navName);
+const NavBar = (): JSX.Element => {
+  const pathname: string = location.pathname.split('/')[1];
+  const isClicked: clickedNav = {
+    community: pathname === 'community' ? true : false,
+    home: pathname === 'routine' || pathname === '' ? true : false,
+    analysis: pathname === 'analysis' ? true : false,
   };
 
   return (
     <NavBarContainer>
-      <RoundedButton.Community
-        className="community"
-        onClick={clickHandler}
-        active={isClicked.community}
-      />
-      <RoundedButton.Home
-        className="home"
-        onClick={clickHandler}
-        active={isClicked.home}
-      />
-      <RoundedButton.Analysis
-        className="analysis"
-        onClick={clickHandler}
-        active={isClicked.analysis}
-      />
+      <Link to="/community">
+        <RoundedButton.Community
+          className="community"
+          active={isClicked.community}
+        />
+      </Link>
+
+      <Link to="/routine">
+        <RoundedButton.Home className="home" active={isClicked.home} />
+      </Link>
+
+      <Link to="/analysis">
+        <RoundedButton.Analysis
+          className="analysis"
+          active={isClicked.analysis}
+        />
+      </Link>
     </NavBarContainer>
   );
 };
@@ -84,6 +46,10 @@ const NavBarContainer = styled.div`
   align-items: center;
   justify-content: space-evenly;
   max-width: 768px;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  z-index: 1;
 
   @media ${Media.sm} {
     height: 56px;
@@ -96,5 +62,4 @@ const NavBarContainer = styled.div`
   }
 `;
 
-export type { NavBarProps };
 export default NavBar;
