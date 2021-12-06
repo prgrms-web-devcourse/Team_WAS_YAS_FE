@@ -1,57 +1,45 @@
-import { useState } from 'react';
-import { IconButton, Button } from '@/components';
+import React, { Fragment, useState } from 'react';
+import { IconButton, IconButtonProps, Button } from '@/components';
 import styled from '@emotion/styled';
-import { Colors, FontSize, FontWeight } from '@/styles';
+import { css } from '@emotion/react';
+import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import { useClickAway } from '@/hooks';
-import {
-  useHistory,
-  useLocation,
-  useParams,
-  useRouteMatch,
-} from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
-interface ComboButton extends React.ComponentProps<'div'> {
-  onClose: () => void;
-}
+export type RoutineAddButtonProps = React.ComponentProps<'div'>;
 
-const ComboButton = ({ onClose, ...props }: ComboButton): JSX.Element => {
+const RoutineAddButton = ({ ...props }: RoutineAddButtonProps): JSX.Element => {
   const history = useHistory();
-  const ref = useClickAway(() => {
-    console.log('clicked away');
-    onClose && onClose();
-  });
-
-  return (
-    <>
-      <ButtonWrapper ref={ref} {...props}>
-        <StyledButton
-          colorType="white"
-          onClick={() => {
-            history.push('/community');
-          }}
-        >
-          추천 루틴
-        </StyledButton>
-        <StyledButton
-          colorType="white"
-          onClick={() => {
-            history.push('/routine/create');
-          }}
-        >
-          루틴 생성
-        </StyledButton>
-      </ButtonWrapper>
-    </>
-  );
-};
-
-const RoutineAddButton = (): JSX.Element => {
   const [active, setActive] = useState(false);
 
   return (
-    <Container>
-      {active && <ComboButton onClose={() => setActive(false)} />}
-      <AddButton onClick={() => setActive(true)} />
+    <Container {...props}>
+      {active && (
+        <ButtonWrapper>
+          <StyledButton
+            colorType="white"
+            onClick={() => {
+              history.push('/community');
+            }}
+          >
+            추천 루틴
+          </StyledButton>
+          <StyledButton
+            colorType="white"
+            onClick={() => {
+              history.push('/routine/create');
+            }}
+          >
+            루틴 생성
+          </StyledButton>
+        </ButtonWrapper>
+      )}
+      <AddButton
+        open={active}
+        onClick={() => {
+          setActive((active) => !active);
+        }}
+      />
     </Container>
   );
 };
@@ -59,7 +47,7 @@ const RoutineAddButton = (): JSX.Element => {
 const Container = styled.div`
   display: inline-flex;
   flex-direction: column;
-  gap: 0.5em;
+  gap: 1em;
 `;
 
 const ButtonWrapper = styled.div`
@@ -69,16 +57,39 @@ const ButtonWrapper = styled.div`
 `;
 
 const StyledButton = styled(Button)`
-  width: 150px;
-  height: 50px;
   font-size: ${FontSize.large};
   font-weight: ${FontWeight.medium};
+
+  @media ${Media.sm} {
+    width: 120px;
+    height: 40px;
+  }
+  @media ${Media.md} {
+    width: 150px;
+    height: 50px;
+  }
+  @media ${Media.lg} {
+    width: 150px;
+    height: 50px;
+  }
 `;
 
-const AddButton = styled(IconButton.Add)`
+const AddButton = styled(IconButton.Add)<IconButtonProps & { open: boolean }>`
   align-self: flex-end;
-  right: 5px;
-  bottom: -20px;
+  transition: 0.125s all ease-out;
+
+  ${({ open }) =>
+    open &&
+    css`
+      background: #ff6b6b;
+      &:hover {
+        background: #ff8787;
+      }
+      &:active {
+        background: #fa5252;
+      }
+      transform: rotate(45deg);
+    `}
 `;
 
 export default RoutineAddButton;
