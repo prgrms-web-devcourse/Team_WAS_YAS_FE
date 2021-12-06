@@ -20,18 +20,20 @@ const LikeToggleButton = ({
   };
 
   return (
-    <>
-      <Wrapper onClick={handleClick} {...props}>
-        {toggled ? <Icon.Like /> : <Icon.LikeBorder />}
-      </Wrapper>
-    </>
+    <Wrapper onClick={handleClick} {...props}>
+      {toggled ? <Icon.Like /> : <Icon.LikeBorder />}
+    </Wrapper>
   );
 };
 
-LikeToggleButton.defaultProps = {
+const Wrapper = styled.span`
+  cursor: pointer;
+`;
+
+const defaultProps: LikeToggleButtonProps = {
   active: false,
 };
 
-const Wrapper = styled.span``;
+LikeToggleButton.defaultProps = defaultProps;
 
 export default LikeToggleButton;

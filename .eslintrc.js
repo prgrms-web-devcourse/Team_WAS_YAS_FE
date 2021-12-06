@@ -22,6 +22,8 @@ module.exports = {
   },
   plugins: ['react', '@typescript-eslint'],
   rules: {
+    'jsx-a11y/click-events-have-key-events': 0,
+    'jsx-a11y/no-static-element-interactions': 0,
     'react/react-in-jsx-scope': 'off',
     'import/no-unresolved': 'off',
     '@typescript-eslint/no-var-requires': 0,
