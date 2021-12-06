@@ -9,8 +9,8 @@ import React, {
 } from 'react';
 import TabItem, { TabItemProps } from './TabItem';
 
-const TabBar = ({ children, active, ...props }: TabItemProps) => {
-  const [activeTab, setActiveTab] = useState(() => {
+const TabBar = ({ children, active, ...props }: TabItemProps): JSX.Element => {
+  const [activeTab, setActiveTab] = useState<string>(() => {
     if (active) {
       return active;
     } else {

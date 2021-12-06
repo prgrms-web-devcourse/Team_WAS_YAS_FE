@@ -9,11 +9,18 @@ export interface TabItemProps extends React.ComponentProps<'div'> {
   onClick?: () => void;
 }
 
-export const TabItem = ({ title, active, onClick, ...props }: TabItemProps) => (
-  <TabItemContainer active={active} onClick={onClick} {...props}>
-    {title}
-  </TabItemContainer>
-);
+const TabItem = ({
+  title,
+  active,
+  onClick,
+  ...props
+}: TabItemProps): JSX.Element => {
+  return (
+    <TabItemContainer active={active} onClick={onClick} {...props}>
+      {title}
+    </TabItemContainer>
+  );
+};
 
 const TabItemContainer = styled.div<TabItemProps>`
   text-align: center;
