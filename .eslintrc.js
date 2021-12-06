@@ -17,6 +17,7 @@ module.exports = {
   },
   rules: {
     'import/no-anonymous-default-export': 'off',
+    'prettier/prettier': ['error', { endOfLine: 'auto' }],
   },
   overrides: [
     {
