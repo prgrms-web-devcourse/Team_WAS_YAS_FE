@@ -1,4 +1,4 @@
-import { RoutineAddButton } from '@/components';
+import { RoutineAddButton, RoutineAddButtonProps } from '@/components';
 import styled from '@emotion/styled';
 
 export default {
@@ -12,7 +12,7 @@ const StyledRoutineAddButton = styled(RoutineAddButton)`
   bottom: 10px;
 `;
 
-export const Default = ({ ...args }): JSX.Element => {
+export const Default = ({ ...args }: RoutineAddButtonProps): JSX.Element => {
   return (
     <>
       <StyledRoutineAddButton />

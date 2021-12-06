@@ -21,3 +21,4 @@ export { default as DeleteBox } from './molecules/ToolBox/DeleteBox';
 export type { DeleteBoxProps } from './molecules/ToolBox/DeleteBox';
 
 export { RoutineAddButton } from './organisms/RoutineAddButton';
+export type { RoutineAddButtonProps } from './organisms/RoutineAddButton';

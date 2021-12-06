@@ -1,9 +1,8 @@
-import React, { Fragment, useState } from 'react';
-import { IconButton, IconButtonProps, Button } from '@/components';
+import React, { useState } from 'react';
+import { IconButton, IconButtonProps, Button, Icon } from '@/components';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
-import { useClickAway } from '@/hooks';
 import { useHistory } from 'react-router-dom';
 
 export type RoutineAddButtonProps = React.ComponentProps<'div'>;
@@ -22,6 +21,7 @@ const RoutineAddButton = ({ ...props }: RoutineAddButtonProps): JSX.Element => {
               history.push('/community');
             }}
           >
+            <Icon.Community />
             추천 루틴
           </StyledButton>
           <StyledButton
@@ -30,6 +30,7 @@ const RoutineAddButton = ({ ...props }: RoutineAddButtonProps): JSX.Element => {
               history.push('/routine/create');
             }}
           >
+            <Icon.Add />
             루틴 생성
           </StyledButton>
         </ButtonWrapper>
@@ -57,8 +58,24 @@ const ButtonWrapper = styled.div`
 `;
 
 const StyledButton = styled(Button)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5em;
   font-size: ${FontSize.large};
   font-weight: ${FontWeight.medium};
+
+  &:hover {
+    & path {
+      fill: ${Colors.point};
+    }
+  }
+
+  &:active {
+    & path {
+      fill: ${Colors.pointLight};
+    }
+  }
 
   @media ${Media.sm} {
     width: 120px;
