@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
 import { useEffect, Children, isValidElement } from 'react';
-import { Media } from '@/styles';
 
 export interface HeaderProps extends React.ComponentProps<'div'> {
   text?: string;
@@ -17,7 +16,7 @@ const Header = ({ children, ...props }: HeaderProps): JSX.Element => {
         'Header component only accepts 3 children. The rest will be ignored.',
       );
     }
-  }, []);
+  }, [children]);
 
   return <Container>{items}</Container>;
 };
