@@ -25,22 +25,15 @@ const Router = (): JSX.Element => {
       <Route path="/" exact component={MyRoutinePage} />
       <Route path="/routine" exact component={MyRoutinePage} />
       <Route path="/routine/create" exact component={RoutineCreatePage} />
-      <Route path="/routine/detail/:id" exact component={RoutineDetailPage} />
+      <Route path="/routine/:id" exact component={RoutineDetailPage} />
+      <Route path="/routine/:id/update" exact component={RoutineCreatePage} />
+      <Route path="/routine/:id/create" exact component={MissionCreatePage} />
       <Route
-        path="/routine/detail/:id/create"
-        exact
-        component={MissionCreatePage}
-      />
-      <Route
-        path="/routine/detail/:id/progress"
+        path="/routine/:id/progress"
         exact
         component={RoutineProgressPage}
       />
-      <Route
-        path="/routine/detail/:id/finish"
-        exact
-        component={RoutineFinishPage}
-      />
+      <Route path="/routine/:id/finish" exact component={RoutineFinishPage} />
 
       <Route path="/community" exact component={RoutineCommunityPage} />
       <Route path="/community/create" exact component={RoutinePostCreatePage} />
