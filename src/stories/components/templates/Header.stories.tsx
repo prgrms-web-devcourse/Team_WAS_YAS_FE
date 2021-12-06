@@ -1,7 +1,7 @@
 import { Header, HeaderProps, IconButton } from '@/components';
 
 export default {
-  title: 'Components/Templates/Button',
+  title: 'Components/Templates/Header',
   component: Header,
 };
 
