@@ -4,7 +4,7 @@ import { Icon } from '@/components';
 const UserProfile = ({ ...props }: IconButtonProps): JSX.Element => {
   return (
     <BaseButton {...props}>
-      <Icon.UserProfile size={48} />
+      <Icon.UserProfile />
     </BaseButton>
   );
 };
