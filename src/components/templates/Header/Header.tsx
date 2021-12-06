@@ -23,6 +23,7 @@ const Header = ({ children, ...props }: HeaderProps): JSX.Element => {
 
 const Container = styled.div`
   display: flex;
+  width: 100%;
   justify-content: space-between;
   align-items: flex-start;
   height: 40px;
