@@ -24,6 +24,9 @@ export const Default = ({ ...args }: HeaderProps): JSX.Element => {
         <IconButton.UserProfile />
         <IconButton.UserProfile />
       </Header>
+      <Header>
+        <IconButton.UserProfile />
+      </Header>
     </>
   );
 };

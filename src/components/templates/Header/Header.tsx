@@ -18,14 +18,19 @@ const Header = ({ children, ...props }: HeaderProps): JSX.Element => {
     }
   }, [children]);
 
-  return <Container>{items}</Container>;
+  return (
+    <Container single={Children.count(children) === 1} {...props}>
+      {items}
+    </Container>
+  );
 };
 
-const Container = styled.div`
+const Container = styled.div<HeaderProps & { single: boolean }>`
   display: flex;
   width: 100%;
-  justify-content: space-between;
+  justify-content: ${({ single }) => (single ? 'flex-end' : 'space-between')};
   align-items: flex-start;
+  align-content: flex-end;
   height: 40px;
 `;
 
