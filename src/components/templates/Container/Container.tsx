@@ -10,7 +10,8 @@ const Container = ({ children, ...props }: ContainerProps): JSX.Element => {
 
 const StyledDiv = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   margin: 0 auto;
   height: 100vh;
 
