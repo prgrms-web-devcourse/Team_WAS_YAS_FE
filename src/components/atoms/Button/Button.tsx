@@ -57,8 +57,10 @@ const StyledButton = styled.button<ButtonProps>`
   }
 `;
 
-Button.defaultProps = {
+const defaultProps: ButtonProps = {
   colorType: 'blue',
 };
+
+Button.defaultProps = defaultProps;
 
 export default Button;
