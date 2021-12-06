@@ -12,4 +12,3 @@ export type { TransparentButtonProps } from './atoms/IconButton';
 export { RoundedButton } from './atoms/RoundedButton';
 export type { RoundedButtonProps } from './atoms/RoundedButton/Base';
 export { NavBar } from './molecules/NavBar';
-export type { NavBarProps } from './molecules/NavBar';
