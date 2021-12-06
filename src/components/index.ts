@@ -1,9 +1,7 @@
-export { Container } from './atoms/Container';
 export { Button } from './atoms/Button';
 export type { ButtonProps } from './atoms/Button';
 export { CategoryButton } from './atoms/CategoryButton';
 export type { CategoryButtonProps } from './atoms/CategoryButton';
-export type { ContainerProps } from './atoms/Container';
 export { Icon } from './atoms/Icon';
 export type { IconProps } from './atoms/Icon';
 export { Text } from './atoms/Text';
@@ -22,5 +20,7 @@ export type { EditBoxProps } from './molecules/ToolBox/EditBox';
 export { DeleteBox } from './molecules/ToolBox';
 export type { DeleteBoxProps } from './molecules/ToolBox/DeleteBox';
 
+export { Container } from './templates/Container';
+export type { ContainerProps } from './templates/Container';
 export { Header } from './templates/Header';
 export type { HeaderProps } from './templates/Header';
