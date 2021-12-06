@@ -1,8 +1,8 @@
 export { Container } from './atoms/Container';
 export { Button } from './atoms/Button';
 export type { ButtonProps } from './atoms/Button';
-export { CategoryButton } from './atoms/CategoryButton';
-export type { CategoryButtonProps } from './atoms/CategoryButton';
+export { RoutineCategory } from './atoms/RoutineCategory';
+export type { RoutineCategoryProps } from './atoms/RoutineCategory';
 export type { ContainerProps } from './atoms/Container';
 export { Icon } from './atoms/Icon';
 export type { IconProps } from './atoms/Icon';
@@ -20,5 +20,5 @@ export { default as EditBox } from './molecules/ToolBox/EditBox';
 export { default as DeleteBox } from './molecules/ToolBox/DeleteBox';
 export type { DeleteBoxProps } from './molecules/ToolBox/DeleteBox';
 
-export { RoutineCategory } from './molecules/RoutineCategory';
-export type { RoutineCategoryProps } from './molecules/RoutineCategory';
+export { RoutineCategorySelector } from './molecules/RoutineCategorySelector';
+export type { RoutineCategoryItemProps } from './molecules/RoutineCategorySelector';
