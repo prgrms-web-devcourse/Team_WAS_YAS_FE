@@ -45,7 +45,8 @@ const TabItemContainer = styled.div<TabItemProps>`
     font-size: ${FontSize.medium};
   }
   :hover {
-    background-color: ${Colors.pointLight};
+    color: ${Colors.point};
+    font-weight: ${FontWeight.bold};
   }
 `;
 
