@@ -16,7 +16,6 @@ export { RoundedButton } from './atoms/RoundedButton';
 export type { RoundedButtonProps } from './atoms/RoundedButton/Base';
 export { Spinner } from './atoms/Spinner';
 export { Portal } from './atoms/Portal';
-export { NavBar } from './molecules/NavBar';
 
 export { EditBox } from './molecules/ToolBox';
 export type { EditBoxProps } from './molecules/ToolBox/EditBox';
@@ -27,3 +26,4 @@ export { Container } from './templates/Container';
 export type { ContainerProps } from './templates/Container';
 export { Header } from './templates/Header';
 export type { HeaderProps } from './templates/Header';
+export { NavBar } from './templates/NavBar';
