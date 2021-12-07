@@ -62,17 +62,29 @@ export interface RoutinePostType {
   routineId: string;
   createdAt: string;
   updatedAt: string;
-  comments: [];
-  likes: [];
+  comments: CommentType[];
+  likes: PostLikeType[];
 }
 
 export interface CommentType {
-  id: string;
+  commentId: string;
   text: string;
   author: string;
   images: string[];
   createdAt: string;
   updatedAt: string;
   comments: CommentType[];
-  likes: string[];
+  likes: CommentLikeType[];
+}
+
+export interface PostLikeType {
+  postLikeId: string;
+  postId: string;
+  userId: string;
+}
+
+export interface CommentLikeType {
+  commentLikeId: string;
+  commentId: string;
+  userId: string;
 }

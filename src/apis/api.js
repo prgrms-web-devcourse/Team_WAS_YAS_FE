@@ -7,7 +7,7 @@ const setInterceptors = (instance, auth) => {
   auth &&
     instance.interceptors.request.use(
       (config) => {
-        const TOKEN = JSON.parse(sessionStorage.getItem('YAS_TOKEN'));
+        const TOKEN = JSON.parse(sessionStorage.getItem('YAS_USER_TOKEN'));
         config.headers.Authorization = `bearer ${TOKEN}`;
         return config;
       },
