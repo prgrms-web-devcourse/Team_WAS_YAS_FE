@@ -11,7 +11,7 @@ const ColorItem = ({ color, ...props }: ColorItemProps) => {
       <StyledColorInput
         type="radio"
         id={color}
-        name="Color"
+        name="color"
         value={color}
         {...props}
       />
@@ -21,6 +21,12 @@ const ColorItem = ({ color, ...props }: ColorItemProps) => {
     </>
   );
 };
+
+const defaultProps = {
+  color: Colors.red,
+};
+
+ColorItem.defaultProps = defaultProps;
 
 export default ColorItem;
 
