@@ -1,37 +1,36 @@
 import styled from '@emotion/styled';
-import { useEffect, Children, isValidElement } from 'react';
+import { useRouteMatch, useHistory } from 'react-router-dom';
+import { IconButton, IconButtonProps } from '@/components';
 
-export interface HeaderProps extends React.ComponentProps<'div'> {
-  text?: string;
-}
+export type HeaderProps = React.ComponentProps<'div'>;
 
-const Header = ({ children, ...props }: HeaderProps): JSX.Element => {
-  const items = Children.toArray(children)
-    .filter((element) => isValidElement(element))
-    .slice(0, 3);
-
-  useEffect(() => {
-    if (Children.count(children) > 3) {
-      console.warn(
-        'Header component only accepts 3 children. The rest will be ignored.',
-      );
-    }
-  }, [children]);
+const Header = ({ ...props }: HeaderProps): JSX.Element => {
+  const [match, history] = [useRouteMatch(), useHistory()];
+  const params = parseParams(match.url);
 
   return (
-    <Container single={Children.count(children) === 1} {...props}>
-      {items}
+    <Container {...props}>
+      <BackButton visible={params.length > 1 && history.length > 1} />
+      <IconButton.UserProfile />
     </Container>
   );
 };
 
-const Container = styled.div<HeaderProps & { single: boolean }>`
+const parseParams = (path: string): string[] =>
+  path.split('/').filter((param) => param);
+
+const Container = styled.div`
   display: flex;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
-  justify-content: ${({ single }) => (single ? 'flex-end' : 'space-between')};
-  align-items: flex-start;
-  align-content: flex-end;
   height: 40px;
+`;
+
+const BackButton = styled(IconButton.Back)<
+  IconButtonProps & { visible: boolean }
+>`
+  visibility: ${({ visible }) => (visible ? 'visible' : 'hidden')};
 `;
 
 export default Header;

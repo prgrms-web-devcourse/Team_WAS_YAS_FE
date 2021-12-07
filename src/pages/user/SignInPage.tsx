@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import styled from '@emotion/styled';
 import { Colors, Media, FontSize, FontWeight } from '@/styles';
-import { Container, Header, IconButton, Input, Button } from '@/components';
+import { Container, Input, Button, NavBar } from '@/components';
 
 const initialValues = {
   email: 'was@gmail.com',
@@ -47,10 +47,7 @@ const SignInPage = (): JSX.Element => {
   });
 
   return (
-    <Container>
-      <Header>
-        <IconButton.UserProfile />
-      </Header>
+    <Container navBar>
       <ContentContainer>
         <HeadText>지금 당장 YAS를 시작해볼까요?</HeadText>
         <SignInForm>
