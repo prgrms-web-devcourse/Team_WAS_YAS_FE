@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { useRouteMatch, useHistory } from 'react-router-dom';
 import { IconButton, IconButtonProps } from '@/components';
 
-export type HeaderProps = React.ComponentProps<'div'>;
+export type HeaderProps = React.ComponentProps<'header'>;
 
 const Header = ({ ...props }: HeaderProps): JSX.Element => {
   const [match, history] = [useRouteMatch(), useHistory()];
@@ -19,7 +19,7 @@ const Header = ({ ...props }: HeaderProps): JSX.Element => {
 const parseParams = (path: string): string[] =>
   path.split('/').filter((param) => param);
 
-const Container = styled.div`
+const Container = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
