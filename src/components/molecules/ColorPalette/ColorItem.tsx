@@ -5,7 +5,7 @@ export interface ColorItemProps extends React.ComponentProps<'input'> {
   color: string;
 }
 
-const ColorItem = ({ color, ...props }: ColorItemProps) => {
+const ColorItem = ({ color, ...props }: ColorItemProps): JSX.Element => {
   return (
     <>
       <StyledColorInput
