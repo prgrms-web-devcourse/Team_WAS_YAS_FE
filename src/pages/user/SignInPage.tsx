@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
+import Swal from 'sweetalert2';
 import styled from '@emotion/styled';
 import { Colors, FontSize, FontWeight } from '@/styles';
 import { Container, Input, Button, Spinner } from '@/components';
@@ -43,6 +44,10 @@ const SignInPage = (): JSX.Element => {
       formikHelper.resetForm();
       formikHelper.setStatus({ success: true });
       formikHelper.setSubmitting(false);
+      Swal.fire({
+        icon: 'success',
+        title: '🎉 환영합니다! 🎉',
+      });
     },
   });
 
