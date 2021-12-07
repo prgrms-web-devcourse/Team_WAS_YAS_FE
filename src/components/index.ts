@@ -20,6 +20,8 @@ export { EditBox } from './molecules/ToolBox';
 export type { EditBoxProps } from './molecules/ToolBox/EditBox';
 export { DeleteBox } from './molecules/ToolBox';
 export type { DeleteBoxProps } from './molecules/ToolBox/DeleteBox';
+export { DaySelector } from './molecules/DaySelector';
+export type { DayItemProps } from './molecules/DaySelector';
 
 export { Container } from './templates/Container';
 export type { ContainerProps } from './templates/Container';
