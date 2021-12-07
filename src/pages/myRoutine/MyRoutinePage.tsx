@@ -4,7 +4,7 @@ import { Container } from '@/components';
 const MyRoutinePage = (): JSX.Element => {
   return (
     <Container>
-      <h1>MyRoutinePage</h1>
+      <h1>MyRoutinePage</h1>{' '}
     </Container>
   );
 };
