@@ -24,6 +24,8 @@ export { Routine } from './molecules/Routine';
 export type { RoutineProps } from './molecules/Routine/Routine';
 export { Mission } from './molecules/Mission';
 export type { MissionProps } from './molecules/Mission';
+export { RoutineInfo } from './molecules/RoutineInfo';
+export type { RoutineInfoProps } from './molecules/RoutineInfo';
 
 export { Container } from './templates/Container';
 export type { ContainerProps } from './templates/Container';
