@@ -5,7 +5,7 @@ export default {
   component: TabBar,
 };
 
-export const Default = ({ ...args }: TabItemProps) => {
+export const Default = ({ ...args }: TabItemProps): JSX.Element => {
   return (
     <TabBar {...args}>
       <TabBar.Item title="전체" index="1">
