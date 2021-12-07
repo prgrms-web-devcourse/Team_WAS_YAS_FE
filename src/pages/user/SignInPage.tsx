@@ -38,118 +38,42 @@ const SignInPage = (): JSX.Element => {
   });
 
   return (
-    <Container navBar>
-      <ContentContainer>
-        <HeadText>지금 당장 YAS를 시작해볼까요?</HeadText>
-        <SignInForm onSubmit={handleSubmit}>
-          <Filed>
-            <Label htmlFor="email">이메일</Label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="이메일"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.email}
-            />
-            <GuideText>{touched.email && errors.email}&nbsp;</GuideText>
-          </Filed>
-          <Filed>
-            <Label htmlFor="password">비밀번호</Label>
-            <Input
-              id="password"
-              name="password"
-              type="password"
-              placeholder="비밀번호"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.password}
-            />
-            <GuideText>{touched.password && errors.password}&nbsp;</GuideText>
-          </Filed>
-          <StyledButton type="submit">입장하기</StyledButton>
-          <StyledButton colorType="white">회원가입 하러가기</StyledButton>
-        </SignInForm>
-      </ContentContainer>
-      <ContentContainer>
-        <HeadText>지금 당장 YAS를 시작해볼까요?</HeadText>
-        <SignInForm onSubmit={handleSubmit}>
-          <Filed>
-            <Label htmlFor="email">이메일</Label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="이메일"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.email}
-            />
-            <GuideText>{touched.email && errors.email}&nbsp;</GuideText>
-          </Filed>
-          <Filed>
-            <Label htmlFor="password">비밀번호</Label>
-            <Input
-              id="password"
-              name="password"
-              type="password"
-              placeholder="비밀번호"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.password}
-            />
-            <GuideText>{touched.password && errors.password}&nbsp;</GuideText>
-          </Filed>
-          <StyledButton type="submit">입장하기</StyledButton>
-          <StyledButton colorType="white">회원가입 하러가기</StyledButton>
-        </SignInForm>
-      </ContentContainer>
-      <ContentContainer>
-        <HeadText>지금 당장 YAS를 시작해볼까요?</HeadText>
-        <SignInForm onSubmit={handleSubmit}>
-          <Filed>
-            <Label htmlFor="email">이메일</Label>
-            <Input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="이메일"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.email}
-            />
-            <GuideText>{touched.email && errors.email}&nbsp;</GuideText>
-          </Filed>
-          <Filed>
-            <Label htmlFor="password">비밀번호</Label>
-            <Input
-              id="password"
-              name="password"
-              type="password"
-              placeholder="비밀번호"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              value={values.password}
-            />
-            <GuideText>{touched.password && errors.password}&nbsp;</GuideText>
-          </Filed>
-          <StyledButton type="submit">입장하기</StyledButton>
-          <StyledButton colorType="white">회원가입 하러가기</StyledButton>
-        </SignInForm>
-      </ContentContainer>
-    </Container>
+    <StyledContainer navBar>
+      <HeadText>지금 당장 YAS를 시작해볼까요?</HeadText>
+      <SignInForm onSubmit={handleSubmit}>
+        <Label htmlFor="email">이메일</Label>
+        <Input
+          id="email"
+          name="email"
+          type="email"
+          placeholder="이메일"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.email}
+        />
+        <GuideText>{touched.email && errors.email}&nbsp;</GuideText>
+        <Label htmlFor="password">비밀번호</Label>
+        <Input
+          id="password"
+          name="password"
+          type="password"
+          placeholder="비밀번호"
+          onChange={handleChange}
+          onBlur={handleBlur}
+          value={values.password}
+        />
+        <GuideText>{touched.password && errors.password}&nbsp;</GuideText>
+        <StyledButton type="submit">입장하기</StyledButton>
+        <StyledButton colorType="white">회원가입 하러가기</StyledButton>
+      </SignInForm>
+    </StyledContainer>
   );
 };
 
-const ContentContainer = styled.div`
+const StyledContainer = styled(Container)`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: calc(100vh - 140px);
-  margin-top: 40px;
 `;
 
 const HeadText = styled.h1`
@@ -166,8 +90,6 @@ const SignInForm = styled.form`
   width: 100%;
   margin-bottom: 1rem;
 `;
-
-const Filed = styled.fieldset``;
 
 const Label = styled.label`
   display: inline-block;

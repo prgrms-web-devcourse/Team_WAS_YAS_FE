@@ -51,6 +51,7 @@ const NavBarContainer = styled.div`
   position: fixed;
   bottom: 0;
   z-index: 1;
+  background-color: white;
 
   @media ${Media.sm} {
     height: 56px;

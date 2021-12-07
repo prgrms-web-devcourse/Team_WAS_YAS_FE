@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { NavBar, Header, IconButton } from '@/components';
 import { Media } from '@/styles';
+import { NavBar, Header, IconButton } from '@/components';
 
 export interface ContainerProps extends React.ComponentProps<'div'> {
   navBar?: boolean;
@@ -13,13 +13,13 @@ const Container = ({
   ...props
 }: ContainerProps): JSX.Element => {
   return (
-    <StyledDiv {...props}>
+    <AppContainer>
       <Header>
         <IconButton.UserProfile />
       </Header>
-      {children}
+      <ContentContainer {...props}>{children}</ContentContainer>
       {navBar && <NavBar />}
-    </StyledDiv>
+    </AppContainer>
   );
 };
 
@@ -29,7 +29,7 @@ const defaultProps: ContainerProps = {
 
 Container.defaultProps = defaultProps;
 
-const StyledDiv = styled.div`
+const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -37,7 +37,6 @@ const StyledDiv = styled.div`
   max-width: 768px;
   margin: 0 auto;
   height: 100vh;
-  overflow: auto;
 
   @media ${Media.sm} {
     padding: 0 15px;
@@ -47,6 +46,25 @@ const StyledDiv = styled.div`
   }
   @media ${Media.lg} {
     padding: 0 40px;
+  }
+`;
+
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding-top: 40px;
+
+  @media ${Media.sm} {
+    padding-bottom: 56px;
+  }
+  @media ${Media.md} {
+    padding-bottom: 100px;
+  }
+  @media ${Media.lg} {
+    padding-bottom: 100px;
   }
 `;
 
