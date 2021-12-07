@@ -36,7 +36,6 @@ const AppContainer = styled.div`
   min-width: 320px;
   max-width: 768px;
   margin: 0 auto;
-  height: 100vh;
 
   @media ${Media.sm} {
     padding: 0 15px;
