@@ -35,10 +35,10 @@ const TabBar = ({ children, active, ...props }: TabItemProps): JSX.Element => {
     [activeTab, items],
   );
   return (
-    <>
-      <TabBarContainer {...props}>{items}</TabBarContainer>
+    <div {...props}>
+      <TabBarContainer>{items}</TabBarContainer>
       <div>{activeItem?.props.children}</div>
-    </>
+    </div>
   );
 };
 
