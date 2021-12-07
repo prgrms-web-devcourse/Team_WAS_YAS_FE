@@ -1,7 +1,7 @@
 import { RoundedButton } from '@/components';
 import { Media } from '@/styles';
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 interface clickedNav {
   community: boolean;
@@ -10,6 +10,7 @@ interface clickedNav {
 }
 
 const NavBar = (): JSX.Element => {
+  const location = useLocation();
   const pathname: string = location.pathname.split('/')[1];
   const isClicked: clickedNav = {
     community: pathname === 'community' ? true : false,
