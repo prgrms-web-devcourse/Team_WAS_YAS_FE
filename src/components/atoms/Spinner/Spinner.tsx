@@ -1,7 +1,8 @@
-import React from 'react';
+import { Colors } from '@/styles';
+import RingLoader from 'react-spinners/RingLoader';
 
-const Spinner = (): JSX.Element => {
-  return <div></div>;
+const Spinner = ({ ...props }): JSX.Element => {
+  return <RingLoader color={Colors.yellow} {...props} />;
 };
 
 export default Spinner;
