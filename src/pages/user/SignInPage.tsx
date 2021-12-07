@@ -2,7 +2,7 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import styled from '@emotion/styled';
 import { Colors, FontSize, FontWeight } from '@/styles';
-import { Container, Input, Button } from '@/components';
+import { Container, Input, Button, Spinner } from '@/components';
 
 const initialValues = {
   email: '',
@@ -66,6 +66,7 @@ const SignInPage = (): JSX.Element => {
         <StyledButton type="submit">입장하기</StyledButton>
         <StyledButton colorType="white">회원가입 하러가기</StyledButton>
       </SignInForm>
+      {isSubmitting && <Spinner />}
     </StyledContainer>
   );
 };
