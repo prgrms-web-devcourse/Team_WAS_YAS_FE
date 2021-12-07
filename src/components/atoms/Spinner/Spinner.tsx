@@ -1,8 +1,24 @@
 import { Colors } from '@/styles';
 import styled from '@emotion/styled';
-import { css } from '@emotion/react';
-import RingLoader from 'react-spinners/RingLoader';
+import { RingLoader } from 'react-spinners';
 import { Portal } from '@/components';
+
+export interface SpinnerProps {
+  color?: string;
+  loading?: boolean;
+  css?: string;
+  speedMultiplier?: number;
+}
+
+const Spinner = ({ ...props }: SpinnerProps): JSX.Element => {
+  return (
+    <Portal>
+      <BackgroundDim>
+        <RingLoader color={Colors.yellow} {...props} />
+      </BackgroundDim>
+    </Portal>
+  );
+};
 
 const BackgroundDim = styled.div`
   display: flex;
@@ -16,15 +32,5 @@ const BackgroundDim = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 1000;
 `;
-
-const Spinner = ({ ...props }): JSX.Element => {
-  return (
-    <Portal>
-      <BackgroundDim>
-        <RingLoader color={Colors.yellow} {...props} />
-      </BackgroundDim>
-    </Portal>
-  );
-};
 
 export default Spinner;

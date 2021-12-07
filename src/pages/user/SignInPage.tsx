@@ -32,8 +32,17 @@ const SignInPage = (): JSX.Element => {
   } = useFormik({
     initialValues,
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values, formikHelper) => {
+      const sleep = () => {
+        return new Promise((resolve) => {
+          setTimeout(() => resolve(true), 2000);
+        });
+      };
+      await sleep();
       console.log('제출', values);
+      formikHelper.resetForm();
+      formikHelper.setStatus({ success: true });
+      formikHelper.setSubmitting(false);
     },
   });
 
@@ -63,7 +72,9 @@ const SignInPage = (): JSX.Element => {
           value={values.password}
         />
         <GuideText>{touched.password && errors.password}&nbsp;</GuideText>
-        <StyledButton type="submit">입장하기</StyledButton>
+        <StyledButton type="submit" disabled={isSubmitting}>
+          입장하기
+        </StyledButton>
         <StyledButton colorType="white">회원가입 하러가기</StyledButton>
       </SignInForm>
       {isSubmitting && <Spinner />}

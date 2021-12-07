@@ -1,4 +1,3 @@
-import React from 'react';
 import { useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 
@@ -6,7 +5,7 @@ interface PortalProps {
   children: JSX.Element;
 }
 
-const Portal = ({ children }: PortalProps) => {
+const Portal = ({ children }: PortalProps): JSX.Element => {
   const element = useMemo(() => document.createElement('div'), []);
 
   useEffect(() => {
