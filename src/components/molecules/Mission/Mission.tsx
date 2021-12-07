@@ -3,17 +3,22 @@ import styled from '@emotion/styled';
 import React from 'react';
 
 interface MissionProps extends React.ComponentProps<'div'> {
-  emoji: string;
-  title: string;
-  time: string;
-  color: string;
+  missionObject: {
+    emoji: string;
+    name: string;
+    color: string;
+    durationTime: string;
+  };
 }
 
-const Mission = ({ emoji, title, time, color }: MissionProps): JSX.Element => {
+const Mission = ({ missionObject, ...props }: MissionProps): JSX.Element => {
+  const { emoji, name, durationTime: dt, color } = missionObject;
   const backgroundColor = color;
   return (
-    <MissionContainer style={{ backgroundColor }}>
+    <MissionContainer style={{ backgroundColor }} {...props}>
       <span>{emoji}</span>
+      <span>{name}</span>
+      <span>{name}</span>
     </MissionContainer>
   );
 };
