@@ -149,6 +149,7 @@ const ContentContainer = styled.div`
   align-items: center;
   width: 100%;
   height: calc(100vh - 140px);
+  margin-top: 40px;
 `;
 
 const HeadText = styled.h1`

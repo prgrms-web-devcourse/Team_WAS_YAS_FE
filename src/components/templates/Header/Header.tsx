@@ -10,8 +10,10 @@ const Header = ({ ...props }: HeaderProps): JSX.Element => {
 
   return (
     <Container {...props}>
-      <BackButton visible={params.length > 1 && history.length > 1} />
-      <IconButton.UserProfile />
+      <ContentContainer>
+        <BackButton visible={params.length > 1 && history.length > 1} />
+        <IconButton.UserProfile />
+      </ContentContainer>
     </Container>
   );
 };
@@ -20,11 +22,19 @@ const parseParams = (path: string): string[] =>
   path.split('/').filter((param) => param);
 
 const Container = styled.header`
-  display: flex;
-  justify-content: space-between;
+  position: fixed;
   align-items: center;
   width: 100%;
   height: 40px;
+  background-color: white;
+  z-index: 1;
+`;
+
+const ContentContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  max-width: 768px;
+  margin: 0 auto;
 `;
 
 const BackButton = styled(IconButton.Back)<
