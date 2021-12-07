@@ -4,7 +4,7 @@ import { NavBar, Header, IconButton } from '@/components';
 import { Media } from '@/styles';
 
 export interface ContainerProps extends React.ComponentProps<'div'> {
-  navBar: boolean;
+  navBar?: boolean;
 }
 
 const Container = ({
@@ -50,4 +50,4 @@ const StyledDiv = styled.div`
   }
 `;
 
-export default Container;
+export default React.memo<ContainerProps>(Container);
