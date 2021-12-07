@@ -20,3 +20,5 @@ export type { RoundedButtonProps } from './atoms/RoundedButton/Base';
 export { default as EditBox } from './molecules/ToolBox/EditBox';
 export { default as DeleteBox } from './molecules/ToolBox/DeleteBox';
 export type { DeleteBoxProps } from './molecules/ToolBox/DeleteBox';
+export { ColorPalette } from './molecules/ColorPalette';
+export type { ColorPaletteProps } from './molecules/ColorPalette';
