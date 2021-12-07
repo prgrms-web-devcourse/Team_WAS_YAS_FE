@@ -8,6 +8,8 @@ import LikeBorder from './LikeBorder';
 import List from './List';
 import UserProfile from './UserProfile';
 import UserProfileImageUploader from './UserProfileImageUploader';
+import Community from './Community';
+import Add from './Add';
 
 export interface IconProps extends React.ComponentProps<'svg'> {
   color?: string;
@@ -25,6 +27,8 @@ const Icon = {
   List,
   UserProfile,
   UserProfileImageUploader,
+  Community,
+  Add,
 };
 
 export default Icon;
