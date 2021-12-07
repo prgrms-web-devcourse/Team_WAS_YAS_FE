@@ -3,7 +3,7 @@ import { Colors } from '@/styles';
 import styled from '@emotion/styled';
 
 export default {
-  title: 'Components/Atoms/Container',
+  title: 'Components/Templates/Container',
   component: Container,
 };
 
