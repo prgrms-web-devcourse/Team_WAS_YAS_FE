@@ -1,4 +1,4 @@
-import { Routine, RoutineProps } from '@/components';
+import { Routine } from '@/components';
 import { Colors } from '@/styles';
 
 export default {
@@ -19,35 +19,27 @@ export default {
   },
 };
 
+const routineObject: {
+  emoji: string;
+  color: string;
+  name: string;
+  durationTime: number;
+  startTime: string;
+} = {
+  emoji: '🌳',
+  color: Colors.red,
+  name: '집 앞 공원 산책하기',
+  durationTime: 12345,
+  startTime: `${new Date().toISOString()}`,
+};
+
 export const Default = (): JSX.Element => {
   return (
     <>
-      <Routine type="myRoutine" />
-      <Routine type="communityRoutine" />
-      <Routine type="communityMyRoutine" />
-      <Routine type="create" />
+      <Routine routineObject={routineObject} type="myRoutine" />
+      <Routine routineObject={routineObject} type="communityRoutine" />
+      <Routine routineObject={routineObject} type="communityMyRoutine" />
+      <Routine routineObject={routineObject} type="create" />
     </>
   );
-};
-
-export const MyRoutine = ({ type, ...args }: RoutineProps): JSX.Element => {
-  return <Routine type="myRoutine" {...args} />;
-};
-
-export const CommunityRoutine = ({
-  type,
-  ...args
-}: RoutineProps): JSX.Element => {
-  return <Routine type="communityRoutine" {...args} />;
-};
-
-export const CommunityMyRoutine = ({
-  type,
-  ...args
-}: RoutineProps): JSX.Element => {
-  return <Routine type="communityMyRoutine" {...args} />;
-};
-
-export const Create = ({ type, ...args }: RoutineProps): JSX.Element => {
-  return <Routine type="create" {...args} />;
 };

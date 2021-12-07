@@ -1,32 +1,34 @@
 import { DeleteBox, EditBox, Icon } from '@/components';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
+import TimeUtils from '@/utils/time';
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import CheckComplete from './CheckComplete';
 import ToolBoxButtonIcon from './ToolBoxButtonIcon';
 
 interface RoutineProps extends React.ComponentProps<'div'> {
-  emoji: string;
-  color: string;
-  title: string;
-  totalTime: string;
-  startTime: string;
+  routineObject: {
+    emoji: string;
+    color: string;
+    name: string;
+    durationTime: number;
+    startTime: string;
+  };
   type: 'myRoutine' | 'communityMyRoutine' | 'communityRoutine' | 'create';
   completed?: boolean;
   like?: number;
 }
 
 const Routine = ({
-  emoji,
-  color,
-  title,
-  totalTime,
-  startTime,
-  type,
+  routineObject,
   completed,
   like,
+  type,
+  ...props
 }: RoutineProps): JSX.Element => {
-  const backgroundColor = color;
+  const { emoji, color, name, durationTime: dt, startTime: st } = routineObject;
+  const durationTime = TimeUtils.calculateTime(dt);
+  const startTime = TimeUtils.startTime(st);
   const [visible, setVisible] = useState<boolean>(false);
 
   const handleCloseToolBox = () => {
@@ -42,7 +44,7 @@ const Routine = ({
   };
 
   return (
-    <RoutineContainer style={{ backgroundColor }}>
+    <RoutineContainer style={{ backgroundColor: color }} {...props}>
       <RoutineHeader>
         {type === 'myRoutine' ? (
           <CheckComplete completed={completed ? completed : false} />
@@ -75,10 +77,10 @@ const Routine = ({
           </div>
         ) : null}
       </RoutineHeader>
-      <Emoji>{emoji ? emoji : '🌳'}</Emoji>
-      <Title>{title ? title : '집 앞 공원 산책하기'}</Title>
-      <TotalTime>{totalTime ? totalTime : '1시간'}</TotalTime>
-      <StartTime>{startTime ? startTime : '오전 09:00'}</StartTime>
+      <Emoji>{emoji}</Emoji>
+      <Title>{name}</Title>
+      <TotalTime>{durationTime}</TotalTime>
+      <StartTime>{startTime}</StartTime>
     </RoutineContainer>
   );
 };
@@ -170,19 +172,6 @@ const StartTime = styled.h3`
     font-size: 0.625rem;
   }
 `;
-
-const defaultProps: RoutineProps = {
-  emoji: '',
-  color: Colors.red,
-  title: '',
-  totalTime: '',
-  startTime: '',
-  type: 'myRoutine',
-  completed: false,
-  like: 0,
-};
-
-Routine.defaultProps = defaultProps;
 
 export type { RoutineProps };
 export default Routine;
