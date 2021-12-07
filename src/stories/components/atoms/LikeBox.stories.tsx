@@ -8,14 +8,17 @@ export default {
   },
 };
 
-export const Default = ({ active, ...args }: LikeBoxProps): JSX.Element => {
+export const Default = ({ ...args }: LikeBoxProps): JSX.Element => {
   const handleClick = () => {
     console.log('토글!');
   };
 
   return (
     <>
-      <LikeBox onClick={handleClick} active={active} {...args} />
+      <LikeBox onClick={handleClick} active />
+      <LikeBox onClick={handleClick} count={32} />
+      <LikeBox onClick={handleClick} count={12} active interactive />
+      <LikeBox onClick={handleClick} count={32} interactive />
     </>
   );
 };

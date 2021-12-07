@@ -5,20 +5,24 @@ import styled from '@emotion/styled';
 import { Media, FontSize, Colors } from '@/styles';
 
 export interface LikeBoxProps extends React.ComponentProps<'span'> {
-  active: boolean;
+  active?: boolean;
   count: number;
+  interactive?: boolean;
 }
 
 const LikeBox = ({
   active,
+  interactive,
   onClick,
   count: initCount,
   ...props
 }: LikeBoxProps): JSX.Element => {
-  const [toggled, toggle] = useToggle(active);
-  const [count, setCount] = useState(initCount);
+  console.log(active, interactive);
+  const [toggled, toggle] = useToggle(active ? true : false);
+  const [count, setCount] = useState<number>(initCount);
 
   const handleClick = (e: React.MouseEvent<HTMLSpanElement>) => {
+    if (!interactive) return;
     toggle();
     setCount((count) => (toggled ? count - 1 : count + 1));
     onClick && onClick(e);
@@ -56,6 +60,7 @@ const Text = styled.p`
 
 const defaultProps: LikeBoxProps = {
   active: false,
+  interactive: false,
   count: 0,
 };
 
