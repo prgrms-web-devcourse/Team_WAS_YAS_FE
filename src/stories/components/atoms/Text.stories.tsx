@@ -1,4 +1,4 @@
-import { Text } from '@/components';
+import { Text, TextProps } from '@/components';
 
 export default {
   title: 'Components/Atoms/Text',
@@ -11,7 +11,7 @@ export default {
   },
 };
 
-export const Default = ({ ...args }): JSX.Element => {
+export const Default = ({ ...args }: TextProps): JSX.Element => {
   return (
     <>
       <Text {...args}>Text1</Text>
