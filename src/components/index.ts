@@ -15,7 +15,9 @@ export type { TransparentButtonProps } from './atoms/IconButton';
 export { RoundedButton } from './atoms/RoundedButton';
 export type { RoundedButtonProps } from './atoms/RoundedButton/Base';
 export { Spinner } from './atoms/Spinner';
+export type { SpinnerProps } from './atoms/Spinner';
 export { Portal } from './atoms/Portal';
+export type { PortalProps } from './atoms/Portal';
 
 export { EditBox } from './molecules/ToolBox';
 export type { EditBoxProps } from './molecules/ToolBox/EditBox';

@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 
-interface PortalProps {
+export interface PortalProps {
   children: JSX.Element;
 }
 
