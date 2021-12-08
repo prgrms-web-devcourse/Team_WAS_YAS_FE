@@ -14,10 +14,6 @@ interface MissionProps extends React.ComponentProps<'div'> {
   };
 }
 
-const deleteBoxStyle = {
-  position: 'absolute',
-};
-
 const Mission = ({
   missionObject,
   style,
