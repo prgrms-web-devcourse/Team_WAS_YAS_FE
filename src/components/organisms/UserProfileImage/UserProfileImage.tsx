@@ -41,7 +41,7 @@ const UserProfileImage = ({
     reader.onload = () => {
       if (typeof reader.result === `string`) setImageUrl(reader.result);
     };
-    reader.readAsDataURL(file);
+    if (file) reader.readAsDataURL(file);
     setLoading(false);
   };
 
