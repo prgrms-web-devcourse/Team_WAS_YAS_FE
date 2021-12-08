@@ -98,7 +98,6 @@ const MyRoutinePage = (): JSX.Element => {
     <Container navBar>
       <TabBar>
         <TabBar.Item title="전체" index="0">
-          {/* 전체 루틴 */}
           <RoutineGridBox>
             {DUMMY_ROUTINE &&
               DUMMY_ROUTINE.map((routine) => (
@@ -112,7 +111,6 @@ const MyRoutinePage = (): JSX.Element => {
           </RoutineGridBox>
         </TabBar.Item>
         <TabBar.Item title="해야할 루틴" index="1">
-          {/* 해야할 루틴 */}
           <RoutineGridBox>
             {DUMMY_ROUTINE &&
               DUMMY_ROUTINE.map((routine) => (
@@ -127,7 +125,6 @@ const MyRoutinePage = (): JSX.Element => {
           </RoutineGridBox>
         </TabBar.Item>
         <TabBar.Item title="완료한 루틴" index="2">
-          {/* 완료한 루틴 */}
           <RoutineGridBox>
             {DUMMY_ROUTINE &&
               DUMMY_ROUTINE.map((routine) => (
