@@ -22,7 +22,7 @@ export const deleteRoutine = () => ({
 
 const initialState = [{}];
 
-const routinesReducer = (state = initialState, action) => {
+const routines = (state = initialState, action) => {
   switch (action.type) {
     case CREATE_ROUTINE:
       return state;
@@ -35,4 +35,4 @@ const routinesReducer = (state = initialState, action) => {
   }
 };
 
-export default routinesReducer;
+export default routines;

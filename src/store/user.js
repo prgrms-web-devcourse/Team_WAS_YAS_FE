@@ -22,7 +22,7 @@ export const deleteRoutine = () => ({
 
 const initialState = [{}];
 
-const userReducer = (state = initialState, action) => {
+const user = (state = initialState, action) => {
   switch (action.type) {
     case CREATE_USER:
       return state;
@@ -35,4 +35,4 @@ const userReducer = (state = initialState, action) => {
   }
 };
 
-export default userReducer;
+export default user;
