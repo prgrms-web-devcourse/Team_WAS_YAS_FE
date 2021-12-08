@@ -17,7 +17,6 @@ const LikeBox = ({
   count: initCount,
   ...props
 }: LikeBoxProps): JSX.Element => {
-  console.log(active, interactive);
   const [toggled, toggle] = useToggle(active ? true : false);
   const [count, setCount] = useState<number>(initCount);
 

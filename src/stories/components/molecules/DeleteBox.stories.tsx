@@ -9,25 +9,19 @@ export default {
   },
 };
 
-export const Default = ({ ...args }: DeleteBoxProps): JSX.Element => {
+export const Default = ({
+  ...args
+}: Pick<DeleteBoxProps, 'onClickDeleteButton'>): JSX.Element => {
   const [visible, setVisible] = useState<boolean>(false);
 
   const handleCloseDeleteBox = () => {
     setVisible(false);
   };
 
-  const handleClickDeleteButton = () => {
-    console.log('clicked delete button');
-  };
-
   return (
     <>
       <button onClick={() => setVisible(true)}>Show DeleteBox</button>
-      <DeleteBox
-        visible={visible}
-        onClose={handleCloseDeleteBox}
-        onClickDeleteButton={handleClickDeleteButton}
-      />
+      <DeleteBox visible={visible} onClose={handleCloseDeleteBox} {...args} />
     </>
   );
 };
