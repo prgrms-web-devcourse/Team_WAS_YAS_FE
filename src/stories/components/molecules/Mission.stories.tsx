@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Mission, MissionProps } from '@/components';
+import { Mission } from '@/components';
 import { Colors } from '@/styles';
 
 export default {

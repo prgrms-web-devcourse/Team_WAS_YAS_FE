@@ -1,7 +1,6 @@
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import TimeUtils from '@/utils/time';
 import styled from '@emotion/styled';
-import moment from 'moment';
 import React from 'react';
 import 'moment/locale/ko';
 

@@ -6,15 +6,6 @@ export default {
   component: RoutineInfo,
 };
 
-interface RoutineInfoProps extends React.ComponentProps<'div'> {
-  routineObject: {
-    emoji: string;
-    name: string;
-    durationTime: number;
-  };
-  createdAt: string;
-}
-
 const routineObject = {
   emoji: '💪',
   name: '한강에서 산책하기',
