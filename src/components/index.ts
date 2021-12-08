@@ -22,6 +22,8 @@ export { EditBox } from './molecules/ToolBox';
 export type { EditBoxProps } from './molecules/ToolBox/EditBox';
 export { DeleteBox } from './molecules/ToolBox';
 export type { DeleteBoxProps } from './molecules/ToolBox/DeleteBox';
+export { DaySelector } from './molecules/DaySelector';
+export type { DayItemProps } from './molecules/DaySelector';
 export { ColorPalette } from './molecules/ColorPalette';
 export type { ColorPaletteProps } from './molecules/ColorPalette';
 export { Mission } from './molecules/Mission';
