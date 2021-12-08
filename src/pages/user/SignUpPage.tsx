@@ -52,7 +52,6 @@ const SignUpPage = (): JSX.Element => {
     isSubmitting,
     touched,
     values,
-    setValues,
   } = useFormik({
     initialValues,
     validationSchema,
