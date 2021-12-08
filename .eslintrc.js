@@ -55,7 +55,6 @@ module.exports = {
         'import/no-unresolved': 'off',
         '@typescript-eslint/no-var-requires': 0,
         '@typescript-eslint/no-explicit-any': 'off',
-        å,
       },
     },
   ],
