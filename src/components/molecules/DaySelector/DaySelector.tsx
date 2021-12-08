@@ -1,16 +1,13 @@
 import { Media } from '@/styles';
 import styled from '@emotion/styled';
-import { ChangeEvent, useCallback } from 'react';
+import { ChangeEvent } from 'react';
 import DayItem, { DayItemProps } from './DayItem';
 
 const DaySelector = ({ onChange, ...props }: DayItemProps): JSX.Element => {
   const days = ['일', '월', '화', '수', '목', '금', '토'];
-  const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement> & { target: HTMLInputElement }) => {
-      onChange && onChange(e);
-    },
-    [onChange],
-  );
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    onChange && onChange(e);
+  };
   return (
     <StyledDaySelector {...props}>
       {days.map((day) => (
