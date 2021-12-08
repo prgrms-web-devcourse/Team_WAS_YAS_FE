@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Picker from 'emoji-picker-react';
+import Picker, { IEmojiData } from 'emoji-picker-react';
 import { Button } from '@/components';
 import styled from '@emotion/styled';
 
@@ -15,7 +15,7 @@ const EmojiPicker = ({
   const toggleEmojiPicker = () => toggled((prev) => !prev);
   const handleEmojiClick = (
     event: React.MouseEvent<Element, MouseEvent>,
-    EmojiObject: any & { emoji: string },
+    EmojiObject: IEmojiData,
   ): void => {
     onEmojiClick && onEmojiClick(EmojiObject.emoji);
     toggleEmojiPicker();
