@@ -44,6 +44,7 @@ export type { RoutineProps } from './molecules/Routine/Routine';
 export { RoutineAddButton } from './organisms/RoutineAddButton';
 export type { RoutineAddButtonProps } from './organisms/RoutineAddButton';
 export { UserProfileImage } from './organisms/UserProfileImage';
+export type { UserProfileImageProps } from './organisms/UserProfileImage';
 
 export { Container } from './templates/Container';
 export type { ContainerProps } from './templates/Container';
