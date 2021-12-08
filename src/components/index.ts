@@ -36,13 +36,14 @@ export { Mission } from './molecules/Mission';
 export type { MissionProps } from './molecules/Mission';
 export { RoutineInfo } from './molecules/RoutineInfo';
 export type { RoutineInfoProps } from './molecules/RoutineInfo';
-
 export { RoutineCategorySelector } from './molecules/RoutineCategorySelector';
 export type { RoutineCategoryItemProps } from './molecules/RoutineCategorySelector';
-export { RoutineAddButton } from './organisms/RoutineAddButton';
-export type { RoutineAddButtonProps } from './organisms/RoutineAddButton';
 export { Routine } from './molecules/Routine';
 export type { RoutineProps } from './molecules/Routine/Routine';
+
+export { RoutineAddButton } from './organisms/RoutineAddButton';
+export type { RoutineAddButtonProps } from './organisms/RoutineAddButton';
+export { UserProfileImage } from './organisms/UserProfileImage';
 
 export { Container } from './templates/Container';
 export type { ContainerProps } from './templates/Container';
