@@ -1,5 +1,5 @@
 import { Colors, Media } from '@/styles';
-import React, { ChangeEvent, useCallback } from 'react';
+import React, { ChangeEvent } from 'react';
 import ColorItem, { ColorItemProps } from './ColorItem';
 import styled from '@emotion/styled';
 
@@ -13,12 +13,9 @@ const ColorPalette = ({
   onChange,
   ...props
 }: ColorPaletteProps): JSX.Element => {
-  const handleChange = useCallback(
-    (e: ChangeEvent<HTMLInputElement> & { target: HTMLInputElement }) => {
-      onChange && onChange(e);
-    },
-    [onChange],
-  );
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    onChange && onChange(e);
+  };
   return (
     <StyledColorPalette>
       {colors &&
