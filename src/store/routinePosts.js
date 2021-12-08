@@ -2,10 +2,10 @@ const CREATE_ROUTINE_POSTS = 'routine/CREATE_ROUTINE_POSTS';
 const UPDATE_ROUTINE_POSTS = 'routine/UPDATE_ROUTINE_POSTS';
 const DELETE_ROUTINE_POSTS = 'routine/DELETE_ROUTINE_POSTS';
 
-interface actionType {
-  type: string;
-  routinePosts: {};
-}
+// interface actionType {
+//   type: string;
+//   routinePosts: {};
+// }
 
 export const createRoutine = () => ({
   type: CREATE_ROUTINE_POSTS,
@@ -22,7 +22,7 @@ export const deleteRoutine = () => ({
 
 const initialState = [{}];
 
-const routinePostsReducer = (state = initialState, action: actionType) => {
+const routinePostsReducer = (state = initialState, action) => {
   switch (action.type) {
     case CREATE_ROUTINE_POSTS:
       return state;

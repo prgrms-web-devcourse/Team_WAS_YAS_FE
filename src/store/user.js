@@ -2,10 +2,10 @@ const CREATE_USER = 'user/CREATE_USER';
 const UPDATE_USER = 'user/UPDATE_USER';
 const DELETE_USER = 'user/DELETE_USER';
 
-interface actionType {
-  type: string;
-  user: {};
-}
+// interface actionType {
+//   type: string;
+//   user: {};
+// }
 
 export const createRoutine = () => ({
   type: CREATE_USER,
@@ -22,7 +22,7 @@ export const deleteRoutine = () => ({
 
 const initialState = [{}];
 
-const userReducer = (state = initialState, action: actionType) => {
+const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case CREATE_USER:
       return state;
