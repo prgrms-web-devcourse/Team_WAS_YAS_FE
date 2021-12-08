@@ -17,6 +17,7 @@ const EditBox = ({
   onClickUpdateButton,
   onClickDeleteButton,
   onClose,
+  style,
   ...props
 }: EditBoxProps): JSX.Element => {
   const ref = useClickAway(() => {
@@ -34,7 +35,7 @@ const EditBox = ({
   return (
     <Container
       ref={ref}
-      style={{ display: visible ? 'inline-flex' : 'none' }}
+      style={{ display: visible ? 'inline-flex' : 'none', ...style }}
       {...props}
     >
       <StyledButton onClick={handleClickDeleteButton}>

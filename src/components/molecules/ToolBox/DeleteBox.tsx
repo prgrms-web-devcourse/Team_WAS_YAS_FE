@@ -15,6 +15,7 @@ const DeleteBox = ({
   visible,
   onClickDeleteButton,
   onClose,
+  style,
   ...props
 }: DeleteBoxProps): JSX.Element => {
   const ref = useClickAway(() => {
@@ -28,7 +29,7 @@ const DeleteBox = ({
   return (
     <Container
       ref={ref}
-      style={{ display: visible ? 'inline-flex' : 'none' }}
+      style={{ display: visible ? 'inline-flex' : 'none', ...style }}
       {...props}
     >
       <StyledButton onClick={handleClickDeleteButton}>

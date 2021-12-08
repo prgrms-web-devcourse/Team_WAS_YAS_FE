@@ -1,23 +1,23 @@
 import styled from '@emotion/styled';
 import { Colors, FontWeight, FontSize, Media } from '@/styles';
 
-export type CategoryButtonProps = React.ComponentProps<'button'>;
+export type RoutineCategoryProps = React.ComponentProps<'button'>;
 
-const CategoryButton = ({
+const RoutineCategory = ({
   children,
   ...props
-}: CategoryButtonProps): JSX.Element => {
-  return <CategoryButtonStyle {...props}>{children}</CategoryButtonStyle>;
+}: RoutineCategoryProps): JSX.Element => {
+  return <StyledRoutineCategory {...props}>{children}</StyledRoutineCategory>;
 };
 
-export default CategoryButton;
+export default RoutineCategory;
 
-const CategoryButtonStyle = styled.button`
+const StyledRoutineCategory = styled.button`
   background-color: ${Colors.backgroundButton};
   color: ${Colors.textSecondary};
   border-radius: 32px;
+  height: 40px;
   border: 1px solid ${Colors.pointLight};
-  cursor: pointer;
   font-weight: ${FontWeight.medium};
   @media ${Media.sm} {
     min-width: 64px;
@@ -33,9 +33,5 @@ const CategoryButtonStyle = styled.button`
     min-width: 100px;
     min-height: 40px;
     font-size: ${FontSize.base};
-  }
-  :hover {
-    background-color: ${Colors.point};
-    color: ${Colors.textQuaternary};
   }
 `;
