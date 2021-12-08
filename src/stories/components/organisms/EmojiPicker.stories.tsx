@@ -1,6 +1,5 @@
-import { EmojiPicker } from '@/components/organisms/EmojiPicker';
-import { EmojiPickerProps } from '@/components/organisms/EmojiPicker/EmojiPicker';
-import { useState } from 'react';
+import { EmojiPicker, EmojiPickerProps } from '@/components';
+import { useCallback, useState } from 'react';
 
 export default {
   title: 'Components/Organisms/EmojiPicker',
@@ -12,9 +11,9 @@ export const Default = ({
   ...args
 }: EmojiPickerProps): JSX.Element => {
   const [emoji, setEmoji] = useState<string>('');
-  const handleEmoji = (selectedEmoji: string) => {
+  const handleEmoji = useCallback((selectedEmoji: string) => {
     setEmoji(selectedEmoji);
-  };
+  }, []);
   return (
     <>
       <EmojiPicker onEmojiClick={handleEmoji} {...args} />

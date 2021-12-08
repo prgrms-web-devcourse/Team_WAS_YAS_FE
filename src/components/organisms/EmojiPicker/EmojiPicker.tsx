@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Picker from 'emoji-picker-react';
 import { Button } from '@/components';
+import styled from '@emotion/styled';
 
 export interface EmojiPickerProps extends React.ComponentProps<'div'> {
   onEmojiClick: (emoji: string) => void;
@@ -21,16 +22,28 @@ const EmojiPicker = ({
   };
 
   return (
-    <div {...props}>
+    <EmojiPickerContainer {...props}>
       <Button onClick={toggleEmojiPicker}>선택하기</Button>
       {showEmojiPicker && (
-        <Picker
-          onEmojiClick={handleEmojiClick}
-          pickerStyle={{ width: '100%' }}
-        />
+        <PickerContainer>
+          <Picker
+            onEmojiClick={handleEmojiClick}
+            pickerStyle={{ width: '100%' }}
+          />
+        </PickerContainer>
       )}
-    </div>
+    </EmojiPickerContainer>
   );
 };
 
 export default EmojiPicker;
+
+const EmojiPickerContainer = styled.div`
+  width: 100%;
+  position: relative;
+`;
+
+const PickerContainer = styled.div`
+  position: absolute;
+  z-index: 2;
+`;
