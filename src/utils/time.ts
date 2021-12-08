@@ -19,9 +19,14 @@ const startTime = (time: string): string => {
   return moment(time).format('LT');
 };
 
+const dateFromNow = (time: string): string => {
+  return moment(time).startOf('day').fromNow();
+};
+
 const TimeUtils = {
   calculateTime,
   startTime,
+  dateFromNow,
 };
 
 export default TimeUtils;
