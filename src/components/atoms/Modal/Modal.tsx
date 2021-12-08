@@ -63,12 +63,6 @@ const ModalContainer = styled.div`
   box-sizing: border-box;
 `;
 
-const Header = styled.div`
-  display: flex;
-  flex-direction: row-reverse;
-  padding: 0.5rem 0.5rem 0 0;
-`;
-
 const CloseButton = styled(IconButton.Close)`
   position: absolute;
   top: 1rem;
