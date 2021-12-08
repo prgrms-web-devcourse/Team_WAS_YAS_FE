@@ -18,7 +18,11 @@ const deleteBoxStyle = {
   position: 'absolute',
 };
 
-const Mission = ({ missionObject, ...props }: MissionProps): JSX.Element => {
+const Mission = ({
+  missionObject,
+  style,
+  ...props
+}: MissionProps): JSX.Element => {
   const [visible, setVisible] = useState<boolean>(false);
   const { emoji, name, durationTime: dt, color } = missionObject;
   const backgroundColor = color;
@@ -33,7 +37,7 @@ const Mission = ({ missionObject, ...props }: MissionProps): JSX.Element => {
   };
 
   return (
-    <MissionContainer style={{ backgroundColor }} {...props}>
+    <MissionContainer style={{ backgroundColor, ...style }} {...props}>
       <Emoji>{emoji}</Emoji>
       <Title>{name}</Title>
       <Time>{durationTime}</Time>
