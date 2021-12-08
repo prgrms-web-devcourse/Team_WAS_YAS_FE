@@ -7,6 +7,8 @@ export type { IconProps } from './atoms/Icon';
 export { Text } from './atoms/Text';
 export type { TextProps } from './atoms/Text';
 export { Input } from './atoms/Input';
+export { TabBar } from './molecules/TabBar';
+export type { TabItemProps } from './molecules/TabBar';
 export type { InputProps } from './atoms/Input';
 export { IconButton } from './atoms/IconButton';
 export type { IconButtonProps } from './atoms/IconButton';
