@@ -4,19 +4,6 @@ import { Colors } from '@/styles';
 export default {
   title: 'Components/Molecules/Routine',
   component: Routine,
-  argTypes: {
-    color: {
-      control: 'inline-radio',
-      options: [
-        Colors.red,
-        Colors.pink,
-        Colors.orange,
-        Colors.yellow,
-        Colors.lime,
-        Colors.green,
-      ],
-    },
-  },
 };
 
 const routineObject: {
