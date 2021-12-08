@@ -5,7 +5,7 @@ import UserProfileIcon from './UserProfileIcon';
 import CameraIcon from './CameraIcon';
 import { Spinner } from '@/components';
 
-export interface UserProfileImageProps extends React.ComponentProps<'div'> {
+export interface UserProfileImageProps extends React.ComponentProps<'input'> {
   edit?: boolean;
   src?: string;
 }
@@ -14,6 +14,7 @@ const UserProfileImage = ({
   edit,
   src,
   onClick,
+  onChange,
   ...props
 }: UserProfileImageProps): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -21,7 +22,7 @@ const UserProfileImage = ({
   // const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | undefined>(src);
 
-  const handleClickUserProfile = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleClickUserProfile = (e: React.MouseEvent<HTMLInputElement>) => {
     if (!edit) return;
     if (inputRef.current !== null) {
       inputRef.current.click();
@@ -30,7 +31,7 @@ const UserProfileImage = ({
   };
 
   const handleInputChange = async (
-    e: React.ChangeEvent & { target: HTMLInputElement },
+    e: React.ChangeEvent<HTMLInputElement> & { target: HTMLInputElement },
   ) => {
     if (e.target.files === null) return;
     setLoading(true);
@@ -42,11 +43,12 @@ const UserProfileImage = ({
       if (typeof reader.result === `string`) setImageUrl(reader.result);
     };
     if (file) reader.readAsDataURL(file);
+    onChange && onChange(e);
     setLoading(false);
   };
 
   return (
-    <Container edit={edit} onClick={handleClickUserProfile} {...props}>
+    <Container edit={edit} onClick={handleClickUserProfile}>
       {imageUrl ? (
         <Image src={imageUrl} alt="유저 이미지" />
       ) : (
@@ -58,6 +60,7 @@ const UserProfileImage = ({
         type="file"
         accept="image/*"
         onChange={handleInputChange}
+        {...props}
       />
       {loading && <Spinner />}
     </Container>

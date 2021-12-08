@@ -1,12 +1,6 @@
 import styled from '@emotion/styled';
-import { Colors, FontSize, FontWeight } from '@/styles';
-import {
-  Container,
-  Input,
-  Button,
-  Spinner,
-  UserProfileImage,
-} from '@/components';
+import { Colors, FontSize, FontWeight, Media } from '@/styles';
+import { Container, Button, UserProfileImage } from '@/components';
 import { useHistory } from 'react-router-dom';
 
 const UserPage = (): JSX.Element => {
@@ -20,7 +14,7 @@ const UserPage = (): JSX.Element => {
     <StyledContainer navBar>
       <HeadText>프로필</HeadText>
       <UserProfileImageContainer>
-        <UserProfileImage edit />
+        <UserProfileImage />
       </UserProfileImageContainer>
       <ContentContainer>
         <FieldText>닉네임</FieldText>
@@ -42,7 +36,7 @@ const UserProfileImageContainer = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  margin-bottom: 1rem;
+  margin-bottom: 6rem;
 `;
 
 const ContentContainer = styled.div`
@@ -62,11 +56,30 @@ const HeadText = styled.h1`
 const FieldText = styled.p`
   margin: 1rem 0;
   color: ${Colors.textSecondary};
+
+  @media ${Media.sm} {
+    font-size: ${FontSize.small};
+  }
+  @media ${Media.md} {
+    font-size: ${FontSize.base};
+  }
+  @media ${Media.lg} {
+    font-size: ${FontSize.base};
+  }
 `;
 
 const Text = styled.p`
-  font-size: ${FontSize.large};
   color: ${Colors.textPrimary};
+
+  @media ${Media.sm} {
+    font-size: ${FontSize.medium};
+  }
+  @media ${Media.md} {
+    font-size: ${FontSize.large};
+  }
+  @media ${Media.lg} {
+    font-size: ${FontSize.large};
+  }
 `;
 
 export default UserPage;
