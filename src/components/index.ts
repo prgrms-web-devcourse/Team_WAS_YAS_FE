@@ -22,6 +22,8 @@ export { EditBox } from './molecules/ToolBox';
 export type { EditBoxProps } from './molecules/ToolBox/EditBox';
 export { DeleteBox } from './molecules/ToolBox';
 export type { DeleteBoxProps } from './molecules/ToolBox/DeleteBox';
+export { ColorPalette } from './molecules/ColorPalette';
+export type { ColorPaletteProps } from './molecules/ColorPalette';
 export { Mission } from './molecules/Mission';
 export type { MissionProps } from './molecules/Mission';
 export { RoutineInfo } from './molecules/RoutineInfo';
