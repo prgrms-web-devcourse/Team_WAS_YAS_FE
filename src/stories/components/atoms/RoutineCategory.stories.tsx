@@ -1,5 +1,4 @@
 import { RoutineCategory, RoutineCategoryProps } from '@/components';
-import styled from '@emotion/styled';
 
 export default {
   title: 'Components/Atoms/RoutineCategory',

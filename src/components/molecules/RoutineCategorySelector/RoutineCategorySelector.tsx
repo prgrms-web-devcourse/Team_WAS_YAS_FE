@@ -5,7 +5,6 @@ import React, {
   Children,
   ReactElement,
   cloneElement,
-  ReactNode,
 } from 'react';
 import RoutineCategoryItem, {
   RoutineCategoryItemProps,
