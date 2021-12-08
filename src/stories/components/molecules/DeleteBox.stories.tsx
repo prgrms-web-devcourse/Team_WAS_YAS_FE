@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DeleteBox } from '@/components';
+import { DeleteBox, DeleteBoxProps } from '@/components';
 
 export default {
   title: 'Components/Molecules/ToolBox/DeleteBox',
@@ -9,7 +9,7 @@ export default {
   },
 };
 
-export const Default = (): JSX.Element => {
+export const Default = ({ ...args }: DeleteBoxProps): JSX.Element => {
   const [visible, setVisible] = useState<boolean>(false);
 
   const handleCloseDeleteBox = () => {

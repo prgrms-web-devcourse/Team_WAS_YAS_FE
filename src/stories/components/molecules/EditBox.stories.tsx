@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { EditBox } from '@/components';
+import { EditBox, EditBoxProps } from '@/components';
 
 export default {
   title: 'Components/Molecules/ToolBox/EditBox',
@@ -10,7 +10,7 @@ export default {
   },
 };
 
-export const Default = (): JSX.Element => {
+export const Default = ({ ...args }: EditBoxProps): JSX.Element => {
   const [visible, setVisible] = useState<boolean>(false);
 
   const handleCloseDeleteBox = () => {
