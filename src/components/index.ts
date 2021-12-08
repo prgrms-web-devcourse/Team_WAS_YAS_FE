@@ -23,6 +23,11 @@ export type { EditBoxProps } from './molecules/ToolBox/EditBox';
 export { DeleteBox } from './molecules/ToolBox';
 export type { DeleteBoxProps } from './molecules/ToolBox/DeleteBox';
 
+export { RoutineAddButton } from './organisms/RoutineAddButton';
+export type { RoutineAddButtonProps } from './organisms/RoutineAddButton';
+export { Routine } from './molecules/Routine';
+export type { RoutineProps } from './molecules/Routine/Routine';
+
 export { Container } from './templates/Container';
 export type { ContainerProps } from './templates/Container';
 export { Header } from './templates/Header';
