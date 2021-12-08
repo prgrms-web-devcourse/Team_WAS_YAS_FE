@@ -6,6 +6,7 @@ export interface TabItemProps extends React.ComponentProps<'div'> {
   title?: string;
   index?: string;
   active?: boolean;
+  currentActive?: string;
   onClick?: () => void;
 }
 
@@ -16,22 +17,32 @@ const TabItem = ({
   ...props
 }: TabItemProps): JSX.Element => {
   return (
-    <TabItemContainer active={active} onClick={onClick} {...props}>
-      {title}
-    </TabItemContainer>
+    <TabItemWrapper {...props}>
+      <TabItemContainer active={active} onClick={onClick} {...props}>
+        {title}
+      </TabItemContainer>
+    </TabItemWrapper>
   );
 };
 
+const TabItemWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(100% / 3);
+  cursor: pointer;
+`;
+
 const TabItemContainer = styled.div<TabItemProps>`
-  text-align: center;
-  flex-grow: 1;
+  width: 100%;
+  z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  color: ${Colors.textSecondary};
   ${({ active }) => `color: ${active ? Colors.point : Colors.textSecondary};
-  font-weight: ${active ? FontWeight.bold : ''};
-  border-bottom: ${active ? `3px solid ${Colors.point}` : ''};`};
+  font-weight: ${active ? FontWeight.bold : ''};`}
   @media ${Media.sm} {
     height: 30px;
     font-size: ${FontSize.small};

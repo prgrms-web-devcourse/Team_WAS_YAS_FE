@@ -1,4 +1,4 @@
-import { Colors, Media } from '@/styles';
+import { Colors, Media, FontSize } from '@/styles';
 import styled from '@emotion/styled';
 import React, {
   useState,
@@ -9,7 +9,12 @@ import React, {
 } from 'react';
 import TabItem, { TabItemProps } from './TabItem';
 
-const TabBar = ({ children, active, ...props }: TabItemProps): JSX.Element => {
+const TabBar = ({
+  children,
+  active,
+  currentActive,
+  ...props
+}: TabItemProps): JSX.Element => {
   const [activeTab, setActiveTab] = useState<string>(() => {
     if (active) {
       return active;
@@ -35,10 +40,13 @@ const TabBar = ({ children, active, ...props }: TabItemProps): JSX.Element => {
     [activeTab, items],
   );
   return (
-    <div {...props}>
-      <TabBarContainer>{items}</TabBarContainer>
+    <>
+      <TabBarContainer>
+        {items}
+        <TabItemPointer currentActive={activeTab} />
+      </TabBarContainer>
       <div>{activeItem?.props.children}</div>
-    </div>
+    </>
   );
 };
 
@@ -47,18 +55,42 @@ TabBar.Item = TabItem;
 export default TabBar;
 
 const TabBarContainer = styled.div`
+  position: relative;
   width: 100%;
   display: flex;
-  justify-content: center;
   align-items: center;
   border-bottom: 3px solid ${Colors.backgroundMenu};
   @media ${Media.sm} {
     height: 30px;
+    font-size: ${FontSize.small};
   }
   @media ${Media.md} {
     height: 40px;
+    font-size: ${FontSize.medium};
   }
   @media ${Media.lg} {
     height: 40px;
+    font-size: ${FontSize.medium};
+  }
+`;
+
+const TabItemPointer = styled.div<TabItemProps>`
+  width: calc(100% / 3);
+  position: absolute;
+  transform: ${({ currentActive }) =>
+    currentActive && `translate(${parseInt(currentActive) * 100}%, 0)`};
+  border-bottom: 3px solid ${Colors.point};
+  transition: 0.2s ease-in-out;
+  @media ${Media.sm} {
+    height: 30px;
+    font-size: ${FontSize.small};
+  }
+  @media ${Media.md} {
+    height: 40px;
+    font-size: ${FontSize.medium};
+  }
+  @media ${Media.lg} {
+    height: 40px;
+    font-size: ${FontSize.medium};
   }
 `;
