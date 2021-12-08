@@ -1,31 +1,70 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Media } from '@/styles';
+import { NavBar, Header, IconButton } from '@/components';
 
-export type ContainerProps = React.ComponentProps<'div'>;
+export interface ContainerProps extends React.ComponentProps<'div'> {
+  navBar?: boolean;
+}
 
-const Container = ({ children, ...props }: ContainerProps): JSX.Element => {
-  return <StyledDiv {...props}>{children}</StyledDiv>;
+const Container = ({
+  children,
+  navBar,
+  ...props
+}: ContainerProps): JSX.Element => {
+  return (
+    <AppContainer>
+      <Header>
+        <IconButton.UserProfile />
+      </Header>
+      <ContentContainer {...props}>{children}</ContentContainer>
+      {navBar && <NavBar />}
+    </AppContainer>
+  );
 };
 
-const StyledDiv = styled.div`
+const defaultProps: ContainerProps = {
+  navBar: false,
+};
+
+Container.defaultProps = defaultProps;
+
+const AppContainer = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  min-width: 320px;
+  max-width: 768px;
   margin: 0 auto;
-  height: 100vh;
 
   @media ${Media.sm} {
-    max-width: 320px;
     padding: 0 15px;
   }
   @media ${Media.md} {
-    max-width: 768px;
     padding: 0 40px;
   }
   @media ${Media.lg} {
-    max-width: 768px;
     padding: 0 40px;
   }
 `;
 
-export default Container;
+const ContentContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding-top: 40px;
+
+  @media ${Media.sm} {
+    padding-bottom: 56px;
+  }
+  @media ${Media.md} {
+    padding-bottom: 100px;
+  }
+  @media ${Media.lg} {
+    padding-bottom: 100px;
+  }
+`;
+
+export default React.memo<ContainerProps>(Container);

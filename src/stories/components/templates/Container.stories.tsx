@@ -12,9 +12,5 @@ const StyledContainer = styled(Container)`
 `;
 
 export const Default = ({ ...props }: ContainerProps): JSX.Element => {
-  return (
-    <>
-      <StyledContainer {...props}>컨텐츠</StyledContainer>
-    </>
-  );
+  return <StyledContainer {...props}>컨텐츠</StyledContainer>;
 };
