@@ -26,7 +26,8 @@ const Input = styled.input`
   }
 
   &:focus {
-    border: 4px solid ${Colors.point};
+    border: 2px solid ${Colors.textQuaternary};
+    outline: 2px solid ${Colors.point};
   }
 `;
 

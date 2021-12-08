@@ -16,7 +16,10 @@ export { TransparentButton } from './atoms/IconButton';
 export type { TransparentButtonProps } from './atoms/IconButton';
 export { RoundedButton } from './atoms/RoundedButton';
 export type { RoundedButtonProps } from './atoms/RoundedButton/Base';
-export { NavBar } from './molecules/NavBar';
+export { Spinner } from './atoms/Spinner';
+export type { SpinnerProps } from './atoms/Spinner';
+export { Portal } from './atoms/Portal';
+export type { PortalProps } from './atoms/Portal';
 
 export { EditBox } from './molecules/ToolBox';
 export type { EditBoxProps } from './molecules/ToolBox/EditBox';
@@ -45,3 +48,4 @@ export { Container } from './templates/Container';
 export type { ContainerProps } from './templates/Container';
 export { Header } from './templates/Header';
 export type { HeaderProps } from './templates/Header';
+export { NavBar } from './templates/NavBar';

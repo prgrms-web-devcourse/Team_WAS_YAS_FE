@@ -1,7 +1,7 @@
-import { NavBar } from '@/components/molecules/NavBar';
+import { NavBar } from '@/components';
 
 export default {
-  title: 'Components/Molecules/NavBar',
+  title: 'Components/Templates/NavBar',
   component: NavBar,
 };
 
