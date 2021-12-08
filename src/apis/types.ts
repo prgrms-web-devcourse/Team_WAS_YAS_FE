@@ -43,7 +43,6 @@ export interface RoutineInfoType {
   color: string;
   startTime: string;
   durationTime: number;
-  week: string[];
   categories: string[];
 }
 
