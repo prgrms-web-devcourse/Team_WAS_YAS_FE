@@ -1,6 +1,12 @@
 import styled from '@emotion/styled';
 import { Colors, FontSize, FontWeight } from '@/styles';
-import { Container, Input, Button, Spinner } from '@/components';
+import {
+  Container,
+  Input,
+  Button,
+  Spinner,
+  UserProfileImage,
+} from '@/components';
 import { useHistory } from 'react-router-dom';
 
 const UserPage = (): JSX.Element => {
@@ -13,7 +19,9 @@ const UserPage = (): JSX.Element => {
   return (
     <StyledContainer navBar>
       <HeadText>프로필</HeadText>
-      <UserProfileImageContainer></UserProfileImageContainer>
+      <UserProfileImageContainer>
+        <UserProfileImage edit />
+      </UserProfileImageContainer>
       <ContentContainer>
         <FieldText>닉네임</FieldText>
         <Text>아이엠어보이</Text>
@@ -31,7 +39,10 @@ const StyledContainer = styled(Container)`
 `;
 
 const UserProfileImageContainer = styled.div`
+  display: flex;
+  justify-content: center;
   width: 100%;
+  margin-bottom: 1rem;
 `;
 
 const ContentContainer = styled.div`
