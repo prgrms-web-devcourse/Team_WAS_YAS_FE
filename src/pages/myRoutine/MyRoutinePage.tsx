@@ -151,11 +151,11 @@ const RoutineGridBox = styled.div`
   grid-template-columns: repeat(2, 1fr);
   justify-content: center;
   gap: 32px 56px;
-  padding: 40px;
+  padding: 40px 0;
 
   @media ${Media.sm} {
     gap: 10px 14px;
-    padding: 20px;
+    padding: 20px 0;
   }
 `;
 
