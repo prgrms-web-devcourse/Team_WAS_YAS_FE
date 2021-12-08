@@ -1,7 +1,7 @@
 export { Button } from './atoms/Button';
 export type { ButtonProps } from './atoms/Button';
-export { CategoryButton } from './atoms/CategoryButton';
-export type { CategoryButtonProps } from './atoms/CategoryButton';
+export { RoutineCategory } from './atoms/RoutineCategory';
+export type { RoutineCategoryProps } from './atoms/RoutineCategory';
 export { Icon } from './atoms/Icon';
 export type { IconProps } from './atoms/Icon';
 export { Text } from './atoms/Text';
@@ -23,6 +23,8 @@ export type { EditBoxProps } from './molecules/ToolBox/EditBox';
 export { DeleteBox } from './molecules/ToolBox';
 export type { DeleteBoxProps } from './molecules/ToolBox/DeleteBox';
 
+export { RoutineCategorySelector } from './molecules/RoutineCategorySelector';
+export type { RoutineCategoryItemProps } from './molecules/RoutineCategorySelector';
 export { RoutineAddButton } from './organisms/RoutineAddButton';
 export type { RoutineAddButtonProps } from './organisms/RoutineAddButton';
 export { Routine } from './molecules/Routine';
