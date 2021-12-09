@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux';
 import user from './user';
 import routine from './routines';
-import routinePosts from './routinePosts';
+import routinePostsReducer from './routinePosts';
 
 const rootReducer = combineReducers({
   user,
   routine,
-  routinePosts,
+  routinePostsReducer,
 });
 
 export default rootReducer;

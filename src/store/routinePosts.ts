@@ -1,5 +1,27 @@
 import { RoutinePostType } from './types';
 
+interface RoutinePostsStateType {
+  loading: boolean;
+  data: RoutinePostType[] | null;
+  error: string | null;
+}
+
+interface RoutinePostStateType {
+  loading: boolean;
+  data: RoutinePostType | null;
+  error: string | null;
+}
+
+interface RoutinePostsReducerStateType {
+  routinePosts: RoutinePostsStateType;
+  routinePost: RoutinePostStateType;
+}
+
+interface RoutinePostsReducerActionType {
+  type: string;
+  state: RoutinePostsReducerStateType;
+}
+
 const GET_ROUTINE_POSTS = 'routine/GET_ROUTINE_POSTS';
 const CREATE_ROUTINE_POSTS = 'routine/CREATE_ROUTINE_POSTS';
 const UPDATE_ROUTINE_POSTS = 'routine/UPDATE_ROUTINE_POSTS';
@@ -9,16 +31,6 @@ const GET_ROUTINE_POST = 'routine/GET_ROUTINE_POST';
 const CREATE_ROUTINE_POST = 'routine/CREATE_ROUTINE_POST';
 const UPDATE_ROUTINE_POST = 'routine/UPDATE_ROUTINE_POST';
 const DELETE_ROUTINE_POST = 'routine/DELETE_ROUTINE_POST';
-
-interface RoutineActionType {
-  type: string;
-}
-
-interface RoutineStateType {
-  loading: boolean;
-  data: RoutinePostType[] | null;
-  error: string | null;
-}
 
 export const getRoutinePosts = () => ({
   type: GET_ROUTINE_POSTS,
@@ -54,18 +66,25 @@ export const deleteRoutinePost = () => ({
   routinePosts: {},
 });
 
-const initialState: RoutineStateType = {
-  loading: false,
-  data: null,
-  error: null,
+const initialState: RoutinePostsReducerStateType = {
+  routinePosts: {
+    loading: false,
+    data: null,
+    error: null,
+  },
+  routinePost: {
+    loading: false,
+    data: null,
+    error: null,
+  },
 };
 
-const routinePosts = (
-  state: RoutineStateType = initialState,
-  action: RoutineActionType,
+const routinePostsReducer = (
+  state: RoutinePostsReducerStateType = initialState,
+  action: RoutinePostsReducerActionType,
 ) => {
   switch (action.type) {
-    case CREATE_ROUTINE_POSTS:
+    case GET_ROUTINE_POSTS:
       return state;
     case CREATE_ROUTINE_POSTS:
       return state;
@@ -78,4 +97,4 @@ const routinePosts = (
   }
 };
 
-export default routinePosts;
+export default routinePostsReducer;
