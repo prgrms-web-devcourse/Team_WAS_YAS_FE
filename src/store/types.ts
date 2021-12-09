@@ -1,5 +1,5 @@
 export interface UserType {
-  userId: string;
+  id: number;
   userName: string;
   nickName: string;
   imageUrl: string;
@@ -7,7 +7,7 @@ export interface UserType {
 }
 
 export interface RoutineType {
-  routineId: string;
+  id: string;
   name: string;
   emoji: string;
   color: string;
@@ -20,7 +20,7 @@ export interface RoutineType {
 }
 
 export interface MissionType {
-  missionId: string;
+  id: string;
   emoji: string;
   missionName: string;
   color: string;
@@ -28,7 +28,7 @@ export interface MissionType {
 }
 
 export interface RoutineCompletionType {
-  routineCompletionId: string;
+  id: string;
   routineInfo: RoutineInfoType;
   date: string;
   startTime: string;
@@ -38,6 +38,7 @@ export interface RoutineCompletionType {
 }
 
 export interface RoutineInfoType {
+  routineId: string;
   name: string;
   emoji: string;
   color: string;

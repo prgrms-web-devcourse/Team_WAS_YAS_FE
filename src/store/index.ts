@@ -1,12 +1,10 @@
-import { combineReducers } from 'redux';
-import user from './user';
-import routine from './routines';
-import routinePosts from './routinePosts';
+export { default as rootReducer } from './root';
 
-const rootReducer = combineReducers({
-  user,
-  routine,
-  routinePosts,
-});
-
-export default rootReducer;
+export type { UserType } from './types';
+export type { RoutineType } from './types';
+export type { MissionType } from './types';
+export type { RoutineCompletionType } from './types';
+export type { RoutineInfoType } from './types';
+export type { MissionCompletionType } from './types';
+export type { RoutinePostType } from './types';
+export type { CommentType } from './types';
