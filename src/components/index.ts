@@ -25,6 +25,7 @@ export { EditBox } from './molecules/ToolBox';
 export type { EditBoxProps } from './molecules/ToolBox/EditBox';
 export { DeleteBox } from './molecules/ToolBox';
 export type { DeleteBoxProps } from './molecules/ToolBox/DeleteBox';
+export { CommentEditor } from './molecules/CommentEditor';
 
 export { LikeBox } from './atoms/LikeBox';
 export type { LikeBoxProps } from './atoms/LikeBox';
