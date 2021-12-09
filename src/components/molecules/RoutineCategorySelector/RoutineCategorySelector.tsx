@@ -1,64 +1,58 @@
+import { RoutineCategoryItemProps } from '@/components';
+import { Media } from '@/styles';
 import styled from '@emotion/styled';
-import React, {
-  useState,
-  useMemo,
-  Children,
-  ReactElement,
-  cloneElement,
-} from 'react';
-import RoutineCategoryItem, {
-  RoutineCategoryItemProps,
-} from './RoutineCategoryItem';
+import { ChangeEvent } from 'react';
+import RoutineCategoryItem from './RoutineCategoryItem';
+
+export interface RoutineCategorySelectorProps extends RoutineCategoryItemProps {
+  categories: string[];
+}
 
 const RoutineCategorySelector = ({
-  children,
-  active,
+  category,
+  categories,
+  onChange,
   ...props
-}: RoutineCategoryItemProps): JSX.Element => {
-  const [activeTab, setActiveTab] = useState<string>(() => {
-    if (active) {
-      return active;
-    } else {
-      const initialIndex = Children.toArray(children)[0] as ReactElement;
-      return initialIndex.props.index;
-    }
-  });
-  const items = useMemo(() => {
-    return Children.map(children, (child) => {
-      const item = child as ReactElement;
-      return cloneElement(item, {
-        ...item.props,
-        active: item.props.index === activeTab,
-        onClick: () => {
-          setActiveTab(item.props.index);
-        },
-      });
-    });
-  }, [children, activeTab]);
-  const activeItem = useMemo(
-    () => items?.find((element) => activeTab === element.props.index),
-    [activeTab, items],
-  );
+}: RoutineCategorySelectorProps): JSX.Element => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    onChange && onChange(e);
+  };
+
   return (
-    <>
-      <RoutineCategoryContainer {...props}>{items}</RoutineCategoryContainer>
-      <div>{activeItem?.props.children}</div>
-    </>
+    <RoutineCategoryContainer>
+      {categories &&
+        categories.map((category) => (
+          <RoutineCategoryItem
+            category={category}
+            onChange={handleChange}
+            key={category}
+            {...props}
+          />
+        ))}
+    </RoutineCategoryContainer>
   );
 };
 
-RoutineCategorySelector.Item = RoutineCategoryItem;
+const defaultProps = {
+  categories: ['전체', '운동', '건강', '개발', '기타'],
+  category: '전체',
+};
+
+RoutineCategorySelector.defaultProps = defaultProps;
 
 const RoutineCategoryContainer = styled.div`
   width: 100%;
   height: 40px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   white-space: nowrap;
   overflow-x: scroll;
-  div:not(:last-of-type) {
+  label:not(:last-of-type) {
     margin-right: 16px;
+    @media ${Media.sm} {
+      margin-right: 8px;
+    }
   }
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
