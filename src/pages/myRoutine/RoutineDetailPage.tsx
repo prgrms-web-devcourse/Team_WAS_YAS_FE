@@ -118,14 +118,20 @@ const RoutineDetailPage = (): JSX.Element => {
       {DUMMY_ROUTINE_DETAIL.missions?.map((mission) => (
         <StyledMission key={mission.id} missionObject={mission} />
       ))}
-      <StyledButton colorType="white">
-        <Svg viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path
-            d="M22.7869 15.5913L3.69882 26.6667C2.0789 27.6057 0 26.4687 0 24.5758V2.42492C0 0.535018 2.0759 -0.604927 3.69882 0.337027L22.7869 11.4125C23.1554 11.6228 23.4617 11.9269 23.6747 12.2939C23.8878 12.6608 24 13.0776 24 13.5019C24 13.9262 23.8878 14.343 23.6747 14.7099C23.4617 15.0768 23.1554 15.3809 22.7869 15.5913Z"
-            fill="#565656"
-          />
-        </Svg>
-      </StyledButton>
+      <Link to={`/routine/${DUMMY_ROUTINE_DETAIL.id}/progress`}>
+        <StyledButton colorType="white">
+          <Svg
+            viewBox="0 0 24 28"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M22.7869 15.5913L3.69882 26.6667C2.0789 27.6057 0 26.4687 0 24.5758V2.42492C0 0.535018 2.0759 -0.604927 3.69882 0.337027L22.7869 11.4125C23.1554 11.6228 23.4617 11.9269 23.6747 12.2939C23.8878 12.6608 24 13.0776 24 13.5019C24 13.9262 23.8878 14.343 23.6747 14.7099C23.4617 15.0768 23.1554 15.3809 22.7869 15.5913Z"
+              fill="#565656"
+            />
+          </Svg>
+        </StyledButton>
+      </Link>
       <Link to={`/routine/${DUMMY_ROUTINE_DETAIL.id}/create`}>
         <StyledRoutineAddButton />
       </Link>
@@ -163,6 +169,8 @@ const StyledButton = styled(Button)`
   width: 200px;
   position: fixed;
   bottom: 48px;
+  left: 50%;
+  transform: translateX(-50%);
 
   @media ${Media.sm} {
     width: 120px;
