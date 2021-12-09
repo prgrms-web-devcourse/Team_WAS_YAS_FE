@@ -1,3 +1,5 @@
+import { RoutinePostType } from './types';
+
 const GET_ROUTINE_POSTS = 'routine/GET_ROUTINE_POSTS';
 const CREATE_ROUTINE_POSTS = 'routine/CREATE_ROUTINE_POSTS';
 const UPDATE_ROUTINE_POSTS = 'routine/UPDATE_ROUTINE_POSTS';
@@ -8,48 +10,60 @@ const CREATE_ROUTINE_POST = 'routine/CREATE_ROUTINE_POST';
 const UPDATE_ROUTINE_POST = 'routine/UPDATE_ROUTINE_POST';
 const DELETE_ROUTINE_POST = 'routine/DELETE_ROUTINE_POST';
 
-// interface actionType {
-//   type: string;
-//   routinePosts: {};
-// }
+interface RoutineActionType {
+  type: string;
+}
 
-export const getRoutine = () => ({
+interface RoutineStateType {
+  loading: boolean;
+  data: RoutinePostType[] | null;
+  error: string | null;
+}
+
+export const getRoutinePosts = () => ({
   type: GET_ROUTINE_POSTS,
   routinePosts: {},
 });
-export const createRoutine = () => ({
+export const createRoutinePosts = () => ({
   type: CREATE_ROUTINE_POSTS,
   routinePosts: {},
 });
-export const updateRoutine = () => ({
+export const updateRoutinePosts = () => ({
   type: UPDATE_ROUTINE_POSTS,
   routinePosts: {},
 });
-export const deleteRoutine = () => ({
+export const deleteRoutinePosts = () => ({
   type: DELETE_ROUTINE_POSTS,
   routinePosts: {},
 });
 
-export const getRoutine = () => ({
+export const getRoutinePost = () => ({
   type: GET_ROUTINE_POST,
   routinePosts: {},
 });
-export const createRoutine = () => ({
+export const createRoutinePost = () => ({
   type: CREATE_ROUTINE_POST,
   routinePosts: {},
 });
-export const updateRoutine = () => ({
+export const updateRoutinePost = () => ({
   type: UPDATE_ROUTINE_POST,
   routinePosts: {},
 });
-export const deleteRoutine = () => ({
+export const deleteRoutinePost = () => ({
   type: DELETE_ROUTINE_POST,
   routinePosts: {},
 });
 
-const initialState = [{}];
+const initialState: RoutineStateType = {
+  loading: false,
+  data: null,
+  error: null,
+};
 
-const routinePosts = (state = initialState, action) => {
+const routinePosts = (
+  state: RoutineStateType = initialState,
+  action: RoutineActionType,
+) => {
   switch (action.type) {
     case CREATE_ROUTINE_POSTS:
       return state;

@@ -5,8 +5,8 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import rootReducer from '@/store';
-import { composeWithDevTools } from 'redux-devtools-extension'; // 리덕스 개발자 도구
+import { rootReducer } from '@/store';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 const store = createStore(rootReducer, composeWithDevTools());
 
