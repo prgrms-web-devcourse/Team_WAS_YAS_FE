@@ -4,8 +4,8 @@ import { Colors, Media, FontSize } from '@/styles';
 
 export interface CommentEditorProps
   extends Omit<React.ComponentProps<'form'>, 'onChange' | 'onSubmit'> {
-  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  onSubmit: (value: string) => void;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onSubmit?: (value: string) => void;
 }
 
 const CommentEditor = ({
