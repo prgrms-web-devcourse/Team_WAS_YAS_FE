@@ -1,8 +1,9 @@
-import { RoutineCategoryItemProps } from '@/components';
 import { Media } from '@/styles';
 import styled from '@emotion/styled';
 import { ChangeEvent } from 'react';
-import RoutineCategoryItem from './RoutineCategoryItem';
+import RoutineCategoryItem, {
+  RoutineCategoryItemProps,
+} from './RoutineCategoryItem';
 
 export interface RoutineCategorySelectorProps extends RoutineCategoryItemProps {
   categories: string[];

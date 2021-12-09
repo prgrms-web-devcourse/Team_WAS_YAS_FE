@@ -1,5 +1,7 @@
-import { RoutineCategorySelector } from '@/components';
-import { RoutineCategorySelectorProps } from '@/components/molecules/RoutineCategorySelector/RoutineCategorySelector';
+import {
+  RoutineCategorySelector,
+  RoutineCategorySelectorProps,
+} from '@/components';
 
 export default {
   title: 'Components/Molecules/RoutineCategorySelector',
