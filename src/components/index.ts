@@ -20,6 +20,8 @@ export { Spinner } from './atoms/Spinner';
 export type { SpinnerProps } from './atoms/Spinner';
 export { Portal } from './atoms/Portal';
 export type { PortalProps } from './atoms/Portal';
+export { Modal } from './atoms/Modal';
+export type { ModalProps } from './atoms/Modal';
 
 export { EditBox } from './molecules/ToolBox';
 export type { EditBoxProps } from './molecules/ToolBox/EditBox';
@@ -38,7 +40,7 @@ export { RoutineInfo } from './molecules/RoutineInfo';
 export type { RoutineInfoProps } from './molecules/RoutineInfo';
 
 export { RoutineCategorySelector } from './molecules/RoutineCategorySelector';
-export type { RoutineCategoryItemProps } from './molecules/RoutineCategorySelector';
+export type { RoutineCategorySelectorProps } from './molecules/RoutineCategorySelector';
 export { RoutineAddButton } from './organisms/RoutineAddButton';
 export type { RoutineAddButtonProps } from './organisms/RoutineAddButton';
 export { Routine } from './molecules/Routine';
