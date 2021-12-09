@@ -24,6 +24,7 @@ const Routine = ({
   completed,
   like,
   type,
+  style,
   ...props
 }: RoutineProps): JSX.Element => {
   const { emoji, color, name, durationTime: dt, startTime: st } = routineObject;
@@ -44,7 +45,7 @@ const Routine = ({
   };
 
   return (
-    <RoutineContainer style={{ backgroundColor: color }} {...props}>
+    <RoutineContainer style={{ backgroundColor: color, ...style }} {...props}>
       <RoutineHeader>
         {type === 'myRoutine' ? (
           <CheckComplete completed={completed ? completed : false} />
@@ -83,6 +84,7 @@ const Routine = ({
       <Title>{name}</Title>
       <TotalTime>{durationTime}</TotalTime>
       <StartTime>{startTime}</StartTime>
+      {completed && <CompletedRoutine />}
     </RoutineContainer>
   );
 };
@@ -98,6 +100,25 @@ const RoutineContainer = styled.div`
   text-align: center;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   cursor: pointer;
+  position: relative;
+
+  @media ${Media.sm} {
+    width: 8.75rem;
+    height: 8.75rem;
+    padding: 0.875rem;
+  }
+`;
+
+const CompletedRoutine = styled.div`
+  width: 15rem;
+  height: 15rem;
+  border-radius: 2rem;
+  padding: 1rem;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 0;
+  left: 0;
 
   @media ${Media.sm} {
     width: 8.75rem;
