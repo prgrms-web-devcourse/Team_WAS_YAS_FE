@@ -127,7 +127,7 @@ const DurationTimeContainer = styled.div`
   }
 `;
 
-const DurationTime = styled.span`
+const DurationTime = styled.p`
   font-size: ${FontSize.medium};
   color: ${Colors.textSecondary};
 
@@ -136,7 +136,7 @@ const DurationTime = styled.span`
   }
 `;
 
-const UserDurationTime = styled.span`
+const UserDurationTime = styled.p`
   font-size: ${FontSize.medium};
   @media ${Media.sm} {
     font-size: ${FontSize.small};
