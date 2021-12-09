@@ -249,6 +249,7 @@ export default RoutineCommunityPage;
 const StyledCategorySelector = styled(RoutineCategorySelector)`
   margin: 1.5rem 0;
   box-sizing: border-box;
+  justify-content: flex-start;
   @media ${Media.sm} {
     margin: 0.75rem 0;
     max-width: 320px;
@@ -256,11 +257,13 @@ const StyledCategorySelector = styled(RoutineCategorySelector)`
 
     div:not(:last-of-type) {
       margin-right: 8px;
+    }
+    div {
       height: 20px;
     }
   }
   @media ${Media.md} {
-    max-width: 540px;
+    max-width: 688px;
   }
 `;
 

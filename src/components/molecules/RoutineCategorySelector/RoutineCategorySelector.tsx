@@ -54,7 +54,7 @@ const RoutineCategoryContainer = styled.div`
   height: 40px;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   white-space: nowrap;
   overflow-x: scroll;
   div:not(:last-of-type) {
