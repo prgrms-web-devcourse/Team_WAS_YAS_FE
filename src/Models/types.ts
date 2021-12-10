@@ -89,7 +89,7 @@ export interface RoutinePostType {
 export interface CommentType {
   commentId: number;
   text: string;
-  userId: string;
+  userId: number;
   createdAt: string;
   updatedAt: string;
   likes: CommentLikeType[];
