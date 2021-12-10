@@ -1,89 +1,117 @@
 export interface UserType {
-  userId: string;
+  userId: number;
   userName: string;
   nickName: string;
-  imageUrl: string;
+  profileImageUrl: string;
   email: string;
 }
 
+// export interface UserType2 {
+//   userId: number;
+//   userName: string;
+//   nickName: string;
+//   profileImageUrl: string;
+//   email: string;
+//   likePosts: [postId, postId];
+//   likeComments: [commentId, commentId];
+// }
+
 export interface RoutineType {
-  routineId: string;
-  name: string;
+  routineId: number;
+  title: string;
   emoji: string;
   color: string;
-  startTime: string;
-  durationTime: number;
-  week: string[];
-  categories: string[];
+  startGoalTime: string;
+  durationGoalTime: number;
+  weeks: string[];
+  routineCategories: string[];
   missions: MissionType[];
-  routineCompletion: RoutineCompletionType[];
+  // routineCompletions: RoutineCompletionType[];
 }
 
 export interface MissionType {
-  missionId: string;
+  missionId: number;
   emoji: string;
-  missionName: string;
+  title: string;
   color: string;
-  durationTime: string;
+  durationGoalTime: number;
 }
 
 export interface RoutineCompletionType {
-  routineCompletionId: string;
+  routineCompletionId: number;
   routineInfo: RoutineInfoType;
   date: string;
   startTime: string;
   endTime: string;
-  userDurationTime: string;
+  userDurationTime: number;
   missionCompletions: MissionCompletionType[];
 }
 
 export interface RoutineInfoType {
-  name: string;
+  title: string;
   emoji: string;
   color: string;
-  startTime: string;
-  durationTime: number;
-  categories: string[];
+  startGoalTime: string;
+  durationGoalTime: number;
+  routineCategories: string[];
 }
 
 export interface MissionCompletionType {
-  missionCompletionId: string;
-  missionId: string;
+  missionCompletionId: number;
+  missionId: number;
   date: string;
-  durationTime: string;
-  userDurationTime: string;
+  durationGoalTime: number;
+  userDurationTime: number;
 }
 
 export interface RoutinePostType {
-  routinePostId: string;
+  routinePostId: number;
   title: string;
-  author: string;
-  routineId: string;
+  userId: number;
+  routineId: number;
   createdAt: string;
   updatedAt: string;
   comments: CommentType[];
   likes: PostLikeType[];
 }
 
+// export interface RoutinePostType {
+//   routinePostId: number;
+//   title: string;
+//   user: User; // 이름, 이미지
+//   routineInfo: RoutineInfoType;
+//   createdAt: string;
+//   updatedAt: string;
+//   comments: CommentType[];
+//   likes: PostLikeType[];
+// }
+
 export interface CommentType {
-  commentId: string;
+  commentId: number;
   text: string;
-  author: string;
-  images: string[];
+  userId: string;
   createdAt: string;
   updatedAt: string;
-  comments: CommentType[];
   likes: CommentLikeType[];
 }
 
+// export interface CommentType {
+//   commentId: number;
+//   text: string;
+//   user: UserType; // 이름, 이미지
+//   createdAt: string;
+//   updatedAt: string;
+//   likes: CommentLikeType[];
+// }
+
 export interface PostLikeType {
-  postLikeId: string;
-  postId: string;
-  userId: string;
+  postLikeId: number;
+  postId: number;
+  userId: number;
 }
 
 export interface CommentLikeType {
-  commentLikeId: string;
-  commentId: string;
-  userId: string;
+  commentLikeId: number;
+  commentId: number;
+  userId: number;
 }
