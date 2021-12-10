@@ -43,6 +43,8 @@ export { RoutineAddButton } from './organisms/RoutineAddButton';
 export type { RoutineAddButtonProps } from './organisms/RoutineAddButton';
 export { Routine } from './molecules/Routine';
 export type { RoutineProps } from './molecules/Routine/Routine';
+export { EmojiPicker } from './organisms/EmojiPicker';
+export type { EmojiPickerProps } from './organisms/EmojiPicker';
 
 export { Container } from './templates/Container';
 export type { ContainerProps } from './templates/Container';
