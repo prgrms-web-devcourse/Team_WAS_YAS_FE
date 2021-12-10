@@ -1,0 +1,214 @@
+import React, { useState } from 'react';
+import styled from '@emotion/styled/';
+import { EditBox, LikeBox } from '@/components';
+import { Colors, Media, FontSize } from '@/styles';
+import { IconButton, Avatar } from '@mui/material';
+import MoreVert from '@mui/icons-material/MoreVert';
+import Editor from './Editor';
+
+export interface CommentProps extends React.ComponentProps<'div'> {
+  comment: {
+    text: string;
+    updatedAt: string;
+    likes: string[];
+  };
+  user: {
+    nickName: string;
+    profileImage: string | null;
+  };
+  editable?: boolean;
+}
+
+const Comment = ({
+  user,
+  comment,
+  editable: initEditable,
+  ...props
+}: CommentProps): JSX.Element => {
+  const [visible, setVisible] = useState<boolean>(false);
+  const [editable, setEditable] = useState<boolean>(false);
+  const [text, setText] = useState<string>(comment.text);
+
+  const handleClickMoreIconButton = () => {
+    setVisible(true);
+  };
+
+  const handleCloseDeleteBox = () => {
+    setVisible(false);
+  };
+
+  const handleClickDeleteButton = () => {
+    console.log('삭제 버튼 클릭');
+    // TODO: API 연동
+  };
+
+  const handleClickUpdateButton = () => {
+    setEditable(true);
+  };
+
+  const handleClickLikeButton = (likCount: number) => {
+    console.log('좋아요 클릭', likCount);
+    // TODO: API 연동
+  };
+
+  const handleSubmit = (newText: string) => {
+    setText(newText);
+    console.log('제출', newText);
+    // TODO: API 연동
+    setEditable(false);
+  };
+
+  return (
+    <Container {...props}>
+      <Header>
+        <UserInfoContainer>
+          <StyledAvatar
+            src={user.profileImage ? user.profileImage : undefined}
+          />
+          <UserInfoTextWrapper>
+            <UserNameText>{user.nickName}</UserNameText>
+            <DateText>{comment.updatedAt}</DateText>
+          </UserInfoTextWrapper>
+        </UserInfoContainer>
+        <ToolWrapper>
+          <LikeBox
+            interactive
+            count={comment.likes.length}
+            onClick={handleClickLikeButton}
+          />
+          {initEditable && (
+            <IconButton onClick={handleClickMoreIconButton}>
+              <MoreVert />
+            </IconButton>
+          )}
+        </ToolWrapper>
+      </Header>
+      {initEditable && editable ? (
+        <Editor
+          initText={text}
+          onSubmit={handleSubmit}
+          onClose={() => {
+            setEditable(false);
+          }}
+        />
+      ) : (
+        <TextArea disabled id="text" name="text" value={text} />
+      )}
+      {visible && (
+        <StyledEditBox
+          visible={true}
+          onClose={handleCloseDeleteBox}
+          onClickDeleteButton={handleClickDeleteButton}
+          onClickUpdateButton={handleClickUpdateButton}
+        />
+      )}
+    </Container>
+  );
+};
+
+const Container = styled.div`
+  position: relative;
+  width: 100%;
+  min-width: 290px;
+  padding: 1rem;
+  border-radius: 1rem;
+  background-color: ${Colors.backgroundButton};
+`;
+
+const Header = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const StyledAvatar = styled(Avatar)`
+  margin-right: 1rem;
+`;
+
+const Form = styled.form`
+  display: flex;
+  width: 100%;
+  height: 120px;
+  margin: 0.5rem 0;
+`;
+
+const TextArea = styled.textarea`
+  width: 100%;
+  height: 100%;
+  padding: ${({ disabled }) => (disabled ? '1rem' : '0.5rem')};
+  border: none;
+  border-radius: 8px 0 0 8px;
+  outline: none;
+  color: ${Colors.textPrimary};
+  background-color: ${({ disabled }) =>
+    disabled ? 'transparent' : Colors.backgroundModal};
+  resize: none;
+
+  @media ${Media.sm} {
+    font-size: ${FontSize.small};
+  }
+  @media ${Media.md} {
+    font-size: ${FontSize.base};
+  }
+  @media ${Media.lg} {
+    font-size: ${FontSize.base};
+  }
+`;
+
+const Button = styled.button`
+  width: 100px;
+  height: 100%;
+  background-color: ${Colors.point};
+  border: none;
+  border-radius: 0 8px 8px 0;
+  color: ${Colors.textQuaternary};
+  cursor: pointer;
+
+  &:active {
+    background-color: ${Colors.pointLight};
+  }
+  @media ${Media.sm} {
+    font-size: ${FontSize.small};
+  }
+  @media ${Media.md} {
+    font-size: ${FontSize.medium};
+  }
+  @media ${Media.lg} {
+    font-size: ${FontSize.medium};
+  }
+`;
+
+const UserInfoContainer = styled.div`
+  display: flex;
+`;
+
+const UserInfoTextWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
+
+const UserNameText = styled.p`
+  color: ${Colors.textPrimary};
+  font-size: ${FontSize.base};
+  margin-bottom: 0.5rem;
+`;
+
+const DateText = styled.p`
+  color: ${Colors.textSecondary};
+  font-size: ${FontSize.micro};
+`;
+
+const ToolWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+const StyledEditBox = styled(EditBox)`
+  position: absolute;
+  top: -3rem;
+  right: 1rem;
+  z-index: 1;
+`;
+
+export default Comment;
