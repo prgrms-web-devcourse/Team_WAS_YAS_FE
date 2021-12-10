@@ -38,7 +38,7 @@ export { RoutineInfo } from './molecules/RoutineInfo';
 export type { RoutineInfoProps } from './molecules/RoutineInfo';
 
 export { RoutineCategorySelector } from './molecules/RoutineCategorySelector';
-export type { RoutineCategoryItemProps } from './molecules/RoutineCategorySelector';
+export type { RoutineCategorySelectorProps } from './molecules/RoutineCategorySelector';
 export { RoutineAddButton } from './organisms/RoutineAddButton';
 export type { RoutineAddButtonProps } from './organisms/RoutineAddButton';
 export { Routine } from './molecules/Routine';
