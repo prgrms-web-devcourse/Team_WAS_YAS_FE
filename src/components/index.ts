@@ -45,6 +45,7 @@ export { Routine } from './molecules/Routine';
 export type { RoutineProps } from './molecules/Routine/Routine';
 export { EmojiPicker } from './organisms/EmojiPicker';
 export type { EmojiPickerProps } from './organisms/EmojiPicker';
+export { StartTimePicker } from './organisms/StartTimePicker';
 
 export { Container } from './templates/Container';
 export type { ContainerProps } from './templates/Container';
