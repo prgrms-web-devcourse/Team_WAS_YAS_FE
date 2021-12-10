@@ -75,6 +75,7 @@ const Container = styled.div<UserProfileImageProps>`
 
 const Image = styled.img`
   border-radius: 50%;
+  object-fit: cover;
 
   @media ${Media.sm} {
     width: 120px;
