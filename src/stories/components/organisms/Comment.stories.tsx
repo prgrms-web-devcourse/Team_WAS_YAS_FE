@@ -46,9 +46,27 @@ const StyledComment = styled(Comment)`
 `;
 
 export const Default = ({ ...args }: CommentProps): JSX.Element => {
+  const handleClickLike = (commentId: number) => {
+    console.log('좋아요 버튼 클릭', commentId);
+  };
+
+  const handleEditComment = (commentId: number, editedText: string) => {
+    console.log('댓글 수정', commentId, editedText);
+  };
+
+  const handleDeleteComment = (commentId: number) => {
+    console.log('댓글 수정', commentId);
+  };
+
   return (
     <>
-      <StyledComment user={user1} comment={comment1} editable></StyledComment>
+      <StyledComment
+        user={user1}
+        comment={comment1}
+        editable
+        onClickLike={handleClickLike}
+        onEditComment={handleEditComment}
+      ></StyledComment>
       <StyledComment user={user2} comment={comment2}></StyledComment>
     </>
   );

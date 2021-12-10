@@ -11,12 +11,18 @@ export interface CommentProps extends React.ComponentProps<'div'> {
   user: UserType;
   comment: CommentType;
   editable?: boolean;
+  onEditComment?: (commentId: number, editedText: string) => void;
+  onDeleteComment?: (commentId: number) => void;
+  onClickLike?: (commentId: number) => void;
 }
 
 const Comment = ({
   user,
   comment,
   editable: initEditable,
+  onEditComment,
+  onDeleteComment,
+  onClickLike,
   ...props
 }: CommentProps): JSX.Element => {
   const [visible, setVisible] = useState<boolean>(false);
@@ -32,8 +38,7 @@ const Comment = ({
   };
 
   const handleClickDeleteButton = () => {
-    console.log('삭제 버튼 클릭');
-    // TODO: API 연동
+    onDeleteComment && onDeleteComment(comment.commentId);
   };
 
   const handleClickUpdateButton = () => {
@@ -41,15 +46,13 @@ const Comment = ({
   };
 
   const handleClickLikeButton = (likCount: number) => {
-    console.log('좋아요 클릭', likCount);
-    // TODO: API 연동
+    onClickLike && onClickLike(comment.commentId);
   };
 
   const handleSubmit = (newText: string) => {
     setText(newText);
-    console.log('제출', newText);
-    // TODO: API 연동
     setEditable(false);
+    onEditComment && onEditComment(comment.commentId, newText);
   };
 
   return (
