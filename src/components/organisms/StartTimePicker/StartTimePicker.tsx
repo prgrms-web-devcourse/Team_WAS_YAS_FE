@@ -1,18 +1,20 @@
 import React from 'react';
 import AdapterDateFns from '@mui/lab/AdapterMoment';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import { DesktopTimePicker } from '@mui/lab';
+import { TimePicker } from '@mui/lab';
+import { InputProps } from '@/components';
 import { TextField } from '@mui/material';
 
-const StartTimePicker = (): JSX.Element => {
-  const [value, setValue] = React.useState<Date | null>(new Date());
+const StartTimePicker = ({ value, onChange }: InputProps): JSX.Element => {
+  const handleChange = (value: any) => {
+    onChange && onChange(value);
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <DesktopTimePicker
+      <TimePicker
         value={value}
-        label="For desktop"
-        onChange={(newValue) => setValue(newValue)}
+        onChange={handleChange}
         renderInput={(params) => <TextField {...params} />}
       />
     </LocalizationProvider>
