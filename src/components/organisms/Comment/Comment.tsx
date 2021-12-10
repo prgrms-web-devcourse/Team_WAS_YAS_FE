@@ -5,17 +5,11 @@ import { Colors, Media, FontSize } from '@/styles';
 import { IconButton, Avatar } from '@mui/material';
 import MoreVert from '@mui/icons-material/MoreVert';
 import Editor from './Editor';
+import { UserType, CommentType } from '@/Models';
 
 export interface CommentProps extends React.ComponentProps<'div'> {
-  comment: {
-    text: string;
-    updatedAt: string;
-    likes: string[];
-  };
-  user: {
-    nickName: string;
-    profileImage: string | null;
-  };
+  user: UserType;
+  comment: CommentType;
   editable?: boolean;
 }
 
@@ -63,7 +57,7 @@ const Comment = ({
       <Header>
         <UserInfoContainer>
           <StyledAvatar
-            src={user.profileImage ? user.profileImage : undefined}
+            src={user.profileImageUrl ? user.profileImageUrl : undefined}
           />
           <UserInfoTextWrapper>
             <UserNameText>{user.nickName}</UserNameText>

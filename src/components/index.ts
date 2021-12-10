@@ -50,6 +50,8 @@ export type { RoutineAddButtonProps } from './organisms/RoutineAddButton';
 export { EmojiPicker } from './organisms/EmojiPicker';
 export type { EmojiPickerProps } from './organisms/EmojiPicker';
 export { StartTimePicker } from './organisms/StartTimePicker';
+export { Comment } from './organisms/Comment';
+export type { CommentProps } from './organisms/Comment';
 
 //! Organism Component
 export { Container } from './templates/Container';
