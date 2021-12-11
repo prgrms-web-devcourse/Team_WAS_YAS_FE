@@ -89,34 +89,39 @@ const UserEditPage = (): JSX.Element => {
         <AvatarWrapper>
           <StyledAvatar src={imageUrl} />
         </AvatarWrapper>
-        <Label htmlFor="profileImageFile">프로필 이미지</Label>
-        <ImageFileInput
-          id="profileImageFile"
-          name="profileImageFile"
-          onBlur={handleBlur}
-          ref={inputRef}
-          type="file"
-          accept="image/*"
-          onChange={handleFileInputChange}
-        />
-        <Button
-          type="button"
-          colorType="white"
-          onClick={handleFileUploadButton}
-        >
-          이미지 업로드
-        </Button>
-        <Label htmlFor="nickName">닉네임</Label>
-        <Input
-          id="nickName"
-          name="nickName"
-          type="text"
-          placeholder="변경할 닉네임을 작성해주세요."
-          onChange={handleChange}
-          onBlur={handleBlur}
-          value={values.nickName}
-        />
-        <GuideText>{touched.nickName && errors.nickName}&nbsp;</GuideText>
+        <ImageFileInputWrapper>
+          <Label htmlFor="profileImageFile">프로필 이미지</Label>
+          <ImageFileInput
+            id="profileImageFile"
+            name="profileImageFile"
+            onBlur={handleBlur}
+            ref={inputRef}
+            type="file"
+            accept="image/*"
+            onChange={handleFileInputChange}
+          />
+          <Button
+            type="button"
+            colorType="white"
+            onClick={handleFileUploadButton}
+          >
+            이미지 업로드
+          </Button>
+        </ImageFileInputWrapper>
+        <NickNameInputWrapper>
+          <Label htmlFor="nickName">닉네임</Label>
+          <Input
+            id="nickName"
+            name="nickName"
+            type="text"
+            placeholder="변경할 닉네임을 작성해주세요."
+            onChange={handleChange}
+            onBlur={handleBlur}
+            value={values.nickName}
+          />
+          <GuideText>{touched.nickName && errors.nickName}&nbsp;</GuideText>
+        </NickNameInputWrapper>
+
         <Button type="submit">수정완료</Button>
       </Form>
       {isSubmitting && <Spinner />}
@@ -152,6 +157,14 @@ const Label = styled.label`
   color: ${Colors.textSecondary};
 `;
 
+const ImageFileInputWrapper = styled.div`
+  margin-bottom: 2rem;
+`;
+
+const NickNameInputWrapper = styled.div`
+  margin-bottom: 2rem;
+`;
+
 const ImageFileInput = styled.input`
   display: none;
 `;
@@ -159,7 +172,6 @@ const ImageFileInput = styled.input`
 const GuideText = styled.p`
   margin: 1rem 0;
   color: ${Colors.functionNegative};
-  margin-bottom: 2rem;
 `;
 
 const AvatarWrapper = styled.div`
