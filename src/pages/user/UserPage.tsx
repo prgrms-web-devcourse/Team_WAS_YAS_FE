@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
-import { Container, Button, UserProfileImage } from '@/components';
+import { Container, Button } from '@/components';
 import { useHistory } from 'react-router-dom';
+import { Avatar } from '@mui/material';
+import { userDummy } from '@/Models';
 
 const UserPage = (): JSX.Element => {
   const history = useHistory();
@@ -13,12 +15,12 @@ const UserPage = (): JSX.Element => {
   return (
     <StyledContainer navBar>
       <HeadText>프로필</HeadText>
-      <UserProfileImageContainer>
-        <UserProfileImage />
-      </UserProfileImageContainer>
+      <StyledAvatar
+        src={userDummy.profileImageUrl ? userDummy.profileImageUrl : ''}
+      />
       <ContentContainer>
         <FieldText>닉네임</FieldText>
-        <Text>아이엠어보이</Text>
+        <Text>{userDummy.nickName}</Text>
       </ContentContainer>
       <Button onClick={handleClickEditButton}>수정하기</Button>
     </StyledContainer>
@@ -80,6 +82,13 @@ const Text = styled.p`
   @media ${Media.lg} {
     font-size: ${FontSize.large};
   }
+`;
+
+const StyledAvatar = styled(Avatar)`
+  background-color: ${Colors.pointLight};
+  width: 200px;
+  height: 200px;
+  margin-bottom: 4rem;
 `;
 
 export default UserPage;

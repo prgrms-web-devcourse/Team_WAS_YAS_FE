@@ -1,7 +1,9 @@
 import * as Yup from 'yup';
-import { useFormik } from 'formik';
 import Swal from 'sweetalert2';
 import styled from '@emotion/styled';
+import { useFormik } from 'formik';
+import { useHistory } from 'react-router-dom';
+import { userDummy } from '@/Models';
 import { Colors, FontSize, FontWeight } from '@/styles';
 import {
   Container,
@@ -10,20 +12,9 @@ import {
   Spinner,
   UserProfileImage,
 } from '@/components';
-import { useHistory } from 'react-router-dom';
-import { UserType } from '@/Models';
-
-//TODO: user store로 대체
-const user: UserType = {
-  userId: 123,
-  userName: '아이엠보이',
-  nickName: '아이엠보이',
-  profileImageUrl: 'https://picsum.photos/200',
-  email: 'yas@yas.com',
-};
 
 const initialValues = {
-  nickName: user.nickName,
+  nickName: userDummy.nickName,
   imageFile: '',
 };
 
@@ -86,7 +77,7 @@ const UserEditPage = (): JSX.Element => {
             edit
             id="imageUrl"
             name="imageUrl"
-            src={user.profileImageUrl}
+            src={userDummy.profileImageUrl}
             onChange={handleChangeImage}
             onBlur={handleBlur}
           />
