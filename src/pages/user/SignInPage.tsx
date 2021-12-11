@@ -12,12 +12,14 @@ const initialValues = {
 
 const validationSchema = Yup.object().shape({
   email: Yup.string()
+    .strict(true)
+    .trim('공백을 제거해주세요.')
     .email('이메일 형식으로 작성해주세요.')
     .max(255)
     .required('이메일을 입력해주세요.'),
   password: Yup.string()
     .min(8, '비밀번호는 최소 8글자 이상이어야 합니다.')
-    .max(255)
+    .max(15, '비밀번호는 최대 15글자 이하까지만 가능합니다.')
     .required('비밀번호를 입력해주세요.'),
 });
 

@@ -11,8 +11,10 @@ interface RoutineProps extends React.ComponentProps<'div'> {
     emoji: string;
     color: string;
     name: string;
-    durationTime: number;
-    startTime: string;
+    durationGoalTime: number;
+    startGoalTime: string;
+    routineCategory?: string[];
+    weeks?: string[];
   };
   type: 'myRoutine' | 'communityMyRoutine' | 'communityRoutine' | 'create';
   completed?: boolean;
@@ -27,7 +29,13 @@ const Routine = ({
   style,
   ...props
 }: RoutineProps): JSX.Element => {
-  const { emoji, color, name, durationTime: dt, startTime: st } = routineObject;
+  const {
+    emoji,
+    color,
+    name,
+    durationGoalTime: dt,
+    startGoalTime: st,
+  } = routineObject;
   const durationTime = TimeUtils.calculateTime(dt);
   const startTime = TimeUtils.startTime(st);
   const [visible, setVisible] = useState<boolean>(false);
@@ -80,11 +88,10 @@ const Routine = ({
           </div>
         ) : null}
       </RoutineHeader>
-      <Emoji>{emoji}</Emoji>
-      <Title>{name}</Title>
-      <TotalTime>{durationTime}</TotalTime>
-      <StartTime>{startTime}</StartTime>
-      {completed && <CompletedRoutine />}
+      <Emoji>{emoji}&nbsp;</Emoji>
+      <Title>{name}&nbsp;</Title>
+      <TotalTime>{durationTime}&nbsp;</TotalTime>
+      <StartTime>{startTime}&nbsp;</StartTime>
     </RoutineContainer>
   );
 };
