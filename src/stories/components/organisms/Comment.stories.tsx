@@ -25,7 +25,7 @@ const user2: UserType = {
 
 const comment1: CommentType = {
   commentId: 321,
-  text: '노아가 댓글을 작성했습니다.',
+  text: '노아가 댓글을 작성했습니다.\n\n\n\n\n\n\n\n\n\n 123',
   userId: 123,
   createdAt: '2021-01-01 11:11',
   updatedAt: '2021-01-01 11:11',

@@ -121,16 +121,10 @@ const StyledAvatar = styled(Avatar)`
   margin-right: 1rem;
 `;
 
-const Form = styled.form`
-  display: flex;
-  width: 100%;
-  height: 120px;
-  margin: 0.5rem 0;
-`;
-
 const TextArea = styled.textarea`
   width: 100%;
-  height: 100%;
+  height: auto;
+  overflow: visible;
   padding: ${({ disabled }) => (disabled ? '1rem' : '0.5rem')};
   border: none;
   border-radius: 8px 0 0 8px;
@@ -148,29 +142,6 @@ const TextArea = styled.textarea`
   }
   @media ${Media.lg} {
     font-size: ${FontSize.base};
-  }
-`;
-
-const Button = styled.button`
-  width: 100px;
-  height: 100%;
-  background-color: ${Colors.point};
-  border: none;
-  border-radius: 0 8px 8px 0;
-  color: ${Colors.textQuaternary};
-  cursor: pointer;
-
-  &:active {
-    background-color: ${Colors.pointLight};
-  }
-  @media ${Media.sm} {
-    font-size: ${FontSize.small};
-  }
-  @media ${Media.md} {
-    font-size: ${FontSize.medium};
-  }
-  @media ${Media.lg} {
-    font-size: ${FontSize.medium};
   }
 `;
 
