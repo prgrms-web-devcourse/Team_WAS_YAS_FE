@@ -157,7 +157,7 @@ const Title = styled.h1`
 const TotalTime = styled.h2`
   font-size: ${FontSize.medium};
   font-weight: ${FontWeight.bold};
-  margin: 0.75rem 0 1.75rem;
+  margin: 0.5rem 0 0.75rem;
 
   @media ${Media.sm} {
     font-size: 0.625rem;
