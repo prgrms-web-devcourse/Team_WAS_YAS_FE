@@ -1,6 +1,6 @@
 import { Media } from '@/styles';
 import styled from '@emotion/styled';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import Swal from 'sweetalert2';
 import RoutineCategoryItem, {
   RoutineCategoryItemProps,
