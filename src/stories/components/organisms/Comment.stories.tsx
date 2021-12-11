@@ -55,7 +55,7 @@ export const Default = ({ ...args }: CommentProps): JSX.Element => {
   };
 
   const handleDeleteComment = (commentId: number) => {
-    console.log('댓글 수정', commentId);
+    console.log('댓글 삭제', commentId);
   };
 
   return (
@@ -65,6 +65,7 @@ export const Default = ({ ...args }: CommentProps): JSX.Element => {
         comment={comment1}
         editable
         onClickLike={handleClickLike}
+        onDeleteComment={handleDeleteComment}
         onEditComment={handleEditComment}
       ></StyledComment>
       <StyledComment user={user2} comment={comment2}></StyledComment>
