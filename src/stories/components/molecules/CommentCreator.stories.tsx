@@ -1,12 +1,12 @@
-import { CommentEditor, CommentEditorProps } from '@/components';
+import { CommentCreator, CommentCreatorProps } from '@/components';
 import React, { useState } from 'react';
 
 export default {
-  title: 'Components/Molecules/CommentEditor',
-  component: CommentEditor,
+  title: 'Components/Molecules/CommentCreator',
+  component: CommentCreator,
 };
 
-export const Default = ({ ...args }: CommentEditorProps): JSX.Element => {
+export const Default = ({ ...args }: CommentCreatorProps): JSX.Element => {
   const [changedComment, setChangedComment] = useState<string>('');
   const [submittedComment, setSubmittedComment] = useState<string>('');
 
@@ -22,7 +22,7 @@ export const Default = ({ ...args }: CommentEditorProps): JSX.Element => {
 
   return (
     <>
-      <CommentEditor onSubmit={handleSubmit} onChange={handleChange} />
+      <CommentCreator onSubmit={handleSubmit} onChange={handleChange} />
       <p>{'onChange : ' + changedComment}</p>
       <p>{'onSubmit : ' + submittedComment}</p>
     </>

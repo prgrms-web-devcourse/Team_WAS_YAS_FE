@@ -2,17 +2,17 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Colors, Media, FontSize } from '@/styles';
 
-export interface CommentEditorProps
+export interface CommentCreatorProps
   extends Omit<React.ComponentProps<'form'>, 'onChange' | 'onSubmit'> {
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onSubmit?: (value: string) => void;
 }
 
-const CommentEditor = ({
+const CommentCreator = ({
   onChange,
   onSubmit,
   ...props
-}: CommentEditorProps): JSX.Element => {
+}: CommentCreatorProps): JSX.Element => {
   const [comment, setComment] = useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
@@ -25,6 +25,7 @@ const CommentEditor = ({
   ): void => {
     e.preventDefault();
     onSubmit && onSubmit(comment);
+    setComment('');
   };
 
   return (
@@ -92,4 +93,4 @@ const Button = styled.button`
   }
 `;
 
-export default CommentEditor;
+export default CommentCreator;
