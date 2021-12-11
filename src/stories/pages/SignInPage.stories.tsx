@@ -6,9 +6,5 @@ export default {
 };
 
 export const Default = (): JSX.Element => {
-  return (
-    <>
-      <SignInPage />
-    </>
-  );
+  return <SignInPage />;
 };
