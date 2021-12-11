@@ -8,3 +8,6 @@ export type { RoutinePostType } from './types';
 export type { CommentType } from './types';
 export type { PostLikeType } from './types';
 export type { CommentLikeType } from './types';
+
+// !Dummy
+export { userDummy } from './dummy';
