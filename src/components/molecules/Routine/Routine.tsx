@@ -11,8 +11,10 @@ interface RoutineProps extends React.ComponentProps<'div'> {
     emoji: string;
     color: string;
     name: string;
-    durationTime: number;
-    startTime: string;
+    durationGoalTime: number;
+    startGoalTime: string;
+    routineCategory?: string[];
+    weeks?: string[];
   };
   type: 'myRoutine' | 'communityMyRoutine' | 'communityRoutine' | 'create';
   completed?: boolean;
@@ -24,9 +26,16 @@ const Routine = ({
   completed,
   like,
   type,
+  style,
   ...props
 }: RoutineProps): JSX.Element => {
-  const { emoji, color, name, durationTime: dt, startTime: st } = routineObject;
+  const {
+    emoji,
+    color,
+    name,
+    durationGoalTime: dt,
+    startGoalTime: st,
+  } = routineObject;
   const durationTime = TimeUtils.calculateTime(dt);
   const startTime = TimeUtils.startTime(st);
   const [visible, setVisible] = useState<boolean>(false);
@@ -44,7 +53,7 @@ const Routine = ({
   };
 
   return (
-    <RoutineContainer style={{ backgroundColor: color }} {...props}>
+    <RoutineContainer style={{ backgroundColor: color, ...style }} {...props}>
       <RoutineHeader>
         {type === 'myRoutine' ? (
           <CheckComplete completed={completed ? completed : false} />
@@ -79,10 +88,10 @@ const Routine = ({
           </div>
         ) : null}
       </RoutineHeader>
-      <Emoji>{emoji}</Emoji>
-      <Title>{name}</Title>
-      <TotalTime>{durationTime}</TotalTime>
-      <StartTime>{startTime}</StartTime>
+      <Emoji>{emoji}&nbsp;</Emoji>
+      <Title>{name}&nbsp;</Title>
+      <TotalTime>{durationTime}&nbsp;</TotalTime>
+      <StartTime>{startTime}&nbsp;</StartTime>
     </RoutineContainer>
   );
 };
@@ -98,6 +107,25 @@ const RoutineContainer = styled.div`
   text-align: center;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   cursor: pointer;
+  position: relative;
+
+  @media ${Media.sm} {
+    width: 8.75rem;
+    height: 8.75rem;
+    padding: 0.875rem;
+  }
+`;
+
+const CompletedRoutine = styled.div`
+  width: 15rem;
+  height: 15rem;
+  border-radius: 2rem;
+  padding: 1rem;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 0;
+  left: 0;
 
   @media ${Media.sm} {
     width: 8.75rem;
