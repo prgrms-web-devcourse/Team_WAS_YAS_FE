@@ -62,9 +62,11 @@ const StyledCategoryItem = styled.div`
     min-height: 40px;
     font-size: ${FontSize.base};
   }
-  :hover {
-    background-color: ${Colors.point};
-    color: ${Colors.textQuaternary};
+  @media (hover: hover) {
+    :hover {
+      background-color: ${Colors.pointLight};
+      color: ${Colors.textQuaternary};
+    }
   }
 `;
 
