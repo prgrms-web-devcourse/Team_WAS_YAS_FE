@@ -4,6 +4,7 @@ import { Button } from '@/components';
 import styled from '@emotion/styled';
 
 export interface EmojiPickerProps extends React.ComponentProps<'div'> {
+  name: string;
   onEmojiClick: (emoji: string) => void;
 }
 
