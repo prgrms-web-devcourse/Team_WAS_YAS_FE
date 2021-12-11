@@ -34,13 +34,6 @@ const StyledContainer = styled(Container)`
   height: 100vh;
 `;
 
-const UserProfileImageContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 6rem;
-`;
-
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;

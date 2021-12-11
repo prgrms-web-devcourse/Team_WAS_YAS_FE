@@ -5,13 +5,7 @@ import { useFormik } from 'formik';
 import { useHistory } from 'react-router-dom';
 import { userDummy } from '@/Models';
 import { Colors, FontSize, FontWeight } from '@/styles';
-import {
-  Container,
-  Input,
-  Button,
-  Spinner,
-  UserProfileImage,
-} from '@/components';
+import { Container, Input, Button, Spinner } from '@/components';
 import { Avatar } from '@mui/material';
 import { useRef, useState } from 'react';
 
@@ -33,7 +27,6 @@ const validationSchema = Yup.object().shape({
 const UserEditPage = (): JSX.Element => {
   const history = useHistory();
   const inputRef = useRef<HTMLInputElement>(null);
-  const [loading, setLoading] = useState<boolean>(false);
   // const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | undefined>(
     userDummy.profileImageUrl,
@@ -78,7 +71,6 @@ const UserEditPage = (): JSX.Element => {
     e: React.ChangeEvent<HTMLInputElement> & { target: HTMLInputElement },
   ) => {
     if (e.target.files === null) return;
-    setLoading(true);
     const file = e.target.files[0];
     // setImageFile(file);
 
@@ -88,8 +80,6 @@ const UserEditPage = (): JSX.Element => {
     };
     if (file) reader.readAsDataURL(file);
     setFieldValue('profileImageFile', e.target.files[0]);
-
-    setLoading(false);
   };
 
   return (
@@ -139,13 +129,6 @@ const StyledContainer = styled(Container)`
   flex-direction: column;
   justify-content: center;
   height: 100vh;
-`;
-
-const UserProfileImageContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin-bottom: 6rem;
 `;
 
 const HeadText = styled.h1`
