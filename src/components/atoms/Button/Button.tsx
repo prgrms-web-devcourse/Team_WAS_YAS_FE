@@ -30,9 +30,11 @@ const StyledButton = styled.button<ButtonProps>`
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   font-weight: ${FontWeight.bold};
   cursor: pointer;
-  :hover {
-    color: ${Colors.textPrimary};
-    background-color: ${Colors.pointLight};
+  @media (hover: hover) {
+    :hover {
+      color: ${Colors.textPrimary};
+      background-color: ${Colors.pointLight};
+    }
   }
   :active {
     ${({ colorType }) => `
