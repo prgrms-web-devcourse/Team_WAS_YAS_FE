@@ -1,10 +1,11 @@
+import { WEEK } from '@/constants';
 import { Media } from '@/styles';
 import styled from '@emotion/styled';
 import { ChangeEvent } from 'react';
 import DayItem, { DayItemProps } from './DayItem';
 
 const DaySelector = ({ onChange, ...props }: DayItemProps): JSX.Element => {
-  const days = ['월', '화', '수', '목', '금', '토', '일'];
+  const days = Object.values(WEEK);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     onChange && onChange(e);
   };
