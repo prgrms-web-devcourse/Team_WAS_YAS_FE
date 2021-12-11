@@ -105,7 +105,8 @@ const MyRoutinePage = (): JSX.Element => {
                   onClick={(e) => onClickRoutine(e, routine.id)}
                   key={routine.id}
                   routineObject={routine}
-                  type="create"
+                  type="myRoutine"
+                  completed={+routine.id > 6 ? false : true}
                 />
               ))}
           </RoutineGridBox>

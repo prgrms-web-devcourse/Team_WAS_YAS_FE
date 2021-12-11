@@ -2,28 +2,40 @@ import styled from '@emotion/styled';
 import { Colors, FontWeight, FontSize, Media } from '@/styles';
 import React from 'react';
 
-export interface RoutineCategoryItemProps extends React.ComponentProps<'div'> {
-  title?: string;
-  index?: string;
-  active?: boolean;
-  onClick?: () => void;
+export interface RoutineCategoryItemProps
+  extends React.ComponentProps<'input'> {
+  category: string;
 }
 
 const RoutineCategoryItem = ({
-  title,
-  index,
-  active,
-  onClick,
+  category,
   ...props
 }: RoutineCategoryItemProps): JSX.Element => {
   return (
-    <StyledCategoryItem active={active} onClick={onClick} {...props}>
-      {title}
-    </StyledCategoryItem>
+    <>
+      <StyledInput
+        type="radio"
+        id={category}
+        name="Category"
+        value={category}
+        {...props}
+      />
+      <label htmlFor={category}>
+        <StyledCategoryItem>{category}</StyledCategoryItem>
+      </label>
+    </>
   );
 };
 
-const StyledCategoryItem = styled.div<RoutineCategoryItemProps>`
+const StyledInput = styled.input`
+  display: none;
+  :checked + label > div {
+    background-color: ${Colors.point};
+    color: ${Colors.textQuaternary};
+  }
+`;
+
+const StyledCategoryItem = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,11 +44,9 @@ const StyledCategoryItem = styled.div<RoutineCategoryItemProps>`
   border: 1px solid ${Colors.pointLight};
   cursor: pointer;
   text-align: center;
+  color: ${Colors.textSecondary};
+  background-color: ${Colors.backgroundButton};
   font-weight: ${FontWeight.medium};
-  ${({ active }) => `background-color: ${
-    active ? Colors.point : Colors.backgroundButton
-  };
-  color: ${active ? Colors.textQuaternary : Colors.textSecondary};`}
   @media ${Media.sm} {
     min-width: 64px;
     min-height: 32px;
