@@ -2,11 +2,6 @@ const CREATE_USER = 'user/CREATE_USER';
 const UPDATE_USER = 'user/UPDATE_USER';
 const DELETE_USER = 'user/DELETE_USER';
 
-// interface actionType {
-//   type: string;
-//   user: {};
-// }
-
 export const createRoutine = () => ({
   type: CREATE_USER,
   user: {},
