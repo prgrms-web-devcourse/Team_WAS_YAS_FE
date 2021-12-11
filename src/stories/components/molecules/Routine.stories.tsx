@@ -10,14 +10,16 @@ const routineObject: {
   emoji: string;
   color: string;
   name: string;
-  durationTime: number;
-  startTime: string;
+  durationGoalTime: number;
+  startGoalTime: string;
+  routineCategory?: string[] | undefined;
+  weeks?: string[] | undefined;
 } = {
   emoji: '🌳',
   color: Colors.red,
   name: '집 앞 공원 산책하기',
-  durationTime: 12345,
-  startTime: `${new Date().toISOString()}`,
+  durationGoalTime: 12345,
+  startGoalTime: `${new Date().toISOString()}`,
 };
 
 export const Default = (): JSX.Element => {
@@ -27,6 +29,16 @@ export const Default = (): JSX.Element => {
       <Routine routineObject={routineObject} type="communityRoutine" />
       <Routine routineObject={routineObject} type="communityMyRoutine" />
       <Routine routineObject={routineObject} type="create" />
+      <Routine
+        routineObject={{
+          emoji: '',
+          color: Colors.red,
+          name: '',
+          durationGoalTime: 0,
+          startGoalTime: `${new Date().toISOString()}`,
+        }}
+        type="create"
+      />
     </>
   );
 };
