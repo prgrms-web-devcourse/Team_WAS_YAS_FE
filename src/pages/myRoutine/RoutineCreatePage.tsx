@@ -15,8 +15,11 @@ import styled from '@emotion/styled';
 import moment from 'moment';
 import { RoutineType } from '@/Models';
 import Swal from 'sweetalert2';
+import { ROUTINE_CATEGORY } from '@/constants';
+import { useHistory } from 'react-router-dom';
 
 const RoutineCreatePage = (): JSX.Element => {
+  const history = useHistory();
   const [routine, setRoutine] = useState<RoutineType>({
     routineId: 0,
     emoji: '💫',
@@ -29,10 +32,27 @@ const RoutineCreatePage = (): JSX.Element => {
     missions: [],
   });
 
-  // const [errors, setErrors] = useState({ categories: '' });
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(routine);
+    const { title, routineCategories } = routine;
+    if (!title) {
+      Swal.fire({
+        icon: 'warning',
+        title: '루틴 이름을 입력해주세요!',
+      });
+    } else if (!routineCategories.length) {
+      Swal.fire({
+        icon: 'warning',
+        title: '루틴 카테고리를 선택해주세요!',
+      });
+    } else {
+      Swal.fire({
+        icon: 'success',
+        title: '루틴 생성이 완료되었습니다!🎉',
+      }).then(() => {
+        history.goBack();
+      });
+    }
   };
   const handleEmojiChange = (emoji: string) => {
     setRoutine(() => ({ ...routine, emoji }));
@@ -50,45 +70,11 @@ const RoutineCreatePage = (): JSX.Element => {
     });
   };
 
-  // const [categories, setCategories] = useState<string[]>([]);
-  const handleCategory = (
-    e: ChangeEvent<HTMLInputElement> & { target: HTMLInputElement },
-  ) => {
-    const category = e.target.value;
-    const { routineCategories } = routine;
-    const categoryInputs = document.querySelectorAll(
-      'input[name=routineCategory]',
-    );
-    let checkedCategoryLength = 0;
-    for (let i = 0; i < categoryInputs.length; i++) {
-      if ((categoryInputs[i] as HTMLInputElement).checked) {
-        checkedCategoryLength += 1;
-        if (checkedCategoryLength > 2) {
-          (categoryInputs[i] as HTMLInputElement).checked = false;
-          // checkedCategoryLength -= 1;
-          Swal.fire({
-            icon: 'warning',
-            title: '카테고리는 <p>최대 2개까지만 선택이 가능합니다',
-          });
-        }
-      }
-    }
-    if (checkedCategoryLength <= 2) {
-      if (!routineCategories.includes(category)) {
-        setRoutine(() => ({
-          ...routine,
-          routineCategories: [...routineCategories, category],
-        }));
-      } else if (routineCategories.includes(category)) {
-        const newCategories = routineCategories.filter(
-          (item) => item !== category,
-        );
-        setRoutine(() => ({
-          ...routine,
-          routineCategories: newCategories,
-        }));
-      }
-    }
+  const handleCategory = (selectedCategories: string[]) => {
+    setRoutine({
+      ...routine,
+      routineCategories: [...selectedCategories],
+    });
   };
 
   const handleWeek = (
@@ -115,6 +101,16 @@ const RoutineCreatePage = (): JSX.Element => {
       startGoalTime: moment(time).toISOString(),
     }));
   };
+
+  const onCancelClick = () => {
+    Swal.fire({
+      icon: 'warning',
+      title: '작성했던 모든 내용이 초기화됩니다!',
+    }).then(() => {
+      history.goBack();
+    });
+  };
+
   return (
     <Container>
       <Routine routineObject={routine} type="create" />
@@ -128,13 +124,17 @@ const RoutineCreatePage = (): JSX.Element => {
           placeholder="루틴 이름을 입력해주세요"
           onChange={handleChange}
         />
+        {routine.title ? '' : <Span>루틴 이름을 입력해주세요</Span>}
         <Label htmlFor="routineCategory">카테고리</Label>
-        <RoutineCategorySelector
-          type="checkbox"
-          name="routineCategory"
-          onChange={handleCategory}
-        />
-        {/* {errors.categories ? <span>{errors.categories}</span> : ''} */}
+        <StyledRoutineCategory>
+          <RoutineCategorySelector
+            selectedLimit={2}
+            type="checkbox"
+            name="routineCategory"
+            onChange={handleCategory}
+            categories={Object.values(ROUTINE_CATEGORY).slice(1)}
+          />
+        </StyledRoutineCategory>
         <Label htmlFor="color">색상</Label>
         <ColorPalette name="color" onChange={handleChange} />
         <Label htmlFor="weeks">요일</Label>
@@ -148,7 +148,9 @@ const RoutineCreatePage = (): JSX.Element => {
           />
         </StyledStartTimePicker>
         <ButtonContainer>
-          <Button colorType="white">취소하기</Button>
+          <Button type="button" colorType="white" onClick={onCancelClick}>
+            취소하기
+          </Button>
           <Button type="submit">생성하기</Button>
         </ButtonContainer>
       </Form>
@@ -158,17 +160,22 @@ const RoutineCreatePage = (): JSX.Element => {
 
 export default RoutineCreatePage;
 
-const Form = styled.form``;
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`;
 
 const Label = styled.label`
   display: inline-block;
-  margin: 0.5rem 0;
+  margin: 1rem 0;
   font-size: ${FontSize.base};
   color: ${Colors.textSecondary};
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
+  margin-top: 1.5rem;
   > button {
     margin-right: 1rem;
   }
@@ -178,5 +185,20 @@ const StyledStartTimePicker = styled.div`
   width: 100%;
   > div {
     width: 100%;
+  }
+`;
+
+const Span = styled.span`
+  margin-top: 0.5rem;
+  color: ${Colors.functionNegative};
+`;
+const StyledRoutineCategory = styled.div`
+  > div {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    place-items: center;
+    > label {
+      margin-bottom: 0.5rem;
+    }
   }
 `;
