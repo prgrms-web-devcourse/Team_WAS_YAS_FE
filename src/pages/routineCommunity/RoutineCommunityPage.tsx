@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Container,
   IconButton,
@@ -106,6 +106,10 @@ const RoutineCommunityPage = (): JSX.Element => {
     '건강',
     '공부',
   ];
+  const [clickedCategory, setClickedCategory] = useState<string>('전체');
+  const categoryChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setClickedCategory(e.target.value);
+  };
 
   const history = useHistory();
   const onClickRoutine = (e: React.MouseEvent<HTMLElement>, id: string) => {
@@ -126,114 +130,101 @@ const RoutineCommunityPage = (): JSX.Element => {
     <Container navBar>
       <TabBar>
         <TabBar.Item title="신규 루틴" index="0">
-          <StyledCategorySelector>
-            {categoryList?.map((item, i) => (
-              <RoutineCategorySelector.Item
-                key={i}
-                title={item}
-                index={String(i)}
-              >
-                <RoutineGridBox>
-                  {DUMMY_ROUTINE?.map((routine) => {
-                    if (item === '전체') {
-                      return (
-                        <Routine
-                          onClick={(e) => onClickRoutine(e, routine.id)}
-                          key={routine.id}
-                          routineObject={routine}
-                          type="communityRoutine"
-                        />
-                      );
-                    } else if (routine.categorie.includes(item)) {
-                      return (
-                        <Routine
-                          onClick={(e) => onClickRoutine(e, routine.id)}
-                          key={routine.id}
-                          routineObject={routine}
-                          type="communityRoutine"
-                        />
-                      );
-                    }
-                  })}
-                </RoutineGridBox>
-              </RoutineCategorySelector.Item>
-            ))}
-          </StyledCategorySelector>
+          <CategoryContainer>
+            <StyledCategorySelector
+              onChange={categoryChangeHandler}
+              categories={categoryList}
+            />
+          </CategoryContainer>
+          <RoutineGridBox>
+            {DUMMY_ROUTINE?.map((routine) => {
+              if (clickedCategory === '전체') {
+                return (
+                  <Routine
+                    onClick={(e) => onClickRoutine(e, routine.id)}
+                    key={routine.id}
+                    routineObject={routine}
+                    type="communityRoutine"
+                  />
+                );
+              } else if (routine.categorie.includes(clickedCategory)) {
+                return (
+                  <Routine
+                    onClick={(e) => onClickRoutine(e, routine.id)}
+                    key={routine.id}
+                    routineObject={routine}
+                    type="communityRoutine"
+                  />
+                );
+              }
+            })}
+          </RoutineGridBox>
         </TabBar.Item>
 
         <TabBar.Item title="인기 루틴" index="1">
-          <StyledCategorySelector>
-            {categoryList?.map((item, i) => (
-              <RoutineCategorySelector.Item
-                key={i}
-                title={item}
-                index={String(i)}
-              >
-                <RoutineGridBox>
-                  {DUMMY_ROUTINE?.map((routine) => {
-                    if (item === '전체') {
-                      return (
-                        <Routine
-                          onClick={(e) => onClickRoutine(e, routine.id)}
-                          key={routine.id}
-                          routineObject={routine}
-                          type="communityRoutine"
-                          like={+routine.id}
-                        />
-                      );
-                    } else if (routine.categorie.includes(item)) {
-                      return (
-                        <Routine
-                          onClick={(e) => onClickRoutine(e, routine.id)}
-                          key={routine.id}
-                          routineObject={routine}
-                          type="communityRoutine"
-                          like={+routine.id}
-                        />
-                      );
-                    }
-                  })}
-                </RoutineGridBox>
-              </RoutineCategorySelector.Item>
-            ))}
-          </StyledCategorySelector>
+          <CategoryContainer>
+            <StyledCategorySelector
+              onChange={categoryChangeHandler}
+              categories={categoryList}
+            />
+          </CategoryContainer>
+          <RoutineGridBox>
+            {DUMMY_ROUTINE?.map((routine) => {
+              if (clickedCategory === '전체') {
+                return (
+                  <Routine
+                    onClick={(e) => onClickRoutine(e, routine.id)}
+                    key={routine.id}
+                    routineObject={routine}
+                    type="communityRoutine"
+                    like={+routine.id}
+                  />
+                );
+              } else if (routine.categorie.includes(clickedCategory)) {
+                return (
+                  <Routine
+                    onClick={(e) => onClickRoutine(e, routine.id)}
+                    key={routine.id}
+                    routineObject={routine}
+                    type="communityRoutine"
+                    like={+routine.id}
+                  />
+                );
+              }
+            })}
+          </RoutineGridBox>
         </TabBar.Item>
 
         <TabBar.Item title="나의 루틴" index="2">
-          <StyledCategorySelector>
-            {categoryList &&
-              categoryList.map((item, i) => (
-                <RoutineCategorySelector.Item
-                  key={i}
-                  title={item}
-                  index={String(i)}
-                >
-                  <RoutineGridBox>
-                    {DUMMY_ROUTINE?.map((routine) => {
-                      if (item === '전체') {
-                        return (
-                          <Routine
-                            onClick={(e) => onClickRoutine(e, routine.id)}
-                            key={routine.id}
-                            routineObject={routine}
-                            type="communityMyRoutine"
-                          />
-                        );
-                      } else if (routine.categorie.includes(item)) {
-                        return (
-                          <Routine
-                            onClick={(e) => onClickRoutine(e, routine.id)}
-                            key={routine.id}
-                            routineObject={routine}
-                            type="communityMyRoutine"
-                          />
-                        );
-                      }
-                    })}
-                  </RoutineGridBox>
-                </RoutineCategorySelector.Item>
-              ))}
-          </StyledCategorySelector>
+          <CategoryContainer>
+            <StyledCategorySelector
+              onChange={categoryChangeHandler}
+              categories={categoryList}
+            />
+          </CategoryContainer>
+          <RoutineGridBox>
+            {DUMMY_ROUTINE?.map((routine) => {
+              if (clickedCategory === '전체') {
+                return (
+                  <Routine
+                    onClick={(e) => onClickRoutine(e, routine.id)}
+                    key={routine.id}
+                    routineObject={routine}
+                    type="communityMyRoutine"
+                  />
+                );
+              } else if (routine.categorie.includes(clickedCategory)) {
+                return (
+                  <Routine
+                    onClick={(e) => onClickRoutine(e, routine.id)}
+                    key={routine.id}
+                    routineObject={routine}
+                    type="communityMyRoutine"
+                  />
+                );
+              }
+            })}
+          </RoutineGridBox>
         </TabBar.Item>
       </TabBar>
 
@@ -246,10 +237,25 @@ const RoutineCommunityPage = (): JSX.Element => {
 
 export default RoutineCommunityPage;
 
-const StyledCategorySelector = styled(RoutineCategorySelector)`
+const CategoryContainer = styled.div`
+  overflow-x: scroll;
+  width: 688px;
   margin: 1.5rem 0;
-  box-sizing: border-box;
-  justify-content: flex-start;
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media ${Media.sm} {
+    margin: 0.5rem 0;
+    max-width: 320px;
+    padding: 0 0.75rem;
+  }
+`;
+
+const StyledCategorySelector = styled(RoutineCategorySelector)`
   @media ${Media.sm} {
     margin: 0.75rem 0;
     max-width: 320px;
