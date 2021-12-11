@@ -12,10 +12,12 @@ import {
   Spinner,
   UserProfileImage,
 } from '@/components';
+import { Avatar } from '@mui/material';
+import { useRef, useState } from 'react';
 
 const initialValues = {
   nickName: userDummy.nickName,
-  imageFile: '',
+  profileImageFile: '',
 };
 
 const validationSchema = Yup.object().shape({
@@ -27,8 +29,15 @@ const validationSchema = Yup.object().shape({
     .required('닉네임을 입력해주세요.'),
 });
 
+// TODO: API 연동시 파일처리 부분 리팩토링
 const UserEditPage = (): JSX.Element => {
   const history = useHistory();
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState<boolean>(false);
+  // const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | undefined>(
+    userDummy.profileImageUrl,
+  );
   const {
     errors,
     handleBlur,
@@ -61,27 +70,52 @@ const UserEditPage = (): JSX.Element => {
     },
   });
 
-  const handleChangeImage = (
+  const handleFileUploadButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+    inputRef.current && inputRef?.current.click();
+  };
+
+  const handleFileInputChange = async (
     e: React.ChangeEvent<HTMLInputElement> & { target: HTMLInputElement },
   ) => {
     if (e.target.files === null) return;
-    setFieldValue('imageFile', e.target.files[0]);
+    setLoading(true);
+    const file = e.target.files[0];
+    // setImageFile(file);
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (typeof reader.result === `string`) setImageUrl(reader.result);
+    };
+    if (file) reader.readAsDataURL(file);
+    setFieldValue('profileImageFile', e.target.files[0]);
+
+    setLoading(false);
   };
 
   return (
     <StyledContainer navBar>
       <HeadText>프로필 수정</HeadText>
       <Form onSubmit={handleSubmit}>
-        <UserProfileImageContainer>
-          <UserProfileImage
-            edit
-            id="imageUrl"
-            name="imageUrl"
-            src={userDummy.profileImageUrl}
-            onChange={handleChangeImage}
-            onBlur={handleBlur}
-          />
-        </UserProfileImageContainer>
+        <AvatarWrapper>
+          <StyledAvatar src={imageUrl} />
+        </AvatarWrapper>
+        <Label htmlFor="profileImageFile">프로필 이미지</Label>
+        <ImageFileInput
+          id="profileImageFile"
+          name="profileImageFile"
+          onBlur={handleBlur}
+          ref={inputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleFileInputChange}
+        />
+        <Button
+          type="button"
+          colorType="white"
+          onClick={handleFileUploadButton}
+        >
+          이미지 업로드
+        </Button>
         <Label htmlFor="nickName">닉네임</Label>
         <Input
           id="nickName"
@@ -135,10 +169,27 @@ const Label = styled.label`
   color: ${Colors.textSecondary};
 `;
 
+const ImageFileInput = styled.input`
+  display: none;
+`;
+
 const GuideText = styled.p`
   margin: 1rem 0;
   color: ${Colors.functionNegative};
   margin-bottom: 2rem;
+`;
+
+const AvatarWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const StyledAvatar = styled(Avatar)`
+  background-color: ${Colors.pointLight};
+  width: 200px;
+  height: 200px;
+  /* align-self: center; */
+  margin-bottom: 4rem;
 `;
 
 export default UserEditPage;

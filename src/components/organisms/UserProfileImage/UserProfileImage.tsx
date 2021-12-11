@@ -4,12 +4,15 @@ import { Media } from '@/styles';
 import UserProfileIcon from './UserProfileIcon';
 import CameraIcon from './CameraIcon';
 import { Spinner } from '@/components';
+import { Avatar } from '@mui/material';
+import { Colors } from '@/styles';
 
 export interface UserProfileImageProps extends React.ComponentProps<'input'> {
   edit?: boolean;
   src?: string;
 }
 
+// TODO: API 연동시 파일처리 부분 리팩토링
 const UserProfileImage = ({
   edit,
   src,
@@ -49,11 +52,12 @@ const UserProfileImage = ({
 
   return (
     <Container edit={edit} onClick={handleClickUserProfile}>
-      {imageUrl ? (
+      {/* {imageUrl ? (
         <Image src={imageUrl} alt="유저 이미지" />
       ) : (
         <UserProfileIcon />
-      )}
+      )} */}
+      {imageUrl && <StyledAvatar src={imageUrl} />}
       {edit && <ImageAddIcon />}
       <ImageFileInput
         ref={inputRef}
@@ -99,6 +103,13 @@ const ImageAddIcon = styled(CameraIcon)`
 
 const ImageFileInput = styled.input`
   display: none;
+`;
+
+const StyledAvatar = styled(Avatar)`
+  background-color: ${Colors.pointLight};
+  width: 200px;
+  height: 200px;
+  margin-bottom: 4rem;
 `;
 
 export default UserProfileImage;
