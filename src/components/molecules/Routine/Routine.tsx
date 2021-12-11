@@ -57,6 +57,7 @@ const Routine = ({
             <ToolBoxButtonIcon />
             {type === 'myRoutine' ? (
               <EditBox
+                style={{ transform: 'translate(-110px, -48px)', width: 110 }}
                 visible={visible}
                 onClose={handleCloseToolBox}
                 onClickUpdateButton={handleClickUpdateButton}
@@ -64,6 +65,7 @@ const Routine = ({
               />
             ) : type === 'communityMyRoutine' ? (
               <DeleteBox
+                style={{ transform: 'translate(-100px, -50px)', width: 110 }}
                 visible={visible}
                 onClose={handleCloseToolBox}
                 onClickDeleteButton={handleClickDeleteButton}
