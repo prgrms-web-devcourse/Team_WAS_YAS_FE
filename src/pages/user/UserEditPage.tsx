@@ -171,7 +171,6 @@ const StyledAvatar = styled(Avatar)`
   background-color: ${Colors.pointLight};
   width: 200px;
   height: 200px;
-  /* align-self: center; */
   margin-bottom: 4rem;
 `;
 
