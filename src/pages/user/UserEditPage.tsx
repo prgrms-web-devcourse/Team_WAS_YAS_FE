@@ -11,9 +11,19 @@ import {
   UserProfileImage,
 } from '@/components';
 import { useHistory } from 'react-router-dom';
+import { UserType } from '@/Models';
+
+//TODO: user store로 대체
+const user: UserType = {
+  userId: 123,
+  userName: '아이엠보이',
+  nickName: '아이엠보이',
+  profileImageUrl: 'https://picsum.photos/200',
+  email: 'yas@yas.com',
+};
 
 const initialValues = {
-  nickName: '',
+  nickName: user.nickName,
   imageFile: '',
 };
 
@@ -76,6 +86,7 @@ const UserEditPage = (): JSX.Element => {
             edit
             id="imageUrl"
             name="imageUrl"
+            src={user.profileImageUrl}
             onChange={handleChangeImage}
             onBlur={handleBlur}
           />
@@ -85,7 +96,7 @@ const UserEditPage = (): JSX.Element => {
           id="nickName"
           name="nickName"
           type="text"
-          placeholder="닉네임"
+          placeholder="변경할 닉네임을 작성해주세요."
           onChange={handleChange}
           onBlur={handleBlur}
           value={values.nickName}
