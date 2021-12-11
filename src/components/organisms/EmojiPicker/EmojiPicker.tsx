@@ -24,7 +24,9 @@ const EmojiPicker = ({
 
   return (
     <EmojiPickerContainer {...props}>
-      <Button onClick={toggleEmojiPicker}>선택하기</Button>
+      <Button type="button" onClick={toggleEmojiPicker}>
+        선택하기
+      </Button>
       {showEmojiPicker && (
         <PickerContainer>
           <Picker
