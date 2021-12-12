@@ -53,6 +53,7 @@ export { EmojiPicker } from './organisms/EmojiPicker';
 export type { EmojiPickerProps } from './organisms/EmojiPicker';
 export { StartTimePicker } from './organisms/StartTimePicker';
 export { DurationTimePicker } from './organisms/DurationTimePicker';
+export type { DurationTimePickerProps } from './organisms/DurationTimePicker';
 
 //! Template Component
 export { Container } from './templates/Container';
