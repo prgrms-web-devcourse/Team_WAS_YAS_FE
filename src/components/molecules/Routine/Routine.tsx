@@ -1,4 +1,5 @@
 import { DeleteBox, EditBox, Icon } from '@/components';
+import { RoutineType } from '@/Models';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import TimeUtils from '@/utils/time';
 import styled from '@emotion/styled';
@@ -7,15 +8,7 @@ import CheckComplete from './CheckComplete';
 import ToolBoxButtonIcon from './ToolBoxButtonIcon';
 
 interface RoutineProps extends React.ComponentProps<'div'> {
-  routineObject: {
-    emoji: string;
-    color: string;
-    name: string;
-    durationGoalTime: number;
-    startGoalTime: string;
-    routineCategory?: string[];
-    weeks?: string[];
-  };
+  routineObject: Partial<RoutineType>;
   type: 'myRoutine' | 'communityMyRoutine' | 'communityRoutine' | 'create';
   completed?: boolean;
   like?: number;
@@ -29,15 +22,12 @@ const Routine = ({
   style,
   ...props
 }: RoutineProps): JSX.Element => {
-  const {
-    emoji,
-    color,
-    name,
-    durationGoalTime: dt,
-    startGoalTime: st,
-  } = routineObject;
-  const durationTime = TimeUtils.calculateTime(dt);
-  const startTime = TimeUtils.startTime(st);
+  const { emoji, color, title, durationGoalTime, startGoalTime } =
+    routineObject;
+  const durationTime = TimeUtils.calculateTime(durationGoalTime || 500);
+  const startTime = TimeUtils.startTime(
+    startGoalTime || new Date().toISOString(),
+  );
   const [visible, setVisible] = useState<boolean>(false);
 
   const handleCloseToolBox = () => {
@@ -89,9 +79,10 @@ const Routine = ({
         ) : null}
       </RoutineHeader>
       <Emoji>{emoji}&nbsp;</Emoji>
-      <Title>{name}&nbsp;</Title>
+      <Title>{title}&nbsp;</Title>
       <TotalTime>{durationTime}&nbsp;</TotalTime>
       <StartTime>{startTime}&nbsp;</StartTime>
+      {completed && <CompletedRoutine />}
     </RoutineContainer>
   );
 };
