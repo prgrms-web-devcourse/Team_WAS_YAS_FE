@@ -10,7 +10,7 @@ import {
   EmojiPicker,
   StartTimePicker,
 } from '@/components';
-import { Colors, FontSize } from '@/styles';
+import { Colors, FontSize, Media } from '@/styles';
 import styled from '@emotion/styled';
 import moment from 'moment';
 import { RoutineType } from '@/Models';
@@ -112,7 +112,7 @@ const RoutineCreatePage = (): JSX.Element => {
   };
 
   return (
-    <Container>
+    <Container style={{ paddingTop: '56px' }}>
       <Routine routineObject={routine} type="create" />
       <Form onSubmit={handleSubmit}>
         <Label htmlFor="emoji">이모지</Label>
@@ -174,10 +174,20 @@ const Label = styled.label`
 `;
 
 const ButtonContainer = styled.div`
-  display: flex;
-  margin-top: 1.5rem;
+  margin-top: 2rem;
+  @media ${Media.sm} {
+    > button {
+      width: 100%;
+    }
+  }
+  @media ${Media.md} {
+    display: flex;
+  }
+  @media ${Media.lg} {
+    display: flex;
+  }
   > button {
-    margin-right: 1rem;
+    margin: 0 1rem 1rem 0;
   }
 `;
 
