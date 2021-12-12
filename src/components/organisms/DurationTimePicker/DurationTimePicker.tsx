@@ -2,36 +2,47 @@ import React from 'react';
 import AdapterDateFns from '@mui/lab/AdapterMoment';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import { TimePicker } from '@mui/lab';
-import { InputProps } from '@/components';
 import { TextField } from '@mui/material';
+import moment from 'moment';
 
-const DurationTimePicker = ({ onChange }: InputProps): JSX.Element => {
+export interface DurationTimePickerProps {
+  onChange: (time: number) => void;
+}
+const DurationTimePicker = ({
+  onChange,
+}: DurationTimePickerProps): JSX.Element => {
   const [time, setTime] = React.useState(new Date(0, 0, 0, 1));
   const handleChange = (value: any) => {
     setTime(value);
-    onChange && onChange(value);
+    const calculateDurationTime =
+      moment(value).hours() * 3600 +
+      moment(value).minutes() * 60 +
+      moment(value).seconds();
+    onChange && onChange(calculateDurationTime);
   };
 
   return (
-    <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <TimePicker
-        ampm={false}
-        ampmInClock={false}
-        views={['hours', 'minutes', 'seconds']}
-        inputFormat="hh시간 mm분 ss초"
-        mask="__:__"
-        label="지속 시간"
-        value={time}
-        shouldDisableTime={(timeValue, clockType) => {
-          if (clockType === 'hours' && timeValue > 1) {
-            return true;
-          }
-          return false;
-        }}
-        onChange={handleChange}
-        renderInput={(params) => <TextField {...params} />}
-      />
-    </LocalizationProvider>
+    <>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <TimePicker
+          ampm={false}
+          openTo="hours"
+          views={['hours', 'minutes', 'seconds']}
+          inputFormat="HH시간 mm분 ss초"
+          mask="__:__:__"
+          label="지속 시간"
+          value={time}
+          onChange={handleChange}
+          shouldDisableTime={(timeValue, clockType) => {
+            if (clockType === 'hours' && timeValue > 1) {
+              return true;
+            }
+            return false;
+          }}
+          renderInput={(params) => <TextField {...params} />}
+        />
+      </LocalizationProvider>
+    </>
   );
 };
 
