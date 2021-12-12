@@ -30,7 +30,6 @@ const DurationTimePicker = ({
           views={['hours', 'minutes', 'seconds']}
           inputFormat="HH시간 mm분 ss초"
           mask="__:__:__"
-          label="지속 시간"
           value={time}
           onChange={handleChange}
           shouldDisableTime={(timeValue, clockType) => {
