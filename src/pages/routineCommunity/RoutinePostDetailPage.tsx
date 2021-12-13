@@ -48,12 +48,12 @@ const RoutinePostDetailPage = (): JSX.Element => {
         </BringRoutineButton>
       </RoutineInfoFooter>
       <MissionContainer open={missionOpened}>
-        <Mission missionObject={missionDummy} />
-        <Mission missionObject={missionDummy} />
-        <Mission missionObject={missionDummy} />
-        <Mission missionObject={missionDummy} />
-        <Mission missionObject={missionDummy} />
-        <Mission missionObject={missionDummy} />
+        <Mission type="create" missionObject={missionDummy} />
+        <Mission type="create" missionObject={missionDummy} />
+        <Mission type="create" missionObject={missionDummy} />
+        <Mission type="create" missionObject={missionDummy} />
+        <Mission type="create" missionObject={missionDummy} />
+        <Mission type="create" missionObject={missionDummy} />
         <SpreadButton>
           <KeyboardArrowDownRoundedIcon />
           펼치기
