@@ -27,11 +27,15 @@ export const Default = (): JSX.Element => {
       <Routine routineObject={routineObject} type="create" />
       <Routine
         routineObject={{
+          routineId: 0,
           emoji: '',
           color: Colors.red,
           title: '',
           durationGoalTime: 0,
           startGoalTime: `${new Date().toISOString()}`,
+          routineCategories: [],
+          missions: [],
+          weeks: [],
         }}
         type="create"
       />

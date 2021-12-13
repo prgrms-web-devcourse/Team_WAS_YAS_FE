@@ -1,8 +1,9 @@
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import styled from '@emotion/styled';
+import React from 'react';
 
 export interface DayItemProps extends React.ComponentProps<'input'> {
-  day: string;
+  day?: string;
 }
 
 const DayItem = ({ day, ...props }: DayItemProps): JSX.Element => {
