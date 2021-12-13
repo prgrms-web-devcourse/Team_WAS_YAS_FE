@@ -1,17 +1,15 @@
 import { Colors, Media } from '@/styles';
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React from 'react';
 import Base from './Base';
 
 interface PlayButtonProps extends React.ComponentProps<'button'> {
   onClick?: any;
+  isPlay: boolean;
 }
 
-const Play = ({ onClick, ...props }: PlayButtonProps): JSX.Element => {
-  const [isPlay, setIsPlay] = useState<boolean>(true);
-
+const Play = ({ onClick, isPlay, ...props }: PlayButtonProps): JSX.Element => {
   const handleClickPlayButton = (): void => {
-    setIsPlay((isPlay) => !isPlay);
     onClick && onClick();
   };
 

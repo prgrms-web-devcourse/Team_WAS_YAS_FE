@@ -1,14 +1,16 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-function useInterval(callback, delay) {
+function useInterval(callback, delay, delayFn) {
   const savedCallback = useRef();
   const intervalId = useRef(null);
   const [currentDelay, setDelay] = useState(delay);
 
-  const toggleRunning = useCallback(
-    () => setDelay((currentDelay) => (currentDelay === null ? delay : null)),
-    [delay],
-  );
+  const toggleRunning = useCallback(() => {
+    setDelay((currentDelay) => {
+      delayFn(!!currentDelay);
+      return currentDelay === null ? delay : null;
+    });
+  }, [delay, delayFn]);
 
   const clear = useCallback(() => clearInterval(intervalId.current), []);
 
@@ -30,7 +32,7 @@ function useInterval(callback, delay) {
     return clear;
   }, [currentDelay, clear]);
 
-  return [toggleRunning, !!currentDelay];
+  return toggleRunning;
 }
 
 export default useInterval;

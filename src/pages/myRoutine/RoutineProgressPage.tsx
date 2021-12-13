@@ -10,6 +10,7 @@ import styled from '@emotion/styled';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import TimeUtils from '@/utils/time';
 import moment from 'moment';
+import 'moment/locale/ko';
 import useInterval from '../../hooks/useInterval';
 import { keyframes } from '@emotion/react';
 import { RoutineProgressModal } from '@/components/organisms/RoutineProgressModal';
@@ -99,12 +100,23 @@ const RoutineProgressPage = (): JSX.Element => {
     ...DUMMY_ROUTINE_DETAIL.missions,
   ]);
   const [startTime, setStartTime] = useState(moment());
+  const [isPlay, setIsPlay] = useState(true);
 
-  const [toggle] = useInterval(() => {
-    setDuration(
-      moment.duration(duration.asMilliseconds() - 1000, 'milliseconds'),
-    );
-  }, 1000);
+  const toggle = useInterval(
+    () => {
+      setDuration(
+        moment.duration(duration.asMilliseconds() - 1000, 'milliseconds'),
+      );
+    },
+    1000,
+    (isStop: boolean) => {
+      if (isStop) {
+        setIsPlay(false);
+      } else {
+        setIsPlay(true);
+      }
+    },
+  );
 
   const timeClass = duration.asMilliseconds() < 0 ? 'over' : '';
   const nextStepClass = nextStep ? 'nextStep' : '';
@@ -121,7 +133,7 @@ const RoutineProgressPage = (): JSX.Element => {
 
     Swal.fire({
       title: '이전 미션으로 되돌아갈까요?',
-      text: '기록이 삭제되고 미션을 다시 시작합니다.',
+      text: '미션이 다시 시작되고 미션 완료 시 기록이 변경됩니다.',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: `${Colors.functionPositive}`,
@@ -133,6 +145,10 @@ const RoutineProgressPage = (): JSX.Element => {
         setPrevStep(true);
 
         await sleep(450);
+        if (!isPlay) {
+          setIsPlay(true);
+          toggle();
+        }
         setCurrentIndex((prevIndex) => {
           setDuration(
             moment.duration(
@@ -143,6 +159,7 @@ const RoutineProgressPage = (): JSX.Element => {
           );
           return prevIndex - 1;
         });
+        setStartTime(moment());
 
         await sleep(450);
         setPrevStep(false);
@@ -161,6 +178,10 @@ const RoutineProgressPage = (): JSX.Element => {
     setNextStep(true);
 
     await sleep(450);
+    if (!isPlay) {
+      setIsPlay(true);
+      toggle();
+    }
     setCurrentIndex((prevIndex) => {
       setDuration(
         moment.duration(
@@ -170,6 +191,7 @@ const RoutineProgressPage = (): JSX.Element => {
       );
       return prevIndex + 1;
     });
+    setStartTime(moment());
 
     await sleep(450);
     setNextStep(false);
@@ -177,9 +199,9 @@ const RoutineProgressPage = (): JSX.Element => {
 
   const handleCheckClick = async () => {
     const endTime = moment();
-    const userDurationTime = Math.round(
-      moment.duration(endTime.diff(startTime)).asSeconds(),
-    );
+    const userDurationTime =
+      DUMMY_ROUTINE_DETAIL.missions[currentIndex].durationGoalTime -
+      duration.asSeconds();
 
     Swal.fire({
       position: 'center',
@@ -189,7 +211,7 @@ const RoutineProgressPage = (): JSX.Element => {
         TimeUtils.calculateTime(userDurationTime) || '0초'
       }</i>`,
       showConfirmButton: false,
-      timer: 1500,
+      timer: 1200,
     });
 
     if (currentIndex === DUMMY_ROUTINE_DETAIL.missions.length - 1) {
@@ -212,6 +234,10 @@ const RoutineProgressPage = (): JSX.Element => {
     setNextStep(true);
 
     await sleep(450);
+    if (!isPlay) {
+      setIsPlay(true);
+      toggle();
+    }
     setCurrentIndex((prevIndex) => {
       setDuration(
         moment.duration(
@@ -226,8 +252,9 @@ const RoutineProgressPage = (): JSX.Element => {
     setNextStep(false);
 
     setStartTime(moment());
-    console.log('endTime : ', endTime.toISOString());
-    console.log('startTime : ', moment().toISOString());
+    console.log('이전 미션 startTime : ', startTime.toISOString());
+    console.log('이전 미션 endTime : ', endTime.toISOString());
+    console.log('다음 미션 startTime : ', moment().toISOString());
   };
 
   return (
@@ -243,11 +270,7 @@ const RoutineProgressPage = (): JSX.Element => {
         >
           <Emoji>{DUMMY_ROUTINE_DETAIL.missions[currentIndex].emoji}</Emoji>
           <Title>{DUMMY_ROUTINE_DETAIL.missions[currentIndex].title}</Title>
-          <Time className={timeClass}>
-            {moment(Math.abs(duration.asMilliseconds())).format(
-              duration.asHours() > 1 ? 'h:mm:ss' : 'mm:ss',
-            )}
-          </Time>
+          <Time className={timeClass}>{TimeUtils.timeFormat(duration)}</Time>
           <DurationTime>
             {TimeUtils.calculateTime(
               DUMMY_ROUTINE_DETAIL.missions[currentIndex].durationGoalTime,
@@ -270,7 +293,7 @@ const RoutineProgressPage = (): JSX.Element => {
       />
 
       <ButtonContainer>
-        <RoundedButton.Play onClick={toggle} />
+        <RoundedButton.Play isPlay={isPlay} onClick={toggle} />
         <IconButton.Check onClick={handleCheckClick} />
       </ButtonContainer>
     </Container>

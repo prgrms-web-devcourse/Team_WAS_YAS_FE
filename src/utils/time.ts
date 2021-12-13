@@ -30,10 +30,21 @@ const dateFromNow = (time: string): string => {
   return moment(time).startOf('day').fromNow();
 };
 
+const timeFormat = (duration: any): string => {
+  const { seconds: s, minutes: m, hours: h } = duration._data;
+  const seconds = Math.abs(s);
+  const minutes = Math.abs(m);
+  const hours = Math.abs(h);
+  return `${hours >= 1 ? `0${hours}:` : ''}${
+    minutes >= 10 ? `${minutes}` : `0${minutes}`
+  }:${seconds >= 10 ? `${seconds}` : `0${seconds}`}`;
+};
+
 const TimeUtils = {
   calculateTime,
   startTime,
   dateFromNow,
+  timeFormat,
 };
 
 export default TimeUtils;
