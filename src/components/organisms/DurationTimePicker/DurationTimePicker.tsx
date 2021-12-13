@@ -29,7 +29,7 @@ const DurationTimePicker = ({
           openTo="hours"
           views={['hours', 'minutes', 'seconds']}
           inputFormat="HH시간 mm분 ss초"
-          mask="__:__:__"
+          disableMaskedInput={true}
           value={time}
           onChange={handleChange}
           shouldDisableTime={(timeValue, clockType) => {
