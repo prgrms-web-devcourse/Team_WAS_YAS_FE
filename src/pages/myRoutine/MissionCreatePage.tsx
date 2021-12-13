@@ -70,7 +70,11 @@ const MissionCreatePage = (): JSX.Element => {
 
   return (
     <Container>
-      <Mission missionObject={mission} style={{ marginTop: '6rem' }} />
+      <Mission
+        type="create"
+        missionObject={mission}
+        style={{ marginTop: '6rem' }}
+      />
       <Form onSubmit={handleSubmit}>
         <Label htmlFor="emoji">이모지</Label>
         <EmojiPicker name="emoji" onEmojiClick={handleEmojiChange} />
