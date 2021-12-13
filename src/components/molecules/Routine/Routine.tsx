@@ -140,6 +140,7 @@ const ToolBoxButton = styled.button`
   border: none;
   padding: 0 0 0.5rem 0.5rem;
   cursor: pointer;
+  z-index: 10;
 `;
 
 const Like = styled.span`

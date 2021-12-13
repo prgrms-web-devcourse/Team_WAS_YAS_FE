@@ -54,6 +54,8 @@ export type { EmojiPickerProps } from './organisms/EmojiPicker';
 export { StartTimePicker } from './organisms/StartTimePicker';
 export { DurationTimePicker } from './organisms/DurationTimePicker';
 export type { DurationTimePickerProps } from './organisms/DurationTimePicker';
+export { Comment } from './organisms/Comment';
+export type { CommentProps } from './organisms/Comment';
 
 //! Template Component
 export { Container } from './templates/Container';
