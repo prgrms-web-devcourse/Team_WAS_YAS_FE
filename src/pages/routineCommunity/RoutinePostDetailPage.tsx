@@ -16,6 +16,7 @@ import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownR
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 import { ROUTINE_CATEGORY } from '@/constants';
 import { Colors, Media, FontSize } from '@/styles';
+import { useHistory } from 'react-router-dom';
 
 const missionsDummy = [
   { ...missionDummy, missionId: 1 },
@@ -29,6 +30,7 @@ const missionsDummy = [
 ];
 
 const RoutinePostDetailPage = (): JSX.Element => {
+  const history = useHistory();
   const [missionOpened, setMissionOpened] = useState<boolean>(false);
 
   const handleClickMissionOpened = () => {
@@ -56,7 +58,11 @@ const RoutinePostDetailPage = (): JSX.Element => {
             </RoutineCategory>
           ))}
         </CategoryWrapper>
-        <BringRoutineButton>
+        <BringRoutineButton
+          onClick={() => {
+            history.push('/routine');
+          }}
+        >
           <GetAppRoundedIcon />
           루틴 가져오기
         </BringRoutineButton>
