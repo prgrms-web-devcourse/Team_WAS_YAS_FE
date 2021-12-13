@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { IconButtonProps } from './IconButton';
 import { Colors, Media, FontSize } from '@/styles';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 
 const Back = ({ onClick, ...props }: IconButtonProps): JSX.Element => {
   const history = useHistory();

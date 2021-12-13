@@ -8,8 +8,8 @@ export default {
 
 const routineObject = {
   emoji: '💪',
-  name: '한강에서 산책하기',
-  durationTime: 12345,
+  title: '한강에서 산책하기',
+  durationGoalTime: 12345,
 };
 
 export const Default = (): JSX.Element => {
