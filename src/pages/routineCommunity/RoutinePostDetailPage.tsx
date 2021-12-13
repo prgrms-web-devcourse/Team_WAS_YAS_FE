@@ -9,23 +9,21 @@ import {
   CommentCreator,
 } from '@/components';
 import styled from '@emotion/styled';
-import { css } from '@emotion/react';
+// import { css } from '@emotion/react';
 import { routineDummy, userDummy, missionDummy, commentDummy } from '@/Models';
 import { Avatar } from '@mui/material';
 import GetAppRoundedIcon from '@mui/icons-material/GetAppRounded';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
+import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 import { ROUTINE_CATEGORY } from '@/constants';
 import { Colors, Media, FontSize } from '@/styles';
 
 const RoutinePostDetailPage = (): JSX.Element => {
-  const [missionOpened, setMissionOpened] = useState<boolean>(false);
-  const [commentOpened, setCommentOpened] = useState<boolean>(false);
-
   return (
     <Container navBar>
       <RoutineInfoHeader>
         <AuthorInfoWrapper>
-          <Avatar src={userDummy.profileImageUrl} />
+          <StyledAvatar src={userDummy.profileImageUrl} />
           <AuthorNameText>{userDummy.nickName}</AuthorNameText>
         </AuthorInfoWrapper>
         <LikeBox interactive />
@@ -47,28 +45,20 @@ const RoutinePostDetailPage = (): JSX.Element => {
           루틴 가져오기
         </BringRoutineButton>
       </RoutineInfoFooter>
-      <MissionContainer open={missionOpened}>
+      <MissionContainer>
         <Mission type="create" missionObject={missionDummy} />
         <Mission type="create" missionObject={missionDummy} />
         <Mission type="create" missionObject={missionDummy} />
         <Mission type="create" missionObject={missionDummy} />
         <Mission type="create" missionObject={missionDummy} />
         <Mission type="create" missionObject={missionDummy} />
-        <SpreadButton>
-          <KeyboardArrowDownRoundedIcon />
-          펼치기
-        </SpreadButton>
       </MissionContainer>
-      <CommentContainer open={missionOpened}>
-        <SpreadButton>
-          댓글
-          <KeyboardArrowDownRoundedIcon />
-        </SpreadButton>
+      <CommentCreator />
+      <CommentContainer>
         <Comment user={userDummy} comment={commentDummy} />
         <Comment user={userDummy} comment={commentDummy} />
         <Comment user={userDummy} comment={commentDummy} />
       </CommentContainer>
-      <CommentCreator />
     </Container>
   );
 };
@@ -93,7 +83,24 @@ const AuthorInfoWrapper = styled.div`
   align-items: center;
 `;
 
-const AuthorNameText = styled.p``;
+const StyledAvatar = styled(Avatar)`
+  margin-right: 0.5rem;
+`;
+
+const AuthorNameText = styled.p`
+  color: & {
+
+  }
+  @media ${Media.sm} {
+    font-size: ${FontSize.small};
+  }
+  @media ${Media.md} {
+    font-size: ${FontSize.base};
+  }
+  @media ${Media.lg} {
+    font-size: ${FontSize.base};
+  }
+`;
 
 const CategoryWrapper = styled.div`
   display: flex;
@@ -135,9 +142,7 @@ const BringRoutineButton = styled.button`
   }
 `;
 
-const MissionContainer = styled.div<
-  React.ComponentProps<'div'> & { open: boolean }
->`
+const MissionContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -166,15 +171,12 @@ const SpreadButton = styled.button`
   }
 `;
 
-const CommentContainer = styled.div<
-  React.ComponentProps<'div'> & { open: boolean }
->`
+const CommentContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
   margin: 1rem 0;
   width: 100%;
-  // height: ${({ open }) => (open ? null : '100px')};
 `;
 
 export default RoutinePostDetailPage;
