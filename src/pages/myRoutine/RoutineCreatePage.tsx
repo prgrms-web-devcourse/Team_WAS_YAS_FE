@@ -50,12 +50,13 @@ const RoutineCreatePage = (): JSX.Element => {
       }).then(() => {
         history.push('/');
       });
+      console.log(routine);
     }
   };
   const handleEmojiChange = (emoji: string) => {
     setRoutine(() => ({ ...routine, emoji }));
   };
-  const handleChange = (
+  const handleTitleOrColorChange = (
     e: ChangeEvent<HTMLInputElement> & {
       name: HTMLInputElement;
       value: HTMLInputElement;
@@ -68,33 +69,33 @@ const RoutineCreatePage = (): JSX.Element => {
     });
   };
 
-  const handleCategory = (selectedCategories: string[]) => {
-    setRoutine({
+  const handleCategoryChange = (selectedCategories: string[]) => {
+    setRoutine((routine) => ({
       ...routine,
       routineCategories: [...selectedCategories],
-    });
+    }));
   };
 
-  const handleWeek = (
+  const handleWeekChange = (
     e: ChangeEvent<HTMLInputElement> & { target: HTMLInputElement },
   ) => {
     const { weeks } = routine;
     const week = e.target.value;
     if (weeks) {
       if (!weeks.includes(week)) {
-        setRoutine(() => ({
+        setRoutine((routine) => ({
           ...routine,
           weeks: [...weeks, week],
         }));
       } else {
         const newWeek = weeks.filter((item) => item !== week);
-        setRoutine(() => ({ ...routine, weeks: newWeek }));
+        setRoutine((routine) => ({ ...routine, weeks: newWeek }));
       }
     }
   };
 
   const handleTimeChange = (time: any) => {
-    setRoutine(() => ({
+    setRoutine((routine) => ({
       ...routine,
       startGoalTime: moment(time).toISOString(),
     }));
@@ -119,7 +120,7 @@ const RoutineCreatePage = (): JSX.Element => {
           id="title"
           name="title"
           placeholder="루틴 이름을 입력해주세요"
-          onChange={handleChange}
+          onChange={handleTitleOrColorChange}
         />
         {routine.title ? '' : <Span>루틴 이름을 입력해주세요</Span>}
         <Label htmlFor="routineCategory">카테고리</Label>
@@ -128,14 +129,14 @@ const RoutineCreatePage = (): JSX.Element => {
             selectedLimit={2}
             type="checkbox"
             name="routineCategory"
-            onChange={handleCategory}
+            onChange={handleCategoryChange}
             categories={Object.values(ROUTINE_CATEGORY).slice(1)}
           />
         </StyledRoutineCategory>
         <Label htmlFor="color">색상</Label>
-        <ColorPalette name="color" onChange={handleChange} />
+        <ColorPalette name="color" onChange={handleTitleOrColorChange} />
         <Label htmlFor="weeks">요일</Label>
-        <DaySelector name="weeks" onChange={handleWeek} />
+        <DaySelector name="weeks" onChange={handleWeekChange} />
         <Label htmlFor="startGoalTime">시작 시간</Label>
         <StyledStartTimePicker>
           <StartTimePicker
