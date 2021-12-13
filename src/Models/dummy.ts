@@ -1,4 +1,10 @@
-import { UserType, RoutineType, RoutinePostType } from '@/Models';
+import {
+  UserType,
+  RoutineType,
+  RoutinePostType,
+  MissionType,
+  CommentType,
+} from '@/Models';
 
 export const userDummy: UserType = {
   userId: 123,
@@ -20,6 +26,14 @@ export const routineDummy: RoutineType = {
   missions: [],
 };
 
+export const missionDummy: MissionType = {
+  missionId: 333,
+  emoji: '🚿',
+  title: '샤워하기',
+  color: '#89C0F9',
+  durationGoalTime: 3600,
+};
+
 export const routinePostDummy: RoutinePostType = {
   routinePostId: 333,
   title: '집 앞 공원 산책하기',
@@ -28,5 +42,14 @@ export const routinePostDummy: RoutinePostType = {
   createdAt: '2022-12-24T03:00:00.000Z',
   updatedAt: '2022-12-24T03:00:00.000Z',
   comments: [],
+  likes: [],
+};
+
+export const commentDummy: CommentType = {
+  commentId: 777,
+  text: '댓글입니다.',
+  userId: 123,
+  createdAt: '2022-12-24T03:00:00.000Z',
+  updatedAt: '2022-12-24T03:00:00.000Z',
   likes: [],
 };
