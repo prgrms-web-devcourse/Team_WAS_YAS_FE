@@ -4,6 +4,7 @@ import { Button } from '@/components';
 import styled from '@emotion/styled';
 
 export interface EmojiPickerProps extends React.ComponentProps<'div'> {
+  name: string;
   onEmojiClick: (emoji: string) => void;
 }
 
@@ -23,7 +24,9 @@ const EmojiPicker = ({
 
   return (
     <EmojiPickerContainer {...props}>
-      <Button onClick={toggleEmojiPicker}>선택하기</Button>
+      <Button type="button" onClick={toggleEmojiPicker}>
+        선택하기
+      </Button>
       {showEmojiPicker && (
         <PickerContainer>
           <Picker

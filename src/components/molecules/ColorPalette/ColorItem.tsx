@@ -1,8 +1,9 @@
 import { Colors, Media } from '@/styles';
 import styled from '@emotion/styled';
+import React from 'react';
 
 export interface ColorItemProps extends React.ComponentProps<'input'> {
-  color: string;
+  color?: string;
 }
 
 const ColorItem = ({ color, ...props }: ColorItemProps): JSX.Element => {
@@ -21,12 +22,6 @@ const ColorItem = ({ color, ...props }: ColorItemProps): JSX.Element => {
     </>
   );
 };
-
-const defaultProps = {
-  color: Colors.red,
-};
-
-ColorItem.defaultProps = defaultProps;
 
 export default ColorItem;
 
