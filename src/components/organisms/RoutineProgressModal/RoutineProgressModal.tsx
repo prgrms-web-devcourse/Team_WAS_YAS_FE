@@ -41,10 +41,10 @@ const RoutineProgressModal = ({
                       style={{
                         color:
                           durationTime < userDurationTime
-                            ? '#FF4545'
+                            ? `${Colors.functionNegative}`
                             : durationTime === userDurationTime
                             ? `${Colors.textSecondary}`
-                            : '#5465FF',
+                            : `${Colors.functionPositive}`,
                       }}
                     >
                       {durationTime < userDurationTime
