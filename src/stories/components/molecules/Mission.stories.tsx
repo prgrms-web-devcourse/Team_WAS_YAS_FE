@@ -1,21 +1,16 @@
 import { Mission } from '@/components';
+import { MissionType } from '@/Models';
 import { Colors } from '@/styles';
 
 export default {
   title: 'Components/Molecules/Mission',
   component: Mission,
-  argTypes: {},
 };
 
-const missionObject: {
-  emoji: string;
-  name: string;
-  color: string;
-  durationTime: number;
-} = {
+const missionObject: Partial<MissionType> = {
   emoji: '🚿',
-  name: '샤워하기',
-  durationTime: 1200,
+  title: '샤워하기',
+  durationGoalTime: 1200,
   color: Colors.red,
 };
 

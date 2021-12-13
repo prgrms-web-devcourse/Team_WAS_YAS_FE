@@ -1,87 +1,81 @@
 import { Container, Routine, RoutineAddButton, TabBar } from '@/components';
+import { RoutineType } from '@/Models';
 import { Colors, Media } from '@/styles';
 import styled from '@emotion/styled';
 import React from 'react';
 import { useHistory } from 'react-router';
 
-const DUMMY_ROUTINE: {
-  id: string;
-  emoji: string;
-  color: string;
-  name: string;
-  durationTime: number;
-  startTime: string;
-}[] = [
+const DUMMY_ROUTINE: Partial<RoutineType>[] = [
   {
-    id: '1',
+    routineId: 1,
     emoji: '🌳',
     color: Colors.red,
-    name: '집 앞 공원 산책하기',
-    durationTime: 10000,
-    startTime: `${new Date().toISOString()}`,
+    title: '집 앞 공원 산책하기',
+    durationGoalTime: 10000,
+    startGoalTime: `${new Date().toISOString()}`,
   },
   {
-    id: '2',
+    routineId: 2,
     emoji: '🥽',
     color: Colors.brown,
-    name: '물 2L 마시기',
-    durationTime: 780,
-    startTime: `${new Date(2021, 12, 8, 12, 0).toISOString()}`,
+    title: '물 2L 마시기',
+    durationGoalTime: 780,
+    startGoalTime: `${new Date(2021, 12, 8, 12, 0).toISOString()}`,
   },
   {
-    id: '3',
+    routineId: 3,
     emoji: '🍖',
     color: Colors.indigo,
-    name: '아침 만들어 먹기',
-    durationTime: 4200,
-    startTime: `${new Date(2021, 12, 8, 6, 30).toISOString()}`,
+    title: '아침 만들어 먹기',
+    durationGoalTime: 4200,
+    startGoalTime: `${new Date(2021, 12, 8, 6, 30).toISOString()}`,
   },
   {
-    id: '4',
+    routineId: 4,
     emoji: '📝',
     color: Colors.pink,
-    name: '공부하기',
-    durationTime: 1800,
-    startTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
+    title: '공부하기',
+    durationGoalTime: 1800,
+    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
   },
   {
-    id: '5',
+    routineId: 5,
     emoji: '📝',
     color: Colors.pink,
-    name: '공부하기',
-    durationTime: 1800,
-    startTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
+    title: '공부하기',
+    durationGoalTime: 1800,
+    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
   },
   {
-    id: '6',
+    routineId: 6,
     emoji: '📝',
     color: Colors.pink,
-    name: '공부하기',
-    durationTime: 1800,
-    startTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
+    title: '공부하기',
+    durationGoalTime: 1800,
+    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
   },
   {
-    id: '7',
+    routineId: 7,
     emoji: '📝',
     color: Colors.pink,
-    name: '공부하기',
-    durationTime: 1800,
-    startTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
+    title: '공부하기',
+    durationGoalTime: 1800,
+    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
   },
 
   {
-    id: '8',
+    routineId: 8,
     emoji: '📝',
     color: Colors.pink,
-    name: '공부하기',
-    durationTime: 1800,
-    startTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
+    title: '공부하기',
+    durationGoalTime: 1800,
+    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
   },
 ];
 
 const MyRoutinePage = (): JSX.Element => {
   const history = useHistory();
-  const onClickRoutine = (e: React.MouseEvent<HTMLElement>, id: string) => {
+  const onClickRoutine = (e: React.MouseEvent<HTMLElement>, id: any) => {
     const element = e.target as HTMLElement;
 
     if (
@@ -100,13 +94,13 @@ const MyRoutinePage = (): JSX.Element => {
         <TabBar.Item title="전체" index="0">
           <RoutineGridBox>
             {DUMMY_ROUTINE &&
-              DUMMY_ROUTINE.map((routine) => (
+              DUMMY_ROUTINE.map((routine, i) => (
                 <Routine
-                  onClick={(e) => onClickRoutine(e, routine.id)}
-                  key={routine.id}
+                  onClick={(e) => onClickRoutine(e, routine.routineId)}
+                  key={routine.routineId}
                   routineObject={routine}
                   type="myRoutine"
-                  completed={+routine.id > 6 ? false : true}
+                  completed={i > 5 ? false : true}
                 />
               ))}
           </RoutineGridBox>
@@ -116,8 +110,8 @@ const MyRoutinePage = (): JSX.Element => {
             {DUMMY_ROUTINE &&
               DUMMY_ROUTINE.map((routine) => (
                 <Routine
-                  onClick={(e) => onClickRoutine(e, routine.id)}
-                  key={routine.id}
+                  onClick={(e) => onClickRoutine(e, routine.routineId)}
+                  key={routine.routineId}
                   routineObject={routine}
                   type="myRoutine"
                   completed={false}
@@ -130,8 +124,8 @@ const MyRoutinePage = (): JSX.Element => {
             {DUMMY_ROUTINE &&
               DUMMY_ROUTINE.map((routine) => (
                 <Routine
-                  onClick={(e) => onClickRoutine(e, routine.id)}
-                  key={routine.id}
+                  onClick={(e) => onClickRoutine(e, routine.routineId)}
+                  key={routine.routineId}
                   routineObject={routine}
                   type="myRoutine"
                   completed={true}
