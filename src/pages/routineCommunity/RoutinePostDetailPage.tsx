@@ -18,7 +18,23 @@ import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRound
 import { ROUTINE_CATEGORY } from '@/constants';
 import { Colors, Media, FontSize } from '@/styles';
 
+const missionsDummy = [
+  missionDummy,
+  missionDummy,
+  missionDummy,
+  missionDummy,
+  missionDummy,
+  missionDummy,
+  missionDummy,
+];
+
 const RoutinePostDetailPage = (): JSX.Element => {
+  const [missionOpened, setMissionOpened] = useState<boolean>(false);
+
+  const handleClickMissionOpened = () => {
+    setMissionOpened((missionOpened) => !missionOpened);
+  };
+
   return (
     <Container navBar>
       <RoutineInfoHeader>
@@ -46,14 +62,28 @@ const RoutinePostDetailPage = (): JSX.Element => {
         </BringRoutineButton>
       </RoutineInfoFooter>
       <MissionContainer>
-        <Mission type="create" missionObject={missionDummy} />
-        <Mission type="create" missionObject={missionDummy} />
-        <Mission type="create" missionObject={missionDummy} />
-        <Mission type="create" missionObject={missionDummy} />
-        <Mission type="create" missionObject={missionDummy} />
-        <Mission type="create" missionObject={missionDummy} />
+        {missionsDummy
+          .slice(0, missionOpened ? undefined : 4)
+          .map((mission: any) => (
+            <Mission
+              key={mission.missionId}
+              type="create"
+              missionObject={missionDummy}
+            />
+          ))}
       </MissionContainer>
-      <CommentCreator />
+      {missionOpened ? (
+        <SpreadButton onClick={handleClickMissionOpened}>
+          <KeyboardArrowUpRoundedIcon />
+          접기
+        </SpreadButton>
+      ) : (
+        <SpreadButton onClick={handleClickMissionOpened}>
+          <KeyboardArrowDownRoundedIcon />
+          펼치기
+        </SpreadButton>
+      )}
+      <StyledCommentCreator />
       <CommentContainer>
         <Comment user={userDummy} comment={commentDummy} />
         <Comment user={userDummy} comment={commentDummy} />
@@ -75,6 +105,7 @@ const RoutineInfoFooter = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
+  margin-top: 1rem;
 `;
 
 const AuthorInfoWrapper = styled.div`
@@ -154,21 +185,28 @@ const SpreadButton = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background-color: ${Colors.point}; */
   border: none;
   border-radius: 1rem;
+  background-color: transparent;
   color: ${Colors.textPrimary};
   font-size: ${FontSize.small};
   padding: 0 0.5rem;
   height: 2rem;
+  cursor: pointer;
 
-  &:hover {
-    background-color: ${Colors.pointLight};
+  @media (hover: hover) {
+    :hover {
+      color: ${Colors.point};
+    }
   }
 
   &: active {
-    background-color: ${Colors.backgroundButton};
+    color: ${Colors.pointLight};
   }
+`;
+
+const StyledCommentCreator = styled(CommentCreator)`
+  margin: 2rem 0 1rem; 0;
 `;
 
 const CommentContainer = styled.div`
