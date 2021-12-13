@@ -1,4 +1,5 @@
 import { DeleteBox, EditBox, Icon } from '@/components';
+import { RoutineType } from '@/Models';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import TimeUtils from '@/utils/time';
 import styled from '@emotion/styled';
@@ -7,15 +8,7 @@ import CheckComplete from './CheckComplete';
 import ToolBoxButtonIcon from './ToolBoxButtonIcon';
 
 interface RoutineProps extends React.ComponentProps<'div'> {
-  routineObject: {
-    emoji: string;
-    color: string;
-    name: string;
-    durationGoalTime: number;
-    startGoalTime: string;
-    routineCategory?: string[];
-    weeks?: string[];
-  };
+  routineObject: Partial<RoutineType>;
   type: 'myRoutine' | 'communityMyRoutine' | 'communityRoutine' | 'create';
   completed?: boolean;
   like?: number;
@@ -26,17 +19,15 @@ const Routine = ({
   completed,
   like,
   type,
+  style,
   ...props
 }: RoutineProps): JSX.Element => {
-  const {
-    emoji,
-    color,
-    name,
-    durationGoalTime: dt,
-    startGoalTime: st,
-  } = routineObject;
-  const durationTime = TimeUtils.calculateTime(dt);
-  const startTime = TimeUtils.startTime(st);
+  const { emoji, color, title, durationGoalTime, startGoalTime } =
+    routineObject;
+  const durationTime = TimeUtils.calculateTime(durationGoalTime || 500);
+  const startTime = TimeUtils.startTime(
+    startGoalTime || new Date().toISOString(),
+  );
   const [visible, setVisible] = useState<boolean>(false);
 
   const handleCloseToolBox = () => {
@@ -52,7 +43,7 @@ const Routine = ({
   };
 
   return (
-    <RoutineContainer style={{ backgroundColor: color }} {...props}>
+    <RoutineContainer style={{ backgroundColor: color, ...style }} {...props}>
       <RoutineHeader>
         {type === 'myRoutine' ? (
           <CheckComplete completed={completed ? completed : false} />
@@ -65,6 +56,7 @@ const Routine = ({
             <ToolBoxButtonIcon />
             {type === 'myRoutine' ? (
               <EditBox
+                style={{ transform: 'translate(-110px, -48px)', width: 110 }}
                 visible={visible}
                 onClose={handleCloseToolBox}
                 onClickUpdateButton={handleClickUpdateButton}
@@ -72,6 +64,7 @@ const Routine = ({
               />
             ) : type === 'communityMyRoutine' ? (
               <DeleteBox
+                style={{ transform: 'translate(-100px, -50px)', width: 110 }}
                 visible={visible}
                 onClose={handleCloseToolBox}
                 onClickDeleteButton={handleClickDeleteButton}
@@ -86,9 +79,10 @@ const Routine = ({
         ) : null}
       </RoutineHeader>
       <Emoji>{emoji}&nbsp;</Emoji>
-      <Title>{name}&nbsp;</Title>
+      <Title>{title}&nbsp;</Title>
       <TotalTime>{durationTime}&nbsp;</TotalTime>
       <StartTime>{startTime}&nbsp;</StartTime>
+      {completed && <CompletedRoutine />}
     </RoutineContainer>
   );
 };
@@ -104,6 +98,25 @@ const RoutineContainer = styled.div`
   text-align: center;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   cursor: pointer;
+  position: relative;
+
+  @media ${Media.sm} {
+    width: 8.75rem;
+    height: 8.75rem;
+    padding: 0.875rem;
+  }
+`;
+
+const CompletedRoutine = styled.div`
+  width: 15rem;
+  height: 15rem;
+  border-radius: 2rem;
+  padding: 1rem;
+  box-sizing: border-box;
+  background-color: rgba(0, 0, 0, 0.2);
+  position: absolute;
+  top: 0;
+  left: 0;
 
   @media ${Media.sm} {
     width: 8.75rem;
@@ -127,6 +140,7 @@ const ToolBoxButton = styled.button`
   border: none;
   padding: 0 0 0.5rem 0.5rem;
   cursor: pointer;
+  z-index: 10;
 `;
 
 const Like = styled.span`
