@@ -19,13 +19,14 @@ import { ROUTINE_CATEGORY } from '@/constants';
 import { Colors, Media, FontSize } from '@/styles';
 
 const missionsDummy = [
-  missionDummy,
-  missionDummy,
-  missionDummy,
-  missionDummy,
-  missionDummy,
-  missionDummy,
-  missionDummy,
+  { ...missionDummy, missionId: 1 },
+  { ...missionDummy, missionId: 2 },
+  { ...missionDummy, missionId: 3 },
+  { ...missionDummy, missionId: 4 },
+  { ...missionDummy, missionId: 5 },
+  { ...missionDummy, missionId: 6 },
+  { ...missionDummy, missionId: 7 },
+  { ...missionDummy, missionId: 8 },
 ];
 
 const RoutinePostDetailPage = (): JSX.Element => {
