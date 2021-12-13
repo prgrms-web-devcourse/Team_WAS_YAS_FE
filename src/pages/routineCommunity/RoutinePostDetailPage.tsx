@@ -152,8 +152,10 @@ const BringRoutineButton = styled.button`
   font-size: ${FontSize.small};
   padding: 0 0.5rem;
 
-  &:hover {
-    background-color: ${Colors.pointLight};
+  @media (hover: hover) {
+    :hover {
+      background-color: ${Colors.pointLight};
+    }
   }
 
   &: active {
