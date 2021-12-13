@@ -109,7 +109,11 @@ const RoutineDetailPage = (): JSX.Element => {
         <RoundedButton.Edit />
       </CategoryEditFlexBox>
       {DUMMY_ROUTINE_DETAIL.missions?.map((mission) => (
-        <StyledMission key={mission.missionId} missionObject={mission} />
+        <StyledMission
+          type="normal"
+          key={mission.missionId}
+          missionObject={mission}
+        />
       ))}
       <Link to={`/routine/${DUMMY_ROUTINE_DETAIL.routineId}/progress`}>
         <StyledButton colorType="white">
