@@ -1,18 +1,15 @@
 import { Button, Modal } from '@/components';
+import { MissionType } from '@/Models';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import TimeUtils from '@/utils/time';
 import styled from '@emotion/styled';
 import React, { Fragment } from 'react';
 
+interface ExtendedMissionType extends MissionType {
+  userDurationTime?: number;
+}
 export interface RoutineProgressModalProps extends React.ComponentProps<'div'> {
-  missionObject: {
-    id: string;
-    emoji: string;
-    color: string;
-    name: string;
-    durationTime: number;
-    userDurationTime?: number;
-  }[];
+  missionObject: ExtendedMissionType[];
   visible: boolean;
   onClose: () => void;
 }
@@ -27,29 +24,29 @@ const RoutineProgressModal = ({
     <Fragment>
       <StyledModal {...props} visible={visible} onClose={onClose}>
         {missionObject?.map(
-          ({ id, emoji, name, durationTime, userDurationTime }) => (
-            <RoutineProgressContainer key={id}>
+          ({ missionId, emoji, title, durationGoalTime, userDurationTime }) => (
+            <RoutineProgressContainer key={missionId}>
               <Emoji>{emoji}</Emoji>
               <MissionInfo>
-                <MissionName>{name}</MissionName>
+                <MissionName>{title}</MissionName>
                 <DurationTimeContainer>
                   <DurationTime>
-                    {TimeUtils.calculateTime(durationTime)}
+                    {TimeUtils.calculateTime(durationGoalTime)}
                   </DurationTime>
                   {userDurationTime && (
                     <UserDurationTime
                       style={{
                         color:
-                          durationTime < userDurationTime
+                          durationGoalTime < userDurationTime
                             ? `${Colors.functionNegative}`
-                            : durationTime === userDurationTime
+                            : durationGoalTime === userDurationTime
                             ? `${Colors.textSecondary}`
                             : `${Colors.functionPositive}`,
                       }}
                     >
-                      {durationTime < userDurationTime
+                      {durationGoalTime < userDurationTime
                         ? '(+'
-                        : durationTime === userDurationTime
+                        : durationGoalTime === userDurationTime
                         ? '('
                         : '(-'}
                       {TimeUtils.calculateTime(userDurationTime) + ')'}

@@ -13,94 +13,81 @@ import moment from 'moment';
 import useInterval from '../../hooks/useInterval';
 import { keyframes } from '@emotion/react';
 import { RoutineProgressModal } from '@/components/organisms/RoutineProgressModal';
+import Swal from 'sweetalert2';
+import { useHistory } from 'react-router';
 
-const DUMMY_ROUTINE_DETAIL: {
-  id: string;
-  emoji: string;
-  color: string;
-  name: string;
-  durationTime: number;
-  startTime: string;
-  category: string[];
-  missions: {
-    id: string;
-    emoji: string;
-    color: string;
-    name: string;
-    durationTime: number;
-    userDurationTime?: number;
-  }[];
-} = {
-  id: '0',
+const DUMMY_ROUTINE_DETAIL = {
+  routineId: 1,
   emoji: '🌳',
   color: Colors.indigo,
-  name: '집 앞 공원 산책하기',
-  durationTime: 14200,
-  startTime: `${new Date().toISOString()}`,
-  category: ['운동', '공부'],
+  title: '집 앞 공원 산책하기',
+  durationGoalTime: 14200,
+  startGoalTime: `${new Date().toISOString()}`,
+  routineCategories: ['운동', '공부'],
   missions: [
     {
-      id: '1',
+      missionId: 1,
       emoji: '🌳',
       color: Colors.indigo,
-      name: '나무 구경하기',
-      durationTime: 300,
+      title: '나무 구경하기',
+      durationGoalTime: 300,
     },
     {
-      id: '2',
+      missionId: 2,
       emoji: '🥽',
       color: Colors.indigo,
-      name: '수경 구경하기',
-      durationTime: 700,
+      title: '수경 구경하기',
+      durationGoalTime: 700,
     },
     {
-      id: '3',
+      missionId: 3,
       emoji: '🍖',
       color: Colors.indigo,
-      name: '고기 구워 먹기',
-      durationTime: 4200,
+      title: '고기 구워 먹기',
+      durationGoalTime: 4200,
     },
     {
-      id: '4',
+      missionId: 4,
       emoji: '📝',
       color: Colors.indigo,
-      name: '공부하기',
-      durationTime: 1800,
+      title: '공부하기',
+      durationGoalTime: 1800,
     },
     {
-      id: '5',
+      missionId: 5,
       emoji: '📝',
       color: Colors.indigo,
-      name: '공부하기',
-      durationTime: 1800,
+      title: '공부하기',
+      durationGoalTime: 1800,
     },
     {
-      id: '6',
+      missionId: 6,
       emoji: '📝',
       color: Colors.indigo,
-      name: '공부하기',
-      durationTime: 1800,
+      title: '공부하기',
+      durationGoalTime: 1800,
     },
     {
-      id: '7',
+      missionId: 7,
       emoji: '📝',
       color: Colors.indigo,
-      name: '공부하기',
-      durationTime: 1800,
+      title: '공부하기',
+      durationGoalTime: 1800,
     },
 
     {
-      id: '8',
+      missionId: 8,
       emoji: '📝',
       color: Colors.indigo,
-      name: '공부하기',
-      durationTime: 1800,
+      title: '공부하기',
+      durationGoalTime: 1800,
     },
   ],
 };
 
 const RoutineProgressPage = (): JSX.Element => {
-  const [time] = useState(DUMMY_ROUTINE_DETAIL.missions[0].durationTime);
+  const history = useHistory();
+  const [time] = useState(DUMMY_ROUTINE_DETAIL.missions[0].durationGoalTime);
   const [duration, setDuration] = useState(
     moment.duration(time * 1000, 'milliseconds'),
   );
@@ -132,21 +119,35 @@ const RoutineProgressPage = (): JSX.Element => {
   const handleBackClick = async () => {
     if (currentIndex === 0 || prevStep || nextStep) return;
 
-    setPrevStep(true);
+    Swal.fire({
+      title: '이전 미션으로 되돌아갈까요?',
+      text: '기록이 삭제되고 미션을 다시 시작합니다.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: `${Colors.functionPositive}`,
+      cancelButtonColor: `${Colors.functionNegative}`,
+      confirmButtonText: '네',
+      cancelButtonText: '아니오',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setPrevStep(true);
 
-    await sleep(300);
-    setCurrentIndex((prevIndex) => {
-      setDuration(
-        moment.duration(
-          DUMMY_ROUTINE_DETAIL.missions[prevIndex - 1].durationTime * 1000,
-          'milliseconds',
-        ),
-      );
-      return prevIndex - 1;
+        await sleep(450);
+        setCurrentIndex((prevIndex) => {
+          setDuration(
+            moment.duration(
+              DUMMY_ROUTINE_DETAIL.missions[prevIndex - 1].durationGoalTime *
+                1000,
+              'milliseconds',
+            ),
+          );
+          return prevIndex - 1;
+        });
+
+        await sleep(450);
+        setPrevStep(false);
+      }
     });
-
-    await sleep(300);
-    setPrevStep(false);
   };
 
   const handleForwardClick = async () => {
@@ -159,18 +160,18 @@ const RoutineProgressPage = (): JSX.Element => {
 
     setNextStep(true);
 
-    await sleep(300);
+    await sleep(450);
     setCurrentIndex((prevIndex) => {
       setDuration(
         moment.duration(
-          DUMMY_ROUTINE_DETAIL.missions[prevIndex + 1].durationTime * 1000,
+          DUMMY_ROUTINE_DETAIL.missions[prevIndex + 1].durationGoalTime * 1000,
           'milliseconds',
         ),
       );
       return prevIndex + 1;
     });
 
-    await sleep(300);
+    await sleep(450);
     setNextStep(false);
   };
 
@@ -179,6 +180,21 @@ const RoutineProgressPage = (): JSX.Element => {
     const userDurationTime = Math.round(
       moment.duration(endTime.diff(startTime)).asSeconds(),
     );
+
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: `${DUMMY_ROUTINE_DETAIL.missions[currentIndex].title} 완료`,
+      html: `<i style="color: ${Colors.functionNegative}">${
+        TimeUtils.calculateTime(userDurationTime) || '0초'
+      }</i>`,
+      showConfirmButton: false,
+      timer: 1500,
+    });
+
+    if (currentIndex === DUMMY_ROUTINE_DETAIL.missions.length - 1) {
+      history.push(`/routine/${DUMMY_ROUTINE_DETAIL.routineId}/finish`);
+    }
 
     setProgress((prevProgress: any) => {
       const nextState = prevProgress.map((progress: any, index: number) => {
@@ -195,18 +211,18 @@ const RoutineProgressPage = (): JSX.Element => {
 
     setNextStep(true);
 
-    await sleep(300);
+    await sleep(450);
     setCurrentIndex((prevIndex) => {
       setDuration(
         moment.duration(
-          DUMMY_ROUTINE_DETAIL.missions[prevIndex + 1].durationTime * 1000,
+          DUMMY_ROUTINE_DETAIL.missions[prevIndex + 1].durationGoalTime * 1000,
           'milliseconds',
         ),
       );
       return prevIndex + 1;
     });
 
-    await sleep(300);
+    await sleep(450);
     setNextStep(false);
 
     setStartTime(moment());
@@ -219,30 +235,30 @@ const RoutineProgressPage = (): JSX.Element => {
       <RoutineInfo routineObject={DUMMY_ROUTINE_DETAIL} />
 
       <MissionProgressContainer>
-        {currentIndex !== 0 && <ArrowBack onClick={handleBackClick} />}
+        {currentIndex !== 0 ? <ArrowBack onClick={handleBackClick} /> : <div />}
 
-        <MissionContainer>
-          <MissionProgress
-            className={`${nextStepClass} ${prevStepClass}`}
-            style={{ gridColumn: 2 }}
-          >
-            <Emoji>{DUMMY_ROUTINE_DETAIL.missions[currentIndex].emoji}</Emoji>
-            <Title>{DUMMY_ROUTINE_DETAIL.missions[currentIndex].name}</Title>
-            <Time className={timeClass}>
-              {moment(Math.abs(duration.asMilliseconds())).format(
-                duration.asHours() > 1 ? 'h:mm:ss' : 'mm:ss',
-              )}
-            </Time>
-            <DurationTime>
-              {TimeUtils.calculateTime(
-                DUMMY_ROUTINE_DETAIL.missions[currentIndex].durationTime,
-              )}
-            </DurationTime>
-          </MissionProgress>
-        </MissionContainer>
+        <MissionProgress
+          className={`${nextStepClass} ${prevStepClass}`}
+          style={{ gridColumn: 2 }}
+        >
+          <Emoji>{DUMMY_ROUTINE_DETAIL.missions[currentIndex].emoji}</Emoji>
+          <Title>{DUMMY_ROUTINE_DETAIL.missions[currentIndex].title}</Title>
+          <Time className={timeClass}>
+            {moment(Math.abs(duration.asMilliseconds())).format(
+              duration.asHours() > 1 ? 'h:mm:ss' : 'mm:ss',
+            )}
+          </Time>
+          <DurationTime>
+            {TimeUtils.calculateTime(
+              DUMMY_ROUTINE_DETAIL.missions[currentIndex].durationGoalTime,
+            )}
+          </DurationTime>
+        </MissionProgress>
 
-        {DUMMY_ROUTINE_DETAIL.missions.length - 1 !== currentIndex && (
+        {DUMMY_ROUTINE_DETAIL.missions.length - 1 !== currentIndex ? (
           <ArrowForward onClick={handleForwardClick} />
+        ) : (
+          <div />
         )}
       </MissionProgressContainer>
 
@@ -294,18 +310,7 @@ const MissionProgressContainer = styled.div`
   align-items: center;
   grid-template-columns: repeat(3, 1fr);
   margin: 24px 0 40px;
-`;
-
-const MissionContainer = styled.div`
-  width: 400px;
-  height: 365px;
   overflow: hidden;
-  grid-column: 2;
-
-  @media ${Media.sm} {
-    width: 200px;
-    height: 180px;
-  }
 `;
 
 const MissionProgress = styled.div`
@@ -323,10 +328,10 @@ const MissionProgress = styled.div`
   overflow: hidden;
 
   &.nextStep {
-    animation: ${nextStepAnimation} 0.6s;
+    animation: ${nextStepAnimation} 0.9s;
   }
   &.prevStep {
-    animation: ${prevStepAnimation} 0.6s;
+    animation: ${prevStepAnimation} 0.9s;
   }
 
   @media ${Media.sm} {
