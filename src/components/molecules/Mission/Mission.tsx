@@ -8,11 +8,13 @@ import ToolBoxButtonIcon from '../Routine/ToolBoxButtonIcon';
 
 interface MissionProps extends React.ComponentProps<'div'> {
   missionObject: Partial<MissionType>;
+  type: 'normal' | 'create';
 }
 
 const Mission = ({
   missionObject,
   style,
+  type,
   ...props
 }: MissionProps): JSX.Element => {
   const [visible, setVisible] = useState<boolean>(false);
@@ -33,15 +35,19 @@ const Mission = ({
       <Emoji>{emoji}</Emoji>
       <Title>{title}</Title>
       <Time>{durationTime}</Time>
-      <ToolBoxContainer onClick={() => setVisible(true)}>
-        <ToolBoxButtonIcon />
-        <DeleteBox
-          style={{ transform: 'translate(-100px, -50px)', width: 110 }}
-          visible={visible}
-          onClose={handleCloseToolBox}
-          onClickDeleteButton={handleClickDeleteButton}
-        />
-      </ToolBoxContainer>
+      {type === 'normal' ? (
+        <ToolBoxContainer onClick={() => setVisible(true)}>
+          <ToolBoxButtonIcon />
+          <DeleteBox
+            style={{ transform: 'translate(-100px, -50px)', width: 110 }}
+            visible={visible}
+            onClose={handleCloseToolBox}
+            onClickDeleteButton={handleClickDeleteButton}
+          />
+        </ToolBoxContainer>
+      ) : (
+        <div />
+      )}
     </MissionContainer>
   );
 };

@@ -15,5 +15,11 @@ const missionObject: Partial<MissionType> = {
 };
 
 export const Default = (): JSX.Element => {
-  return <Mission missionObject={missionObject} />;
+  return (
+    <>
+      <Mission type="normal" missionObject={missionObject} />
+      &nbsp;
+      <Mission type="create" missionObject={missionObject} />
+    </>
+  );
 };
