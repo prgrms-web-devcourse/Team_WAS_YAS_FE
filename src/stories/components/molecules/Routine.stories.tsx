@@ -7,16 +7,15 @@ export default {
   component: Routine,
 };
 
-const routineObject: RoutineType = {
-  routineId: 0,
+const routineObject: Pick<
+  RoutineType,
+  'emoji' | 'color' | 'title' | 'durationGoalTime' | 'startGoalTime'
+> = {
   emoji: '🌳',
   color: Colors.red,
   title: '집 앞 공원 산책하기',
   durationGoalTime: 12345,
   startGoalTime: `${new Date().toISOString()}`,
-  routineCategories: [],
-  missions: [],
-  weeks: [],
 };
 
 export const Default = (): JSX.Element => {
