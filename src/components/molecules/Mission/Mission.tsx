@@ -33,7 +33,7 @@ const Mission = ({
       <Emoji>{emoji}</Emoji>
       <Title>{title}</Title>
       <Time>{durationTime}</Time>
-      <ToolBoxButton onClick={() => setVisible(true)}>
+      <ToolBoxContainer onClick={() => setVisible(true)}>
         <ToolBoxButtonIcon />
         <DeleteBox
           style={{ transform: 'translate(-100px, -50px)', width: 110 }}
@@ -41,7 +41,7 @@ const Mission = ({
           onClose={handleCloseToolBox}
           onClickDeleteButton={handleClickDeleteButton}
         />
-      </ToolBoxButton>
+      </ToolBoxContainer>
     </MissionContainer>
   );
 };
@@ -90,7 +90,7 @@ const Time = styled(Title)`
   flex-grow: 0;
 `;
 
-const ToolBoxButton = styled.button`
+const ToolBoxContainer = styled.div`
   background-color: inherit;
   border: none;
   padding: 0.25rem 0.5rem 0 0.5rem;

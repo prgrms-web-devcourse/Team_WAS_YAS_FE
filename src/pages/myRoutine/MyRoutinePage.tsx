@@ -76,14 +76,12 @@ const DUMMY_ROUTINE: Partial<RoutineType>[] = [
 const MyRoutinePage = (): JSX.Element => {
   const history = useHistory();
   const onClickRoutine = (e: React.MouseEvent<HTMLElement>, id: any) => {
+    e.stopPropagation();
     const element = e.target as HTMLElement;
 
     if (
-      !(
-        element.tagName === 'svg' ||
-        element.tagName === 'BUTTON' ||
-        element.tagName === 'path'
-      )
+      element.tagName === 'DIV' &&
+      element?.className.includes('CompletedRoutine')
     ) {
       history.push(`/routine/${id}`);
     }
