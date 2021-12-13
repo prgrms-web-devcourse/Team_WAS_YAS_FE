@@ -69,7 +69,7 @@ const RoutineProgressModal = ({
 export default RoutineProgressModal;
 
 const StyledModal = styled(Modal)`
-  padding: 40px 0 60px;
+  padding: 2.5rem 0 3.75rem;
   display: flex;
   flex-flow: column;
   align-items: center;
@@ -88,7 +88,7 @@ const StyledModal = styled(Modal)`
   @media ${Media.sm} {
     width: 95%;
     height: 80vh;
-    padding: 40px 0;
+    padding: 2.5rem 0;
   }
 `;
 
@@ -147,19 +147,19 @@ const MissionInfo = styled.div`
   flex-grow: 1;
   display: flex;
   flex-flow: column;
-  gap: 8px;
+  gap: 0.5rem;
 `;
 
 const StyledButton = styled(Button)`
   position: fixed;
-  bottom: 40px;
+  bottom: calc(5vh + 2.5rem);
   z-index: 1001;
-  width: 400px;
+  width: 25rem;
   right: 50%;
   transform: translateX(+50%);
 
   @media ${Media.sm} {
-    width: 240px;
-    bottom: 60px;
+    width: 15rem;
+    bottom: calc(8vh + 2.5rem);
   }
 `;
