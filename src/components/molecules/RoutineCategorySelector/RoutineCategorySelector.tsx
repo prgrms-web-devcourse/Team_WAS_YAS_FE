@@ -9,8 +9,8 @@ import RoutineCategoryItem, {
 export interface RoutineCategorySelectorProps {
   selectedLimit: number;
   categories: string[];
-  category: Pick<RoutineCategoryItemProps, 'category'>;
-  name: string;
+  category?: Pick<RoutineCategoryItemProps, 'category'>;
+  name?: string;
   type: 'radio' | 'checkbox';
   onChange: (selectedCategories: string[]) => void;
 }
@@ -23,7 +23,9 @@ const RoutineCategorySelector = ({
   onChange,
   ...props
 }: RoutineCategorySelectorProps): JSX.Element => {
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(() => {
+    return type === 'checkbox' ? [] : ['전체'];
+  });
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedCategory = e.target.value;
     switch (type) {
@@ -77,9 +79,7 @@ const RoutineCategorySelector = ({
 };
 
 const defaultProps = {
-  selectedLimit: 2,
   categories: ['전체', '운동', '건강', '개발', '기타'],
-  category: '전체',
 };
 
 RoutineCategorySelector.defaultProps = defaultProps;

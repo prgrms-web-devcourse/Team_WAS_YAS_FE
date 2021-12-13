@@ -20,8 +20,7 @@ import { useHistory } from 'react-router-dom';
 
 const RoutineCreatePage = (): JSX.Element => {
   const history = useHistory();
-  const [routine, setRoutine] = useState<RoutineType>({
-    routineId: 0,
+  const [routine, setRoutine] = useState<Partial<RoutineType>>({
     emoji: '💫',
     color: Colors.red,
     title: '',
@@ -29,7 +28,6 @@ const RoutineCreatePage = (): JSX.Element => {
     startGoalTime: new Date().toISOString(),
     routineCategories: [],
     weeks: [],
-    missions: [],
   });
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
@@ -40,7 +38,7 @@ const RoutineCreatePage = (): JSX.Element => {
         icon: 'warning',
         title: '루틴 이름을 입력해주세요!',
       });
-    } else if (!routineCategories.length) {
+    } else if (!routineCategories?.length) {
       Swal.fire({
         icon: 'warning',
         title: '루틴 카테고리를 선택해주세요!',
@@ -50,7 +48,7 @@ const RoutineCreatePage = (): JSX.Element => {
         icon: 'success',
         title: '루틴 생성이 완료되었습니다!🎉',
       }).then(() => {
-        history.goBack();
+        history.push('/');
       });
     }
   };
@@ -107,10 +105,9 @@ const RoutineCreatePage = (): JSX.Element => {
       icon: 'warning',
       title: '작성했던 모든 내용이 초기화됩니다!',
     }).then(() => {
-      history.goBack();
+      history.push('/');
     });
   };
-
   return (
     <Container style={{ paddingTop: '56px' }}>
       <Routine routineObject={routine} type="create" />
