@@ -1,4 +1,5 @@
 import { Routine } from '@/components';
+import { RoutineType } from '@/Models';
 import { Colors } from '@/styles';
 
 export default {
@@ -6,18 +7,15 @@ export default {
   component: Routine,
 };
 
-const routineObject: {
-  emoji: string;
-  color: string;
-  name: string;
-  durationTime: number;
-  startTime: string;
-} = {
+const routineObject: Pick<
+  RoutineType,
+  'emoji' | 'color' | 'title' | 'durationGoalTime' | 'startGoalTime'
+> = {
   emoji: '🌳',
   color: Colors.red,
-  name: '집 앞 공원 산책하기',
-  durationTime: 12345,
-  startTime: `${new Date().toISOString()}`,
+  title: '집 앞 공원 산책하기',
+  durationGoalTime: 12345,
+  startGoalTime: `${new Date().toISOString()}`,
 };
 
 export const Default = (): JSX.Element => {
@@ -27,6 +25,16 @@ export const Default = (): JSX.Element => {
       <Routine routineObject={routineObject} type="communityRoutine" />
       <Routine routineObject={routineObject} type="communityMyRoutine" />
       <Routine routineObject={routineObject} type="create" />
+      <Routine
+        routineObject={{
+          emoji: '',
+          color: Colors.red,
+          title: '',
+          durationGoalTime: 0,
+          startGoalTime: `${new Date().toISOString()}`,
+        }}
+        type="create"
+      />
     </>
   );
 };

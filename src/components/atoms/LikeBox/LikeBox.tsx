@@ -4,8 +4,10 @@ import { useToggle } from '@/hooks';
 import styled from '@emotion/styled';
 import { Media, FontSize, Colors } from '@/styles';
 
-export interface LikeBoxProps extends React.ComponentProps<'span'> {
+export interface LikeBoxProps
+  extends Omit<React.ComponentProps<'span'>, 'onClick'> {
   active?: boolean;
+  onClick?: (count: number) => void;
   count: number;
   interactive?: boolean;
 }
@@ -23,8 +25,9 @@ const LikeBox = ({
   const handleClick = (e: React.MouseEvent<HTMLSpanElement>) => {
     if (!interactive) return;
     toggle();
-    setCount((count) => (toggled ? count - 1 : count + 1));
-    onClick && onClick(e);
+    const newCount = toggled ? count - 1 : count + 1;
+    setCount(() => newCount);
+    onClick && onClick(newCount);
   };
 
   return (

@@ -10,88 +10,81 @@ import styled from '@emotion/styled';
 import { Colors, Media } from '@/styles';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
+import { RoutineType } from '@/Models';
 
-const DUMMY_ROUTINE: {
-  id: string;
-  emoji: string;
-  color: string;
-  name: string;
-  durationTime: number;
-  startTime: string;
-  categorie: string[];
-}[] = [
+const DUMMY_ROUTINE: Partial<RoutineType>[] = [
   {
-    id: '1',
+    routineId: 1,
     emoji: '🌳',
     color: Colors.red,
-    name: '집 앞 공원 산책하기',
-    durationTime: 10000,
-    startTime: `${new Date().toISOString()}`,
-    categorie: ['운동'],
+    title: '집 앞 공원 산책하기',
+    durationGoalTime: 10000,
+    startGoalTime: `${new Date().toISOString()}`,
+    routineCategories: ['운동'],
   },
   {
-    id: '2',
+    routineId: 2,
     emoji: '🥽',
     color: Colors.brown,
-    name: '물 2L 마시기',
-    durationTime: 780,
-    startTime: `${new Date(2021, 12, 8, 12, 0).toISOString()}`,
-    categorie: ['건강'],
+    title: '물 2L 마시기',
+    durationGoalTime: 780,
+    startGoalTime: `${new Date(2021, 12, 8, 12, 0).toISOString()}`,
+    routineCategories: ['건강'],
   },
   {
-    id: '3',
+    routineId: 3,
     emoji: '🍖',
     color: Colors.indigo,
-    name: '아침 만들어 먹기',
-    durationTime: 4200,
-    startTime: `${new Date(2021, 12, 8, 6, 30).toISOString()}`,
-    categorie: ['음식'],
+    title: '아침 만들어 먹기',
+    durationGoalTime: 4200,
+    startGoalTime: `${new Date(2021, 12, 8, 6, 30).toISOString()}`,
+    routineCategories: ['음식'],
   },
   {
-    id: '4',
+    routineId: 4,
     emoji: '📝',
     color: Colors.pink,
-    name: '공부하기',
-    durationTime: 1800,
-    startTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    categorie: ['공부'],
+    title: '공부하기',
+    durationGoalTime: 1800,
+    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
+    routineCategories: ['공부'],
   },
   {
-    id: '5',
+    routineId: 5,
     emoji: '📝',
     color: Colors.pink,
-    name: '공부하기',
-    durationTime: 1800,
-    startTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    categorie: ['공부'],
+    title: '공부하기',
+    durationGoalTime: 1800,
+    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
+    routineCategories: ['공부'],
   },
   {
-    id: '6',
+    routineId: 6,
     emoji: '📝',
     color: Colors.pink,
-    name: '공부하기',
-    durationTime: 1800,
-    startTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    categorie: ['공부'],
+    title: '공부하기',
+    durationGoalTime: 1800,
+    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
+    routineCategories: ['공부'],
   },
   {
-    id: '7',
+    routineId: 7,
     emoji: '📝',
     color: Colors.pink,
-    name: '공부하기',
-    durationTime: 1800,
-    startTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    categorie: ['공부'],
+    title: '공부하기',
+    durationGoalTime: 1800,
+    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
+    routineCategories: ['공부'],
   },
 
   {
-    id: '8',
+    routineId: 8,
     emoji: '📝',
     color: Colors.pink,
-    name: '공부하기',
-    durationTime: 1800,
-    startTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    categorie: ['공부'],
+    title: '공부하기',
+    durationGoalTime: 1800,
+    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
+    routineCategories: ['공부'],
   },
 ];
 
@@ -112,7 +105,7 @@ const RoutineCommunityPage = (): JSX.Element => {
   };
 
   const history = useHistory();
-  const onClickRoutine = (e: React.MouseEvent<HTMLElement>, id: string) => {
+  const onClickRoutine = (e: React.MouseEvent<HTMLElement>, id: any) => {
     const element = e.target as HTMLElement;
 
     if (
@@ -141,17 +134,17 @@ const RoutineCommunityPage = (): JSX.Element => {
               if (clickedCategory === '전체') {
                 return (
                   <Routine
-                    onClick={(e) => onClickRoutine(e, routine.id)}
-                    key={routine.id}
+                    onClick={(e) => onClickRoutine(e, routine.routineId)}
+                    key={routine.routineId}
                     routineObject={routine}
                     type="communityRoutine"
                   />
                 );
-              } else if (routine.categorie.includes(clickedCategory)) {
+              } else if (routine.routineCategories?.includes(clickedCategory)) {
                 return (
                   <Routine
-                    onClick={(e) => onClickRoutine(e, routine.id)}
-                    key={routine.id}
+                    onClick={(e) => onClickRoutine(e, routine.routineId)}
+                    key={routine.routineId}
                     routineObject={routine}
                     type="communityRoutine"
                   />
@@ -173,21 +166,21 @@ const RoutineCommunityPage = (): JSX.Element => {
               if (clickedCategory === '전체') {
                 return (
                   <Routine
-                    onClick={(e) => onClickRoutine(e, routine.id)}
-                    key={routine.id}
+                    onClick={(e) => onClickRoutine(e, routine.routineId)}
+                    key={routine.routineId}
                     routineObject={routine}
                     type="communityRoutine"
-                    like={+routine.id}
+                    like={routine.routineId}
                   />
                 );
-              } else if (routine.categorie.includes(clickedCategory)) {
+              } else if (routine.routineCategories?.includes(clickedCategory)) {
                 return (
                   <Routine
-                    onClick={(e) => onClickRoutine(e, routine.id)}
-                    key={routine.id}
+                    onClick={(e) => onClickRoutine(e, routine.routineId)}
+                    key={routine.routineId}
                     routineObject={routine}
                     type="communityRoutine"
-                    like={+routine.id}
+                    like={routine.routineId}
                   />
                 );
               }
@@ -207,17 +200,17 @@ const RoutineCommunityPage = (): JSX.Element => {
               if (clickedCategory === '전체') {
                 return (
                   <Routine
-                    onClick={(e) => onClickRoutine(e, routine.id)}
-                    key={routine.id}
+                    onClick={(e) => onClickRoutine(e, routine.routineId)}
+                    key={routine.routineId}
                     routineObject={routine}
                     type="communityMyRoutine"
                   />
                 );
-              } else if (routine.categorie.includes(clickedCategory)) {
+              } else if (routine.routineCategories?.includes(clickedCategory)) {
                 return (
                   <Routine
-                    onClick={(e) => onClickRoutine(e, routine.id)}
-                    key={routine.id}
+                    onClick={(e) => onClickRoutine(e, routine.routineId)}
+                    key={routine.routineId}
                     routineObject={routine}
                     type="communityMyRoutine"
                   />

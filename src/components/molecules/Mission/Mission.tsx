@@ -1,4 +1,5 @@
 import { DeleteBox } from '@/components';
+import { MissionType } from '@/Models';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import TimeUtils from '@/utils/time';
 import styled from '@emotion/styled';
@@ -6,12 +7,7 @@ import React, { useState } from 'react';
 import ToolBoxButtonIcon from '../Routine/ToolBoxButtonIcon';
 
 interface MissionProps extends React.ComponentProps<'div'> {
-  missionObject: {
-    emoji: string;
-    name: string;
-    color: string;
-    durationTime: number;
-  };
+  missionObject: Partial<MissionType>;
 }
 
 const Mission = ({
@@ -20,9 +16,9 @@ const Mission = ({
   ...props
 }: MissionProps): JSX.Element => {
   const [visible, setVisible] = useState<boolean>(false);
-  const { emoji, name, durationTime: dt, color } = missionObject;
+  const { emoji, title, durationGoalTime, color } = missionObject;
   const backgroundColor = color;
-  const durationTime = TimeUtils.calculateTime(dt);
+  const durationTime = TimeUtils.calculateTime(durationGoalTime || 0);
 
   const handleCloseToolBox = () => {
     setVisible(false);
@@ -35,7 +31,7 @@ const Mission = ({
   return (
     <MissionContainer style={{ backgroundColor, ...style }} {...props}>
       <Emoji>{emoji}</Emoji>
-      <Title>{name}</Title>
+      <Title>{title}</Title>
       <Time>{durationTime}</Time>
       <ToolBoxButton onClick={() => setVisible(true)}>
         <ToolBoxButtonIcon />
