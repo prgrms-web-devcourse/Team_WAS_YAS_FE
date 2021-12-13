@@ -11,6 +11,7 @@ import { Colors, Media } from '@/styles';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { RoutineType } from '@/Models';
+import { ROUTINE_CATEGORY } from '@/constants';
 
 const DUMMY_ROUTINE: Partial<RoutineType>[] = [
   {
@@ -89,42 +90,32 @@ const DUMMY_ROUTINE: Partial<RoutineType>[] = [
 ];
 
 const RoutineCommunityPage = (): JSX.Element => {
-  const categoryList = [
-    '전체',
-    '운동',
-    '게임',
-    '음식',
-    '취미',
-    '쇼핑',
-    '건강',
-    '공부',
-  ];
+  const categoryList = Object.values(ROUTINE_CATEGORY);
   const [clickedCategory, setClickedCategory] = useState<string>('전체');
-  const categoryChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setClickedCategory(e.target.value);
+  const categoryChangeHandler = (category: string[]) => {
+    setClickedCategory(category[0]);
   };
 
   const history = useHistory();
   const onClickRoutine = (e: React.MouseEvent<HTMLElement>, id: any) => {
+    e.stopPropagation();
     const element = e.target as HTMLElement;
 
     if (
-      !(
-        element.tagName === 'svg' ||
-        element.tagName === 'BUTTON' ||
-        element.tagName === 'path'
-      )
+      element.tagName === 'DIV' &&
+      element?.className.includes('RoutineContainer')
     ) {
       history.push(`/community/${id}`);
     }
   };
-
   return (
     <Container navBar>
       <TabBar>
         <TabBar.Item title="신규 루틴" index="0">
           <CategoryContainer>
             <StyledCategorySelector
+              type="radio"
+              selectedLimit={1}
               onChange={categoryChangeHandler}
               categories={categoryList}
             />
@@ -157,6 +148,8 @@ const RoutineCommunityPage = (): JSX.Element => {
         <TabBar.Item title="인기 루틴" index="1">
           <CategoryContainer>
             <StyledCategorySelector
+              type="radio"
+              selectedLimit={1}
               onChange={categoryChangeHandler}
               categories={categoryList}
             />
@@ -191,6 +184,8 @@ const RoutineCommunityPage = (): JSX.Element => {
         <TabBar.Item title="나의 루틴" index="2">
           <CategoryContainer>
             <StyledCategorySelector
+              type="radio"
+              selectedLimit={1}
               onChange={categoryChangeHandler}
               categories={categoryList}
             />

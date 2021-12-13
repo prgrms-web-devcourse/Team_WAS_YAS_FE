@@ -52,7 +52,7 @@ const Routine = ({
         )}
 
         {type === 'myRoutine' || type === 'communityMyRoutine' ? (
-          <ToolBoxButton onClick={() => setVisible(true)}>
+          <ToolBoxContainer onClick={() => setVisible(true)}>
             <ToolBoxButtonIcon />
             {type === 'myRoutine' ? (
               <EditBox
@@ -64,13 +64,13 @@ const Routine = ({
               />
             ) : type === 'communityMyRoutine' ? (
               <DeleteBox
-                style={{ transform: 'translate(-100px, -50px)', width: 110 }}
+                style={{ transform: 'translate(-110px, -24px)', width: 110 }}
                 visible={visible}
                 onClose={handleCloseToolBox}
                 onClickDeleteButton={handleClickDeleteButton}
               />
             ) : null}
-          </ToolBoxButton>
+          </ToolBoxContainer>
         ) : type === 'communityRoutine' ? (
           <div>
             <Icon.Like color="#FFF" />
@@ -135,7 +135,7 @@ const RoutineHeader = styled.header`
   }
 `;
 
-const ToolBoxButton = styled.button`
+const ToolBoxContainer = styled.div`
   background-color: inherit;
   border: none;
   padding: 0 0 0.5rem 0.5rem;

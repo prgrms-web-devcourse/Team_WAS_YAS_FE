@@ -40,16 +40,14 @@ ColorPalette.defaultProps = defaultProps;
 const StyledColorPalette = styled.div`
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  place-items: center;
   @media ${Media.sm} {
-    width: 284px;
     height: 74px;
   }
   @media ${Media.md} {
-    width: 512px;
     height: 128px;
   }
   @media ${Media.lg} {
-    width: 512px;
     height: 128px;
   }
 `;
