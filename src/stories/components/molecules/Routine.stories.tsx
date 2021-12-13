@@ -1,4 +1,5 @@
 import { Routine } from '@/components';
+import { RoutineType } from '@/Models';
 import { Colors } from '@/styles';
 
 export default {
@@ -6,18 +7,13 @@ export default {
   component: Routine,
 };
 
-const routineObject: {
-  emoji: string;
-  color: string;
-  name: string;
-  durationGoalTime: number;
-  startGoalTime: string;
-  routineCategory?: string[] | undefined;
-  weeks?: string[] | undefined;
-} = {
+const routineObject: Pick<
+  RoutineType,
+  'emoji' | 'color' | 'title' | 'durationGoalTime' | 'startGoalTime'
+> = {
   emoji: '🌳',
   color: Colors.red,
-  name: '집 앞 공원 산책하기',
+  title: '집 앞 공원 산책하기',
   durationGoalTime: 12345,
   startGoalTime: `${new Date().toISOString()}`,
 };
@@ -33,7 +29,7 @@ export const Default = (): JSX.Element => {
         routineObject={{
           emoji: '',
           color: Colors.red,
-          name: '',
+          title: '',
           durationGoalTime: 0,
           startGoalTime: `${new Date().toISOString()}`,
         }}

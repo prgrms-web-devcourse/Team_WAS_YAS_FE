@@ -7,98 +7,91 @@ import {
   RoutineCategory,
   RoutineInfo,
 } from '@/components';
+import { RoutineType, MissionType } from '@/Models';
 import { Colors, Media } from '@/styles';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 
-const DUMMY_ROUTINE_DETAIL: {
-  id: string;
-  emoji: string;
-  color: string;
-  name: string;
-  durationTime: number;
-  startTime: string;
-  category: string[];
-  missions: {
-    id: string;
-    emoji: string;
-    color: string;
-    name: string;
-    durationTime: number;
-    userDurationTime?: number;
-  }[];
-} = {
-  id: '1',
+interface ExtendedMissionType extends MissionType {
+  userDurationTime?: number;
+}
+
+interface ExtendedRoutineType extends RoutineType {
+  missions: ExtendedMissionType[];
+}
+
+const DUMMY_ROUTINE_DETAIL: Partial<ExtendedRoutineType> = {
+  routineId: 1,
   emoji: '🌳',
   color: Colors.indigo,
-  name: '집 앞 공원 산책하기',
-  durationTime: 14200,
-  startTime: `${new Date().toISOString()}`,
-  category: ['운동', '공부'],
+  title: '집 앞 공원 산책하기',
+  durationGoalTime: 14200,
+  startGoalTime: `${new Date().toISOString()}`,
+  routineCategories: ['운동', '공부'],
   missions: [
     {
-      id: '1',
+      missionId: 1,
       emoji: '🌳',
       color: Colors.indigo,
-      name: '나무 구경하기',
-      durationTime: 300,
+      title: '나무 구경하기',
+      durationGoalTime: 300,
       userDurationTime: 560,
     },
     {
-      id: '2',
+      missionId: 2,
       emoji: '🥽',
       color: Colors.indigo,
-      name: '수경 구경하기',
-      durationTime: 700,
+      title: '수경 구경하기',
+      durationGoalTime: 700,
       userDurationTime: 440,
     },
     {
-      id: '3',
+      missionId: 3,
       emoji: '🍖',
       color: Colors.indigo,
-      name: '고기 구워 먹기',
-      durationTime: 4200,
+      title: '고기 구워 먹기',
+      durationGoalTime: 4200,
       userDurationTime: 4200,
     },
     {
-      id: '4',
+      missionId: 4,
       emoji: '📝',
       color: Colors.indigo,
-      name: '공부하기',
-      durationTime: 1800,
+      title: '공부하기',
+      durationGoalTime: 1800,
       userDurationTime: 2400,
     },
     {
-      id: '5',
+      missionId: 5,
       emoji: '📝',
       color: Colors.indigo,
-      name: '공부하기',
-      durationTime: 1800,
+      title: '공부하기',
+      durationGoalTime: 1800,
       userDurationTime: 200,
     },
     {
-      id: '6',
+      missionId: 6,
       emoji: '📝',
       color: Colors.indigo,
-      name: '공부하기',
-      durationTime: 1800,
+      title: '공부하기',
+      durationGoalTime: 1800,
       userDurationTime: 1,
     },
     {
-      id: '7',
+      missionId: 7,
       emoji: '📝',
       color: Colors.indigo,
-      name: '공부하기',
-      durationTime: 1800,
+      title: '공부하기',
+      durationGoalTime: 1800,
       userDurationTime: 1920,
     },
 
     {
-      id: '8',
+      missionId: 8,
       emoji: '📝',
       color: Colors.indigo,
-      name: '공부하기',
-      durationTime: 1800,
+      title: '공부하기',
+      durationGoalTime: 1800,
     },
   ],
 };
@@ -109,16 +102,16 @@ const RoutineDetailPage = (): JSX.Element => {
       <RoutineInfo routineObject={DUMMY_ROUTINE_DETAIL} />
       <CategoryEditFlexBox>
         <div>
-          {DUMMY_ROUTINE_DETAIL.category?.map((category, i) => (
+          {DUMMY_ROUTINE_DETAIL.routineCategories?.map((category, i) => (
             <StyledCategory key={i}>{category}</StyledCategory>
           ))}
         </div>
         <RoundedButton.Edit />
       </CategoryEditFlexBox>
       {DUMMY_ROUTINE_DETAIL.missions?.map((mission) => (
-        <StyledMission key={mission.id} missionObject={mission} />
+        <StyledMission key={mission.missionId} missionObject={mission} />
       ))}
-      <Link to={`/routine/${DUMMY_ROUTINE_DETAIL.id}/progress`}>
+      <Link to={`/routine/${DUMMY_ROUTINE_DETAIL.routineId}/progress`}>
         <StyledButton colorType="white">
           <Svg
             viewBox="0 0 24 28"
@@ -132,7 +125,7 @@ const RoutineDetailPage = (): JSX.Element => {
           </Svg>
         </StyledButton>
       </Link>
-      <Link to={`/routine/${DUMMY_ROUTINE_DETAIL.id}/create`}>
+      <Link to={`/routine/${DUMMY_ROUTINE_DETAIL.routineId}/create`}>
         <StyledRoutineAddButton />
       </Link>
     </Container>
