@@ -1,4 +1,4 @@
-import { UserType, RoutineType } from '@/Models';
+import { UserType, RoutineType, RoutinePostType } from '@/Models';
 
 export const userDummy: UserType = {
   userId: 123,
@@ -9,13 +9,24 @@ export const userDummy: UserType = {
 };
 
 export const routineDummy: RoutineType = {
-  routineId: 123,
+  routineId: 321,
   title: '집 앞 공원 산책하기',
   emoji: '🌳',
   color: '#66CE92',
-  startGoalTime: `${new Date(2021, 12, 24, 12, 0).toISOString()}`,
+  startGoalTime: '2022-12-24T03:00:00.000Z',
   durationGoalTime: 1000,
   weeks: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
   routineCategories: ['HEALTH', 'EXERCISE'],
   missions: [],
+};
+
+export const routinePostDummy: RoutinePostType = {
+  routinePostId: 333,
+  title: '집 앞 공원 산책하기',
+  userId: 123,
+  routineId: 321,
+  createdAt: '2022-12-24T03:00:00.000Z',
+  updatedAt: '2022-12-24T03:00:00.000Z',
+  comments: [],
+  likes: [],
 };
