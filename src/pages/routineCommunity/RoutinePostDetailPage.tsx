@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import {
   Container,
   LikeBox,
@@ -8,8 +7,8 @@ import {
   Comment,
   CommentCreator,
 } from '@/components';
+import { useState } from 'react';
 import styled from '@emotion/styled';
-// import { css } from '@emotion/react';
 import { routineDummy, userDummy, missionDummy, commentDummy } from '@/Models';
 import { Avatar } from '@mui/material';
 import GetAppRoundedIcon from '@mui/icons-material/GetAppRounded';
