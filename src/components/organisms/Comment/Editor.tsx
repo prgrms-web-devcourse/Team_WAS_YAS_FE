@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
-import { Colors, Media, FontSize } from '@/styles';
+import { Colors, Media, FontSize, FontWeight } from '@/styles';
 
 interface EditorProps extends Omit<React.ComponentProps<'form'>, 'onSubmit'> {
   initText: string;
@@ -79,6 +79,8 @@ const ConfirmButton = styled.button`
   background-color: ${Colors.functionConfirm};
   border: none;
   border-radius: 0.5rem 0.5rem 0 0;
+  color: ${Colors.textQuaternary};
+  font-weight: ${FontWeight.bold};
 
   color: ${Colors.textQuaternary};
   cursor: pointer;
@@ -104,6 +106,7 @@ const CancelButton = styled.button`
   border: none;
   border-radius: 0 0 0.5rem 0.5rem;
   color: ${Colors.textQuaternary};
+  font-weight: ${FontWeight.bold};
   cursor: pointer;
 
   &:active {
