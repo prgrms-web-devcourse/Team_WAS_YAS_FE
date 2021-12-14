@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-const API_END_POINT = '';
-const CHANNEL_ID = '';
+const API_END_POINT = ' http://52.79.219.24:8080';
 
 const setInterceptors = (instance, auth) => {
   auth &&
