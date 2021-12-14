@@ -56,6 +56,8 @@ export { DurationTimePicker } from './organisms/DurationTimePicker';
 export type { DurationTimePickerProps } from './organisms/DurationTimePicker';
 export { Comment } from './organisms/Comment';
 export type { CommentProps } from './organisms/Comment';
+export { RoutineProgressModal } from './organisms/RoutineProgressModal';
+export { RoutineProgress } from './organisms/RoutineProgressModal';
 
 //! Template Component
 export { Container } from './templates/Container';
