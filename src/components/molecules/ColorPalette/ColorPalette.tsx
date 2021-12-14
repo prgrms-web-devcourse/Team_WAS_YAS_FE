@@ -19,18 +19,13 @@ const ColorPalette = ({
   initialSelectedColor,
   ...props
 }: ColorPaletteProps): JSX.Element => {
-  const [selectedColor, setSelectedColor] = useState<string>(() => {
-    return initialSelectedColor ? initialSelectedColor : '';
-  });
+  const [selectedColor, setSelectedColor] = useState<string>(
+    initialSelectedColor ? initialSelectedColor : '',
+  );
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const color = e.target.value;
-    if (color === selectedColor) {
-      setSelectedColor(color);
-      onChange && onChange(color);
-    } else {
-      setSelectedColor(color);
-      onChange && onChange(color);
-    }
+    setSelectedColor(color);
+    onChange && onChange(color);
   };
   return (
     <StyledColorPalette>
