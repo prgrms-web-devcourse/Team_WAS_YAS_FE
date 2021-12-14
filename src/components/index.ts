@@ -35,6 +35,7 @@ export { CommentCreator } from './molecules/CommentCreator';
 export type { CommentCreatorProps } from './molecules/CommentCreator';
 export { DaySelector } from './molecules/DaySelector';
 export type { DayItemProps } from './molecules/DaySelector';
+export type { DaySelectorProps } from './molecules/DaySelector';
 export { ColorPalette } from './molecules/ColorPalette';
 export type { ColorPaletteProps } from './molecules/ColorPalette';
 export { Mission } from './molecules/Mission';
@@ -56,6 +57,8 @@ export { DurationTimePicker } from './organisms/DurationTimePicker';
 export type { DurationTimePickerProps } from './organisms/DurationTimePicker';
 export { Comment } from './organisms/Comment';
 export type { CommentProps } from './organisms/Comment';
+export { RoutineProgressModal } from './organisms/RoutineProgressModal';
+export { RoutineProgress } from './organisms/RoutineProgressModal';
 
 //! Template Component
 export { Container } from './templates/Container';

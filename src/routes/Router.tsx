@@ -18,6 +18,7 @@ import {
   AnalysisPage,
   NotFoundPage,
 } from '@/pages';
+import { RoutineUpdatePage } from '@/pages/myRoutine';
 
 const Router = (): JSX.Element => {
   return (
@@ -26,7 +27,7 @@ const Router = (): JSX.Element => {
       <Route path="/routine" exact component={MyRoutinePage} />
       <Route path="/routine/create" exact component={RoutineCreatePage} />
       <Route path="/routine/:id" exact component={RoutineDetailPage} />
-      <Route path="/routine/:id/update" exact component={RoutineCreatePage} />
+      <Route path="/routine/:id/update" exact component={RoutineUpdatePage} />
       <Route path="/routine/:id/create" exact component={MissionCreatePage} />
       <Route
         path="/routine/:id/progress"

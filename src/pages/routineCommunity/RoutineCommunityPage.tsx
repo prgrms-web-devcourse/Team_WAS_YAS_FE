@@ -21,7 +21,7 @@ const DUMMY_ROUTINE: Partial<RoutineType>[] = [
     title: '집 앞 공원 산책하기',
     durationGoalTime: 10000,
     startGoalTime: `${new Date().toISOString()}`,
-    routineCategories: ['운동'],
+    routineCategories: ['EXERCISE'],
   },
   {
     routineId: 2,
@@ -30,7 +30,7 @@ const DUMMY_ROUTINE: Partial<RoutineType>[] = [
     title: '물 2L 마시기',
     durationGoalTime: 780,
     startGoalTime: `${new Date(2021, 12, 8, 12, 0).toISOString()}`,
-    routineCategories: ['건강'],
+    routineCategories: ['HEALTH'],
   },
   {
     routineId: 3,
@@ -39,7 +39,7 @@ const DUMMY_ROUTINE: Partial<RoutineType>[] = [
     title: '아침 만들어 먹기',
     durationGoalTime: 4200,
     startGoalTime: `${new Date(2021, 12, 8, 6, 30).toISOString()}`,
-    routineCategories: ['음식'],
+    routineCategories: ['FOOD'],
   },
   {
     routineId: 4,
@@ -48,7 +48,7 @@ const DUMMY_ROUTINE: Partial<RoutineType>[] = [
     title: '공부하기',
     durationGoalTime: 1800,
     startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    routineCategories: ['공부'],
+    routineCategories: ['STUDY'],
   },
   {
     routineId: 5,
@@ -57,7 +57,7 @@ const DUMMY_ROUTINE: Partial<RoutineType>[] = [
     title: '공부하기',
     durationGoalTime: 1800,
     startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    routineCategories: ['공부'],
+    routineCategories: ['STUDY'],
   },
   {
     routineId: 6,
@@ -66,7 +66,7 @@ const DUMMY_ROUTINE: Partial<RoutineType>[] = [
     title: '공부하기',
     durationGoalTime: 1800,
     startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    routineCategories: ['공부'],
+    routineCategories: ['STUDY'],
   },
   {
     routineId: 7,
@@ -75,7 +75,7 @@ const DUMMY_ROUTINE: Partial<RoutineType>[] = [
     title: '공부하기',
     durationGoalTime: 1800,
     startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    routineCategories: ['공부'],
+    routineCategories: ['STUDY'],
   },
 
   {
@@ -85,15 +85,14 @@ const DUMMY_ROUTINE: Partial<RoutineType>[] = [
     title: '공부하기',
     durationGoalTime: 1800,
     startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    routineCategories: ['공부'],
+    routineCategories: ['STUDY'],
   },
 ];
 
 const RoutineCommunityPage = (): JSX.Element => {
-  const categoryList = Object.values(ROUTINE_CATEGORY);
-  const [clickedCategory, setClickedCategory] = useState<string>('전체');
+  const [clickedCategory, setClickedCategory] = useState<string[]>(['TOTAL']);
   const categoryChangeHandler = (category: string[]) => {
-    setClickedCategory(category[0]);
+    setClickedCategory(category);
   };
 
   const history = useHistory();
@@ -120,12 +119,12 @@ const RoutineCommunityPage = (): JSX.Element => {
               type="radio"
               selectedLimit={1}
               onChange={categoryChangeHandler}
-              categories={categoryList}
+              categories={Object.keys(ROUTINE_CATEGORY)}
             />
           </CategoryContainer>
           <RoutineGridBox>
             {DUMMY_ROUTINE?.map((routine) => {
-              if (clickedCategory === '전체') {
+              if (clickedCategory[0] === 'TOTAL') {
                 return (
                   <Routine
                     onClick={(e) => onClickRoutine(e, routine.routineId)}
@@ -134,7 +133,9 @@ const RoutineCommunityPage = (): JSX.Element => {
                     type="communityRoutine"
                   />
                 );
-              } else if (routine.routineCategories?.includes(clickedCategory)) {
+              } else if (
+                routine.routineCategories?.includes(clickedCategory[0])
+              ) {
                 return (
                   <Routine
                     onClick={(e) => onClickRoutine(e, routine.routineId)}
@@ -154,12 +155,12 @@ const RoutineCommunityPage = (): JSX.Element => {
               type="radio"
               selectedLimit={1}
               onChange={categoryChangeHandler}
-              categories={categoryList}
+              categories={Object.keys(ROUTINE_CATEGORY)}
             />
           </CategoryContainer>
           <RoutineGridBox>
             {DUMMY_ROUTINE?.map((routine) => {
-              if (clickedCategory === '전체') {
+              if (clickedCategory[0] === 'TOTAL') {
                 return (
                   <Routine
                     onClick={(e) => onClickRoutine(e, routine.routineId)}
@@ -169,7 +170,9 @@ const RoutineCommunityPage = (): JSX.Element => {
                     like={routine.routineId}
                   />
                 );
-              } else if (routine.routineCategories?.includes(clickedCategory)) {
+              } else if (
+                routine.routineCategories?.includes(clickedCategory[0])
+              ) {
                 return (
                   <Routine
                     onClick={(e) => onClickRoutine(e, routine.routineId)}
@@ -190,12 +193,12 @@ const RoutineCommunityPage = (): JSX.Element => {
               type="radio"
               selectedLimit={1}
               onChange={categoryChangeHandler}
-              categories={categoryList}
+              categories={Object.keys(ROUTINE_CATEGORY)}
             />
           </CategoryContainer>
           <RoutineGridBox>
             {DUMMY_ROUTINE?.map((routine) => {
-              if (clickedCategory === '전체') {
+              if (clickedCategory[0] === 'TOTAL') {
                 return (
                   <Routine
                     onClick={(e) => onClickRoutine(e, routine.routineId)}
@@ -204,7 +207,9 @@ const RoutineCommunityPage = (): JSX.Element => {
                     type="communityMyRoutine"
                   />
                 );
-              } else if (routine.routineCategories?.includes(clickedCategory)) {
+              } else if (
+                routine.routineCategories?.includes(clickedCategory[0])
+              ) {
                 return (
                   <Routine
                     onClick={(e) => onClickRoutine(e, routine.routineId)}
