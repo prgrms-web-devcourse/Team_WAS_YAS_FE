@@ -56,7 +56,7 @@ const RoutineCreatePage = (): JSX.Element => {
   const handleEmojiChange = (emoji: string) => {
     setRoutine(() => ({ ...routine, emoji }));
   };
-  const handleTitleOrColorChange = (
+  const handleTitleChange = (
     e: ChangeEvent<HTMLInputElement> & {
       name: HTMLInputElement;
       value: HTMLInputElement;
@@ -76,22 +76,18 @@ const RoutineCreatePage = (): JSX.Element => {
     }));
   };
 
-  const handleWeekChange = (
-    e: ChangeEvent<HTMLInputElement> & { target: HTMLInputElement },
-  ) => {
-    const { weeks } = routine;
-    const week = e.target.value;
-    if (weeks) {
-      if (!weeks.includes(week)) {
-        setRoutine((routine) => ({
-          ...routine,
-          weeks: [...weeks, week],
-        }));
-      } else {
-        const newWeek = weeks.filter((item) => item !== week);
-        setRoutine((routine) => ({ ...routine, weeks: newWeek }));
-      }
-    }
+  const handleColorChange = (selectedColor: string) => {
+    setRoutine((routine) => ({
+      ...routine,
+      color: selectedColor,
+    }));
+  };
+
+  const handleWeekChange = (selectedDays: string[]) => {
+    setRoutine((routine) => ({
+      ...routine,
+      weeks: [...selectedDays],
+    }));
   };
 
   const handleTimeChange = (time: any) => {
@@ -120,7 +116,7 @@ const RoutineCreatePage = (): JSX.Element => {
           id="title"
           name="title"
           placeholder="루틴 이름을 입력해주세요"
-          onChange={handleTitleOrColorChange}
+          onChange={handleTitleChange}
         />
         {routine.title ? '' : <Span>루틴 이름을 입력해주세요</Span>}
         <Label htmlFor="routineCategory">카테고리</Label>
@@ -134,7 +130,11 @@ const RoutineCreatePage = (): JSX.Element => {
           />
         </StyledRoutineCategory>
         <Label htmlFor="color">색상</Label>
-        <ColorPalette name="color" onChange={handleTitleOrColorChange} />
+        <ColorPalette
+          name="color"
+          initialSelectedColor={routine.color}
+          onChange={handleColorChange}
+        />
         <Label htmlFor="weeks">요일</Label>
         <DaySelector name="weeks" onChange={handleWeekChange} />
         <Label htmlFor="startGoalTime">시작 시간</Label>
