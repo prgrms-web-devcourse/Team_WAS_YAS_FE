@@ -7,6 +7,7 @@ import MoreVert from '@mui/icons-material/MoreVert';
 import Editor from './Editor';
 import { UserType, CommentType } from '@/Models';
 import moment from 'moment';
+import { css } from '@emotion/react';
 
 export interface CommentProps extends React.ComponentProps<'div'> {
   user: UserType;
@@ -126,9 +127,16 @@ const StyledAvatar = styled(Avatar)`
 
 const TextArea = styled.textarea`
   width: 100%;
-  height: auto;
+  height: 3rem;
   overflow: visible;
-  padding: ${({ disabled }) => (disabled ? '1rem' : '0.5rem')};
+  ${({ disabled }) =>
+    disabled
+      ? css`
+          padding-top: 1rem;
+        `
+      : css`
+          padding: 0.5rem;
+        `}
   border: none;
   border-radius: 8px 0 0 8px;
   outline: none;
