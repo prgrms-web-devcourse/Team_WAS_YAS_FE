@@ -2,7 +2,7 @@ import React from 'react';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 import styled from '@emotion/styled';
-import { Colors, Media, FontSize } from '@/styles';
+import { Colors, FontSize } from '@/styles';
 import { useToggle } from '@/hooks';
 
 export interface SpreadToggleProps extends React.ComponentProps<'div'> {
