@@ -4,7 +4,8 @@ import { request, authRequest } from './axios';
 
 export const userApi = {
   signUp: (userInfo: any) => request.post('/users', userInfo),
-  signIn: (userInfo: any) => request.post('/users/login', userInfo),
+  signIn: (userInfo: { email: string; password: string }) =>
+    request.post('/users/login', userInfo),
   getUser: () => authRequest.get(`/users`),
   updateUser: (userInfo: any) => authRequest.put('/users', userInfo),
 };

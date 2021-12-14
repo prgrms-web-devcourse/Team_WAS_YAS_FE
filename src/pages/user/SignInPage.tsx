@@ -37,20 +37,28 @@ const SignInPage = (): JSX.Element => {
     initialValues,
     validationSchema,
     onSubmit: async (values, formikHelper) => {
-      const sleep = () => {
-        return new Promise((resolve) => {
-          setTimeout(() => resolve(true), 2000);
+      try {
+        const response = await userApi.signIn(values);
+        console.log(response);
+        // sessionStorage.setItem(
+        //   'YAS_USER_TOKEN',
+        //   JSON.stringify(response.data.token),
+        // );
+        formikHelper.resetForm();
+        formikHelper.setStatus({ success: true });
+        formikHelper.setSubmitting(false);
+        Swal.fire({
+          icon: 'success',
+          title: '🎉 환영합니다! 🎉',
         });
-      };
-      await sleep();
-      console.log('제출', values);
-      formikHelper.resetForm();
-      formikHelper.setStatus({ success: true });
-      formikHelper.setSubmitting(false);
-      Swal.fire({
-        icon: 'success',
-        title: '🎉 환영합니다! 🎉',
-      });
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: '🥲',
+          text: `${error}`,
+          confirmButtonColor: Colors.point,
+        });
+      }
     },
   });
 
