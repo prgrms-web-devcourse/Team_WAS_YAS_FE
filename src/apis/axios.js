@@ -30,10 +30,10 @@ const createInstance = (options) => {
   const instance = axios.create({ baseURL: API_END_POINT, ...options });
   return setInterceptors(instance);
 };
-const request = createInstance();
+export const request = createInstance();
 
 const createInstanceWithAuth = (options) => {
   const instance = axios.create({ baseURL: API_END_POINT, ...options });
   return setInterceptors(instance, true);
 };
-const authRequest = createInstanceWithAuth();
+export const authRequest = createInstanceWithAuth();
