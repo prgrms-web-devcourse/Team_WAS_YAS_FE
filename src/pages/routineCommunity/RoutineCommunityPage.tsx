@@ -102,8 +102,11 @@ const RoutineCommunityPage = (): JSX.Element => {
     const element = e.target as HTMLElement;
 
     if (
-      element.tagName === 'DIV' &&
-      element?.className.includes('RoutineContainer')
+      !(
+        element.tagName === 'svg' ||
+        element.tagName === 'path' ||
+        element?.className.includes('ToolBox')
+      )
     ) {
       history.push(`/community/${id}`);
     }

@@ -45,7 +45,7 @@ const CommentCreator = ({
 const Form = styled.form`
   display: flex;
   width: 100%;
-  height: 120px;
+  height: 100px;
 `;
 
 const TextArea = styled.textarea`
