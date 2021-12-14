@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled/';
 import { EditBox, LikeBox } from '@/components';
 import { Colors, Media, FontSize } from '@/styles';
@@ -8,6 +8,8 @@ import Editor from './Editor';
 import { UserType, CommentType } from '@/Models';
 import moment from 'moment';
 import { css } from '@emotion/react';
+import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
+import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 
 export interface CommentProps extends React.ComponentProps<'div'> {
   user: UserType;
@@ -27,16 +29,25 @@ const Comment = ({
   onClickLike,
   ...props
 }: CommentProps): JSX.Element => {
-  const [visible, setVisible] = useState<boolean>(false);
+  const ref = useRef<HTMLTextAreaElement>(null);
+  const [editorVisible, setEditorVisible] = useState<boolean>(false);
+  const [spreadable, setSpreadable] = useState<boolean>(false);
   const [editable, setEditable] = useState<boolean>(false);
   const [text, setText] = useState<string>(comment.text);
 
+  useEffect(() => {
+    if (!ref.current?.scrollHeight) return;
+    setSpreadable(ref.current?.scrollHeight > 48);
+    // console.log(ref.current?.scrollHeight > 48);
+    console.log(spreadable);
+  });
+
   const handleClickMoreIconButton = () => {
-    setVisible(true);
+    setEditorVisible(true);
   };
 
   const handleCloseDeleteBox = () => {
-    setVisible(false);
+    setEditorVisible(false);
   };
 
   const handleClickDeleteButton = () => {
@@ -93,9 +104,20 @@ const Comment = ({
           }}
         />
       ) : (
-        <TextArea disabled id="text" name="text" value={text} />
+        <TextArea ref={ref} disabled id="text" name="text" value={text} />
       )}
-      {visible && (
+      {spreadable ? (
+        <SpreadButton>
+          <KeyboardArrowDownRoundedIcon />
+          펼치기
+        </SpreadButton>
+      ) : (
+        <SpreadButton>
+          <KeyboardArrowUpRoundedIcon />
+          접기
+        </SpreadButton>
+      )}
+      {editorVisible && (
         <StyledEditBox
           visible={true}
           onClose={handleCloseDeleteBox}
@@ -128,7 +150,10 @@ const StyledAvatar = styled(Avatar)`
 const TextArea = styled.textarea`
   width: 100%;
   height: 3rem;
-  overflow: visible;
+  /* height: auto; */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  /* white-space: nowrap; */
   ${({ disabled }) =>
     disabled
       ? css`
@@ -188,6 +213,30 @@ const StyledEditBox = styled(EditBox)`
   top: -3rem;
   right: 1rem;
   z-index: 1;
+`;
+
+const SpreadButton = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  border-radius: 1rem;
+  background-color: transparent;
+  color: ${Colors.textPrimary};
+  font-size: ${FontSize.small};
+  padding: 0 0.5rem;
+  height: 2rem;
+  cursor: pointer;
+
+  @media (hover: hover) {
+    :hover {
+      color: ${Colors.point};
+    }
+  }
+
+  &: active {
+    color: ${Colors.pointLight};
+  }
 `;
 
 export default Comment;
