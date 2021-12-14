@@ -22,7 +22,7 @@ const Routine = ({
   style,
   ...props
 }: RoutineProps): JSX.Element => {
-  const { emoji, color, title, durationGoalTime, startGoalTime } =
+  const { emoji, color, title, durationGoalTime, startGoalTime, weeks } =
     routineObject;
   const durationTime = TimeUtils.calculateTime(durationGoalTime || 500);
   const startTime = TimeUtils.startTime(
@@ -40,6 +40,21 @@ const Routine = ({
 
   const handleClickUpdateButton = () => {
     console.log('clicked update button');
+  };
+
+  const convertWeeks = (weeks: string[] | undefined) => {
+    const weekString = weeks?.join('');
+
+    switch (weekString) {
+      case '월화수목금':
+        return '평일';
+      case '토일':
+        return '주말';
+      case '월화수목금토일':
+        return '매일';
+      default:
+        return weeks?.join(' ');
+    }
   };
 
   return (
@@ -91,6 +106,7 @@ const Routine = ({
       <Emoji>{emoji}&nbsp;</Emoji>
       <Title>{title}&nbsp;</Title>
       <TotalTime>{durationTime}&nbsp;</TotalTime>
+      <Weeks>{type === 'myRoutine' && convertWeeks(weeks)}&nbsp;</Weeks>
       <StartTime>{startTime}&nbsp;</StartTime>
     </RoutineContainer>
   );
@@ -148,7 +164,7 @@ const Emoji = styled.div`
 
   @media ${Media.sm} {
     font-size: 2rem;
-    margin: 0.5rem 0 0.25rem;
+    margin: 0.5rem 0 0rem;
   }
 `;
 
@@ -167,11 +183,22 @@ const Title = styled.h1`
 const TotalTime = styled.h2`
   font-size: ${FontSize.medium};
   font-weight: ${FontWeight.bold};
-  margin: 0.75rem 0 1.75rem;
+  margin: 0.75rem 0 0.75rem;
 
   @media ${Media.sm} {
     font-size: 0.625rem;
-    margin: 0.5rem 0;
+    margin: 0.25rem 0;
+  }
+`;
+
+const Weeks = styled.p`
+  font-size: ${FontSize.small};
+  font-weight: ${FontWeight.bold};
+  margin-bottom: 0.75rem;
+
+  @media ${Media.sm} {
+    font-size: 0.625rem;
+    margin-bottom: 0.25rem;
   }
 `;
 
