@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled/';
-import { EditBox, LikeBox } from '@/components';
+import { EditBox, LikeBox, SpreadToggle } from '@/components';
 import { Colors, Media, FontSize } from '@/styles';
 import { IconButton, Avatar } from '@mui/material';
 import MoreVert from '@mui/icons-material/MoreVert';
@@ -8,8 +8,6 @@ import Editor from './Editor';
 import { UserType, CommentType } from '@/Models';
 import moment from 'moment';
 import { css } from '@emotion/react';
-import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
-import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 
 export interface CommentProps extends React.ComponentProps<'div'> {
   user: UserType;
@@ -106,17 +104,7 @@ const Comment = ({
       ) : (
         <TextArea ref={ref} disabled id="text" name="text" value={text} />
       )}
-      {spreadable ? (
-        <SpreadButton>
-          <KeyboardArrowDownRoundedIcon />
-          펼치기
-        </SpreadButton>
-      ) : (
-        <SpreadButton>
-          <KeyboardArrowUpRoundedIcon />
-          접기
-        </SpreadButton>
-      )}
+      <SpreadToggle />
       {editorVisible && (
         <StyledEditBox
           visible={true}
@@ -213,30 +201,6 @@ const StyledEditBox = styled(EditBox)`
   top: -3rem;
   right: 1rem;
   z-index: 1;
-`;
-
-const SpreadButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  border-radius: 1rem;
-  background-color: transparent;
-  color: ${Colors.textPrimary};
-  font-size: ${FontSize.small};
-  padding: 0 0.5rem;
-  height: 2rem;
-  cursor: pointer;
-
-  @media (hover: hover) {
-    :hover {
-      color: ${Colors.point};
-    }
-  }
-
-  &: active {
-    color: ${Colors.pointLight};
-  }
 `;
 
 export default Comment;

@@ -9,16 +9,20 @@ export interface SpreadToggleProps extends React.ComponentProps<'div'> {
   open?: boolean;
 }
 
-const SpreadToggle = ({ open, ...props }: SpreadToggleProps): JSX.Element => {
+const SpreadToggle = ({
+  open,
+  onChange,
+  ...props
+}: SpreadToggleProps): JSX.Element => {
   const [toggled, toggle] = useToggle(open ? open : false);
 
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    toggle();
+    onChange && onChange(e);
+  };
+
   return (
-    <Container
-      onClick={() => {
-        toggle();
-      }}
-      {...props}
-    >
+    <Container onClick={handleClick} {...props}>
       {toggled ? (
         <SpreadButton>
           <KeyboardArrowUpRoundedIcon />
