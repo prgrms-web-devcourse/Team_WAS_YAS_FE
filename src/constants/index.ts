@@ -1,10 +1,14 @@
-export const ROUTINE_TAB = Object.freeze({
+interface ConstantType {
+  [index: string]: string;
+}
+
+export const ROUTINE_TAB: ConstantType = Object.freeze({
   TOTAL: '전체 루틴',
   TODO: '해야할 루틴',
   COMPLETE: '완료한 루틴',
 });
 
-export const ROUTINE_CATEGORY = Object.freeze({
+export const ROUTINE_CATEGORY: ConstantType = Object.freeze({
   TOTAL: '전체',
   EXERCISE: '운동',
   GAME: '게임',

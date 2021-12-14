@@ -11,3 +11,7 @@ export type { CommentLikeType } from './types';
 
 // !Dummy
 export { userDummy } from './dummy';
+export { routineDummy } from './dummy';
+export { routinePostDummy } from './dummy';
+export { missionDummy } from './dummy';
+export { commentDummy } from './dummy';
