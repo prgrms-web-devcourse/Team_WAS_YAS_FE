@@ -4,6 +4,7 @@ import Swal from 'sweetalert2';
 import styled from '@emotion/styled';
 import { Colors, FontSize, FontWeight } from '@/styles';
 import { Container, Input, Button, Spinner } from '@/components';
+import { userApi } from '@/apis';
 
 const initialValues = {
   email: '',
