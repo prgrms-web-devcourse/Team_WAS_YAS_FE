@@ -6,6 +6,7 @@ import { IconButton, Avatar } from '@mui/material';
 import MoreVert from '@mui/icons-material/MoreVert';
 import Editor from './Editor';
 import { UserType, CommentType } from '@/Models';
+import moment from 'moment';
 
 export interface CommentProps extends React.ComponentProps<'div'> {
   user: UserType;
@@ -64,7 +65,9 @@ const Comment = ({
           />
           <UserInfoTextWrapper>
             <UserNameText>{user.nickName}</UserNameText>
-            <DateText>{comment.updatedAt}</DateText>
+            <DateText>
+              {moment(comment.updatedAt).format('YYYY-MM-DD hh:mm')}
+            </DateText>
           </UserInfoTextWrapper>
         </UserInfoContainer>
         <ToolWrapper>
