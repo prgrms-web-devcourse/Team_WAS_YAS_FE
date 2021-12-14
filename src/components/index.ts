@@ -35,6 +35,7 @@ export { CommentCreator } from './molecules/CommentCreator';
 export type { CommentCreatorProps } from './molecules/CommentCreator';
 export { DaySelector } from './molecules/DaySelector';
 export type { DayItemProps } from './molecules/DaySelector';
+export type { DaySelectorProps } from './molecules/DaySelector';
 export { ColorPalette } from './molecules/ColorPalette';
 export type { ColorPaletteProps } from './molecules/ColorPalette';
 export { Mission } from './molecules/Mission';
