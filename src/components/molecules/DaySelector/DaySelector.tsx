@@ -15,7 +15,7 @@ const DaySelector = ({
   onChange,
   ...props
 }: DaySelectorProps): JSX.Element => {
-  const days = Object.values(WEEK);
+  const days = Object.keys(WEEK);
   const [selectedDays, setSelctedDays] = useState<string[]>(() => {
     return initialSelectedDays ? initialSelectedDays : [];
   });

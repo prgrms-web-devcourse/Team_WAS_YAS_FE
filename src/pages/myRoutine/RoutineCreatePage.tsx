@@ -126,7 +126,7 @@ const RoutineCreatePage = (): JSX.Element => {
             type="checkbox"
             name="routineCategory"
             onChange={handleCategoryChange}
-            categories={Object.values(ROUTINE_CATEGORY).slice(1)}
+            categories={Object.keys(ROUTINE_CATEGORY).slice(1)}
           />
         </StyledRoutineCategory>
         <Label htmlFor="color">색상</Label>

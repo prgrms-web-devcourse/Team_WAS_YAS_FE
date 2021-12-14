@@ -14,8 +14,8 @@ const RoutineUpdatePage = (): JSX.Element => {
     title: '밥먹기',
     durationGoalTime: 1000,
     startGoalTime: new Date().toISOString(),
-    routineCategories: ['음식'],
-    weeks: ['월', '수', '금'],
+    routineCategories: ['FOOD'],
+    weeks: ['MON', 'WED', 'FRI'],
     missions: [],
   });
   const history = useHistory();
@@ -28,6 +28,7 @@ const RoutineUpdatePage = (): JSX.Element => {
     }).then(() => {
       history.push('/');
     });
+    console.log(selectedRoutine);
   };
 
   const handleWeekChange = (selectedDays: string[]) => {

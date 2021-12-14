@@ -19,7 +19,7 @@ export const ROUTINE_CATEGORY: ConstantType = Object.freeze({
   STUDY: '공부',
 });
 
-export const WEEK = Object.freeze({
+export const WEEK: ConstantType = Object.freeze({
   MON: '월',
   TUE: '화',
   WED: '수',
