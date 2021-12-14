@@ -91,7 +91,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
       )}
       <StyledCommentCreator />
       <CommentContainer>
-        <Comment user={userDummy} comment={commentDummy} />
+        <Comment editable user={userDummy} comment={commentDummy} />
         <Comment user={userDummy} comment={commentDummy} />
         <Comment user={userDummy} comment={commentDummy} />
       </CommentContainer>

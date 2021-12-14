@@ -77,8 +77,8 @@ const Comment = ({
             onClick={handleClickLikeButton}
           />
           {initEditable && (
-            <IconButton onClick={handleClickMoreIconButton}>
-              <MoreVert />
+            <IconButton style={{ padding: 0 }}>
+              <MoreVert onClick={handleClickMoreIconButton} />
             </IconButton>
           )}
         </ToolWrapper>
@@ -172,7 +172,7 @@ const DateText = styled.p`
 const ToolWrapper = styled.div`
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
 `;
 
 const StyledEditBox = styled(EditBox)`
