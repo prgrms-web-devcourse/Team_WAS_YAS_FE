@@ -33,16 +33,16 @@ const StyledSvg = styled.svg<IconProps>`
     } else {
       return `
         @media ${Media.sm} {
-          width: ${FontSize.base};
-          height: ${FontSize.base};
+          width: ${FontSize.medium};
+          height: ${FontSize.medium};
         }
         @media ${Media.md} {
-          width: ${FontSize.medium};
-          height: ${FontSize.medium};
+          width: ${FontSize.large};
+          height: ${FontSize.large};
         }
         @media ${Media.lg} {
-          width: ${FontSize.medium};
-          height: ${FontSize.medium};
+          width: ${FontSize.large};
+          height: ${FontSize.large};
         }
       `;
     }
