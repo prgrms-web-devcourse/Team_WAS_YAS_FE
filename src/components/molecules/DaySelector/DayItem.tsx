@@ -62,4 +62,10 @@ const StyledDayItem = styled.div`
     height: 56px;
     font-size: ${FontSize.medium};
   }
+  @media (hover: hover) {
+    :hover {
+      background-color: ${Colors.pointLight};
+      color: ${Colors.textQuaternary};
+    }
+  }
 `;
