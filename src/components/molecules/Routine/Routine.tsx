@@ -43,7 +43,14 @@ const Routine = ({
   };
 
   return (
-    <RoutineContainer style={{ backgroundColor: color, ...style }} {...props}>
+    <RoutineContainer
+      style={{
+        backgroundColor: color,
+        opacity: `${completed ? '0.7' : '1'}`,
+        ...style,
+      }}
+      {...props}
+    >
       <RoutineHeader>
         {type === 'myRoutine' ? (
           <CheckComplete completed={completed ? completed : false} />
@@ -52,7 +59,10 @@ const Routine = ({
         )}
 
         {type === 'myRoutine' || type === 'communityMyRoutine' ? (
-          <ToolBoxContainer onClick={() => setVisible(true)}>
+          <ToolBoxContainer
+            className="ToolBox"
+            onClick={() => setVisible(true)}
+          >
             <ToolBoxButtonIcon />
             {type === 'myRoutine' ? (
               <EditBox
@@ -82,7 +92,6 @@ const Routine = ({
       <Title>{title}&nbsp;</Title>
       <TotalTime>{durationTime}&nbsp;</TotalTime>
       <StartTime>{startTime}&nbsp;</StartTime>
-      {completed && <CompletedRoutine />}
     </RoutineContainer>
   );
 };
@@ -96,27 +105,8 @@ const RoutineContainer = styled.div`
   box-sizing: border-box;
   color: ${Colors.textQuaternary};
   text-align: center;
-  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   position: relative;
-
-  @media ${Media.sm} {
-    width: 8.75rem;
-    height: 8.75rem;
-    padding: 0.875rem;
-  }
-`;
-
-const CompletedRoutine = styled.div`
-  width: 15rem;
-  height: 15rem;
-  border-radius: 2rem;
-  padding: 1rem;
-  box-sizing: border-box;
-  background-color: rgba(0, 0, 0, 0.2);
-  position: absolute;
-  top: 0;
-  left: 0;
 
   @media ${Media.sm} {
     width: 8.75rem;
@@ -138,9 +128,8 @@ const RoutineHeader = styled.header`
 const ToolBoxContainer = styled.div`
   background-color: inherit;
   border: none;
-  padding: 0 0 0.5rem 0.5rem;
+  padding: 0 0 1.5rem 1rem;
   cursor: pointer;
-  z-index: 10;
 `;
 
 const Like = styled.span`

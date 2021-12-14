@@ -80,8 +80,11 @@ const MyRoutinePage = (): JSX.Element => {
     const element = e.target as HTMLElement;
 
     if (
-      element.tagName === 'DIV' &&
-      element?.className.includes('CompletedRoutine')
+      !(
+        element.tagName === 'svg' ||
+        element.tagName === 'path' ||
+        element?.className.includes('ToolBox')
+      )
     ) {
       history.push(`/routine/${id}`);
     }
