@@ -1,20 +1,36 @@
 import { Colors, Media } from '@/styles';
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import ColorItem, { ColorItemProps } from './ColorItem';
 import styled from '@emotion/styled';
 
-export interface ColorPaletteProps extends ColorItemProps {
+export interface ColorPaletteProps {
+  color?: Pick<ColorItemProps, 'color'>;
   colors: string[];
+  name: string;
+  onChange: (selectedColor: string) => void;
+  initialSelectedColor?: string;
 }
 
 const ColorPalette = ({
   color,
+  name,
   colors,
   onChange,
+  initialSelectedColor,
   ...props
 }: ColorPaletteProps): JSX.Element => {
+  const [selectedColor, setSelectedColor] = useState<string>(() => {
+    return initialSelectedColor ? initialSelectedColor : '';
+  });
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    onChange && onChange(e);
+    const color = e.target.value;
+    if (color === selectedColor) {
+      setSelectedColor(color);
+      onChange && onChange(color);
+    } else {
+      setSelectedColor(color);
+      onChange && onChange(color);
+    }
   };
   return (
     <StyledColorPalette>
@@ -22,8 +38,10 @@ const ColorPalette = ({
         colors.map((color) => (
           <ColorItem
             color={color}
+            name="color"
             onChange={handleChange}
             key={color}
+            checked={selectedColor === color}
             {...props}
           />
         ))}
