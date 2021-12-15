@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { Colors, FontSize, FontWeight } from '@/styles';
 import { Container, Input, Button, Spinner } from '@/components';
 import { userApi } from '@/apis';
+import { useHistory } from 'react-router-dom';
 
 const initialValues = {
   email: '',
@@ -25,6 +26,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const SignInPage = (): JSX.Element => {
+  const history = useHistory();
   const {
     errors,
     handleBlur,
@@ -91,7 +93,15 @@ const SignInPage = (): JSX.Element => {
         <StyledButton type="submit" disabled={isSubmitting}>
           입장하기
         </StyledButton>
-        <StyledButton colorType="white">회원가입 하러가기</StyledButton>
+        <StyledButton
+          type="button"
+          colorType="white"
+          onClick={() => {
+            history.push('/signup');
+          }}
+        >
+          회원가입 하러가기
+        </StyledButton>
       </SignInForm>
       {isSubmitting && <Spinner />}
     </StyledContainer>
