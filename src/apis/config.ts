@@ -1,10 +1,4 @@
-import axios from 'axios';
-import {
-  AxiosInstance,
-  AxiosInterceptorManager,
-  AxiosRequestConfig,
-  AxiosResponse,
-} from 'axios';
+import axios, { AxiosInstance } from 'axios';
 
 const API_END_POINT = ' http://52.79.219.24:8080';
 
