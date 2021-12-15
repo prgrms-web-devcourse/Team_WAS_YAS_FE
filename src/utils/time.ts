@@ -22,7 +22,7 @@ const calculateTime = (time: number | string): string | null => {
   }
 };
 
-const startTime = (time: string): string => {
+const formatStartTime = (time: string): string => {
   return moment(time).format('LT');
 };
 
@@ -30,7 +30,8 @@ const dateFromNow = (time: string): string => {
   return moment(time).startOf('day').fromNow();
 };
 
-const timeFormat = (duration: any): string => {
+// eslint-disable-next-line
+const formatCalendarTime = (duration: any): string => {
   const { seconds: s, minutes: m, hours: h } = duration._data;
   const seconds = Math.abs(s);
   const minutes = Math.abs(m);
@@ -42,9 +43,9 @@ const timeFormat = (duration: any): string => {
 
 const TimeUtils = {
   calculateTime,
-  startTime,
+  formatStartTime,
   dateFromNow,
-  timeFormat,
+  formatCalendarTime,
 };
 
 export default TimeUtils;

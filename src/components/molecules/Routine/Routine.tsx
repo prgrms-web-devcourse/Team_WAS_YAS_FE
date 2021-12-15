@@ -25,7 +25,7 @@ const Routine = ({
   const { emoji, color, title, durationGoalTime, startGoalTime } =
     routineObject;
   const durationTime = TimeUtils.calculateTime(durationGoalTime || 500);
-  const startTime = TimeUtils.startTime(
+  const startTime = TimeUtils.formatStartTime(
     startGoalTime || new Date().toISOString(),
   );
   const [visible, setVisible] = useState<boolean>(false);

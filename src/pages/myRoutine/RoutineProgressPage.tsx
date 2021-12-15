@@ -270,7 +270,9 @@ const RoutineProgressPage = (): JSX.Element => {
         >
           <Emoji>{DUMMY_ROUTINE_DETAIL.missions[currentIndex].emoji}</Emoji>
           <Title>{DUMMY_ROUTINE_DETAIL.missions[currentIndex].title}</Title>
-          <Time className={timeClass}>{TimeUtils.timeFormat(duration)}</Time>
+          <Time className={timeClass}>
+            {TimeUtils.formatCalendarTime(duration)}
+          </Time>
           <DurationTime>
             {TimeUtils.calculateTime(
               DUMMY_ROUTINE_DETAIL.missions[currentIndex].durationGoalTime,
