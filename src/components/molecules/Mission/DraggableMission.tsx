@@ -3,7 +3,7 @@ import { MissionType } from '@/Models';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import TimeUtils from '@/utils/time';
 import styled from '@emotion/styled';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useDrop, useDrag } from 'react-dnd';
 import ToolBoxButtonIcon from '../Routine/ToolBoxButtonIcon';
 
