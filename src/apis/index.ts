@@ -3,7 +3,13 @@ import { request, authRequest } from './axios';
 //! user
 
 export const userApi = {
-  signUp: (userInfo: any) => request.post('/users', userInfo),
+  signUp: (userInfo: {
+    email: string;
+    name: string;
+    nickname: string;
+    password: string;
+    checkPassword: string;
+  }) => request.post('/users', userInfo),
   signIn: (userInfo: { email: string; password: string }) =>
     request.post('/users/login', userInfo),
   getUser: () => authRequest.get(`/users`),
