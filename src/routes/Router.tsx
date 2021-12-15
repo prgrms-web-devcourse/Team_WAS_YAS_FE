@@ -40,10 +40,10 @@ const Router = (): JSX.Element => {
       <Route path="/community/create" exact component={RoutinePostCreatePage} />
       <Route path="/community/:id" exact component={RoutinePostDetailPage} />
 
-      <Route path="/signin" exact component={SignInPage} />
-      <Route path="/signup" exact component={SignUpPage} />
       <Route path="/mypage" exact component={UserPage} />
       <Route path="/mypage/edit" exact component={UserEditPage} />
+      <Route path="/mypage/signin" exact component={SignInPage} />
+      <Route path="/mypage/signup" exact component={SignUpPage} />
 
       <Route path="/analysis" exact component={AnalysisPage} />
 
