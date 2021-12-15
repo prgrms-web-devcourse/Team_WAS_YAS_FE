@@ -118,7 +118,11 @@ const RoutineCreatePage = (): JSX.Element => {
           placeholder="루틴 이름을 입력해주세요"
           onChange={handleTitleChange}
         />
-        {routine.title ? '' : <Span>루틴 이름을 입력해주세요</Span>}
+        {routine.title ? (
+          <Span>&nbsp;</Span>
+        ) : (
+          <Span>루틴 이름을 입력해주세요</Span>
+        )}
         <Label htmlFor="routineCategory">카테고리</Label>
         <StyledRoutineCategory>
           <RoutineCategorySelector
@@ -166,13 +170,13 @@ const Form = styled.form`
 
 const Label = styled.label`
   display: inline-block;
-  margin: 1rem 0;
+  margin: 3rem 0 1.5rem 0;
   font-size: ${FontSize.base};
   color: ${Colors.textSecondary};
 `;
 
 const ButtonContainer = styled.div`
-  margin-top: 2rem;
+  margin-top: 3rem;
   @media ${Media.sm} {
     > button {
       width: 100%;
