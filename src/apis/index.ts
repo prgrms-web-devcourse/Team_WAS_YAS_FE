@@ -1,6 +1,8 @@
 import { request, authRequest } from './config';
 import { AxiosResponse } from 'axios';
 
+// TODO: Promise<AxiosResponse<any, any>>형태로 제네릭으로 데이터, config 타입 명시하기
+
 //! user
 interface UserApiType {
   signUp: (userInfo: {
@@ -9,13 +11,13 @@ interface UserApiType {
     nickname: string;
     password: string;
     checkPassword: string;
-  }) => Promise<AxiosResponse<any, any>>;
+  }) => Promise<AxiosResponse>;
   signIn: (userInfo: {
     email: string;
     password: string;
-  }) => Promise<AxiosResponse<any, any>>;
-  getUser: () => Promise<AxiosResponse<any, any>>;
-  updateUser: (userInfo: any) => Promise<AxiosResponse<any, any>>;
+  }) => Promise<AxiosResponse>;
+  getUser: () => Promise<AxiosResponse>;
+  updateUser: (userInfo: any) => Promise<AxiosResponse>;
 }
 
 export const userApi: UserApiType = {
