@@ -61,7 +61,6 @@ const SignUpPage = (): JSX.Element => {
     onSubmit: async (values, formikHelper) => {
       try {
         const response = await userApi.signUp(values);
-        console.log(response);
         formikHelper.resetForm();
         formikHelper.setStatus({ success: true });
         formikHelper.setSubmitting(false);

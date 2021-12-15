@@ -8,11 +8,8 @@ import { Colors, FontSize, FontWeight } from '@/styles';
 import { Container, Input, Button, Spinner } from '@/components';
 import { Avatar } from '@mui/material';
 import { useRef, useState } from 'react';
-
-const initialValues = {
-  nickName: userDummy.nickname,
-  profileImageFile: '',
-};
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
 
 const validationSchema = Yup.object().shape({
   nickName: Yup.string()
@@ -26,11 +23,18 @@ const validationSchema = Yup.object().shape({
 // TODO: API 연동시 파일처리 부분 리팩토링
 const UserEditPage = (): JSX.Element => {
   const history = useHistory();
+  const user = useSelector((state: RootState) => state.user);
   const inputRef = useRef<HTMLInputElement>(null);
   // const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | undefined>(
-    userDummy.profileImage,
+    user.profileImage,
   );
+
+  const initialValues = {
+    nickName: user.nickname,
+    profileImageFile: '',
+  };
+
   const {
     errors,
     handleBlur,
