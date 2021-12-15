@@ -7,6 +7,7 @@ import {
   RoutineCategory,
   RoutineInfo,
 } from '@/components';
+import { ROUTINE_CATEGORY } from '@/constants';
 import { RoutineType, MissionType } from '@/Models';
 import { Colors, Media } from '@/styles';
 import styled from '@emotion/styled';
@@ -103,7 +104,9 @@ const RoutineDetailPage = (): JSX.Element => {
       <CategoryEditFlexBox>
         <div>
           {DUMMY_ROUTINE_DETAIL.routineCategory?.map((category, i) => (
-            <StyledCategory key={i}>{category}</StyledCategory>
+            <StyledCategory key={i}>
+              {ROUTINE_CATEGORY[category]}
+            </StyledCategory>
           ))}
         </div>
         <RoundedButton.Edit />
