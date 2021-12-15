@@ -37,7 +37,6 @@ const MissionCreatePage = (): JSX.Element => {
         history.push(`/routine/${id}`);
       });
     }
-    console.log(mission);
   };
   const handleEmojiChange = (emoji: string) => {
     setMission((mission) => ({
