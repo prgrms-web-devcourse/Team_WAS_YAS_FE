@@ -71,7 +71,7 @@ const SignUpPage = (): JSX.Element => {
           text: '이제 로그인을 진행해주세요.',
           confirmButtonColor: Colors.point,
         }).then(() => {
-          history.push('/signin');
+          history.push('/mypage/signin');
         });
       } catch (error) {
         Swal.fire({

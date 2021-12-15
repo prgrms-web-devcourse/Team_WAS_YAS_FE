@@ -52,6 +52,9 @@ const SignInPage = (): JSX.Element => {
         Swal.fire({
           icon: 'success',
           title: '🎉 환영합니다! 🎉',
+          confirmButtonColor: Colors.point,
+        }).then(() => {
+          history.push('/');
         });
       } catch (error) {
         Swal.fire({
@@ -97,7 +100,7 @@ const SignInPage = (): JSX.Element => {
           type="button"
           colorType="white"
           onClick={() => {
-            history.push('/signup');
+            history.push('/mypage/signup');
           }}
         >
           회원가입 하러가기
