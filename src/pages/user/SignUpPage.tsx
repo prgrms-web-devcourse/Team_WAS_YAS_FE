@@ -5,6 +5,8 @@ import Swal from 'sweetalert2';
 import styled from '@emotion/styled';
 import { Colors, FontSize, FontWeight } from '@/styles';
 import { Container, Input, Button, Spinner } from '@/components';
+import { userApi } from '@/apis';
+import { useHistory } from 'react-router-dom';
 
 const initialValues = {
   email: '',
@@ -43,6 +45,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const SignUpPage = (): JSX.Element => {
+  const history = useHistory();
   const {
     errors,
     handleBlur,
@@ -56,21 +59,28 @@ const SignUpPage = (): JSX.Element => {
     initialValues,
     validationSchema,
     onSubmit: async (values, formikHelper) => {
-      const sleep = () => {
-        return new Promise((resolve) => {
-          setTimeout(() => resolve(true), 2000);
+      try {
+        const response = await userApi.signUp(values);
+        console.log(response);
+        formikHelper.resetForm();
+        formikHelper.setStatus({ success: true });
+        formikHelper.setSubmitting(false);
+        Swal.fire({
+          icon: 'success',
+          title: '🎉 환영합니다! 🎉',
+          text: '이제 로그인을 진행해주세요.',
+          confirmButtonColor: Colors.point,
+        }).then(() => {
+          history.push('/signin');
         });
-      };
-      await sleep();
-      console.log('제출', values);
-      formikHelper.resetForm();
-      formikHelper.setStatus({ success: true });
-      formikHelper.setSubmitting(false);
-      Swal.fire({
-        icon: 'success',
-        title: '🥳',
-        text: 'YAS 회원이 되신것을 환영합니다.',
-      });
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: '🥲 oops!',
+          text: `${error}`,
+          confirmButtonColor: Colors.point,
+        });
+      }
     },
   });
 
