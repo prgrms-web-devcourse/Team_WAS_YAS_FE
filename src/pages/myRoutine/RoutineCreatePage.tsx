@@ -201,7 +201,7 @@ const StyledStartTimePicker = styled.div`
 `;
 
 const Span = styled.span`
-  margin-top: 0.5rem;
+  margin-top: 0.8rem;
   color: ${Colors.functionNegative};
 `;
 const StyledRoutineCategory = styled.div`
