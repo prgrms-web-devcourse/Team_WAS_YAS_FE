@@ -22,8 +22,7 @@ const Routine = ({
   style,
   ...props
 }: RoutineProps): JSX.Element => {
-  const { emoji, color, title, durationGoalTime, startGoalTime } =
-    routineObject;
+  const { emoji, color, name, durationGoalTime, startGoalTime } = routineObject;
   const durationTime = TimeUtils.calculateTime(durationGoalTime || 0);
   const startTime = TimeUtils.startTime(
     startGoalTime || new Date().toISOString(),
@@ -89,7 +88,7 @@ const Routine = ({
         ) : null}
       </RoutineHeader>
       <Emoji>{emoji}&nbsp;</Emoji>
-      <Title>{title}&nbsp;</Title>
+      <Title>{name}&nbsp;</Title>
       <TotalTime>{durationTime}&nbsp;</TotalTime>
       <StartTime>{startTime}&nbsp;</StartTime>
     </RoutineContainer>

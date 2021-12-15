@@ -16,13 +16,13 @@ export const userDummy: UserType = {
 
 export const routineDummy: RoutineType = {
   routineId: 321,
-  title: '집 앞 공원 산책하기',
+  name: '집 앞 공원 산책하기',
   emoji: '🌳',
   color: '#66CE92',
   startGoalTime: '2022-12-24T03:00:00.000Z',
   durationGoalTime: 1000,
   weeks: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
-  routineCategories: ['HEALTH', 'EXERCISE'],
+  routineCategory: ['HEALTH', 'EXERCISE'],
   missions: [],
 };
 

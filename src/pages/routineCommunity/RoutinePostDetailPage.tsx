@@ -52,7 +52,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
       />
       <RoutineInfoFooter>
         <CategoryWrapper>
-          {routineDummy.routineCategories.map((category: string) => (
+          {routineDummy.routineCategory.map((category: string) => (
             <RoutineCategory key={category}>
               {ROUTINE_CATEGORY[category]}
             </RoutineCategory>
