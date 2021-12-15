@@ -54,6 +54,7 @@ const Comment = ({
 
   const handleClickUpdateButton = () => {
     setEditMode(true);
+    setOpened(false);
   };
 
   const handleClickLikeButton = (likCount: number) => {
@@ -117,7 +118,7 @@ const Comment = ({
           value={text}
         />
       )}
-      {openable && (
+      {openable && !editMode && (
         <SpreadToggleWrapper>
           <SpreadToggle onClick={handleClickSpreadToggle} />
         </SpreadToggleWrapper>
