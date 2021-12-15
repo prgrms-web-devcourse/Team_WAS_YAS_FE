@@ -1,4 +1,4 @@
-import { DayItemProps, DaySelector } from '@/components';
+import { DaySelector, DaySelectorProps } from '@/components';
 
 export default {
   title: 'Components/Molecules/DaySelector',
@@ -8,6 +8,6 @@ export default {
   },
 };
 
-export const Default = ({ ...args }: DayItemProps): JSX.Element => {
+export const Default = ({ ...args }: DaySelectorProps): JSX.Element => {
   return <DaySelector {...args} />;
 };

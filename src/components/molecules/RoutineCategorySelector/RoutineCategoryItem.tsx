@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import { Colors, FontWeight, FontSize, Media } from '@/styles';
 import React from 'react';
+import { ROUTINE_CATEGORY } from '@/constants';
 
 export interface RoutineCategoryItemProps
   extends React.ComponentProps<'input'> {
@@ -21,7 +22,7 @@ const RoutineCategoryItem = ({
         {...props}
       />
       <label htmlFor={category}>
-        <StyledCategoryItem>{category}</StyledCategoryItem>
+        <StyledCategoryItem>{ROUTINE_CATEGORY[category]}</StyledCategoryItem>
       </label>
     </>
   );

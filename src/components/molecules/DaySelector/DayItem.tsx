@@ -1,9 +1,10 @@
+import { WEEK } from '@/constants';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import styled from '@emotion/styled';
 import React from 'react';
 
 export interface DayItemProps extends React.ComponentProps<'input'> {
-  day?: string;
+  day: string;
 }
 
 const DayItem = ({ day, ...props }: DayItemProps): JSX.Element => {
@@ -17,7 +18,7 @@ const DayItem = ({ day, ...props }: DayItemProps): JSX.Element => {
         {...props}
       />
       <label htmlFor={day}>
-        <StyledDayItem>{day}</StyledDayItem>
+        <StyledDayItem>{WEEK[day]}</StyledDayItem>
       </label>
     </>
   );
@@ -42,10 +43,7 @@ const StyledDayItem = styled.div`
   color: ${Colors.textPrimary};
   font-weight: ${FontWeight.medium};
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
-  :hover {
-    color: ${Colors.textQuaternary};
-    background-color: ${Colors.point};
-  }
+
   @media ${Media.sm} {
     width: 32px;
     height: 32px;
@@ -61,5 +59,11 @@ const StyledDayItem = styled.div`
     width: 56px;
     height: 56px;
     font-size: ${FontSize.medium};
+  }
+  @media (hover: hover) {
+    :hover {
+      background-color: ${Colors.pointLight};
+      color: ${Colors.textQuaternary};
+    }
   }
 `;
