@@ -6,6 +6,8 @@ import { Colors, FontSize, FontWeight } from '@/styles';
 import { Container, Input, Button, Spinner } from '@/components';
 import { userApi } from '@/apis';
 import { useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUser } from '@/store/user';
 
 const initialValues = {
   email: '',
@@ -27,6 +29,7 @@ const validationSchema = Yup.object().shape({
 
 const SignInPage = (): JSX.Element => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const {
     errors,
     handleBlur,
@@ -40,12 +43,12 @@ const SignInPage = (): JSX.Element => {
     validationSchema,
     onSubmit: async (values, formikHelper) => {
       try {
-        const response = await userApi.signIn(values);
-        console.log(response.data);
-        sessionStorage.setItem(
-          'YAS_USER_TOKEN',
-          JSON.stringify(response.data.token),
-        );
+        const loginResponse = await userApi.signIn(values);
+        const token = loginResponse.data.token;
+        sessionStorage.setItem('YAS_USER_TOKEN', JSON.stringify(token));
+        const userResponse = await userApi.getUser();
+        const user = userResponse.data.data;
+        dispatch(setUser(user));
         formikHelper.resetForm();
         formikHelper.setStatus({ success: true });
         formikHelper.setSubmitting(false);
