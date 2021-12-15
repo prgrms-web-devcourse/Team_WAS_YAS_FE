@@ -117,7 +117,11 @@ const Comment = ({
           value={text}
         />
       )}
-      {openable && <SpreadToggle onClick={handleClickSpreadToggle} />}
+      {openable && (
+        <SpreadToggleWrapper>
+          <SpreadToggle onClick={handleClickSpreadToggle} />
+        </SpreadToggleWrapper>
+      )}
       {editable && (
         <StyledEditBox
           visible={editBoxVisible}
@@ -155,11 +159,9 @@ const TextArea = styled.textarea<
   }
 >`
   width: 100%;
-  height: ${({ opened, height }) => (opened ? height : '3rem')};
-  /* height: auto; */
-  overflow: hidden;
+  height: ${({ opened, height }) => (opened ? `${height}px` : '3rem')};
+  overflow-y: hidden;
   text-overflow: ellipsis;
-  /* white-space: nowrap; */
   ${({ disabled }) =>
     disabled
       ? css`
@@ -212,6 +214,12 @@ const ToolWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-start;
+`;
+
+const SpreadToggleWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const StyledEditBox = styled(EditBox)`

@@ -47,7 +47,7 @@ export const routinePostDummy: RoutinePostType = {
 
 export const commentDummy: CommentType = {
   commentId: 777,
-  text: '노아가 댓글을 작성했습니다.ㅁㅇㄴㄹㅁㅇㅁㅇㄹㄴㅁㅇㄴㄹㅁㄴㅇㄹㄴㄹㅁㄴㅇㄹㅁㅇㄴㅇㄹㅁㄴㅇㄹㅇㄴㅁㄹㅁㅇㄹㄴㅇㅁㄴㄹㅁㄴㅇㄹㅁㄴㅇ\n\n\n\n\n\n\n\n\n\n     테스트',
+  text: '노아가 댓글을 작성했습니다.ㅁㅇㄴㄹㅁㅇㅁㅇㄹㄴㅁㅇㄴㄹㅁㄴㅇㄹㄴㄹㅁㄴㅇㄹㅁㅇㄴㅇㄹㅁㄴㅇㄹㅇㄴㅁㄹㅁㅇㄹㄴㅇㅁㄴㄹㅁㄴㅇㄹㅁㄴㅇ\n\n\n\nㅇㄹㅁㄴㅇ\n\n\nㅇㄹㅁㄴㅇ\n\n\nㅇㄹㅁㄴㅇ\n\n\nㅇㄹㅁㄴㅇ\n\n\nㅇㄹㅁㄴㅇ\n\n\nㅇㄹㅁㄴㅇ\n\n\nㅇㄹㅁㄴㅇ\n\n\nㅇㄹㅁㄴㅇ\n\n\nn\n\n\n\n\n     테스트',
   userId: 123,
   createdAt: '2022-12-24T03:00:00.000Z',
   updatedAt: '2022-12-24T03:00:00.000Z',
