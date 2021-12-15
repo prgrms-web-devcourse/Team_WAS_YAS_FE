@@ -33,12 +33,13 @@ const Comment = ({
   const [editMode, setEditMode] = useState<boolean>(false);
   const [openable, setOpenable] = useState<boolean>(false);
   const [opened, setOpened] = useState<boolean>(false);
+  // TODO: useRef로 변경하기
   const scrollHeight = ref.current?.scrollHeight;
 
   useEffect(() => {
     if (!ref.current?.scrollHeight) return;
     setOpenable(ref.current?.scrollHeight > 48);
-  });
+  }, [setOpenable]);
 
   const handleClickMoreIconButton = () => {
     setEditBoxVisible(true);
@@ -93,8 +94,11 @@ const Comment = ({
             onClick={handleClickLikeButton}
           />
           {editable && (
-            <IconButton style={{ padding: 0 }}>
-              <MoreVert onClick={handleClickMoreIconButton} />
+            <IconButton
+              style={{ padding: 0 }}
+              onClick={handleClickMoreIconButton}
+            >
+              <MoreVert />
             </IconButton>
           )}
         </ToolWrapper>

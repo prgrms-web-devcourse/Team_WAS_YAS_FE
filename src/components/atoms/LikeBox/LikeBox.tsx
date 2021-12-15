@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { Icon } from '@/components';
 import { useToggle } from '@/hooks';
 import styled from '@emotion/styled';
-import { Media, FontSize, Colors } from '@/styles';
+import { FontSize, Colors } from '@/styles';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
 
