@@ -46,14 +46,14 @@ const Routine = ({
     <RoutineContainer
       style={{
         backgroundColor: color,
-        opacity: `${completed ? '0.7' : '1'}`,
+        filter: `opacity(${completed ? '0.7' : '1'})`,
         ...style,
       }}
       {...props}
     >
       <RoutineHeader>
         {type === 'myRoutine' ? (
-          <CheckComplete completed={completed ? completed : false} />
+          <CheckComplete completed={!!completed} />
         ) : (
           <div />
         )}
