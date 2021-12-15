@@ -12,6 +12,7 @@ type UserActionType = ReturnType<typeof setUser>;
 
 type UserStateType = UserType;
 
+// TODO: 초기값 안정적으로 옵셔널하게 변경하기
 const initialState: UserStateType = {
   userId: 0,
   name: '',
