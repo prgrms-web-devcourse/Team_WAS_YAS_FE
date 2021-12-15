@@ -13,7 +13,6 @@ const setInterceptors = (instance: AxiosInstance) => {
     (config) => {
       config.headers = {
         ...config.headers,
-        'Content-Type': 'application/json',
       };
       return config;
     },
@@ -43,7 +42,6 @@ const setAuthInterceptors = (instance: AxiosInstance) => {
       config.headers = {
         ...config.headers,
         token: TOKEN,
-        'Content-Type': 'application/json',
       };
       return config;
     },

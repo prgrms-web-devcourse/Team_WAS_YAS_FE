@@ -39,11 +39,11 @@ const SignInPage = (): JSX.Element => {
     onSubmit: async (values, formikHelper) => {
       try {
         const response = await userApi.signIn(values);
-        console.log(response);
-        // sessionStorage.setItem(
-        //   'YAS_USER_TOKEN',
-        //   JSON.stringify(response.data.token),
-        // );
+        console.log(response.data);
+        sessionStorage.setItem(
+          'YAS_USER_TOKEN',
+          JSON.stringify(response.data.token),
+        );
         formikHelper.resetForm();
         formikHelper.setStatus({ success: true });
         formikHelper.setSubmitting(false);
