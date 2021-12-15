@@ -32,7 +32,7 @@ const setAuthInterceptors = (instance: AxiosInstance) => {
       const rawToken = sessionStorage.getItem('YAS_USER_TOKEN');
       if (!rawToken) return config;
       const TOKEN = JSON.parse(rawToken);
-      // config.headers.Authorization = `bearer ${TOKEN}`;
+      //TODO: config.headers.Authorization = `bearer ${TOKEN}`;
       config.headers = {
         ...config.headers,
         token: TOKEN,
