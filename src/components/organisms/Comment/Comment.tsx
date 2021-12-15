@@ -21,31 +21,31 @@ export interface CommentProps extends React.ComponentProps<'div'> {
 const Comment = ({
   user,
   comment,
-  editable: initEditable,
+  editable,
   onEditComment,
   onDeleteComment,
   onClickLike,
   ...props
 }: CommentProps): JSX.Element => {
   const ref = useRef<HTMLTextAreaElement>(null);
-  const [editorVisible, setEditorVisible] = useState<boolean>(false);
-  const [spreadable, setSpreadable] = useState<boolean>(false);
-  const [editable, setEditable] = useState<boolean>(false);
   const [text, setText] = useState<string>(comment.text);
+  const [editBoxVisible, setEditBoxVisible] = useState<boolean>(false);
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const [openable, setOpenable] = useState<boolean>(false);
+  const [opened, setOpened] = useState<boolean>(false);
+  const scrollHeight = ref.current?.scrollHeight;
 
   useEffect(() => {
     if (!ref.current?.scrollHeight) return;
-    setSpreadable(ref.current?.scrollHeight > 48);
-    // console.log(ref.current?.scrollHeight > 48);
-    console.log(spreadable);
+    setOpenable(ref.current?.scrollHeight > 48);
   });
 
   const handleClickMoreIconButton = () => {
-    setEditorVisible(true);
+    setEditBoxVisible(true);
   };
 
   const handleCloseDeleteBox = () => {
-    setEditorVisible(false);
+    setEditBoxVisible(false);
   };
 
   const handleClickDeleteButton = () => {
@@ -53,7 +53,7 @@ const Comment = ({
   };
 
   const handleClickUpdateButton = () => {
-    setEditable(true);
+    setEditMode(true);
   };
 
   const handleClickLikeButton = (likCount: number) => {
@@ -62,8 +62,13 @@ const Comment = ({
 
   const handleSubmit = (newText: string) => {
     setText(newText);
-    setEditable(false);
+    setEditMode(false);
     onEditComment && onEditComment(comment.commentId, newText);
+  };
+
+  const handleClickSpreadToggle = () => {
+    setOpened((opened) => !opened);
+    console.log(scrollHeight);
   };
 
   return (
@@ -86,28 +91,36 @@ const Comment = ({
             count={comment.likes.length}
             onClick={handleClickLikeButton}
           />
-          {initEditable && (
+          {editable && (
             <IconButton style={{ padding: 0 }}>
               <MoreVert onClick={handleClickMoreIconButton} />
             </IconButton>
           )}
         </ToolWrapper>
       </Header>
-      {initEditable && editable ? (
+      {editable && editMode ? (
         <Editor
           initText={text}
           onSubmit={handleSubmit}
           onClose={() => {
-            setEditable(false);
+            setEditMode(false);
           }}
         />
       ) : (
-        <TextArea ref={ref} disabled id="text" name="text" value={text} />
+        <TextArea
+          opened={opened}
+          height={scrollHeight}
+          ref={ref}
+          disabled
+          id="text"
+          name="text"
+          value={text}
+        />
       )}
-      <SpreadToggle />
-      {editorVisible && (
+      {openable && <SpreadToggle onClick={handleClickSpreadToggle} />}
+      {editable && (
         <StyledEditBox
-          visible={true}
+          visible={editBoxVisible}
           onClose={handleCloseDeleteBox}
           onClickDeleteButton={handleClickDeleteButton}
           onClickUpdateButton={handleClickUpdateButton}
@@ -135,9 +148,14 @@ const StyledAvatar = styled(Avatar)`
   margin-right: 1rem;
 `;
 
-const TextArea = styled.textarea`
+const TextArea = styled.textarea<
+  React.ComponentProps<'textarea'> & {
+    opened: boolean;
+    height: number | undefined;
+  }
+>`
   width: 100%;
-  height: 3rem;
+  height: ${({ opened, height }) => (opened ? height : '3rem')};
   /* height: auto; */
   overflow: hidden;
   text-overflow: ellipsis;
