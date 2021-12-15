@@ -1,15 +1,14 @@
 import { UserType } from '@/Models';
 
-interface UserActionType {
-  type: string;
-  user: UserType;
-}
-
-const SET_USER = 'user/SET_USER';
+const SET_USER = 'user/SET_USER' as const;
 
 export const setUser = (user: UserType) => ({ type: SET_USER, user });
 
-const initialState: UserType = {
+type UserActionType = ReturnType<typeof setUser>;
+
+type UserStateType = UserType;
+
+const initialState: UserStateType = {
   userId: 0,
   name: '',
   nickname: '',
@@ -17,7 +16,10 @@ const initialState: UserType = {
   email: '',
 };
 
-export default function user(state = initialState, action: UserActionType) {
+export default function user(
+  state: UserStateType = initialState,
+  action: UserActionType,
+) {
   switch (action.type) {
     case SET_USER:
       return action.user;

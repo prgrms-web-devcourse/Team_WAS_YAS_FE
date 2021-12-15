@@ -6,7 +6,7 @@ import { Colors, FontSize, FontWeight } from '@/styles';
 import { Container, Input, Button, Spinner } from '@/components';
 import { userApi } from '@/apis';
 import { useHistory } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setUser } from '@/store/user';
 
 const initialValues = {
