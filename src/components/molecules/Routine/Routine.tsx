@@ -24,7 +24,7 @@ const Routine = ({
 }: RoutineProps): JSX.Element => {
   const { emoji, color, title, durationGoalTime, startGoalTime } =
     routineObject;
-  const durationTime = TimeUtils.calculateTime(durationGoalTime || 500);
+  const durationTime = TimeUtils.calculateTime(durationGoalTime || 0);
   const startTime = TimeUtils.formatStartTime(
     startGoalTime || new Date().toISOString(),
   );
@@ -46,14 +46,14 @@ const Routine = ({
     <RoutineContainer
       style={{
         backgroundColor: color,
-        opacity: `${completed ? '0.7' : '1'}`,
+        filter: `opacity(${completed ? '0.7' : '1'})`,
         ...style,
       }}
       {...props}
     >
       <RoutineHeader>
         {type === 'myRoutine' ? (
-          <CheckComplete completed={completed ? completed : false} />
+          <CheckComplete completed={!!completed} />
         ) : (
           <div />
         )}

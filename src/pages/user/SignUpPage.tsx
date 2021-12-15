@@ -5,13 +5,15 @@ import Swal from 'sweetalert2';
 import styled from '@emotion/styled';
 import { Colors, FontSize, FontWeight } from '@/styles';
 import { Container, Input, Button, Spinner } from '@/components';
+import { userApi } from '@/apis';
+import { useHistory } from 'react-router-dom';
 
 const initialValues = {
   email: '',
-  userName: '',
-  nickName: '',
+  name: '',
+  nickname: '',
   password: '',
-  passwordConfirm: '',
+  checkPassword: '',
 };
 
 const validationSchema = Yup.object().shape({
@@ -21,13 +23,13 @@ const validationSchema = Yup.object().shape({
     .email('이메일 형식으로 작성해주세요.')
     .max(255)
     .required('이메일을 입력해주세요.'),
-  userName: Yup.string()
+  name: Yup.string()
     .strict(true)
     .trim('공백을 제거해주세요.')
     .min(2, '이름은 최소 2글자 이상이어야 합니다.')
     .max(5, '이름은 5글자 이하까지만 가능합니다.')
     .required('이름을 입력해주세요.'),
-  nickName: Yup.string()
+  nickname: Yup.string()
     .strict(true)
     .trim('공백을 제거해주세요.')
     .min(2, '닉네임은 최소 2글자 이상이어야 합니다.')
@@ -37,12 +39,13 @@ const validationSchema = Yup.object().shape({
     .min(8, '비밀번호는 최소 8글자 이상이어야 합니다.')
     .max(15, '비밀번호는 최대 15글자 이하까지만 가능합니다.')
     .required('비밀번호를 입력해주세요.'),
-  passwordConfirm: Yup.string()
+  checkPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], '비밀번호가 일치하지 않습니다.')
     .required('확인 비밀번호를 입력해주세요.'),
 });
 
 const SignUpPage = (): JSX.Element => {
+  const history = useHistory();
   const {
     errors,
     handleBlur,
@@ -56,21 +59,28 @@ const SignUpPage = (): JSX.Element => {
     initialValues,
     validationSchema,
     onSubmit: async (values, formikHelper) => {
-      const sleep = () => {
-        return new Promise((resolve) => {
-          setTimeout(() => resolve(true), 2000);
+      try {
+        const response = await userApi.signUp(values);
+        console.log(response);
+        formikHelper.resetForm();
+        formikHelper.setStatus({ success: true });
+        formikHelper.setSubmitting(false);
+        Swal.fire({
+          icon: 'success',
+          title: '🎉 환영합니다! 🎉',
+          text: '이제 로그인을 진행해주세요.',
+          confirmButtonColor: Colors.point,
+        }).then(() => {
+          history.push('/mypage/signin');
         });
-      };
-      await sleep();
-      console.log('제출', values);
-      formikHelper.resetForm();
-      formikHelper.setStatus({ success: true });
-      formikHelper.setSubmitting(false);
-      Swal.fire({
-        icon: 'success',
-        title: '🥳',
-        text: 'YAS 회원이 되신것을 환영합니다.',
-      });
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: '🥲 oops!',
+          text: `${error}`,
+          confirmButtonColor: Colors.point,
+        });
+      }
     },
   });
 
@@ -94,28 +104,28 @@ const SignUpPage = (): JSX.Element => {
           value={values.email}
         />
         <GuideText>{touched.email && errors.email}&nbsp;</GuideText>
-        <Label htmlFor="userName">이름</Label>
+        <Label htmlFor="name">이름</Label>
         <Input
-          id="userName"
-          name="userName"
+          id="name"
+          name="name"
           type="text"
           placeholder="이름"
           onChange={handleChange}
           onBlur={handleBlur}
-          value={values.userName}
+          value={values.name}
         />
-        <GuideText>{touched.userName && errors.userName}&nbsp;</GuideText>
-        <Label htmlFor="nickName">닉네임</Label>
+        <GuideText>{touched.name && errors.name}&nbsp;</GuideText>
+        <Label htmlFor="nickname">닉네임</Label>
         <Input
-          id="nickName"
-          name="nickName"
+          id="nickname"
+          name="nickname"
           type="text"
           placeholder="닉네임"
           onChange={handleChange}
           onBlur={handleBlur}
-          value={values.nickName}
+          value={values.nickname}
         />
-        <GuideText>{touched.nickName && errors.nickName}&nbsp;</GuideText>
+        <GuideText>{touched.nickname && errors.nickname}&nbsp;</GuideText>
         <Label htmlFor="password">비밀번호</Label>
         <Input
           id="password"
@@ -127,18 +137,18 @@ const SignUpPage = (): JSX.Element => {
           value={values.password}
         />
         <GuideText>{touched.password && errors.password}&nbsp;</GuideText>
-        <Label htmlFor="passwordConfirm">비밀번호 확인</Label>
+        <Label htmlFor="checkPassword">비밀번호 확인</Label>
         <Input
-          id="passwordConfirm"
-          name="passwordConfirm"
+          id="checkPassword"
+          name="checkPassword"
           type="password"
           placeholder="비밀번호 확인"
           onChange={handleChange}
           onBlur={handleBlur}
-          value={values.passwordConfirm}
+          value={values.checkPassword}
         />
         <GuideText>
-          {touched.passwordConfirm && errors.passwordConfirm}&nbsp;
+          {touched.checkPassword && errors.checkPassword}&nbsp;
         </GuideText>
         <StyledButton type="submit" disabled={isSubmitting}>
           가입하기
