@@ -14,7 +14,7 @@ const MissionCreatePage = (): JSX.Element => {
     title: '',
     emoji: '💫',
     color: Colors.red,
-    durationGoalTime: 3600,
+    durationGoalTime: 600,
   });
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -37,6 +37,7 @@ const MissionCreatePage = (): JSX.Element => {
         history.push(`/routine/${id}`);
       });
     }
+    console.log(mission);
   };
   const handleEmojiChange = (emoji: string) => {
     setMission((mission) => ({
