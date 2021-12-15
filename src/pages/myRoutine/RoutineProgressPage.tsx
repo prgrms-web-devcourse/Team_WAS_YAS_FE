@@ -16,6 +16,7 @@ import { keyframes } from '@emotion/react';
 import { RoutineProgressModal } from '@/components/organisms/RoutineProgressModal';
 import Swal from 'sweetalert2';
 import { useHistory } from 'react-router';
+import { MissionType } from '@/Models';
 
 const DUMMY_ROUTINE_DETAIL = {
   routineId: 1,
@@ -119,6 +120,7 @@ const RoutineProgressPage = (): JSX.Element => {
   );
 
   const timeClass = duration.asMilliseconds() < 0 ? 'over' : '';
+  const isPlayClass = isPlay ? '' : 'stopped';
   const nextStepClass = nextStep ? 'nextStep' : '';
   const prevStepClass = prevStep ? 'prevStep' : '';
 
@@ -264,13 +266,10 @@ const RoutineProgressPage = (): JSX.Element => {
       <MissionProgressContainer>
         {currentIndex !== 0 ? <ArrowBack onClick={handleBackClick} /> : <div />}
 
-        <MissionProgress
-          className={`${nextStepClass} ${prevStepClass}`}
-          style={{ gridColumn: 2 }}
-        >
+        <MissionProgress className={`${nextStepClass} ${prevStepClass}`}>
           <Emoji>{DUMMY_ROUTINE_DETAIL.missions[currentIndex].emoji}</Emoji>
           <Title>{DUMMY_ROUTINE_DETAIL.missions[currentIndex].title}</Title>
-          <Time className={timeClass}>
+          <Time className={`${timeClass} ${isPlayClass}`}>
             {TimeUtils.formatCalendarTime(duration)}
           </Time>
           <DurationTime>
@@ -338,7 +337,7 @@ const MissionProgressContainer = styled.div`
   overflow: hidden;
 `;
 
-const MissionProgress = styled.div`
+const MissionProgress = styled.div<Partial<MissionType>>`
   width: 365px;
   height: 365px;
   margin: 0 auto;
@@ -347,10 +346,11 @@ const MissionProgress = styled.div`
   flex-flow: column;
   align-items: center;
   justify-content: space-evenly;
-  background-color: #7373e2;
+  background-color: ${({ color }) => (color ? color : '#7373e2')};
   color: white;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   overflow: hidden;
+  grid-column: 2;
 
   &.nextStep {
     animation: ${nextStepAnimation} 0.9s;
@@ -396,6 +396,7 @@ const Time = styled.p`
   font-size: 4rem;
   font-weight: ${FontWeight.bold};
   position: relative;
+  transition: transform 0.2s ease-in-out;
 
   &.over {
     margin-right: 1rem;
@@ -405,6 +406,11 @@ const Time = styled.p`
     }
     color: ${Colors.functionNegative};
     animation: ${textShakeAnimation} 0.6s;
+  }
+
+  &.stopped {
+    color: ${Colors.functionPositive};
+    transform: scale(1.1);
   }
 
   @media ${Media.sm} {
