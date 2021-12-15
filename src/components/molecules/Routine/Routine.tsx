@@ -24,7 +24,7 @@ const Routine = ({
 }: RoutineProps): JSX.Element => {
   const { emoji, color, title, durationGoalTime, startGoalTime } =
     routineObject;
-  const durationTime = TimeUtils.calculateTime(durationGoalTime || 500);
+  const durationTime = TimeUtils.calculateTime(durationGoalTime || 0);
   const startTime = TimeUtils.startTime(
     startGoalTime || new Date().toISOString(),
   );
