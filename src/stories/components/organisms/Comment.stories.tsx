@@ -9,17 +9,17 @@ export default {
 
 const user1: UserType = {
   userId: 123,
-  userName: '작성자',
-  nickName: '노아',
-  profileImageUrl: 'https://picsum.photos/200',
+  name: '작성자',
+  nickname: '노아',
+  profileImage: 'https://picsum.photos/200',
   email: 'yas@yas.com',
 };
 
 const user2: UserType = {
   userId: 123,
-  userName: '작성자',
-  nickName: '죠지',
-  profileImageUrl: 'https://picsum.photos/300',
+  name: '작성자',
+  nickname: '죠지',
+  profileImage: 'https://picsum.photos/300',
   email: 'yas@yas.com',
 };
 
