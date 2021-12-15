@@ -60,7 +60,7 @@ const SignUpPage = (): JSX.Element => {
     validationSchema,
     onSubmit: async (values, formikHelper) => {
       try {
-        const response = await userApi.signUp(values);
+        await userApi.signUp(values);
         formikHelper.resetForm();
         formikHelper.setStatus({ success: true });
         formikHelper.setSubmitting(false);

@@ -3,7 +3,6 @@ import Swal from 'sweetalert2';
 import styled from '@emotion/styled';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router-dom';
-import { userDummy } from '@/Models';
 import { Colors, FontSize, FontWeight } from '@/styles';
 import { Container, Input, Button, Spinner } from '@/components';
 import { Avatar } from '@mui/material';
