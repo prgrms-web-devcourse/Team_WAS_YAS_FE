@@ -1,9 +1,9 @@
 export interface UserType {
-  userId: number | null;
-  name: string | null;
-  nickname: string | null;
-  profileImage: string | null;
-  email: string | null;
+  userId: number;
+  name: string;
+  nickname: string;
+  profileImage: string;
+  email: string;
 }
 
 // export interface UserType2 {
