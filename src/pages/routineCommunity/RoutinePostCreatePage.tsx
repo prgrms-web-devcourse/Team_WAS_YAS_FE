@@ -6,12 +6,11 @@ import React, {
   useState,
 } from 'react';
 import { Container, Routine, Button } from '@/components';
-import { MissionType } from '@/Models';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import styled from '@emotion/styled';
 import { useHistory } from 'react-router';
 import Swal from 'sweetalert2';
-import { postApi, routineApi } from '@/apis';
+import { postApi } from '@/apis';
 
 const RoutinePostCreatePage = (): JSX.Element => {
   const history = useHistory();
