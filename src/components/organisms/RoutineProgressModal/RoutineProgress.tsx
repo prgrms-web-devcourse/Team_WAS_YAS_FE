@@ -1,5 +1,3 @@
-import { Button, Modal } from '@/components';
-import { MissionType } from '@/Models';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import TimeUtils from '@/utils/time';
 import styled from '@emotion/styled';
@@ -79,30 +77,6 @@ const RoutineProgressModal = ({
 
 export default React.memo(RoutineProgressModal);
 
-const StyledModal = styled(Modal)`
-  padding: 2.5rem 0 5.5rem;
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  max-width: 768px;
-  width: 100%;
-  height: 90vh;
-  box-sizing: border-box;
-  overflow: auto;
-  background-color: ${Colors.backgroundModal};
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
-
-  @media ${Media.sm} {
-    width: 95%;
-    height: 80vh;
-    padding: 2.5rem 0 3.5rem;
-  }
-`;
-
 const RoutineProgressContainer = styled.div`
   display: grid;
   align-items: center;
@@ -164,18 +138,4 @@ const MissionInfo = styled.div`
   display: flex;
   flex-flow: column;
   gap: 0.5rem;
-`;
-
-const StyledButton = styled(Button)`
-  position: fixed;
-  bottom: calc(5vh + 2.5rem);
-  z-index: 1001;
-  width: 25rem;
-  right: 50%;
-  transform: translateX(+50%);
-
-  @media ${Media.sm} {
-    width: 15rem;
-    bottom: calc(8vh + 2.5rem);
-  }
 `;

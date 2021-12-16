@@ -22,7 +22,7 @@ const DUMMY_ROUTINE_DETAIL = {
   routineId: 1,
   emoji: '🌳',
   color: Colors.indigo,
-  title: '집 앞 공원 산책하기',
+  name: '집 앞 공원 산책하기',
   durationGoalTime: 14200,
   startGoalTime: `${new Date().toISOString()}`,
   routineCategories: ['운동', '공부'],
@@ -31,7 +31,7 @@ const DUMMY_ROUTINE_DETAIL = {
       missionId: 1,
       emoji: '🌳',
       color: Colors.indigo,
-      title: '나무 구경하기',
+      name: '나무 구경하기',
       durationGoalTime: 300,
       userDurationTime: null,
     },
@@ -39,7 +39,7 @@ const DUMMY_ROUTINE_DETAIL = {
       missionId: 2,
       emoji: '🥽',
       color: Colors.indigo,
-      title: '수경 구경하기',
+      name: '수경 구경하기',
       durationGoalTime: 700,
       userDurationTime: null,
     },
@@ -47,7 +47,7 @@ const DUMMY_ROUTINE_DETAIL = {
       missionId: 3,
       emoji: '🍖',
       color: Colors.indigo,
-      title: '고기 구워 먹기',
+      name: '고기 구워 먹기',
       durationGoalTime: 4200,
       userDurationTime: null,
     },
@@ -55,7 +55,7 @@ const DUMMY_ROUTINE_DETAIL = {
       missionId: 4,
       emoji: '📝',
       color: Colors.indigo,
-      title: '공부하기',
+      name: '공부하기',
       durationGoalTime: 1800,
       userDurationTime: null,
     },
@@ -63,7 +63,7 @@ const DUMMY_ROUTINE_DETAIL = {
       missionId: 5,
       emoji: '📝',
       color: Colors.indigo,
-      title: '공부하기',
+      name: '공부하기',
       durationGoalTime: 1800,
       userDurationTime: null,
     },
@@ -71,7 +71,7 @@ const DUMMY_ROUTINE_DETAIL = {
       missionId: 6,
       emoji: '📝',
       color: Colors.indigo,
-      title: '공부하기',
+      name: '공부하기',
       durationGoalTime: 1800,
       userDurationTime: null,
     },
@@ -79,7 +79,7 @@ const DUMMY_ROUTINE_DETAIL = {
       missionId: 7,
       emoji: '📝',
       color: Colors.indigo,
-      title: '공부하기',
+      name: '공부하기',
       durationGoalTime: 1800,
       userDurationTime: null,
     },
@@ -88,7 +88,7 @@ const DUMMY_ROUTINE_DETAIL = {
       missionId: 8,
       emoji: '📝',
       color: Colors.indigo,
-      title: '공부하기',
+      name: '공부하기',
       durationGoalTime: 1800,
       userDurationTime: null,
     },
@@ -245,7 +245,7 @@ const RoutineProgressPage = (): JSX.Element => {
     Swal.fire({
       position: 'center',
       icon: 'success',
-      title: `${DUMMY_ROUTINE_DETAIL.missions[currentIndex].title} 완료`,
+      title: `${DUMMY_ROUTINE_DETAIL.missions[currentIndex].name} 완료`,
       html: `<i style="color: ${Colors.functionNegative}">${
         TimeUtils.calculateTime(userDurationTime) || '0초'
       }</i>`,
@@ -315,7 +315,7 @@ const RoutineProgressPage = (): JSX.Element => {
 
         <MissionProgress className={`${nextStepClass} ${prevStepClass}`}>
           <Emoji>{DUMMY_ROUTINE_DETAIL.missions[currentIndex].emoji}</Emoji>
-          <Title>{DUMMY_ROUTINE_DETAIL.missions[currentIndex].title}</Title>
+          <Title>{DUMMY_ROUTINE_DETAIL.missions[currentIndex].name}</Title>
           <Time className={`${timeClass} ${isPlayClass}`}>
             {TimeUtils.formatCalendarTime(duration)}
           </Time>

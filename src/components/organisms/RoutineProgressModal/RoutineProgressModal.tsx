@@ -28,7 +28,7 @@ const RoutineProgressModal = ({
           ({
             missionId,
             emoji,
-            title,
+            name,
             durationGoalTime,
             userDurationTime,
             isPassed,
@@ -36,7 +36,7 @@ const RoutineProgressModal = ({
             <RoutineProgressContainer key={missionId}>
               <Emoji>{emoji}</Emoji>
               <MissionInfo>
-                <MissionName>{title}</MissionName>
+                <MissionName>{name}</MissionName>
                 <DurationTimeContainer>
                   <DurationTime>
                     {userDurationTime === null
