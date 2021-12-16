@@ -1,18 +1,16 @@
 import { Button, Modal } from '@/components';
+import { MissionType } from '@/Models';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import TimeUtils from '@/utils/time';
 import styled from '@emotion/styled';
 import React, { Fragment } from 'react';
 
+interface ExtendedMissionType extends MissionType {
+  userDurationTime?: number;
+  isPassed?: boolean;
+}
 export interface RoutineProgressModalProps extends React.ComponentProps<'div'> {
-  missionObject: {
-    id: string;
-    emoji: string;
-    color: string;
-    name: string;
-    durationTime: number;
-    userDurationTime?: number;
-  }[];
+  missionObject: ExtendedMissionType[];
   visible: boolean;
   onClose: () => void;
 }
@@ -27,34 +25,52 @@ const RoutineProgressModal = ({
     <Fragment>
       <StyledModal {...props} visible={visible} onClose={onClose}>
         {missionObject?.map(
-          ({ id, emoji, name, durationTime, userDurationTime }) => (
-            <RoutineProgressContainer key={id}>
+          ({
+            missionId,
+            emoji,
+            name,
+            durationGoalTime,
+            userDurationTime,
+            isPassed,
+          }) => (
+            <RoutineProgressContainer key={missionId}>
               <Emoji>{emoji}</Emoji>
               <MissionInfo>
                 <MissionName>{name}</MissionName>
                 <DurationTimeContainer>
                   <DurationTime>
-                    {TimeUtils.calculateTime(durationTime)}
+                    {userDurationTime === null
+                      ? TimeUtils.calculateTime(durationGoalTime)
+                      : TimeUtils.calculateTime(userDurationTime || 0)}
                   </DurationTime>
-                  {userDurationTime && (
+                  {userDurationTime ? (
                     <UserDurationTime
                       style={{
                         color:
-                          durationTime < userDurationTime
+                          durationGoalTime < userDurationTime
                             ? `${Colors.functionNegative}`
-                            : durationTime === userDurationTime
+                            : durationGoalTime === userDurationTime
                             ? `${Colors.textSecondary}`
                             : `${Colors.functionPositive}`,
                       }}
                     >
-                      {durationTime < userDurationTime
+                      {durationGoalTime < durationGoalTime - userDurationTime
                         ? '(+'
-                        : durationTime === userDurationTime
+                        : durationGoalTime ===
+                          durationGoalTime - userDurationTime
                         ? '('
                         : '(-'}
-                      {TimeUtils.calculateTime(userDurationTime) + ')'}
+                      {TimeUtils.calculateTime(
+                        durationGoalTime - userDurationTime,
+                      ) + ')'}
                     </UserDurationTime>
-                  )}
+                  ) : isPassed ? (
+                    <UserDurationTime
+                      style={{ color: Colors.orange, fontStyle: 'italic' }}
+                    >
+                      Pass
+                    </UserDurationTime>
+                  ) : null}
                 </DurationTimeContainer>
               </MissionInfo>
             </RoutineProgressContainer>
@@ -66,10 +82,10 @@ const RoutineProgressModal = ({
   );
 };
 
-export default RoutineProgressModal;
+export default React.memo(RoutineProgressModal);
 
 const StyledModal = styled(Modal)`
-  padding: 2.5rem 0 3.75rem;
+  padding: 2.5rem 0 5.5rem;
   display: flex;
   flex-flow: column;
   align-items: center;
@@ -88,14 +104,19 @@ const StyledModal = styled(Modal)`
   @media ${Media.sm} {
     width: 95%;
     height: 80vh;
-    padding: 2.5rem 0;
+    padding: 2.5rem 0 3.5rem;
   }
 `;
 
 const RoutineProgressContainer = styled.div`
-  display: flex;
+  display: grid;
   align-items: center;
+  grid-template-columns: 6.25rem 20rem;
   margin-bottom: 2rem;
+
+  @media ${Media.sm} {
+    grid-template-columns: 5rem 12.5rem;
+  }
 `;
 
 const Emoji = styled.span`

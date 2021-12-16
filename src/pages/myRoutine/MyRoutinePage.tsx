@@ -1,82 +1,62 @@
+import { routineApi } from '@/apis';
 import { Container, Routine, RoutineAddButton, TabBar } from '@/components';
 import { RoutineType } from '@/Models';
-import { Colors, Media } from '@/styles';
+import { Media } from '@/styles';
 import styled from '@emotion/styled';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
-
-const DUMMY_ROUTINE: Partial<RoutineType>[] = [
-  {
-    routineId: 1,
-    emoji: '🌳',
-    color: Colors.red,
-    name: '집 앞 공원 산책하기',
-    durationGoalTime: 10000,
-    startGoalTime: `${new Date().toISOString()}`,
-  },
-  {
-    routineId: 2,
-    emoji: '🥽',
-    color: Colors.brown,
-    name: '물 2L 마시기',
-    durationGoalTime: 780,
-    startGoalTime: `${new Date(2021, 12, 8, 12, 0).toISOString()}`,
-  },
-  {
-    routineId: 3,
-    emoji: '🍖',
-    color: Colors.indigo,
-    name: '아침 만들어 먹기',
-    durationGoalTime: 4200,
-    startGoalTime: `${new Date(2021, 12, 8, 6, 30).toISOString()}`,
-  },
-  {
-    routineId: 4,
-    emoji: '📝',
-    color: Colors.pink,
-    name: '공부하기',
-    durationGoalTime: 1800,
-    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-  },
-  {
-    routineId: 5,
-    emoji: '📝',
-    color: Colors.pink,
-    name: '공부하기',
-    durationGoalTime: 1800,
-    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-  },
-  {
-    routineId: 6,
-    emoji: '📝',
-    color: Colors.pink,
-    name: '공부하기',
-    durationGoalTime: 1800,
-    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-  },
-  {
-    routineId: 7,
-    emoji: '📝',
-    color: Colors.pink,
-    name: '공부하기',
-    durationGoalTime: 1800,
-    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-  },
-
-  {
-    routineId: 8,
-    emoji: '📝',
-    color: Colors.pink,
-    name: '공부하기',
-    durationGoalTime: 1800,
-    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-  },
-];
+import Swal from 'sweetalert2';
 
 const MyRoutinePage = (): JSX.Element => {
+  const [routines, setRoutines] = useState({
+    all: [],
+    finish: [],
+    notFinish: [],
+  });
   const history = useHistory();
+
+  const getMyRoutines = async () => {
+    const routines = await routineApi.getRoutines();
+    const finishedRoutines = await routineApi.getFinishedRoutines();
+    const notFinishedRoutines = await routineApi.getNotFinishedRoutines();
+
+    setRoutines({
+      all: routines.data.data,
+      finish: finishedRoutines.data.data,
+      notFinish: notFinishedRoutines.data.data,
+    });
+  };
+
+  useEffect(() => {
+    getMyRoutines();
+  }, []);
+
+  const deleteRoutine = async (routine: RoutineType) => {
+    const { routineId, name } = routine;
+
+    try {
+      await routineApi.deleteRoutine(routineId);
+
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: `${name}`,
+        text: '루틴이 삭제되었습니다.',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      await getMyRoutines();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const onClickUpdateRoutine = (routineId: number) => {
+    history.push(`/routine/${routineId}/update`);
+  };
+
   const onClickRoutine = (e: React.MouseEvent<HTMLElement>, id: any) => {
-    e.stopPropagation();
     const element = e.target as HTMLElement;
 
     if (
@@ -94,42 +74,60 @@ const MyRoutinePage = (): JSX.Element => {
       <TabBar type="myRoutine">
         <TabBar.Item title="전체" index="0">
           <RoutineGridBox>
-            {DUMMY_ROUTINE &&
-              DUMMY_ROUTINE.map((routine, i) => (
+            {routines.all &&
+              routines.all?.map((routine) => (
                 <Routine
-                  onClick={(e) => onClickRoutine(e, routine.routineId)}
-                  key={routine.routineId}
+                  onClick={(e) => onClickRoutine(e, routine['routineId'])}
+                  key={routine['routineId']}
                   routineObject={routine}
                   type="myRoutine"
-                  completed={i > 5 ? false : true}
+                  completed={false}
+                  deleteRoutine={() => {
+                    deleteRoutine(routine);
+                  }}
+                  updateRoutine={() => {
+                    onClickUpdateRoutine(routine['routineId']);
+                  }}
                 />
               ))}
           </RoutineGridBox>
         </TabBar.Item>
         <TabBar.Item title="오늘의 루틴" index="1">
           <RoutineGridBox>
-            {DUMMY_ROUTINE &&
-              DUMMY_ROUTINE.map((routine) => (
+            {routines.notFinish &&
+              routines.notFinish?.map((routine) => (
                 <Routine
-                  onClick={(e) => onClickRoutine(e, routine.routineId)}
-                  key={routine.routineId}
+                  onClick={(e) => onClickRoutine(e, routine['routineId'])}
+                  key={routine['routineId']}
                   routineObject={routine}
                   type="myRoutine"
                   completed={false}
+                  deleteRoutine={() => {
+                    deleteRoutine(routine);
+                  }}
+                  updateRoutine={() => {
+                    onClickUpdateRoutine(routine['routineId']);
+                  }}
                 />
               ))}
           </RoutineGridBox>
         </TabBar.Item>
         <TabBar.Item title="완료한 루틴" index="2">
           <RoutineGridBox>
-            {DUMMY_ROUTINE &&
-              DUMMY_ROUTINE.map((routine) => (
+            {routines.finish &&
+              routines.finish?.map((routine) => (
                 <Routine
-                  onClick={(e) => onClickRoutine(e, routine.routineId)}
-                  key={routine.routineId}
+                  onClick={(e) => onClickRoutine(e, routine['routineId'])}
+                  key={routine['routineId']}
                   routineObject={routine}
                   type="myRoutine"
                   completed={true}
+                  deleteRoutine={() => {
+                    deleteRoutine(routine);
+                  }}
+                  updateRoutine={() => {
+                    onClickUpdateRoutine(routine['routineId']);
+                  }}
                 />
               ))}
           </RoutineGridBox>
@@ -148,10 +146,16 @@ const RoutineGridBox = styled.div`
   justify-content: center;
   gap: 32px 56px;
   padding: 40px 0;
+  width: 100%;
 
   @media ${Media.sm} {
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px 14px;
     padding: 20px 0;
+
+    @media (max-width: 480px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 `;
 

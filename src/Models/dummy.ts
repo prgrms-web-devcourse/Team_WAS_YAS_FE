@@ -29,9 +29,10 @@ export const routineDummy: RoutineType = {
 export const missionDummy: MissionType = {
   missionId: 333,
   emoji: '🚿',
-  title: '샤워하기',
+  name: '샤워하기',
   color: '#89C0F9',
   durationGoalTime: 3600,
+  orders: 0,
 };
 
 export const routinePostDummy: RoutinePostType = {

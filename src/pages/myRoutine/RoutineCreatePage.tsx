@@ -17,7 +17,7 @@ import { RoutineType } from '@/Models';
 import Swal from 'sweetalert2';
 import { ROUTINE_CATEGORY } from '@/constants';
 import { useHistory } from 'react-router-dom';
-import routineApi from '@/apis/routine';
+import { routineApi } from '@/apis';
 
 const RoutineCreatePage = (): JSX.Element => {
   const history = useHistory();
@@ -58,7 +58,7 @@ const RoutineCreatePage = (): JSX.Element => {
       } catch (error) {
         Swal.fire({
           icon: 'error',
-          title: '오류로 인해 루틴 생성에 실패했습니다',
+          title: '오류로 인해 <p>루틴 생성에 실패했습니다',
           confirmButtonColor: Colors.point,
         });
       }
@@ -66,7 +66,7 @@ const RoutineCreatePage = (): JSX.Element => {
   };
 
   const handleEmojiChange = (emoji: string) => {
-    setRoutine(() => ({ ...routine, emoji }));
+    setRoutine((routine) => ({ ...routine, emoji }));
   };
   const handleTitleChange = (
     e: ChangeEvent<HTMLInputElement> & {
