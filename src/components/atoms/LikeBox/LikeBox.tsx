@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import { Icon } from '@/components';
 import { useToggle } from '@/hooks';
 import styled from '@emotion/styled';
-import { Media, FontSize, Colors } from '@/styles';
+import { FontSize, Colors } from '@/styles';
+import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
+import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
 
 export interface LikeBoxProps
   extends Omit<React.ComponentProps<'span'>, 'onClick'> {
@@ -32,7 +33,7 @@ const LikeBox = ({
 
   return (
     <Wrapper onClick={handleClick} {...props}>
-      {toggled ? <Icon.Like /> : <Icon.LikeBorder />}
+      {toggled ? <LikeIcon /> : <LikeBorderIcon />}
       <Text>{count}</Text>
     </Wrapper>
   );
@@ -46,18 +47,23 @@ const Wrapper = styled.span`
   cursor: pointer;
 `;
 
+const LikeIcon = styled(FavoriteRoundedIcon)`
+  color: ${Colors.point};
+
+  width: 22px;
+  height: 22px;
+`;
+
+const LikeBorderIcon = styled(FavoriteBorderRoundedIcon)`
+  color: ${Colors.point};
+
+  width: 22px;
+  height: 22px;
+`;
+
 const Text = styled.p`
   color: ${Colors.textSecondary};
-
-  @media ${Media.sm} {
-    font-size: ${FontSize.small};
-  }
-  @media ${Media.md} {
-    font-size: ${FontSize.base};
-  }
-  @media ${Media.lg} {
-    font-size: ${FontSize.base};
-  }
+  font-size: ${FontSize.medium};
 `;
 
 const defaultProps: LikeBoxProps = {

@@ -3,30 +3,34 @@ import { Route, Redirect, RouteProps } from 'react-router-dom';
 /* eslint-disable */
 import Swal from 'sweetalert2';
 
-const PrivateRoute = ({
-  children,
+const PublicRoute = ({
   component: Component,
+  restricted = false,
   ...rest
-}: RouteProps & Required<Pick<RouteProps, 'component'>>): JSX.Element => {
+}: RouteProps &
+  Required<Pick<RouteProps, 'component'>> & {
+    restricted?: boolean;
+  }): JSX.Element => {
   const token = sessionStorage.getItem('YAS_USER_TOKEN');
 
-  !token &&
+  token &&
+    restricted &&
     Swal.fire({
       icon: 'warning',
-      title: '😆',
-      text: '로그인을 해주세요.',
+      title: '🤯',
+      text: '잘못된 접근입니다.',
       showConfirmButton: false,
-      timer: 2000,
+      timer: 1500,
     });
 
   return (
     <Route
       {...rest}
       render={(props) =>
-        token ? <Component {...props} /> : <Redirect to="/mypage/signin" />
+        token && restricted ? <Redirect to="/" /> : <Component {...props} />
       }
     />
   );
 };
 
-export default PrivateRoute;
+export default PublicRoute;
