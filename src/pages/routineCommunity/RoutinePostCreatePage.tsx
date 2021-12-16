@@ -1,119 +1,35 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { Container, Routine, Button } from '@/components';
 import { MissionType } from '@/Models';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import styled from '@emotion/styled';
 import { useHistory } from 'react-router';
 import Swal from 'sweetalert2';
-
-const DUMMY_ROUTINE: {
-  routineId: number;
-  name: string;
-  emoji: string;
-  color: string;
-  startGoalTime: string;
-  durationGoalTime: number;
-  weeks: string[];
-  routineCategory: string[];
-  missions: MissionType[];
-}[] = [
-  {
-    routineId: 0,
-    emoji: '🌳',
-    color: Colors.red,
-    name: '집 앞 공원 산책하기',
-    durationGoalTime: 10000,
-    startGoalTime: `${new Date().toISOString()}`,
-    weeks: [],
-    routineCategory: [],
-    missions: [],
-  },
-  {
-    routineId: 2,
-    emoji: '🥽',
-    color: Colors.brown,
-    name: '물 2L 마시기',
-    durationGoalTime: 780,
-    startGoalTime: `${new Date(2021, 12, 8, 12, 0).toISOString()}`,
-    weeks: [],
-    routineCategory: [],
-    missions: [],
-  },
-  {
-    routineId: 3,
-    emoji: '🍖',
-    color: Colors.indigo,
-    name: '아침 만들어 먹기',
-    durationGoalTime: 4200,
-    startGoalTime: `${new Date(2021, 12, 8, 6, 30).toISOString()}`,
-    weeks: [],
-    routineCategory: [],
-    missions: [],
-  },
-  {
-    routineId: 4,
-    emoji: '📝',
-    color: Colors.pink,
-    name: '공부하기',
-    durationGoalTime: 1800,
-    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    weeks: [],
-    routineCategory: [],
-    missions: [],
-  },
-  {
-    routineId: 5,
-    emoji: '📝',
-    color: Colors.pink,
-    name: '공부하기',
-    durationGoalTime: 1800,
-    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    weeks: [],
-    routineCategory: [],
-    missions: [],
-  },
-  {
-    routineId: 6,
-    emoji: '📝',
-    color: Colors.pink,
-    name: '공부하기',
-    durationGoalTime: 1800,
-    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    weeks: [],
-    routineCategory: [],
-    missions: [],
-  },
-  {
-    routineId: 7,
-    emoji: '📝',
-    color: Colors.pink,
-    name: '공부하기',
-    durationGoalTime: 1800,
-    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    weeks: [],
-    routineCategory: [],
-    missions: [],
-  },
-
-  {
-    routineId: 8,
-    emoji: '📝',
-    color: Colors.pink,
-    name: '공부하기',
-    durationGoalTime: 1800,
-    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    weeks: [],
-    routineCategory: [],
-    missions: [],
-  },
-];
+import { postApi, routineApi } from '@/apis';
 
 const RoutinePostCreatePage = (): JSX.Element => {
   const history = useHistory();
+  const [routines, setRoutines] = useState([]);
   const [selectedRoutineId, setSelectedRoutineId] = useState<
     number | undefined
   >(undefined);
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+
+  const getUnpostedRoutines = useCallback(async () => {
+    const routines = await postApi.getUnpostedRoutine();
+    setRoutines(routines.data.data);
+  }, []);
+
+  useEffect(() => {
+    getUnpostedRoutines();
+  }, [getUnpostedRoutines]);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (selectedRoutineId === undefined) {
       Swal.fire({
@@ -121,12 +37,21 @@ const RoutinePostCreatePage = (): JSX.Element => {
         title: '포스트할 루틴을 <p>선택해주세요!',
       });
     } else {
-      Swal.fire({
-        icon: 'success',
-        title: '루틴 포스트에 <p>성공했습니다!',
-      }).then(() => {
-        history.push('/community');
-      });
+      try {
+        await postApi.createRoutinePost(selectedRoutineId);
+        Swal.fire({
+          icon: 'success',
+          title: '루틴 포스트에 <p>성공했습니다!',
+        }).then(() => {
+          history.push('/community');
+        });
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: '오류로 인해 <p>루틴 포스트에 실패했습니다',
+          confirmButtonColor: Colors.point,
+        });
+      }
     }
   };
 
@@ -141,16 +66,16 @@ const RoutinePostCreatePage = (): JSX.Element => {
       <Title>어떤 루틴을 포스트 할까요?</Title>
       <Form onSubmit={handleSubmit}>
         <RoutineGridBox>
-          {DUMMY_ROUTINE.map((routine, i) => (
+          {routines.map((routine, i) => (
             <div key={i}>
               <Input
                 name="routines"
                 type="radio"
-                id={String(routine.routineId)}
-                value={routine.routineId}
+                id={String(routine['routineId'])}
+                value={routine['routineId']}
                 onChange={handleChange}
               />
-              <label htmlFor={String(routine.routineId)}>
+              <label htmlFor={String(routine['routineId'])}>
                 <Routine routineObject={routine} type="create" />
               </label>
             </div>
