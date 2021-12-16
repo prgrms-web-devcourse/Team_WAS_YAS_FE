@@ -1,9 +1,11 @@
 import { routineApi } from '@/apis';
 import { Container, Routine, RoutineAddButton, TabBar } from '@/components';
+import { RoutineType } from '@/Models';
 import { Media } from '@/styles';
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
+import Swal from 'sweetalert2';
 
 const MyRoutinePage = (): JSX.Element => {
   const [routines, setRoutines] = useState([]);
@@ -11,16 +13,32 @@ const MyRoutinePage = (): JSX.Element => {
 
   const getMyRoutines = async () => {
     const routines = await routineApi.getRoutines();
-    setRoutines(routines.data);
+    setRoutines(routines.data.data);
   };
 
   useEffect(() => {
     getMyRoutines();
   }, []);
 
-  const deleteRoutine = async (routineId: number) => {
-    await routineApi.deleteRoutine(routineId);
-    await getMyRoutines();
+  const deleteRoutine = async (routine: RoutineType) => {
+    const { routineId, name } = routine;
+
+    try {
+      await routineApi.deleteRoutine(routineId);
+
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: `${name}`,
+        text: '루틴이 삭제되었습니다.',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      await getMyRoutines();
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   const onClickUpdateRoutine = (routineId: number) => {
@@ -54,7 +72,7 @@ const MyRoutinePage = (): JSX.Element => {
                   type="myRoutine"
                   completed={false}
                   deleteRoutine={() => {
-                    deleteRoutine(routine['routineId']);
+                    deleteRoutine(routine);
                   }}
                   updateRoutine={() => {
                     onClickUpdateRoutine(routine['routineId']);
@@ -74,7 +92,7 @@ const MyRoutinePage = (): JSX.Element => {
                   type="myRoutine"
                   completed={false}
                   deleteRoutine={() => {
-                    deleteRoutine(routine['routineId']);
+                    deleteRoutine(routine);
                   }}
                   updateRoutine={() => {
                     onClickUpdateRoutine(routine['routineId']);
@@ -94,7 +112,7 @@ const MyRoutinePage = (): JSX.Element => {
                   type="myRoutine"
                   completed={true}
                   deleteRoutine={() => {
-                    deleteRoutine(routine['routineId']);
+                    deleteRoutine(routine);
                   }}
                   updateRoutine={() => {
                     onClickUpdateRoutine(routine['routineId']);
