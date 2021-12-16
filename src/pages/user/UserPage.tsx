@@ -1,22 +1,30 @@
 import styled from '@emotion/styled';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
-import { Container, Button } from '@/components';
+import { Container, Button, Spinner } from '@/components';
 import { useHistory } from 'react-router-dom';
 import { Avatar } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
+import { fetchUser } from '@/store/user';
+import { useEffect } from 'react';
 
 const UserPage = (): JSX.Element => {
   const history = useHistory();
-  const user = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch();
+  const { data: user, loading } = useSelector((state: RootState) => state.user);
+
+  useEffect(() => {
+    console.log('UserPage: useEffect');
+    dispatch(fetchUser());
+  }, [dispatch]);
 
   return (
     <StyledContainer navBar>
       <HeadText>프로필</HeadText>
-      <StyledAvatar src={user.profileImage ? user.profileImage : ''} />
+      <StyledAvatar src={user ? user.profileImage : ''} />
       <ContentContainer>
         <FieldText>닉네임</FieldText>
-        <Text>{user.nickname}</Text>
+        <Text>{user ? user.nickname : ''}</Text>
       </ContentContainer>
       <Button
         onClick={() => {
@@ -25,6 +33,7 @@ const UserPage = (): JSX.Element => {
       >
         수정하기
       </Button>
+      {loading && <Spinner />}
     </StyledContainer>
   );
 };

@@ -1,36 +1,46 @@
 import { UserType } from '@/Models';
+// TODO: PayloadAction이 임포트 되지 않아서 임시로 pkg로 임포트
+/* eslint-disable */
+import pkg from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+/* eslint-disable */
+import { userApi } from '@/apis';
+export interface UserStateType {
+  loading: boolean;
+  data: UserType | null;
+  error: boolean;
+}
 
-const SET_USER = 'user/SET_USER' as const;
-
-// ?: eslint에 걸리기 때문에 setUser 반환타입 임시 설정
-export const setUser = (user: UserType): { type: string; user: UserType } => ({
-  type: SET_USER,
-  user,
+export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
+  const response = await userApi.getUser();
+  return response.data.data;
 });
 
-type UserActionType = ReturnType<typeof setUser>;
-
-type UserStateType = UserType;
-
-// TODO: 초기값 안정적으로 옵셔널하게 변경하기
-const initialState: UserStateType = {
-  userId: 0,
-  name: '',
-  nickname: '',
-  profileImage: '',
-  email: '',
-};
-
-const user = (
-  state: UserStateType = initialState,
-  action: UserActionType,
-): UserStateType => {
-  switch (action.type) {
-    case SET_USER:
-      return action.user;
-    default:
-      return state;
-  }
-};
-
-export default user;
+export const user = createSlice({
+  name: 'user',
+  initialState: { loading: false, data: null, error: false } as UserStateType,
+  reducers: {},
+  extraReducers: {
+    [fetchUser.pending.type]: (state: UserStateType) => {
+      state.loading = true;
+      state.data = null;
+      state.error = false;
+    },
+    [fetchUser.fulfilled.type]: (
+      state: UserStateType,
+      action: pkg.PayloadAction<UserType>,
+    ) => {
+      state.loading = false;
+      state.data = action.payload;
+      state.error = false;
+    },
+    [fetchUser.rejected.type]: (
+      state: UserStateType,
+      action: pkg.PayloadAction<UserType>,
+    ) => {
+      state.loading = false;
+      state.data = null;
+      state.error = true;
+    },
+  },
+});

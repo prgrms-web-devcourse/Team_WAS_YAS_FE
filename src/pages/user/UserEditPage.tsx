@@ -22,15 +22,16 @@ const validationSchema = Yup.object().shape({
 // TODO: API 연동시 파일처리 부분 리팩토링
 const UserEditPage = (): JSX.Element => {
   const history = useHistory();
-  const user = useSelector((state: RootState) => state.user);
+  const { data: user } = useSelector((state: RootState) => state.user);
+
   const inputRef = useRef<HTMLInputElement>(null);
   // const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | undefined>(
-    user.profileImage,
+    user?.profileImage,
   );
 
   const initialValues = {
-    nickName: user.nickname,
+    nickName: user && user.nickname,
     profileImageFile: '',
   };
 
@@ -54,7 +55,7 @@ const UserEditPage = (): JSX.Element => {
       };
       await sleep();
       console.log('제출', values);
-      formikHelper.resetForm();
+      // formikHelper.resetForm();
       formikHelper.setStatus({ success: true });
       formikHelper.setSubmitting(false);
       Swal.fire({
@@ -120,7 +121,7 @@ const UserEditPage = (): JSX.Element => {
             placeholder="변경할 닉네임을 작성해주세요."
             onChange={handleChange}
             onBlur={handleBlur}
-            value={values.nickName}
+            value={values.nickName ? values.nickName : ''}
           />
           <GuideText>{touched.nickName && errors.nickName}&nbsp;</GuideText>
         </NickNameInputWrapper>
