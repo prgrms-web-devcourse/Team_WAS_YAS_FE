@@ -15,14 +15,14 @@ const RoutineInfo = ({
   createdAt: time,
   ...props
 }: RoutineInfoProps): JSX.Element => {
-  const { emoji, title, durationGoalTime } = routineObject;
+  const { emoji, name, durationGoalTime } = routineObject;
   const durationTime = TimeUtils.calculateTime(durationGoalTime || 0);
   const createdAt = time && TimeUtils.dateFromNow(time);
 
   return (
     <RoutineInfoContainer {...props}>
       <Emoji>{emoji}</Emoji>
-      <Title>{title}</Title>
+      <Title>{name}</Title>
       <Time>{durationTime}</Time>
       {createdAt && <CreateDate>{createdAt}</CreateDate>}
     </RoutineInfoContainer>

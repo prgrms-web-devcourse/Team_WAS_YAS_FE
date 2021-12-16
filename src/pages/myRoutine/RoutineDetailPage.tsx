@@ -7,6 +7,7 @@ import {
   RoutineCategory,
   RoutineInfo,
 } from '@/components';
+import { ROUTINE_CATEGORY } from '@/constants';
 import { RoutineType, MissionType } from '@/Models';
 import { Colors, Media } from '@/styles';
 import styled from '@emotion/styled';
@@ -24,10 +25,10 @@ const DUMMY_ROUTINE_DETAIL: Partial<ExtendedRoutineType> = {
   routineId: 1,
   emoji: '🌳',
   color: Colors.indigo,
-  title: '집 앞 공원 산책하기',
+  name: '집 앞 공원 산책하기',
   durationGoalTime: 14200,
   startGoalTime: `${new Date().toISOString()}`,
-  routineCategories: ['운동', '공부'],
+  routineCategory: ['HEALTH'],
   missions: [
     {
       missionId: 1,
@@ -102,8 +103,10 @@ const RoutineDetailPage = (): JSX.Element => {
       <RoutineInfo routineObject={DUMMY_ROUTINE_DETAIL} />
       <CategoryEditFlexBox>
         <div>
-          {DUMMY_ROUTINE_DETAIL.routineCategories?.map((category, i) => (
-            <StyledCategory key={i}>{category}</StyledCategory>
+          {DUMMY_ROUTINE_DETAIL.routineCategory?.map((category, i) => (
+            <StyledCategory key={i}>
+              {ROUTINE_CATEGORY[category]}
+            </StyledCategory>
           ))}
         </div>
         <RoundedButton.Edit />
