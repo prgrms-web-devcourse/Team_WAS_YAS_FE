@@ -28,7 +28,6 @@ const RoutineUpdatePage = (): JSX.Element => {
     }).then(() => {
       history.push('/');
     });
-    console.log(selectedRoutine);
   };
 
   const handleWeekChange = (selectedDays: string[]) => {
