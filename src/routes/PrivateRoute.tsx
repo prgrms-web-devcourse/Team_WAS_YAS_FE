@@ -1,9 +1,20 @@
-import React from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Redirect, RouteProps } from 'react-router-dom';
 
-// TODO: 로그인 API 명세서가 나오면 구현
-const PrivateRoute = () => {
-  return <Route />;
+const PrivateRoute = ({
+  children,
+  component: Component,
+  ...rest
+}: RouteProps & Required<Pick<RouteProps, 'component'>>): JSX.Element => {
+  const token = sessionStorage.getItem('YAS_USER_TOKEN');
+
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        token ? <Redirect to="/" /> : <Component {...props} />
+      }
+    />
+  );
 };
 
 export default PrivateRoute;
