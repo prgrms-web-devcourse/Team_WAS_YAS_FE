@@ -58,7 +58,7 @@ const RoutineCreatePage = (): JSX.Element => {
       } catch (error) {
         Swal.fire({
           icon: 'error',
-          title: '오류로 인해 루틴 생성에 실패했습니다',
+          title: '오류로 인해 <p>루틴 생성에 실패했습니다',
           confirmButtonColor: Colors.point,
         });
       }
