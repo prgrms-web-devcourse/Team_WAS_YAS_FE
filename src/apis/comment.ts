@@ -7,10 +7,10 @@ interface commentApiType {
   deleteComment: (commentId: number) => Promise<AxiosResponse>;
 }
 
-const postApi: commentApiType = {
+const commentApi: commentApiType = {
   createComment: (postId: number) => authRequest(`/posts/${postId}/comments`),
   updateComment: (commentId: number) => authRequest(`/comments/${commentId}`),
   deleteComment: (commentId: number) => authRequest(`/comments/${commentId}`),
 };
 
-export default commentApiType;
+export default commentApi;
