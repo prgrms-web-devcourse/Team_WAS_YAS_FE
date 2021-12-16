@@ -9,7 +9,7 @@ export default {
 
 const missionObject: Partial<MissionType> = {
   emoji: '🚿',
-  title: '샤워하기',
+  name: '샤워하기',
   durationGoalTime: 1200,
   color: Colors.red,
 };
