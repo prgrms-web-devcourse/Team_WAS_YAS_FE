@@ -22,10 +22,12 @@ const UserPage = (): JSX.Element => {
     sessionStorage.removeItem('YAS_USER_TOKEN');
     Swal.fire({
       icon: 'success',
-      title: '👋🏻.',
-      text: `로그아웃 되었습니다.`,
+      title: '👋🏻',
+      text: '로그아웃 되었습니다.',
+      showConfirmButton: false,
+      timer: 1500,
     }).then(() => {
-      history.push(`/`);
+      history.push('/');
     });
   };
 
