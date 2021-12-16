@@ -8,78 +8,78 @@ const RoutineFinishPage = (): JSX.Element => {
   const history = useHistory();
   const routineDummy = {
     emoji: '💪',
-    title: '한강에서 산책하기',
+    name: '한강에서 산책하기',
     durationGoalTime: 12345,
   };
   const missionCompletionDummy: {
-    id: string;
+    missionId: number;
     emoji: string;
     name: string;
-    durationTime: number;
+    durationGoalTime: number;
     color: string;
     userDurationTime: number;
   }[] = [
     {
-      id: '10',
+      missionId: 10,
       emoji: '🚿',
       name: '샤워하기',
-      durationTime: 1200,
+      durationGoalTime: 1200,
       color: Colors.red,
       userDurationTime: 1500,
     },
     {
-      id: '11',
+      missionId: 11,
       emoji: '🪥',
       name: '양치하기',
-      durationTime: 1200,
+      durationGoalTime: 1200,
       color: Colors.red,
       userDurationTime: 1000,
     },
     {
-      id: '12',
+      missionId: 12,
       emoji: '📝',
       name: '공부하기',
-      durationTime: 1200,
+      durationGoalTime: 1200,
       color: Colors.red,
       userDurationTime: 500,
     },
     {
-      id: '13',
+      missionId: 13,
       emoji: '🥗',
       name: '밥먹기',
-      durationTime: 1200,
+      durationGoalTime: 1200,
       color: Colors.red,
       userDurationTime: 2500,
     },
     {
-      id: '14',
+      missionId: 14,
       emoji: '📔',
       name: '독서하기',
-      durationTime: 1200,
+      durationGoalTime: 1200,
       color: Colors.red,
       userDurationTime: 1200,
     },
     {
-      id: '15',
+      missionId: 15,
       emoji: '📚',
       name: '공부하기',
-      durationTime: 1200,
+      durationGoalTime: 1200,
       color: Colors.red,
       userDurationTime: 500,
     },
     {
-      id: '16',
+      missionId: 16,
       emoji: '🎂',
       name: '밥먹기',
-      durationTime: 1200,
+      durationGoalTime: 1200,
       color: Colors.red,
       userDurationTime: 2500,
     },
     {
-      id: '17',
+      missionId: 17,
       emoji: '📋',
       name: '독서하기',
-      durationTime: 1200,
+      durationGoalTime: 1200,
       color: Colors.red,
       userDurationTime: 1200,
     },

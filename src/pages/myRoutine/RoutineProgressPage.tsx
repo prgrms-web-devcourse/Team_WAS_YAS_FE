@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   Container,
   Icon,
@@ -33,6 +33,7 @@ const DUMMY_ROUTINE_DETAIL = {
       color: Colors.indigo,
       title: '나무 구경하기',
       durationGoalTime: 300,
+      userDurationTime: null,
     },
     {
       missionId: 2,
@@ -40,6 +41,7 @@ const DUMMY_ROUTINE_DETAIL = {
       color: Colors.indigo,
       title: '수경 구경하기',
       durationGoalTime: 700,
+      userDurationTime: null,
     },
     {
       missionId: 3,
@@ -47,6 +49,7 @@ const DUMMY_ROUTINE_DETAIL = {
       color: Colors.indigo,
       title: '고기 구워 먹기',
       durationGoalTime: 4200,
+      userDurationTime: null,
     },
     {
       missionId: 4,
@@ -54,6 +57,7 @@ const DUMMY_ROUTINE_DETAIL = {
       color: Colors.indigo,
       title: '공부하기',
       durationGoalTime: 1800,
+      userDurationTime: null,
     },
     {
       missionId: 5,
@@ -61,6 +65,7 @@ const DUMMY_ROUTINE_DETAIL = {
       color: Colors.indigo,
       title: '공부하기',
       durationGoalTime: 1800,
+      userDurationTime: null,
     },
     {
       missionId: 6,
@@ -68,6 +73,7 @@ const DUMMY_ROUTINE_DETAIL = {
       color: Colors.indigo,
       title: '공부하기',
       durationGoalTime: 1800,
+      userDurationTime: null,
     },
     {
       missionId: 7,
@@ -75,6 +81,7 @@ const DUMMY_ROUTINE_DETAIL = {
       color: Colors.indigo,
       title: '공부하기',
       durationGoalTime: 1800,
+      userDurationTime: null,
     },
 
     {
@@ -83,6 +90,7 @@ const DUMMY_ROUTINE_DETAIL = {
       color: Colors.indigo,
       title: '공부하기',
       durationGoalTime: 1800,
+      userDurationTime: null,
     },
   ],
 };
@@ -177,29 +185,58 @@ const RoutineProgressPage = (): JSX.Element => {
     )
       return;
 
-    setNextStep(true);
+    Swal.fire({
+      title: '이번 미션을 건너뛸까요?',
+      text: '미션을 진행하지 않은 것으로 기록됩니다.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: `${Colors.functionPositive}`,
+      cancelButtonColor: `${Colors.functionNegative}`,
+      confirmButtonText: '네',
+      cancelButtonText: '아니오',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        setNextStep(true);
 
-    await sleep(450);
-    if (!isPlay) {
-      setIsPlay(true);
-      toggle();
-    }
-    setCurrentIndex((prevIndex) => {
-      setDuration(
-        moment.duration(
-          DUMMY_ROUTINE_DETAIL.missions[prevIndex + 1].durationGoalTime * 1000,
-          'milliseconds',
-        ),
-      );
-      return prevIndex + 1;
+        await sleep(450);
+        if (!isPlay) {
+          setIsPlay(true);
+          toggle();
+        }
+
+        setProgress((prevProgress: any) => {
+          const nextState = prevProgress.map((progress: any, index: number) => {
+            if (index === currentIndex) {
+              return {
+                ...progress,
+                isPassed: true,
+              };
+            }
+            return progress;
+          });
+          return nextState;
+        });
+
+        setCurrentIndex((prevIndex) => {
+          setDuration(
+            moment.duration(
+              DUMMY_ROUTINE_DETAIL.missions[prevIndex + 1].durationGoalTime *
+                1000,
+              'milliseconds',
+            ),
+          );
+          return prevIndex + 1;
+        });
+        setStartTime(moment());
+
+        await sleep(450);
+        setNextStep(false);
+      }
     });
-    setStartTime(moment());
-
-    await sleep(450);
-    setNextStep(false);
   };
 
   const handleCheckClick = async () => {
+    if (nextStep || prevStep) return;
     const endTime = moment();
     const userDurationTime =
       DUMMY_ROUTINE_DETAIL.missions[currentIndex].durationGoalTime -
@@ -259,6 +296,16 @@ const RoutineProgressPage = (): JSX.Element => {
     console.log('다음 미션 startTime : ', moment().toISOString());
   };
 
+  const ProgressModalEmement = useMemo(() => {
+    return (
+      <RoutineProgressModal
+        visible={visible}
+        onClose={() => setVisible(false)}
+        missionObject={progress}
+      />
+    );
+  }, [visible, progress]);
+
   return (
     <Container>
       <RoutineInfo routineObject={DUMMY_ROUTINE_DETAIL} />
@@ -287,11 +334,7 @@ const RoutineProgressPage = (): JSX.Element => {
       </MissionProgressContainer>
 
       <RoutineProgressButton onClick={() => setVisible(true)} />
-      <RoutineProgressModal
-        visible={visible}
-        onClose={() => setVisible(false)}
-        missionObject={progress}
-      />
+      {ProgressModalEmement}
 
       <ButtonContainer>
         <RoundedButton.Play isPlay={isPlay} onClick={toggle} />
@@ -409,7 +452,7 @@ const Time = styled.p`
   }
 
   &.stopped {
-    color: ${Colors.functionPositive};
+    color: ${Colors.textSecondary};
     transform: scale(1.1);
   }
 

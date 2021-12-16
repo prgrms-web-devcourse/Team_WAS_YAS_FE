@@ -1,3 +1,5 @@
+import { Button, Modal } from '@/components';
+import { MissionType } from '@/Models';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import TimeUtils from '@/utils/time';
 import styled from '@emotion/styled';
@@ -5,50 +7,67 @@ import React, { Fragment } from 'react';
 
 export interface RoutineProgressProps extends React.ComponentProps<'div'> {
   missionObject: {
-    id: string;
+    missionId: number;
     emoji: string;
     color: string;
     name: string;
-    durationTime: number;
+    durationGoalTime: number;
     userDurationTime?: number;
+    isPassed?: boolean;
   }[];
 }
 
-const RoutineProgress = ({
+const RoutineProgressModal = ({
   missionObject,
-  ...props
 }: RoutineProgressProps): JSX.Element => {
   return (
     <Fragment>
       {missionObject?.map(
-        ({ id, emoji, name, durationTime, userDurationTime }) => (
-          <RoutineProgressContainer key={id}>
+        ({
+          missionId,
+          emoji,
+          name,
+          durationGoalTime,
+          userDurationTime,
+          isPassed,
+        }) => (
+          <RoutineProgressContainer key={missionId}>
             <Emoji>{emoji}</Emoji>
             <MissionInfo>
               <MissionName>{name}</MissionName>
               <DurationTimeContainer>
                 <DurationTime>
-                  {TimeUtils.calculateTime(durationTime)}
+                  {userDurationTime === null
+                    ? TimeUtils.calculateTime(durationGoalTime)
+                    : TimeUtils.calculateTime(userDurationTime || 0)}
                 </DurationTime>
-                {userDurationTime && (
+                {userDurationTime ? (
                   <UserDurationTime
                     style={{
                       color:
-                        durationTime < userDurationTime
+                        durationGoalTime < userDurationTime
                           ? `${Colors.functionNegative}`
-                          : durationTime === userDurationTime
+                          : durationGoalTime === userDurationTime
                           ? `${Colors.textSecondary}`
                           : `${Colors.functionPositive}`,
                     }}
                   >
-                    {durationTime < userDurationTime
+                    {durationGoalTime < userDurationTime
                       ? '(+'
-                      : durationTime === userDurationTime
+                      : durationGoalTime === userDurationTime
                       ? '('
                       : '(-'}
-                    {TimeUtils.calculateTime(userDurationTime) + ')'}
+                    {TimeUtils.calculateTime(
+                      Math.abs(durationGoalTime - userDurationTime),
+                    ) + ')'}
                   </UserDurationTime>
-                )}
+                ) : isPassed ? (
+                  <UserDurationTime
+                    style={{ color: Colors.orange, fontStyle: 'italic' }}
+                  >
+                    Pass
+                  </UserDurationTime>
+                ) : null}
               </DurationTimeContainer>
             </MissionInfo>
           </RoutineProgressContainer>
@@ -58,12 +77,41 @@ const RoutineProgress = ({
   );
 };
 
-export default RoutineProgress;
+export default React.memo(RoutineProgressModal);
+
+const StyledModal = styled(Modal)`
+  padding: 2.5rem 0 5.5rem;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  max-width: 768px;
+  width: 100%;
+  height: 90vh;
+  box-sizing: border-box;
+  overflow: auto;
+  background-color: ${Colors.backgroundModal};
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  @media ${Media.sm} {
+    width: 95%;
+    height: 80vh;
+    padding: 2.5rem 0 3.5rem;
+  }
+`;
 
 const RoutineProgressContainer = styled.div`
-  display: flex;
+  display: grid;
   align-items: center;
+  grid-template-columns: 6.25rem 20rem;
   margin-bottom: 2rem;
+
+  @media ${Media.sm} {
+    grid-template-columns: 5rem 12.5rem;
+  }
 `;
 
 const Emoji = styled.span`
@@ -116,4 +164,18 @@ const MissionInfo = styled.div`
   display: flex;
   flex-flow: column;
   gap: 0.5rem;
+`;
+
+const StyledButton = styled(Button)`
+  position: fixed;
+  bottom: calc(5vh + 2.5rem);
+  z-index: 1001;
+  width: 25rem;
+  right: 50%;
+  transform: translateX(+50%);
+
+  @media ${Media.sm} {
+    width: 15rem;
+    bottom: calc(8vh + 2.5rem);
+  }
 `;
