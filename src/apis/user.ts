@@ -15,7 +15,7 @@ interface UserApiType {
     password: string;
   }) => Promise<AxiosResponse>;
   getUser: () => Promise<AxiosResponse>;
-  updateUser: (userInfo: any) => Promise<AxiosResponse>;
+  updateUser: (formData: FormData) => Promise<AxiosResponse>;
 }
 
 const userApi: UserApiType = {
@@ -23,7 +23,9 @@ const userApi: UserApiType = {
   signIn: (userInfo: { email: string; password: string }) =>
     request.post('/users/login', userInfo),
   getUser: () => authRequest.get(`/users`),
-  updateUser: (userInfo) => authRequest.put('/users', userInfo),
+  updateUser: (formData) => {
+    return authRequest.put('/users', formData);
+  },
 };
 
 export default userApi;

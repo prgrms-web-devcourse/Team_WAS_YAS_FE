@@ -40,13 +40,9 @@ const SignInPage = (): JSX.Element => {
     validationSchema,
     onSubmit: async (values, formikHelper) => {
       try {
-        const response = await userApi.signIn(values);
-        console.log(response.data);
-        sessionStorage.setItem(
-          'YAS_USER_TOKEN',
-          JSON.stringify(response.data.token),
-        );
-        formikHelper.resetForm();
+        const loginResponse = await userApi.signIn(values);
+        const token = loginResponse.data.data.token;
+        sessionStorage.setItem('YAS_USER_TOKEN', JSON.stringify(token));
         formikHelper.setStatus({ success: true });
         formikHelper.setSubmitting(false);
         Swal.fire({

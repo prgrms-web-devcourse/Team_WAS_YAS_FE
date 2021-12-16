@@ -1,55 +1,38 @@
 import styled from '@emotion/styled';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
-import { Container, Button } from '@/components';
+import { Container, Button, Spinner } from '@/components';
 import { useHistory } from 'react-router-dom';
 import { Avatar } from '@mui/material';
-import { userApi } from '@/apis';
-import { useEffect, useState } from 'react';
-import Swal from 'sweetalert2';
-import { UserType } from '@/Models';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/store';
+import { fetchUser } from '@/store/user';
+import { useEffect } from 'react';
 
 const UserPage = (): JSX.Element => {
   const history = useHistory();
-  const [user, setUser] = useState<Omit<UserType, 'userId'>>({
-    name: '',
-    nickname: '',
-    profileImage: '',
-    email: '',
-  });
-
-  const handleClickEditButton = () => {
-    history.push(`/mypage/edit`);
-  };
+  const dispatch = useDispatch();
+  const { data: user, loading } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
-    const getUser = async () => {
-      const response = await userApi.getUser();
-      const user = response.data.data;
-      console.log(user);
-      if (!user) {
-        Swal.fire({
-          title: '🤯',
-          text: '로그인을 하고 접근해주세요.',
-          confirmButtonColor: Colors.point,
-        }).then(() => {
-          history.push('/login');
-        });
-        return;
-      }
-      setUser(user);
-    };
-    getUser();
-  }, [history]);
+    dispatch(fetchUser());
+  }, [dispatch]);
 
   return (
     <StyledContainer navBar>
       <HeadText>프로필</HeadText>
-      <StyledAvatar src={user.profileImage ? user.profileImage : ''} />
+      <StyledAvatar src={user ? user.profileImage : ''} />
       <ContentContainer>
         <FieldText>닉네임</FieldText>
-        <Text>{user.nickname}</Text>
+        <Text>{user ? user.nickname : ''}</Text>
       </ContentContainer>
-      <Button onClick={handleClickEditButton}>수정하기</Button>
+      <Button
+        onClick={() => {
+          history.push(`/mypage/edit`);
+        }}
+      >
+        수정하기
+      </Button>
+      {loading && <Spinner />}
     </StyledContainer>
   );
 };
