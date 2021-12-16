@@ -3,19 +3,16 @@ import Swal from 'sweetalert2';
 import styled from '@emotion/styled';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router-dom';
-import { userDummy } from '@/Models';
 import { Colors, FontSize, FontWeight } from '@/styles';
 import { Container, Input, Button, Spinner } from '@/components';
 import { Avatar } from '@mui/material';
 import { useRef, useState } from 'react';
-
-const initialValues = {
-  nickName: userDummy.nickname,
-  profileImageFile: '',
-};
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
+import { userApi } from '@/apis';
 
 const validationSchema = Yup.object().shape({
-  nickName: Yup.string()
+  nickname: Yup.string()
     .strict(true)
     .trim('공백을 제거해주세요.')
     .min(2, '닉네임은 최소 2글자 이상이어야 합니다.')
@@ -26,11 +23,17 @@ const validationSchema = Yup.object().shape({
 // TODO: API 연동시 파일처리 부분 리팩토링
 const UserEditPage = (): JSX.Element => {
   const history = useHistory();
+  const { data: user } = useSelector((state: RootState) => state.user);
   const inputRef = useRef<HTMLInputElement>(null);
-  // const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | undefined>(
-    userDummy.profileImage,
+    user?.profileImage,
   );
+
+  const initialValues = {
+    nickname: user && user.nickname,
+    profileImageFile: null,
+  };
+
   const {
     errors,
     handleBlur,
@@ -44,22 +47,36 @@ const UserEditPage = (): JSX.Element => {
     initialValues,
     validationSchema,
     onSubmit: async (values, formikHelper) => {
-      const sleep = () => {
-        return new Promise((resolve) => {
-          setTimeout(() => resolve(true), 2000);
+      try {
+        const formData = new FormData();
+        const nicknameBlob = values.nickname
+          ? new Blob([JSON.stringify({ nickname: values.nickname })], {
+              type: 'application/json',
+            })
+          : '';
+        formData.append('userUpdateRequest', nicknameBlob);
+        formData.append(
+          'file',
+          values.profileImageFile ? values.profileImageFile : new Blob([]),
+        );
+        await userApi.updateUser(formData);
+
+        formikHelper.setStatus({ success: true });
+        formikHelper.setSubmitting(false);
+        Swal.fire({
+          icon: 'success',
+          title: '수정되었습니다.',
+        }).then(() => {
+          history.push(`/mypage`);
         });
-      };
-      await sleep();
-      console.log('제출', values);
-      formikHelper.resetForm();
-      formikHelper.setStatus({ success: true });
-      formikHelper.setSubmitting(false);
-      Swal.fire({
-        icon: 'success',
-        title: '수정되었습니다.',
-      }).then(() => {
-        history.push(`/mypage`);
-      });
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: '🥲 oops!',
+          text: `${error}`,
+          confirmButtonColor: Colors.point,
+        });
+      }
     },
   });
 
@@ -72,8 +89,6 @@ const UserEditPage = (): JSX.Element => {
   ) => {
     if (e.target.files === null) return;
     const file = e.target.files[0];
-    // setImageFile(file);
-
     const reader = new FileReader();
     reader.onload = () => {
       if (typeof reader.result === `string`) setImageUrl(reader.result);
@@ -109,17 +124,17 @@ const UserEditPage = (): JSX.Element => {
           </Button>
         </ImageFileInputWrapper>
         <NickNameInputWrapper>
-          <Label htmlFor="nickName">닉네임</Label>
+          <Label htmlFor="nickname">닉네임</Label>
           <Input
-            id="nickName"
-            name="nickName"
+            id="nickname"
+            name="nickname"
             type="text"
             placeholder="변경할 닉네임을 작성해주세요."
             onChange={handleChange}
             onBlur={handleBlur}
-            value={values.nickName}
+            value={values.nickname ? values.nickname : ''}
           />
-          <GuideText>{touched.nickName && errors.nickName}&nbsp;</GuideText>
+          <GuideText>{touched.nickname && errors.nickname}&nbsp;</GuideText>
         </NickNameInputWrapper>
 
         <Button type="submit">수정완료</Button>
