@@ -17,8 +17,7 @@ interface MissionApiType {
   updateMission: (
     routineId: number,
     missionInfo: {
-      missionId: number;
-      orders: number;
+      missionOrders: { missionId: number; orders: number }[];
     },
   ) => Promise<AxiosResponse>;
   deleteMission: (missionId: number) => Promise<AxiosResponse>;
