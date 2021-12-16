@@ -132,7 +132,9 @@ const RoutineDetailPage = (): JSX.Element => {
         <CategoryEditFlexBox>
           <div>
             {DUMMY_ROUTINE_DETAIL.routineCategory?.map((category, i) => (
-              <StyledCategory key={i}>{category}</StyledCategory>
+              <StyledCategory key={i}>
+                {ROUTINE_CATEGORY[category]}
+              </StyledCategory>
             ))}
           </div>
           <RoundedButton.Edit />
