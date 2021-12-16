@@ -11,16 +11,16 @@ const RoutineUpdatePage = (): JSX.Element => {
     routineId: 1,
     emoji: '🍿',
     color: Colors.red,
-    title: '밥먹기',
+    name: '밥먹기',
     durationGoalTime: 1000,
     startGoalTime: new Date().toISOString(),
-    routineCategories: ['FOOD'],
+    routineCategory: ['FOOD'],
     weeks: ['MON', 'WED', 'FRI'],
     missions: [],
   });
   const history = useHistory();
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     Swal.fire({
       icon: 'success',

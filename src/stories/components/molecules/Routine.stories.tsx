@@ -9,11 +9,11 @@ export default {
 
 const routineObject: Pick<
   RoutineType,
-  'emoji' | 'color' | 'title' | 'durationGoalTime' | 'startGoalTime'
+  'emoji' | 'color' | 'name' | 'durationGoalTime' | 'startGoalTime'
 > = {
   emoji: '🌳',
   color: Colors.red,
-  title: '집 앞 공원 산책하기',
+  name: '집 앞 공원 산책하기',
   durationGoalTime: 12345,
   startGoalTime: `${new Date().toISOString()}`,
 };
@@ -30,10 +30,10 @@ export const Default = (): JSX.Element => {
           routineId: 0,
           emoji: '',
           color: Colors.red,
-          title: '',
+          name: '',
           durationGoalTime: 0,
           startGoalTime: `${new Date().toISOString()}`,
-          routineCategories: [],
+          routineCategory: [],
           missions: [],
           weeks: [],
         }}

@@ -4,7 +4,7 @@ interface ConstantType {
 
 export const ROUTINE_TAB: ConstantType = Object.freeze({
   TOTAL: '전체 루틴',
-  TODO: '해야할 루틴',
+  TODO: '오늘의 루틴',
   COMPLETE: '완료한 루틴',
 });
 

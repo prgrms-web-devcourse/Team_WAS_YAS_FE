@@ -10,7 +10,7 @@ const DUMMY_ROUTINE: Partial<RoutineType>[] = [
     routineId: 1,
     emoji: '🌳',
     color: Colors.red,
-    title: '집 앞 공원 산책하기',
+    name: '집 앞 공원 산책하기',
     durationGoalTime: 10000,
     startGoalTime: `${new Date().toISOString()}`,
   },
@@ -18,7 +18,7 @@ const DUMMY_ROUTINE: Partial<RoutineType>[] = [
     routineId: 2,
     emoji: '🥽',
     color: Colors.brown,
-    title: '물 2L 마시기',
+    name: '물 2L 마시기',
     durationGoalTime: 780,
     startGoalTime: `${new Date(2021, 12, 8, 12, 0).toISOString()}`,
   },
@@ -26,7 +26,7 @@ const DUMMY_ROUTINE: Partial<RoutineType>[] = [
     routineId: 3,
     emoji: '🍖',
     color: Colors.indigo,
-    title: '아침 만들어 먹기',
+    name: '아침 만들어 먹기',
     durationGoalTime: 4200,
     startGoalTime: `${new Date(2021, 12, 8, 6, 30).toISOString()}`,
   },
@@ -34,7 +34,7 @@ const DUMMY_ROUTINE: Partial<RoutineType>[] = [
     routineId: 4,
     emoji: '📝',
     color: Colors.pink,
-    title: '공부하기',
+    name: '공부하기',
     durationGoalTime: 1800,
     startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
   },
@@ -42,7 +42,7 @@ const DUMMY_ROUTINE: Partial<RoutineType>[] = [
     routineId: 5,
     emoji: '📝',
     color: Colors.pink,
-    title: '공부하기',
+    name: '공부하기',
     durationGoalTime: 1800,
     startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
   },
@@ -50,7 +50,7 @@ const DUMMY_ROUTINE: Partial<RoutineType>[] = [
     routineId: 6,
     emoji: '📝',
     color: Colors.pink,
-    title: '공부하기',
+    name: '공부하기',
     durationGoalTime: 1800,
     startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
   },
@@ -58,7 +58,7 @@ const DUMMY_ROUTINE: Partial<RoutineType>[] = [
     routineId: 7,
     emoji: '📝',
     color: Colors.pink,
-    title: '공부하기',
+    name: '공부하기',
     durationGoalTime: 1800,
     startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
   },
@@ -67,7 +67,7 @@ const DUMMY_ROUTINE: Partial<RoutineType>[] = [
     routineId: 8,
     emoji: '📝',
     color: Colors.pink,
-    title: '공부하기',
+    name: '공부하기',
     durationGoalTime: 1800,
     startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
   },
@@ -91,7 +91,7 @@ const MyRoutinePage = (): JSX.Element => {
   };
   return (
     <Container navBar>
-      <TabBar>
+      <TabBar type="myRoutine">
         <TabBar.Item title="전체" index="0">
           <RoutineGridBox>
             {DUMMY_ROUTINE &&
@@ -106,7 +106,7 @@ const MyRoutinePage = (): JSX.Element => {
               ))}
           </RoutineGridBox>
         </TabBar.Item>
-        <TabBar.Item title="해야할 루틴" index="1">
+        <TabBar.Item title="오늘의 루틴" index="1">
           <RoutineGridBox>
             {DUMMY_ROUTINE &&
               DUMMY_ROUTINE.map((routine) => (
