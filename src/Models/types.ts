@@ -96,11 +96,10 @@ export interface RoutinePostType {
 
 export interface CommentType {
   commentId: number;
-  text: string;
-  userId: number;
+  content: string;
   createdAt: string;
   updatedAt: string;
-  likes: CommentLikeType[];
+  user: Omit<UserType, 'userId' | 'email'>;
 }
 
 // export interface CommentType {

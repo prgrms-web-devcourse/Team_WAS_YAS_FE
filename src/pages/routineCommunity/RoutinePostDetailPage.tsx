@@ -7,17 +7,19 @@ import {
   Comment,
   CommentCreator,
 } from '@/components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { routineDummy, userDummy, missionDummy, commentDummy } from '@/Models';
+import { routineDummy, missionDummy } from '@/Models';
 import { Avatar } from '@mui/material';
 import GetAppRoundedIcon from '@mui/icons-material/GetAppRounded';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 import { ROUTINE_CATEGORY } from '@/constants';
 import { Colors, Media, FontSize } from '@/styles';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { postApi } from '@/apis';
+import { RoutinePostType } from '@/Models';
 
 const missionsDummy = [
   { ...missionDummy, missionId: 1 },
@@ -32,7 +34,27 @@ const missionsDummy = [
 
 const RoutinePostDetailPage = (): JSX.Element => {
   const history = useHistory();
+  const { id: postId } = useParams<{ id: string }>();
   const [missionOpened, setMissionOpened] = useState<boolean>(false);
+  const [postData, setPostData] = useState<RoutinePostType>();
+
+  useEffect(() => {
+    const getPost = async () => {
+      try {
+        const response = await postApi.getPost(parseInt(postId));
+        console.log(response.data);
+        setPostData(response.data);
+      } catch (error: any) {
+        Swal.fire({
+          icon: 'error',
+          title: '🥲 oops!',
+          text: `${error}`,
+          confirmButtonColor: Colors.point,
+        });
+      }
+    };
+    getPost();
+  }, []);
 
   const handleClickMissionOpened = () => {
     setMissionOpened((missionOpened) => !missionOpened);
@@ -42,22 +64,27 @@ const RoutinePostDetailPage = (): JSX.Element => {
     <Container navBar>
       <RoutineInfoHeader>
         <AuthorInfoWrapper>
-          <StyledAvatar src={userDummy.profileImage} />
-          <AuthorNameText>{userDummy.nickname}</AuthorNameText>
+          <StyledAvatar src={postData && postData.user.profileImage} />
+          <AuthorNameText>{postData && postData.user.nickname}</AuthorNameText>
         </AuthorInfoWrapper>
         <LikeBox interactive />
       </RoutineInfoHeader>
       <RoutineInfo
         createdAt={routineDummy.startGoalTime}
-        routineObject={routineDummy}
+        routineObject={{
+          emoji: postData && postData.routine.emoji,
+          name: postData && postData.routine.name,
+          durationGoalTime: postData && postData.routine.durationGoalTime,
+        }}
       />
       <RoutineInfoFooter>
         <CategoryWrapper>
-          {routineDummy.routineCategory.map((category: string) => (
-            <RoutineCategory key={category}>
-              {ROUTINE_CATEGORY[category]}
-            </RoutineCategory>
-          ))}
+          {postData &&
+            postData.routine.category.map((category: string) => (
+              <RoutineCategory key={category}>
+                {ROUTINE_CATEGORY[category]}
+              </RoutineCategory>
+            ))}
         </CategoryWrapper>
         <BringRoutineButton
           onClick={() => {
@@ -76,15 +103,16 @@ const RoutinePostDetailPage = (): JSX.Element => {
         </BringRoutineButton>
       </RoutineInfoFooter>
       <MissionContainer>
-        {missionsDummy
-          .slice(0, missionOpened ? undefined : 4)
-          .map((mission: any) => (
-            <Mission
-              key={mission.missionId}
-              type="create"
-              missionObject={missionDummy}
-            />
-          ))}
+        {postData &&
+          postData.routine.missions
+            .slice(0, missionOpened ? undefined : 4)
+            .map((mission: any) => (
+              <Mission
+                key={mission.missionId}
+                type="create"
+                missionObject={missionDummy}
+              />
+            ))}
       </MissionContainer>
       {missionOpened ? (
         <SpreadButton onClick={handleClickMissionOpened}>
@@ -99,9 +127,17 @@ const RoutinePostDetailPage = (): JSX.Element => {
       )}
       <StyledCommentCreator />
       <CommentContainer>
-        <Comment editable user={userDummy} comment={commentDummy} />
+        {postData &&
+          postData.comments.map((comment: any) => (
+            <Comment
+              key={comment.id}
+              user={comment.user.nickname}
+              comment={comment}
+            />
+          ))}
+        {/* <Comment editable user={userDummy} comment={commentDummy} />
         <Comment user={userDummy} comment={commentDummy} />
-        <Comment user={userDummy} comment={commentDummy} />
+        <Comment user={userDummy} comment={commentDummy} /> */}
       </CommentContainer>
     </Container>
   );

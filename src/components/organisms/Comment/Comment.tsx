@@ -28,7 +28,7 @@ const Comment = ({
   ...props
 }: CommentProps): JSX.Element => {
   const ref = useRef<HTMLTextAreaElement>(null);
-  const [text, setText] = useState<string>(comment.text);
+  const [text, setText] = useState<string>(comment.content);
   const [editBoxVisible, setEditBoxVisible] = useState<boolean>(false);
   const [editMode, setEditMode] = useState<boolean>(false);
   const [openable, setOpenable] = useState<boolean>(false);
@@ -88,11 +88,7 @@ const Comment = ({
           </UserInfoTextWrapper>
         </UserInfoContainer>
         <ToolWrapper>
-          <LikeBox
-            interactive
-            count={comment.likes.length}
-            onClick={handleClickLikeButton}
-          />
+          <LikeBox interactive count={0} onClick={handleClickLikeButton} />
           {editable && (
             <IconButton
               style={{ padding: 0 }}
