@@ -12,6 +12,8 @@ interface RoutineApiType {
     color: string;
   }) => Promise<AxiosResponse>;
   getRoutines: () => Promise<AxiosResponse>;
+  getFinishedRoutines: () => Promise<AxiosResponse>;
+  getNotFinishedRoutines: () => Promise<AxiosResponse>;
   getRoutine: (routineId: number) => Promise<AxiosResponse>;
   deleteRoutine: (routineId: number) => Promise<AxiosResponse>;
   updateRoutine: (
@@ -23,6 +25,8 @@ interface RoutineApiType {
 const routineApi: RoutineApiType = {
   createRoutine: (routineInfo) => authRequest.post('/routines', routineInfo),
   getRoutines: () => authRequest.get('/routines'),
+  getFinishedRoutines: () => authRequest.get('/routines?status=finish'),
+  getNotFinishedRoutines: () => authRequest.get('/routines?status=not_finish'),
   getRoutine: (routineId) => authRequest.get(`/routines/${routineId}/missions`),
   deleteRoutine: (routineId) => authRequest.delete(`/routines/${routineId}`),
   updateRoutine: (routineId, routineInfo) =>
