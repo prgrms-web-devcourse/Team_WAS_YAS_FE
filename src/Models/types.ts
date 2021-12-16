@@ -1,8 +1,8 @@
 export interface UserType {
   userId: number;
-  userName: string;
-  nickName: string;
-  profileImageUrl: string;
+  name: string;
+  nickname: string;
+  profileImage: string;
   email: string;
 }
 

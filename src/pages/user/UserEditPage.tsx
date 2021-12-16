@@ -10,7 +10,7 @@ import { Avatar } from '@mui/material';
 import { useRef, useState } from 'react';
 
 const initialValues = {
-  nickName: userDummy.nickName,
+  nickName: userDummy.nickname,
   profileImageFile: '',
 };
 
@@ -29,7 +29,7 @@ const UserEditPage = (): JSX.Element => {
   const inputRef = useRef<HTMLInputElement>(null);
   // const [imageFile, setImageFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | undefined>(
-    userDummy.profileImageUrl,
+    userDummy.profileImage,
   );
   const {
     errors,
