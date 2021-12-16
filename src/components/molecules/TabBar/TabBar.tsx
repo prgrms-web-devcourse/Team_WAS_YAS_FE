@@ -9,17 +9,26 @@ import React, {
 } from 'react';
 import TabItem, { TabItemProps } from './TabItem';
 
+export interface TabBarProps extends TabItemProps {
+  type?: 'myRoutine' | 'community';
+}
+
 const TabBar = ({
   children,
   active,
   currentActive,
+  type,
   ...props
-}: TabItemProps): JSX.Element => {
+}: TabBarProps): JSX.Element => {
   const [activeTab, setActiveTab] = useState<string>(() => {
     if (active) {
       return active;
     } else {
-      const initialIndex = Children.toArray(children)[0] as ReactElement;
+      const initialIndex = (
+        type === 'myRoutine'
+          ? Children.toArray(children)[1]
+          : Children.toArray(children)[0]
+      ) as ReactElement;
       return initialIndex.props.index;
     }
   });
