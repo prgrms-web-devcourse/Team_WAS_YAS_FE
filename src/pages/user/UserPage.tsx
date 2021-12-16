@@ -14,7 +14,6 @@ const UserPage = (): JSX.Element => {
   const { data: user, loading } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
-    console.log('UserPage: useEffect');
     dispatch(fetchUser());
   }, [dispatch]);
 
