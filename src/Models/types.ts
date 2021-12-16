@@ -32,9 +32,10 @@ export interface RoutineType {
 export interface MissionType {
   missionId: number;
   emoji: string;
-  title: string;
+  name: string;
   color: string;
   durationGoalTime: number;
+  orders: number;
 }
 
 export interface RoutineCompletionType {
