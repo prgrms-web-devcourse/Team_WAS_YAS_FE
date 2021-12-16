@@ -81,7 +81,7 @@ const Comment = ({
             src={user.profileImage ? user.profileImage : undefined}
           />
           <UserInfoTextWrapper>
-            <UserNameText>{user.nickName}</UserNameText>
+            <UserNameText>{user.nickname}</UserNameText>
             <DateText>
               {moment(comment.updatedAt).format('YYYY-MM-DD hh:mm')}
             </DateText>
