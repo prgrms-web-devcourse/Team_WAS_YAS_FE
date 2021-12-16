@@ -17,7 +17,8 @@ export const Default = ({ ...args }: RoundedButtonProps): JSX.Element => {
         <RoundedButton.Analysis {...args} />
       </div>
       <div>
-        <RoundedButton.Play />
+        <RoundedButton.Play isPlay={false} />
+        <RoundedButton.Play isPlay={true} />
         <RoundedButton.Edit />
       </div>
     </>

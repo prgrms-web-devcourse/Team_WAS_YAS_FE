@@ -34,7 +34,7 @@ const DraggableMission = ({
   ...props
 }: MissionProps): JSX.Element => {
   const [visible, setVisible] = useState<boolean>(false);
-  const { missionId, emoji, title, durationGoalTime, color } = missionObject;
+  const { missionId, emoji, name, durationGoalTime, color } = missionObject;
   const backgroundColor = color;
   const durationTime = TimeUtils.calculateTime(durationGoalTime || 0);
   const ref = useRef<HTMLDivElement>(null);
@@ -104,7 +104,7 @@ const DraggableMission = ({
       {...props}
     >
       <Emoji>{emoji}</Emoji>
-      <Title>{title}</Title>
+      <Title>{name}</Title>
       <Time>{durationTime}</Time>
       {type === 'normal' ? (
         <ToolBoxContainer onClick={() => setVisible(true)}>

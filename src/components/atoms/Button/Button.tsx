@@ -46,7 +46,7 @@ const StyledButton = styled.button<ButtonProps>`
     };`}
   }
   @media ${Media.sm} {
-    height: 40px;
+    height: 48px;
     font-size: ${FontSize.small};
   }
   @media ${Media.md} {

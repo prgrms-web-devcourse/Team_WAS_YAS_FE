@@ -8,90 +8,90 @@ import Swal from 'sweetalert2';
 
 const DUMMY_ROUTINE: {
   routineId: number;
-  title: string;
+  name: string;
   emoji: string;
   color: string;
   startGoalTime: string;
   durationGoalTime: number;
   weeks: string[];
-  routineCategories: string[];
+  routineCategory: string[];
   missions: MissionType[];
 }[] = [
   {
     routineId: 0,
     emoji: '🌳',
     color: Colors.red,
-    title: '집 앞 공원 산책하기',
+    name: '집 앞 공원 산책하기',
     durationGoalTime: 10000,
     startGoalTime: `${new Date().toISOString()}`,
     weeks: [],
-    routineCategories: [],
+    routineCategory: [],
     missions: [],
   },
   {
     routineId: 2,
     emoji: '🥽',
     color: Colors.brown,
-    title: '물 2L 마시기',
+    name: '물 2L 마시기',
     durationGoalTime: 780,
     startGoalTime: `${new Date(2021, 12, 8, 12, 0).toISOString()}`,
     weeks: [],
-    routineCategories: [],
+    routineCategory: [],
     missions: [],
   },
   {
     routineId: 3,
     emoji: '🍖',
     color: Colors.indigo,
-    title: '아침 만들어 먹기',
+    name: '아침 만들어 먹기',
     durationGoalTime: 4200,
     startGoalTime: `${new Date(2021, 12, 8, 6, 30).toISOString()}`,
     weeks: [],
-    routineCategories: [],
+    routineCategory: [],
     missions: [],
   },
   {
     routineId: 4,
     emoji: '📝',
     color: Colors.pink,
-    title: '공부하기',
+    name: '공부하기',
     durationGoalTime: 1800,
     startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
     weeks: [],
-    routineCategories: [],
+    routineCategory: [],
     missions: [],
   },
   {
     routineId: 5,
     emoji: '📝',
     color: Colors.pink,
-    title: '공부하기',
+    name: '공부하기',
     durationGoalTime: 1800,
     startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
     weeks: [],
-    routineCategories: [],
+    routineCategory: [],
     missions: [],
   },
   {
     routineId: 6,
     emoji: '📝',
     color: Colors.pink,
-    title: '공부하기',
+    name: '공부하기',
     durationGoalTime: 1800,
     startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
     weeks: [],
-    routineCategories: [],
+    routineCategory: [],
     missions: [],
   },
   {
     routineId: 7,
     emoji: '📝',
     color: Colors.pink,
-    title: '공부하기',
+    name: '공부하기',
     durationGoalTime: 1800,
     startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
     weeks: [],
-    routineCategories: [],
+    routineCategory: [],
     missions: [],
   },
 
@@ -99,11 +99,11 @@ const DUMMY_ROUTINE: {
     routineId: 8,
     emoji: '📝',
     color: Colors.pink,
-    title: '공부하기',
+    name: '공부하기',
     durationGoalTime: 1800,
     startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
     weeks: [],
-    routineCategories: [],
+    routineCategory: [],
     missions: [],
   },
 ];

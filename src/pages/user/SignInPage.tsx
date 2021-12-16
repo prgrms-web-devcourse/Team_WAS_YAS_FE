@@ -4,6 +4,8 @@ import Swal from 'sweetalert2';
 import styled from '@emotion/styled';
 import { Colors, FontSize, FontWeight } from '@/styles';
 import { Container, Input, Button, Spinner } from '@/components';
+import { userApi } from '@/apis';
+import { useHistory } from 'react-router-dom';
 
 const initialValues = {
   email: '',
@@ -24,6 +26,7 @@ const validationSchema = Yup.object().shape({
 });
 
 const SignInPage = (): JSX.Element => {
+  const history = useHistory();
   const {
     errors,
     handleBlur,
@@ -36,20 +39,27 @@ const SignInPage = (): JSX.Element => {
     initialValues,
     validationSchema,
     onSubmit: async (values, formikHelper) => {
-      const sleep = () => {
-        return new Promise((resolve) => {
-          setTimeout(() => resolve(true), 2000);
+      try {
+        const loginResponse = await userApi.signIn(values);
+        const token = loginResponse.data.data.token;
+        sessionStorage.setItem('YAS_USER_TOKEN', JSON.stringify(token));
+        formikHelper.setStatus({ success: true });
+        formikHelper.setSubmitting(false);
+        Swal.fire({
+          icon: 'success',
+          title: '🎉 환영합니다! 🎉',
+          confirmButtonColor: Colors.point,
+        }).then(() => {
+          history.push('/');
         });
-      };
-      await sleep();
-      console.log('제출', values);
-      formikHelper.resetForm();
-      formikHelper.setStatus({ success: true });
-      formikHelper.setSubmitting(false);
-      Swal.fire({
-        icon: 'success',
-        title: '🎉 환영합니다! 🎉',
-      });
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: '🥲',
+          text: `${error}`,
+          confirmButtonColor: Colors.point,
+        });
+      }
     },
   });
 
@@ -82,7 +92,15 @@ const SignInPage = (): JSX.Element => {
         <StyledButton type="submit" disabled={isSubmitting}>
           입장하기
         </StyledButton>
-        <StyledButton colorType="white">회원가입 하러가기</StyledButton>
+        <StyledButton
+          type="button"
+          colorType="white"
+          onClick={() => {
+            history.push('/mypage/signup');
+          }}
+        >
+          회원가입 하러가기
+        </StyledButton>
       </SignInForm>
       {isSubmitting && <Spinner />}
     </StyledContainer>

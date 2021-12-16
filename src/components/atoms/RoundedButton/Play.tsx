@@ -1,17 +1,15 @@
-import { Media } from '@/styles';
+import { Colors, Media } from '@/styles';
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React from 'react';
 import Base from './Base';
 
 interface PlayButtonProps extends React.ComponentProps<'button'> {
-  onClick?: () => void;
+  onClick?: any;
+  isPlay: boolean;
 }
 
-const Play = ({ onClick, ...props }: PlayButtonProps): JSX.Element => {
-  const [isPlay, setIsPlay] = useState<boolean>(true);
-
+const Play = ({ onClick, isPlay, ...props }: PlayButtonProps): JSX.Element => {
   const handleClickPlayButton = (): void => {
-    setIsPlay((isPlay) => !isPlay);
     onClick && onClick();
   };
 
@@ -44,6 +42,13 @@ const PlayBase = styled(Base)`
   @media ${Media.sm} {
     width: 3rem;
     height: 3rem;
+  }
+
+  &:hover {
+    background-color: ${Colors.pointLight};
+  }
+  &:active {
+    background-color: ${Colors.point};
   }
 `;
 
