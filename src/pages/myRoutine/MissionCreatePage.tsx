@@ -1,25 +1,51 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { Container, Input, Mission, EmojiPicker, Button } from '@/components';
+import React, {
+  ChangeEvent,
+  FormEvent,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
+import {
+  Container,
+  Input,
+  Mission,
+  EmojiPicker,
+  Button,
+  DurationTimePicker,
+} from '@/components';
 import { MissionType } from '@/Models';
 import { Colors, FontSize, Media } from '@/styles';
 import styled from '@emotion/styled';
-import { DurationTimePicker } from '@/components/organisms/DurationTimePicker';
 import Swal from 'sweetalert2';
 import { useHistory, useParams } from 'react-router-dom';
+import { routineApi, missionApi } from '@/apis';
 
 const MissionCreatePage = (): JSX.Element => {
   const history = useHistory();
   const { id } = useParams<Record<string, string>>();
-  const [mission, setMission] = useState<Partial<MissionType>>({
-    title: '',
+  const [mission, setMission] = useState<Omit<MissionType, 'missionId'>>({
+    name: '',
     emoji: '💫',
-    color: Colors.red,
+    color: '',
     durationGoalTime: 600,
+    orders: 0,
   });
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+
+  // TODO : 현재 루틴 컬러 및 미션 순서 스토어에서 가져오는 걸로 변경
+  const getColorAndOrders = useCallback(async () => {
+    const response = await routineApi.getRoutine(parseInt(id));
+    const { color, missionDetailResponses } = response.data.data;
+    setMission((mission) => ({
+      ...mission,
+      color,
+      orders: missionDetailResponses.length,
+    }));
+  }, [id]);
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { title, durationGoalTime } = mission;
-    if (!title) {
+    const { name, durationGoalTime } = mission;
+    if (!name) {
       Swal.fire({
         icon: 'warning',
         title: '미션 이름을 입력해주세요!',
@@ -30,12 +56,21 @@ const MissionCreatePage = (): JSX.Element => {
         title: '지속 시간을 입력해주세요!',
       });
     } else {
-      Swal.fire({
-        icon: 'success',
-        title: '미션 생성이 <p>완료되었습니다~🎉',
-      }).then(() => {
-        history.push(`/routine/${id}`);
-      });
+      try {
+        await missionApi.createMission(parseInt(id), mission);
+        Swal.fire({
+          icon: 'success',
+          title: '미션 생성이 <p>완료되었습니다~🎉',
+        }).then(() => {
+          history.push(`/routine/${id}`);
+        });
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: '오류로 인해 미션 생성에 실패했습니다',
+          confirmButtonColor: Colors.point,
+        });
+      }
     }
   };
   const handleEmojiChange = (emoji: string) => {
@@ -48,7 +83,7 @@ const MissionCreatePage = (): JSX.Element => {
   const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setMission((mission) => ({
       ...mission,
-      title: e.target.value,
+      name: e.target.value,
     }));
   };
 
@@ -68,6 +103,10 @@ const MissionCreatePage = (): JSX.Element => {
     });
   };
 
+  useEffect(() => {
+    getColorAndOrders();
+  }, [getColorAndOrders]);
+
   return (
     <Container>
       <Mission
@@ -80,17 +119,25 @@ const MissionCreatePage = (): JSX.Element => {
         <EmojiPicker name="emoji" onEmojiClick={handleEmojiChange} />
         <Label htmlFor="title">미션 이름</Label>
         <Input
-          id="title"
-          name="title"
+          id="name"
+          name="name"
           placeholder="미션 이름을 입력해주세요"
           onChange={handleTitleChange}
         />
-        {mission.title ? '' : <Span>미션 이름을 입력해주세요</Span>}
+        {mission.name ? (
+          <Span>&nbsp;</Span>
+        ) : (
+          <Span>미션 이름을 입력해주세요</Span>
+        )}
         <Label htmlFor="durationGoalTime">지속 시간</Label>
         <StyledDurationTimePicker>
           <DurationTimePicker onChange={handleDurationTimeChange} />
         </StyledDurationTimePicker>
-        {mission.durationGoalTime ? '' : <Span>지속 시간을 입력해주세요</Span>}
+        {mission.durationGoalTime ? (
+          <Span>&nbsp;</Span>
+        ) : (
+          <Span>지속 시간을 입력해주세요</Span>
+        )}
         <ButtonContainer>
           <Button type="button" colorType="white" onClick={onCancelClick}>
             취소하기
