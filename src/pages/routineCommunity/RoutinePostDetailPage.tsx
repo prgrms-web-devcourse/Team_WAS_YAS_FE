@@ -17,6 +17,7 @@ import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRound
 import { ROUTINE_CATEGORY } from '@/constants';
 import { Colors, Media, FontSize } from '@/styles';
 import { useHistory } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const missionsDummy = [
   { ...missionDummy, missionId: 1 },
@@ -60,7 +61,14 @@ const RoutinePostDetailPage = (): JSX.Element => {
         </CategoryWrapper>
         <BringRoutineButton
           onClick={() => {
-            history.push('/routine');
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: `😎`,
+              text: '자유롭게 수정하고 생성하기를 완료해주세요.',
+              confirmButtonColor: Colors.point,
+            });
+            history.push('/routine/create');
           }}
         >
           <GetAppRoundedIcon />
