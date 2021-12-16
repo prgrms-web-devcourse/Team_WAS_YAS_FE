@@ -1,4 +1,5 @@
 import { DeleteBox, EditBox, Icon } from '@/components';
+import { WEEK } from '@/constants';
 import { RoutineType } from '@/Models';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import TimeUtils from '@/utils/time';
@@ -22,7 +23,8 @@ const Routine = ({
   style,
   ...props
 }: RoutineProps): JSX.Element => {
-  const { emoji, color, name, durationGoalTime, startGoalTime } = routineObject;
+  const { emoji, color, name, durationGoalTime, startGoalTime, weeks } =
+    routineObject;
   const durationTime = TimeUtils.calculateTime(durationGoalTime || 0);
   const startTime = TimeUtils.startTime(
     startGoalTime || new Date().toISOString(),
@@ -42,7 +44,8 @@ const Routine = ({
   };
 
   const convertWeeks = (weeks: string[] | undefined) => {
-    const weekString = weeks?.join('');
+    const convertedWeeks = weeks?.map((week) => WEEK[week]);
+    const weekString = convertedWeeks?.join('');
 
     switch (weekString) {
       case '월화수목금':
@@ -52,8 +55,12 @@ const Routine = ({
       case '월화수목금토일':
         return '매일';
       default:
-        return weeks?.join(' ');
+        return convertedWeeks?.join(' ');
     }
+  };
+
+  const onClickToolBox = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
   };
 
   return (
@@ -82,6 +89,7 @@ const Routine = ({
               <EditBox
                 style={{ transform: 'translate(-110px, -48px)', width: 110 }}
                 visible={visible}
+                onClick={onClickToolBox}
                 onClose={handleCloseToolBox}
                 onClickUpdateButton={handleClickUpdateButton}
                 onClickDeleteButton={handleClickDeleteButton}
@@ -90,6 +98,7 @@ const Routine = ({
               <DeleteBox
                 style={{ transform: 'translate(-110px, -24px)', width: 110 }}
                 visible={visible}
+                onClick={onClickToolBox}
                 onClose={handleCloseToolBox}
                 onClickDeleteButton={handleClickDeleteButton}
               />
@@ -102,11 +111,13 @@ const Routine = ({
           </div>
         ) : null}
       </RoutineHeader>
-      <Emoji>{emoji}&nbsp;</Emoji>
-      <Title>{name}&nbsp;</Title>
-      <TotalTime>{durationTime}&nbsp;</TotalTime>
-      <Weeks>{type === 'myRoutine' && convertWeeks(weeks)}&nbsp;</Weeks>
-      <StartTime>{startTime}&nbsp;</StartTime>
+      <Emoji>{emoji ? emoji : '\u00A0'}</Emoji>
+      <Title>{name ? name : '\u00A0'}</Title>
+      <TotalTime>{durationTime ? durationTime : '\u00A0'}</TotalTime>
+      <Weeks>
+        {type === 'myRoutine' ? `${convertWeeks(weeks)}` : '\u00A0'}
+      </Weeks>
+      <StartTime>{startTime ? startTime : '\u00A0'}</StartTime>
     </RoutineContainer>
   );
 };
@@ -143,8 +154,15 @@ const RoutineHeader = styled.header`
 const ToolBoxContainer = styled.div`
   background-color: inherit;
   border: none;
-  padding: 0 0 1.5rem 1rem;
+  padding: 1rem;
   cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  @media ${Media.sm} {
+    padding: 0.875rem;
+  }
 `;
 
 const Like = styled.span`

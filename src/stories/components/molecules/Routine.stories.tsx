@@ -15,7 +15,7 @@ const routineObject: Pick<
   color: Colors.red,
   name: '집 앞 공원 산책하기',
   durationGoalTime: 12345,
-  weeks: ['월', '화', '수', '목', '토', '일'],
+  weeks: ['MON', 'TUE', 'WED', 'THU', 'SAT', 'SUN'],
   startGoalTime: `${new Date().toISOString()}`,
 };
 
@@ -27,19 +27,19 @@ export const Default = (): JSX.Element => {
       <Routine
         routineObject={{
           ...routineObject,
-          weeks: ['월', '화', '수', '목', '금', '토', '일'],
+          weeks: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
         }}
         type="myRoutine"
       />
       <Routine
         routineObject={{
           ...routineObject,
-          weeks: ['월', '화', '수', '목', '금'],
+          weeks: ['MON', 'TUE', 'WED', 'THU', 'FRI'],
         }}
         type="myRoutine"
       />
       <Routine
-        routineObject={{ ...routineObject, weeks: ['토', '일'] }}
+        routineObject={{ ...routineObject, weeks: ['SAT', 'SUN'] }}
         type="myRoutine"
       />
       <h1 style={{ fontSize: 40, margin: 20 }}>그 외</h1>
