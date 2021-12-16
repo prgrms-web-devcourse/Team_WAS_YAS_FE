@@ -8,12 +8,23 @@ import { useHistory } from 'react-router';
 import Swal from 'sweetalert2';
 
 const MyRoutinePage = (): JSX.Element => {
-  const [routines, setRoutines] = useState([]);
+  const [routines, setRoutines] = useState({
+    all: [],
+    finish: [],
+    notFinish: [],
+  });
   const history = useHistory();
 
   const getMyRoutines = async () => {
     const routines = await routineApi.getRoutines();
-    setRoutines(routines.data.data);
+    const finishedRoutines = await routineApi.getFinishedRoutines();
+    const notFinishedRoutines = await routineApi.getNotFinishedRoutines();
+
+    setRoutines({
+      all: routines.data.data,
+      finish: finishedRoutines.data.data,
+      notFinish: notFinishedRoutines.data.data,
+    });
   };
 
   useEffect(() => {
@@ -63,8 +74,8 @@ const MyRoutinePage = (): JSX.Element => {
       <TabBar type="myRoutine">
         <TabBar.Item title="전체" index="0">
           <RoutineGridBox>
-            {routines &&
-              routines.map((routine) => (
+            {routines.all &&
+              routines.all?.map((routine) => (
                 <Routine
                   onClick={(e) => onClickRoutine(e, routine['routineId'])}
                   key={routine['routineId']}
@@ -83,8 +94,8 @@ const MyRoutinePage = (): JSX.Element => {
         </TabBar.Item>
         <TabBar.Item title="오늘의 루틴" index="1">
           <RoutineGridBox>
-            {routines &&
-              routines.map((routine) => (
+            {routines.notFinish &&
+              routines.notFinish?.map((routine) => (
                 <Routine
                   onClick={(e) => onClickRoutine(e, routine['routineId'])}
                   key={routine['routineId']}
@@ -103,8 +114,8 @@ const MyRoutinePage = (): JSX.Element => {
         </TabBar.Item>
         <TabBar.Item title="완료한 루틴" index="2">
           <RoutineGridBox>
-            {routines &&
-              routines.map((routine) => (
+            {routines.finish &&
+              routines.finish?.map((routine) => (
                 <Routine
                   onClick={(e) => onClickRoutine(e, routine['routineId'])}
                   key={routine['routineId']}

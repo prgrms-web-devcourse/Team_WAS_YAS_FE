@@ -179,13 +179,13 @@ const Like = styled.span`
 `;
 
 const Emoji = styled.div`
-  font-size: 3em;
+  font-size: 3rem;
   height: 3rem;
   margin: 1rem 0 1.5rem;
 
   @media ${Media.sm} {
-    font-size: 2em;
-    margin: 0.5rem 0 0rem;
+    font-size: 2rem;
+    margin: 0.5rem 0 0.25rem;
   }
 `;
 
