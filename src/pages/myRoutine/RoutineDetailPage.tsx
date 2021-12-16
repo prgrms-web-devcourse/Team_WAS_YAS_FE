@@ -188,10 +188,10 @@ const StyledButton = styled(Button)`
 
 const StyledRoutineAddButton = styled(IconButton.Add)`
   position: fixed;
-  right: calc(50% - 266px);
+  right: calc(50% - 340px);
   bottom: 48px;
   @media ${Media.sm} {
-    right: calc(50% - 140px);
+    right: 24px;
     bottom: 24px;
   }
 `;
