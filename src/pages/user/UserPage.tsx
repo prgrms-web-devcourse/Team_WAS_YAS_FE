@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
 import { fetchUser } from '@/store/user';
 import { useEffect } from 'react';
+import Swal from 'sweetalert2';
 
 const UserPage = (): JSX.Element => {
   const history = useHistory();
@@ -17,21 +18,49 @@ const UserPage = (): JSX.Element => {
     dispatch(fetchUser());
   }, [dispatch]);
 
+  const handleClickLogoutButton = () => {
+    sessionStorage.removeItem('YAS_USER_TOKEN');
+    Swal.fire({
+      icon: 'success',
+      title: '👋🏻',
+      text: '로그아웃 되었습니다.',
+      showConfirmButton: false,
+      timer: 1500,
+    }).then(() => {
+      history.push('/');
+    });
+  };
+
   return (
     <StyledContainer navBar>
       <HeadText>프로필</HeadText>
       <StyledAvatar src={user ? user.profileImage : ''} />
       <ContentContainer>
-        <FieldText>닉네임</FieldText>
-        <Text>{user ? user.nickname : ''}</Text>
+        <FieldWrapper>
+          <FieldText>이름</FieldText>
+          <Text>{user ? user.name : ''}</Text>
+        </FieldWrapper>
+        <FieldWrapper>
+          <FieldText>이메일</FieldText>
+          <Text>{user ? user.email : ''}</Text>
+        </FieldWrapper>
+        <FieldWrapper>
+          <FieldText>닉네임</FieldText>
+          <Text>{user ? user.nickname : ''}</Text>
+        </FieldWrapper>
       </ContentContainer>
-      <Button
-        onClick={() => {
-          history.push(`/mypage/edit`);
-        }}
-      >
-        수정하기
-      </Button>
+      <ButtonWrapper>
+        <Button
+          onClick={() => {
+            history.push(`/mypage/edit`);
+          }}
+        >
+          수정하기
+        </Button>
+        <Button colorType="white" onClick={handleClickLogoutButton}>
+          로그아웃
+        </Button>
+      </ButtonWrapper>
       {loading && <Spinner />}
     </StyledContainer>
   );
@@ -47,6 +76,7 @@ const StyledContainer = styled(Container)`
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 1rem;
   width: 100%;
   margin-bottom: 80px;
 `;
@@ -87,11 +117,23 @@ const Text = styled.p`
   }
 `;
 
+const FieldWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 const StyledAvatar = styled(Avatar)`
   background-color: ${Colors.pointLight};
   width: 200px;
   height: 200px;
   margin-bottom: 4rem;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
 `;
 
 export default UserPage;

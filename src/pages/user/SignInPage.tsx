@@ -47,8 +47,10 @@ const SignInPage = (): JSX.Element => {
         formikHelper.setSubmitting(false);
         Swal.fire({
           icon: 'success',
-          title: '🎉 환영합니다! 🎉',
-          confirmButtonColor: Colors.point,
+          title: '🎉',
+          text: '환영합니다!',
+          showConfirmButton: false,
+          timer: 1500,
         }).then(() => {
           history.push('/');
         });
