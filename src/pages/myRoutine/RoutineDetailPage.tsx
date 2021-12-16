@@ -7,6 +7,7 @@ import {
   RoutineCategory,
   RoutineInfo,
 } from '@/components';
+import { ROUTINE_CATEGORY } from '@/constants';
 import { RoutineType, MissionType } from '@/Models';
 import { Colors, Media } from '@/styles';
 import styled from '@emotion/styled';
@@ -24,74 +25,82 @@ const DUMMY_ROUTINE_DETAIL: Partial<ExtendedRoutineType> = {
   routineId: 1,
   emoji: '🌳',
   color: Colors.indigo,
-  title: '집 앞 공원 산책하기',
+  name: '집 앞 공원 산책하기',
   durationGoalTime: 14200,
   startGoalTime: `${new Date().toISOString()}`,
-  routineCategories: ['운동', '공부'],
+  routineCategory: ['HEALTH'],
   missions: [
     {
       missionId: 1,
       emoji: '🌳',
       color: Colors.indigo,
-      title: '나무 구경하기',
+      name: '나무 구경하기',
       durationGoalTime: 300,
       userDurationTime: 560,
+      orders: 0,
     },
     {
       missionId: 2,
       emoji: '🥽',
       color: Colors.indigo,
-      title: '수경 구경하기',
+      name: '수경 구경하기',
       durationGoalTime: 700,
       userDurationTime: 440,
+      orders: 1,
     },
     {
       missionId: 3,
       emoji: '🍖',
       color: Colors.indigo,
-      title: '고기 구워 먹기',
+      name: '고기 구워 먹기',
       durationGoalTime: 4200,
       userDurationTime: 4200,
+      orders: 2,
     },
     {
       missionId: 4,
       emoji: '📝',
       color: Colors.indigo,
-      title: '공부하기',
+      name: '공부하기',
       durationGoalTime: 1800,
       userDurationTime: 2400,
+      orders: 3,
     },
     {
       missionId: 5,
       emoji: '📝',
       color: Colors.indigo,
-      title: '공부하기',
+      name: '공부하기',
       durationGoalTime: 1800,
       userDurationTime: 200,
+      orders: 4,
     },
     {
       missionId: 6,
       emoji: '📝',
       color: Colors.indigo,
-      title: '공부하기',
+      name: '공부하기',
       durationGoalTime: 1800,
       userDurationTime: 1,
+      orders: 5,
     },
     {
       missionId: 7,
       emoji: '📝',
       color: Colors.indigo,
-      title: '공부하기',
+      name: '공부하기',
       durationGoalTime: 1800,
       userDurationTime: 1920,
+      orders: 6,
     },
 
     {
       missionId: 8,
       emoji: '📝',
       color: Colors.indigo,
-      title: '공부하기',
+      name: '공부하기',
       durationGoalTime: 1800,
+      orders: 7,
     },
   ],
 };
@@ -102,8 +111,10 @@ const RoutineDetailPage = (): JSX.Element => {
       <RoutineInfo routineObject={DUMMY_ROUTINE_DETAIL} />
       <CategoryEditFlexBox>
         <div>
-          {DUMMY_ROUTINE_DETAIL.routineCategories?.map((category, i) => (
-            <StyledCategory key={i}>{category}</StyledCategory>
+          {DUMMY_ROUTINE_DETAIL.routineCategory?.map((category, i) => (
+            <StyledCategory key={i}>
+              {ROUTINE_CATEGORY[category]}
+            </StyledCategory>
           ))}
         </div>
         <RoundedButton.Edit />

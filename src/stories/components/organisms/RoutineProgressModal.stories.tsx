@@ -1,4 +1,5 @@
 import { RoutineProgressModal } from '@/components/organisms/RoutineProgressModal';
+import { MissionType } from '@/Models';
 import { Colors } from '@/styles';
 import { useState } from 'react';
 
@@ -7,77 +8,81 @@ export default {
   component: RoutineProgressModal,
 };
 
-const DUMMY_MISSION: {
-  id: string;
-  emoji: string;
-  color: string;
-  name: string;
-  durationTime: number;
+interface ExtendedMissionType extends MissionType {
   userDurationTime?: number;
-}[] = [
+}
+
+const DUMMY_MISSION: ExtendedMissionType[] = [
   {
-    id: '1',
+    missionId: 1,
     emoji: '🌳',
     color: Colors.indigo,
     name: '나무 구경하기',
-    durationTime: 300,
+    durationGoalTime: 300,
     userDurationTime: 560,
+    orders: 0,
   },
   {
-    id: '2',
+    missionId: 2,
     emoji: '🥽',
     color: Colors.indigo,
     name: '수경 구경하기',
-    durationTime: 700,
+    durationGoalTime: 700,
     userDurationTime: 440,
+    orders: 1,
   },
   {
-    id: '3',
+    missionId: 3,
     emoji: '🍖',
     color: Colors.indigo,
     name: '고기 구워 먹기',
-    durationTime: 4200,
+    durationGoalTime: 4200,
     userDurationTime: 4200,
+    orders: 2,
   },
   {
-    id: '4',
+    missionId: 4,
     emoji: '📝',
     color: Colors.indigo,
     name: '공부하기',
-    durationTime: 1800,
+    durationGoalTime: 1800,
     userDurationTime: 2400,
+    orders: 3,
   },
   {
-    id: '5',
+    missionId: 5,
     emoji: '📝',
     color: Colors.indigo,
     name: '공부하기',
-    durationTime: 1800,
+    durationGoalTime: 1800,
     userDurationTime: 200,
+    orders: 4,
   },
   {
-    id: '6',
+    missionId: 6,
     emoji: '📝',
     color: Colors.indigo,
     name: '공부하기',
-    durationTime: 1800,
+    durationGoalTime: 1800,
     userDurationTime: 1,
+    orders: 5,
   },
   {
-    id: '7',
+    missionId: 7,
     emoji: '📝',
     color: Colors.indigo,
     name: '공부하기',
-    durationTime: 1800,
+    durationGoalTime: 1800,
     userDurationTime: 1920,
+    orders: 6,
   },
-
   {
-    id: '8',
+    missionId: 8,
     emoji: '📝',
     color: Colors.indigo,
     name: '공부하기',
-    durationTime: 1800,
+    durationGoalTime: 1800,
+    orders: 7,
   },
 ];
 

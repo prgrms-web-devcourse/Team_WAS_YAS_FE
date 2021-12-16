@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Media } from '@/styles';
-import { NavBar, Header, IconButton } from '@/components';
+import { NavBar, Header } from '@/components';
 
 export interface ContainerProps extends React.ComponentProps<'div'> {
   navBar?: boolean;
@@ -14,9 +14,7 @@ const Container = ({
 }: ContainerProps): JSX.Element => {
   return (
     <AppContainer>
-      <Header>
-        <IconButton.UserProfile />
-      </Header>
+      <Header />
       <ContentContainer {...props}>{children}</ContentContainer>
       {navBar && <NavBar />}
     </AppContainer>
@@ -54,7 +52,7 @@ const ContentContainer = styled.div`
   align-items: center;
   width: 100%;
   height: 100%;
-  padding-top: 40px;
+  padding-top: 60px;
 
   @media ${Media.sm} {
     padding-bottom: 56px;

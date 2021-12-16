@@ -3,10 +3,13 @@ import TimeUtils from '@/utils/time';
 import styled from '@emotion/styled';
 import React from 'react';
 import 'moment/locale/ko';
-import { RoutineType } from '@/Models';
 
 export interface RoutineInfoProps extends React.ComponentProps<'div'> {
-  routineObject: Partial<RoutineType>;
+  routineObject: {
+    emoji?: string;
+    name?: string;
+    durationGoalTime?: number;
+  };
   createdAt?: string;
 }
 
@@ -15,14 +18,14 @@ const RoutineInfo = ({
   createdAt: time,
   ...props
 }: RoutineInfoProps): JSX.Element => {
-  const { emoji, title, durationGoalTime } = routineObject;
+  const { emoji, name, durationGoalTime } = routineObject;
   const durationTime = TimeUtils.calculateTime(durationGoalTime || 0);
   const createdAt = time && TimeUtils.dateFromNow(time);
 
   return (
     <RoutineInfoContainer {...props}>
       <Emoji>{emoji}</Emoji>
-      <Title>{title}</Title>
+      <Title>{name}</Title>
       <Time>{durationTime}</Time>
       {createdAt && <CreateDate>{createdAt}</CreateDate>}
     </RoutineInfoContainer>

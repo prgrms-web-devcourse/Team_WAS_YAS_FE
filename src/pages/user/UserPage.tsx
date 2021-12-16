@@ -1,28 +1,38 @@
 import styled from '@emotion/styled';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
-import { Container, Button } from '@/components';
+import { Container, Button, Spinner } from '@/components';
 import { useHistory } from 'react-router-dom';
 import { Avatar } from '@mui/material';
-import { userDummy } from '@/Models';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from '@/store';
+import { fetchUser } from '@/store/user';
+import { useEffect } from 'react';
 
 const UserPage = (): JSX.Element => {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const { data: user, loading } = useSelector((state: RootState) => state.user);
 
-  const handleClickEditButton = () => {
-    history.push(`/mypage/edit`);
-  };
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, [dispatch]);
 
   return (
     <StyledContainer navBar>
       <HeadText>프로필</HeadText>
-      <StyledAvatar
-        src={userDummy.profileImageUrl ? userDummy.profileImageUrl : ''}
-      />
+      <StyledAvatar src={user ? user.profileImage : ''} />
       <ContentContainer>
         <FieldText>닉네임</FieldText>
-        <Text>{userDummy.nickName}</Text>
+        <Text>{user ? user.nickname : ''}</Text>
       </ContentContainer>
-      <Button onClick={handleClickEditButton}>수정하기</Button>
+      <Button
+        onClick={() => {
+          history.push(`/mypage/edit`);
+        }}
+      >
+        수정하기
+      </Button>
+      {loading && <Spinner />}
     </StyledContainer>
   );
 };

@@ -18,7 +18,7 @@ const Mission = ({
   ...props
 }: MissionProps): JSX.Element => {
   const [visible, setVisible] = useState<boolean>(false);
-  const { emoji, title, durationGoalTime, color } = missionObject;
+  const { emoji, name, durationGoalTime, color } = missionObject;
   const backgroundColor = color;
   const durationTime = TimeUtils.calculateTime(durationGoalTime || 0);
 
@@ -33,7 +33,7 @@ const Mission = ({
   return (
     <MissionContainer style={{ backgroundColor, ...style }} {...props}>
       <Emoji>{emoji}</Emoji>
-      <Title>{title}</Title>
+      <Title>{name}</Title>
       <Time>{durationTime}</Time>
       {type === 'normal' ? (
         <ToolBoxContainer onClick={() => setVisible(true)}>

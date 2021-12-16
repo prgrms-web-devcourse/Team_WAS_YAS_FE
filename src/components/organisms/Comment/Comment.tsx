@@ -78,7 +78,7 @@ const Comment = ({
       <Header>
         <UserInfoContainer>
           <StyledAvatar
-            src={user.profileImageUrl ? user.profileImageUrl : undefined}
+            src={user.profileImage ? user.profileImage : undefined}
           />
           <UserInfoTextWrapper>
             <UserNameText>{user.nickName}</UserNameText>
