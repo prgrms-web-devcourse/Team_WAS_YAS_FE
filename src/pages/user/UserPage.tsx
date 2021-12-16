@@ -36,8 +36,18 @@ const UserPage = (): JSX.Element => {
       <HeadText>프로필</HeadText>
       <StyledAvatar src={user ? user.profileImage : ''} />
       <ContentContainer>
-        <FieldText>닉네임</FieldText>
-        <Text>{user ? user.nickname : ''}</Text>
+        <FieldWrapper>
+          <FieldText>이름</FieldText>
+          <Text>{user ? user.name : ''}</Text>
+        </FieldWrapper>
+        <FieldWrapper>
+          <FieldText>이메일</FieldText>
+          <Text>{user ? user.email : ''}</Text>
+        </FieldWrapper>
+        <FieldWrapper>
+          <FieldText>닉네임</FieldText>
+          <Text>{user ? user.nickname : ''}</Text>
+        </FieldWrapper>
       </ContentContainer>
       <ButtonWrapper>
         <Button
@@ -51,7 +61,6 @@ const UserPage = (): JSX.Element => {
           로그아웃
         </Button>
       </ButtonWrapper>
-
       {loading && <Spinner />}
     </StyledContainer>
   );
@@ -67,6 +76,7 @@ const StyledContainer = styled(Container)`
 const ContentContainer = styled.div`
   display: flex;
   flex-direction: column;
+  gap: 1rem;
   width: 100%;
   margin-bottom: 80px;
 `;
@@ -105,6 +115,11 @@ const Text = styled.p`
   @media ${Media.lg} {
     font-size: ${FontSize.large};
   }
+`;
+
+const FieldWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const StyledAvatar = styled(Avatar)`
