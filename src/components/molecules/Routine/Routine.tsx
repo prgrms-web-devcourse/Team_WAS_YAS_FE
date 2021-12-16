@@ -13,6 +13,8 @@ interface RoutineProps extends React.ComponentProps<'div'> {
   type: 'myRoutine' | 'communityMyRoutine' | 'communityRoutine' | 'create';
   completed?: boolean;
   like?: number;
+  deleteRoutine?: () => void;
+  updateRoutine?: () => void;
 }
 
 const Routine = ({
@@ -21,6 +23,8 @@ const Routine = ({
   like,
   type,
   style,
+  deleteRoutine,
+  updateRoutine,
   ...props
 }: RoutineProps): JSX.Element => {
   const { emoji, color, name, durationGoalTime, startGoalTime, weeks } =
@@ -36,11 +40,11 @@ const Routine = ({
   };
 
   const handleClickDeleteButton = () => {
-    console.log('clicked delete button');
+    deleteRoutine && deleteRoutine();
   };
 
   const handleClickUpdateButton = () => {
-    console.log('clicked update button');
+    updateRoutine && updateRoutine();
   };
 
   const convertWeeks = (weeks: string[] | undefined) => {
@@ -175,12 +179,12 @@ const Like = styled.span`
 `;
 
 const Emoji = styled.div`
-  font-size: 3rem;
+  font-size: 3em;
   height: 3rem;
   margin: 1rem 0 1.5rem;
 
   @media ${Media.sm} {
-    font-size: 2rem;
+    font-size: 2em;
     margin: 0.5rem 0 0rem;
   }
 `;

@@ -7,6 +7,7 @@ import { useHistory } from 'react-router';
 
 const MyRoutinePage = (): JSX.Element => {
   const [routines, setRoutines] = useState([]);
+  const history = useHistory();
 
   const getMyRoutines = async () => {
     const routines = await routineApi.getRoutines();
@@ -17,7 +18,15 @@ const MyRoutinePage = (): JSX.Element => {
     getMyRoutines();
   }, []);
 
-  const history = useHistory();
+  const deleteRoutine = async (routineId: number) => {
+    await routineApi.deleteRoutine(routineId);
+    await getMyRoutines();
+  };
+
+  const onClickUpdateRoutine = (routineId: number) => {
+    history.push(`/routine/${routineId}/update`);
+  };
+
   const onClickRoutine = (e: React.MouseEvent<HTMLElement>, id: any) => {
     const element = e.target as HTMLElement;
 
@@ -44,6 +53,12 @@ const MyRoutinePage = (): JSX.Element => {
                   routineObject={routine}
                   type="myRoutine"
                   completed={false}
+                  deleteRoutine={() => {
+                    deleteRoutine(routine['routineId']);
+                  }}
+                  updateRoutine={() => {
+                    onClickUpdateRoutine(routine['routineId']);
+                  }}
                 />
               ))}
           </RoutineGridBox>
@@ -58,6 +73,12 @@ const MyRoutinePage = (): JSX.Element => {
                   routineObject={routine}
                   type="myRoutine"
                   completed={false}
+                  deleteRoutine={() => {
+                    deleteRoutine(routine['routineId']);
+                  }}
+                  updateRoutine={() => {
+                    onClickUpdateRoutine(routine['routineId']);
+                  }}
                 />
               ))}
           </RoutineGridBox>
@@ -72,6 +93,12 @@ const MyRoutinePage = (): JSX.Element => {
                   routineObject={routine}
                   type="myRoutine"
                   completed={true}
+                  deleteRoutine={() => {
+                    deleteRoutine(routine['routineId']);
+                  }}
+                  updateRoutine={() => {
+                    onClickUpdateRoutine(routine['routineId']);
+                  }}
                 />
               ))}
           </RoutineGridBox>
@@ -93,8 +120,13 @@ const RoutineGridBox = styled.div`
   width: 100%;
 
   @media ${Media.sm} {
+    grid-template-columns: repeat(3, 1fr);
     gap: 10px 14px;
     padding: 20px 0;
+
+    @media (max-width: 480px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 `;
 
