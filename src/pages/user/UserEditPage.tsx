@@ -139,6 +139,15 @@ const UserEditPage = (): JSX.Element => {
 
         <Button type="submit">수정완료</Button>
       </Form>
+      <Button
+        colorType="white"
+        type="button"
+        onClick={() => {
+          history.goBack();
+        }}
+      >
+        취소하기
+      </Button>
       {isSubmitting && <Spinner />}
     </StyledContainer>
   );
@@ -163,6 +172,7 @@ const Form = styled.form`
   flex-direction: column;
   justify-content: center;
   width: 100%;
+  margin-bottom: 2rem;
 `;
 
 const Label = styled.label`

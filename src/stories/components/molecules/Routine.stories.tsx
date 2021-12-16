@@ -27,19 +27,19 @@ export const Default = (): JSX.Element => {
       <Routine
         routineObject={{
           ...routineObject,
-          weeks: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
+          weeks: ['TUE', 'THU', 'MON', 'FRI', 'SAT', 'SUN', 'WED'],
         }}
         type="myRoutine"
       />
       <Routine
         routineObject={{
           ...routineObject,
-          weeks: ['MON', 'TUE', 'WED', 'THU', 'FRI'],
+          weeks: ['TUE', 'WED', 'THU', 'FRI', 'MON'],
         }}
         type="myRoutine"
       />
       <Routine
-        routineObject={{ ...routineObject, weeks: ['SAT', 'SUN'] }}
+        routineObject={{ ...routineObject, weeks: ['SUN', 'SAT'] }}
         type="myRoutine"
       />
       <h1 style={{ fontSize: 40, margin: 20 }}>그 외</h1>
