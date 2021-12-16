@@ -3,6 +3,9 @@ import 'moment/locale/ko';
 
 const calculateTime = (time: number | string): string | null => {
   const parseNumber = +time;
+  if (parseNumber === 0) {
+    return '0초';
+  }
   if (!parseNumber) {
     return null;
   }
