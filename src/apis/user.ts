@@ -15,7 +15,10 @@ interface UserApiType {
     password: string;
   }) => Promise<AxiosResponse>;
   getUser: () => Promise<AxiosResponse>;
-  updateUser: (userInfo: any) => Promise<AxiosResponse>;
+  updateUser: (
+    userInfo: { nickname: string },
+    imageFile: File,
+  ) => Promise<AxiosResponse>;
 }
 
 const userApi: UserApiType = {
@@ -23,7 +26,12 @@ const userApi: UserApiType = {
   signIn: (userInfo: { email: string; password: string }) =>
     request.post('/users/login', userInfo),
   getUser: () => authRequest.get(`/users`),
-  updateUser: (userInfo) => authRequest.put('/users', userInfo),
+  updateUser: (userInfo, imageFile) => {
+    const formData = new FormData();
+    formData.append('userUpdateRequest', JSON.stringify(userInfo));
+    formData.append('image', imageFile);
+    return authRequest.put('/users', formData);
+  },
 };
 
 export default userApi;
