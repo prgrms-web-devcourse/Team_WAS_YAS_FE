@@ -7,6 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/store';
 import { fetchUser } from '@/store/user';
 import { useEffect } from 'react';
+import Swal from 'sweetalert2';
 
 const UserPage = (): JSX.Element => {
   const history = useHistory();
@@ -17,6 +18,17 @@ const UserPage = (): JSX.Element => {
     dispatch(fetchUser());
   }, [dispatch]);
 
+  const handleClickLogoutButton = () => {
+    sessionStorage.removeItem('YAS_USER_TOKEN');
+    Swal.fire({
+      icon: 'success',
+      title: '👋🏻.',
+      text: `로그아웃 되었습니다.`,
+    }).then(() => {
+      history.push(`/`);
+    });
+  };
+
   return (
     <StyledContainer navBar>
       <HeadText>프로필</HeadText>
@@ -25,13 +37,19 @@ const UserPage = (): JSX.Element => {
         <FieldText>닉네임</FieldText>
         <Text>{user ? user.nickname : ''}</Text>
       </ContentContainer>
-      <Button
-        onClick={() => {
-          history.push(`/mypage/edit`);
-        }}
-      >
-        수정하기
-      </Button>
+      <ButtonWrapper>
+        <Button
+          onClick={() => {
+            history.push(`/mypage/edit`);
+          }}
+        >
+          수정하기
+        </Button>
+        <Button colorType="white" onClick={handleClickLogoutButton}>
+          로그아웃
+        </Button>
+      </ButtonWrapper>
+
       {loading && <Spinner />}
     </StyledContainer>
   );
@@ -92,6 +110,13 @@ const StyledAvatar = styled(Avatar)`
   width: 200px;
   height: 200px;
   margin-bottom: 4rem;
+`;
+
+const ButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
 `;
 
 export default UserPage;
