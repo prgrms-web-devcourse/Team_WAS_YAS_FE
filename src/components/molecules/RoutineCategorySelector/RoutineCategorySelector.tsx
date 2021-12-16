@@ -24,7 +24,7 @@ const RoutineCategorySelector = ({
   ...props
 }: RoutineCategorySelectorProps): JSX.Element => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>(() => {
-    return type === 'checkbox' ? [] : ['전체'];
+    return type === 'checkbox' ? [] : ['TOTAL'];
   });
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedCategory = e.target.value;

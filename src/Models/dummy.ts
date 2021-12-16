@@ -8,21 +8,21 @@ import {
 
 export const userDummy: UserType = {
   userId: 123,
-  userName: '아이엠보이',
-  nickName: '아이엠보이',
-  profileImageUrl: 'https://picsum.photos/200',
+  name: '아이엠보이',
+  nickname: '아이엠보이',
+  profileImage: 'https://picsum.photos/200',
   email: 'yas@yas.com',
 };
 
 export const routineDummy: RoutineType = {
   routineId: 321,
-  title: '집 앞 공원 산책하기',
+  name: '집 앞 공원 산책하기',
   emoji: '🌳',
   color: '#66CE92',
   startGoalTime: '2022-12-24T03:00:00.000Z',
   durationGoalTime: 1000,
   weeks: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
-  routineCategories: ['HEALTH', 'EXERCISE'],
+  routineCategory: ['HEALTH', 'EXERCISE'],
   missions: [],
 };
 

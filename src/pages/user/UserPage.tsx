@@ -3,24 +3,51 @@ import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import { Container, Button } from '@/components';
 import { useHistory } from 'react-router-dom';
 import { Avatar } from '@mui/material';
-import { userDummy } from '@/Models';
+import { userApi } from '@/apis';
+import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
+import { UserType } from '@/Models';
 
 const UserPage = (): JSX.Element => {
   const history = useHistory();
+  const [user, setUser] = useState<Omit<UserType, 'userId'>>({
+    name: '',
+    nickname: '',
+    profileImage: '',
+    email: '',
+  });
 
   const handleClickEditButton = () => {
     history.push(`/mypage/edit`);
   };
 
+  useEffect(() => {
+    const getUser = async () => {
+      const response = await userApi.getUser();
+      const user = response.data.data;
+      console.log(user);
+      if (!user) {
+        Swal.fire({
+          title: '🤯',
+          text: '로그인을 하고 접근해주세요.',
+          confirmButtonColor: Colors.point,
+        }).then(() => {
+          history.push('/login');
+        });
+        return;
+      }
+      setUser(user);
+    };
+    getUser();
+  }, [history]);
+
   return (
     <StyledContainer navBar>
       <HeadText>프로필</HeadText>
-      <StyledAvatar
-        src={userDummy.profileImageUrl ? userDummy.profileImageUrl : ''}
-      />
+      <StyledAvatar src={user.profileImage ? user.profileImage : ''} />
       <ContentContainer>
         <FieldText>닉네임</FieldText>
-        <Text>{userDummy.nickName}</Text>
+        <Text>{user.nickname}</Text>
       </ContentContainer>
       <Button onClick={handleClickEditButton}>수정하기</Button>
     </StyledContainer>

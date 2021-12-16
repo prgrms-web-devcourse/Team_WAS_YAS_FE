@@ -4,7 +4,7 @@ interface ConstantType {
 
 export const ROUTINE_TAB: ConstantType = Object.freeze({
   TOTAL: '전체 루틴',
-  TODO: '해야할 루틴',
+  TODO: '오늘의 루틴',
   COMPLETE: '완료한 루틴',
 });
 
@@ -19,7 +19,7 @@ export const ROUTINE_CATEGORY: ConstantType = Object.freeze({
   STUDY: '공부',
 });
 
-export const WEEK = Object.freeze({
+export const WEEK: ConstantType = Object.freeze({
   MON: '월',
   TUE: '화',
   WED: '수',

@@ -17,46 +17,58 @@ import { RoutineType } from '@/Models';
 import Swal from 'sweetalert2';
 import { ROUTINE_CATEGORY } from '@/constants';
 import { useHistory } from 'react-router-dom';
+import routineApi from '@/apis/routine';
 
 const RoutineCreatePage = (): JSX.Element => {
   const history = useHistory();
-  const [routine, setRoutine] = useState<Partial<RoutineType>>({
+  const [routine, setRoutine] = useState<
+    Omit<RoutineType, 'routineId' | 'missions'>
+  >({
     emoji: '💫',
     color: Colors.red,
-    title: '',
+    name: '',
     durationGoalTime: 0,
     startGoalTime: new Date().toISOString(),
-    routineCategories: [],
+    routineCategory: [],
     weeks: [],
   });
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const { title, routineCategories } = routine;
-    if (!title) {
+    const { name, routineCategory } = routine;
+    if (!name) {
       Swal.fire({
         icon: 'warning',
         title: '루틴 이름을 입력해주세요!',
       });
-    } else if (!routineCategories?.length) {
+    } else if (!routineCategory?.length) {
       Swal.fire({
         icon: 'warning',
         title: '루틴 카테고리를 선택해주세요!',
       });
     } else {
-      Swal.fire({
-        icon: 'success',
-        title: '루틴 생성이 완료되었습니다!🎉',
-      }).then(() => {
-        history.push('/');
-      });
-      console.log(routine);
+      try {
+        await routineApi.createRoutine(routine);
+        Swal.fire({
+          icon: 'success',
+          title: '루틴 생성이 완료되었습니다!🎉',
+        }).then(() => {
+          history.push('/');
+        });
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: '오류로 인해 루틴 생성에 실패했습니다',
+          confirmButtonColor: Colors.point,
+        });
+      }
     }
   };
+
   const handleEmojiChange = (emoji: string) => {
     setRoutine(() => ({ ...routine, emoji }));
   };
-  const handleTitleOrColorChange = (
+  const handleTitleChange = (
     e: ChangeEvent<HTMLInputElement> & {
       name: HTMLInputElement;
       value: HTMLInputElement;
@@ -72,26 +84,22 @@ const RoutineCreatePage = (): JSX.Element => {
   const handleCategoryChange = (selectedCategories: string[]) => {
     setRoutine((routine) => ({
       ...routine,
-      routineCategories: [...selectedCategories],
+      routineCategory: [...selectedCategories],
     }));
   };
 
-  const handleWeekChange = (
-    e: ChangeEvent<HTMLInputElement> & { target: HTMLInputElement },
-  ) => {
-    const { weeks } = routine;
-    const week = e.target.value;
-    if (weeks) {
-      if (!weeks.includes(week)) {
-        setRoutine((routine) => ({
-          ...routine,
-          weeks: [...weeks, week],
-        }));
-      } else {
-        const newWeek = weeks.filter((item) => item !== week);
-        setRoutine((routine) => ({ ...routine, weeks: newWeek }));
-      }
-    }
+  const handleColorChange = (selectedColor: string) => {
+    setRoutine((routine) => ({
+      ...routine,
+      color: selectedColor,
+    }));
+  };
+
+  const handleWeekChange = (selectedDays: string[]) => {
+    setRoutine((routine) => ({
+      ...routine,
+      weeks: [...selectedDays],
+    }));
   };
 
   const handleTimeChange = (time: any) => {
@@ -115,14 +123,18 @@ const RoutineCreatePage = (): JSX.Element => {
       <Form onSubmit={handleSubmit}>
         <Label htmlFor="emoji">이모지</Label>
         <EmojiPicker name="emoji" onEmojiClick={handleEmojiChange} />
-        <Label htmlFor="title">루틴 이름</Label>
+        <Label htmlFor="name">루틴 이름</Label>
         <Input
-          id="title"
-          name="title"
+          id="name"
+          name="name"
           placeholder="루틴 이름을 입력해주세요"
-          onChange={handleTitleOrColorChange}
+          onChange={handleTitleChange}
         />
-        {routine.title ? '' : <Span>루틴 이름을 입력해주세요</Span>}
+        {routine.name ? (
+          <Span>&nbsp;</Span>
+        ) : (
+          <Span>루틴 이름을 입력해주세요</Span>
+        )}
         <Label htmlFor="routineCategory">카테고리</Label>
         <StyledRoutineCategory>
           <RoutineCategorySelector
@@ -130,11 +142,15 @@ const RoutineCreatePage = (): JSX.Element => {
             type="checkbox"
             name="routineCategory"
             onChange={handleCategoryChange}
-            categories={Object.values(ROUTINE_CATEGORY).slice(1)}
+            categories={Object.keys(ROUTINE_CATEGORY).slice(1)}
           />
         </StyledRoutineCategory>
         <Label htmlFor="color">색상</Label>
-        <ColorPalette name="color" onChange={handleTitleOrColorChange} />
+        <ColorPalette
+          name="color"
+          initialSelectedColor={routine.color}
+          onChange={handleColorChange}
+        />
         <Label htmlFor="weeks">요일</Label>
         <DaySelector name="weeks" onChange={handleWeekChange} />
         <Label htmlFor="startGoalTime">시작 시간</Label>
@@ -166,13 +182,13 @@ const Form = styled.form`
 
 const Label = styled.label`
   display: inline-block;
-  margin: 1rem 0;
+  margin: 3rem 0 1.5rem 0;
   font-size: ${FontSize.base};
   color: ${Colors.textSecondary};
 `;
 
 const ButtonContainer = styled.div`
-  margin-top: 2rem;
+  margin-top: 3rem;
   @media ${Media.sm} {
     > button {
       width: 100%;
@@ -197,7 +213,7 @@ const StyledStartTimePicker = styled.div`
 `;
 
 const Span = styled.span`
-  margin-top: 0.5rem;
+  margin-top: 0.8rem;
   color: ${Colors.functionNegative};
 `;
 const StyledRoutineCategory = styled.div`

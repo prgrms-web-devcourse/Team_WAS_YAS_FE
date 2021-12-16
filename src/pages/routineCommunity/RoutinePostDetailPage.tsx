@@ -41,8 +41,8 @@ const RoutinePostDetailPage = (): JSX.Element => {
     <Container navBar>
       <RoutineInfoHeader>
         <AuthorInfoWrapper>
-          <StyledAvatar src={userDummy.profileImageUrl} />
-          <AuthorNameText>{userDummy.nickName}</AuthorNameText>
+          <StyledAvatar src={userDummy.profileImage} />
+          <AuthorNameText>{userDummy.nickname}</AuthorNameText>
         </AuthorInfoWrapper>
         <LikeBox interactive />
       </RoutineInfoHeader>
@@ -52,7 +52,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
       />
       <RoutineInfoFooter>
         <CategoryWrapper>
-          {routineDummy.routineCategories.map((category: string) => (
+          {routineDummy.routineCategory.map((category: string) => (
             <RoutineCategory key={category}>
               {ROUTINE_CATEGORY[category]}
             </RoutineCategory>

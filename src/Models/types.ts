@@ -1,8 +1,8 @@
 export interface UserType {
   userId: number;
-  userName: string;
-  nickName: string;
-  profileImageUrl: string;
+  name: string;
+  nickname: string;
+  profileImage: string;
   email: string;
 }
 
@@ -18,13 +18,13 @@ export interface UserType {
 
 export interface RoutineType {
   routineId: number;
-  title: string;
+  name: string;
   emoji: string;
   color: string;
   startGoalTime: string;
   durationGoalTime: number;
   weeks: string[];
-  routineCategories: string[];
+  routineCategory: string[];
   missions: MissionType[];
   // routineCompletions: RoutineCompletionType[];
 }
