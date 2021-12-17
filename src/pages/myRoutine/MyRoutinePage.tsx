@@ -1,7 +1,7 @@
 import { routineApi } from '@/apis';
 import { Container, Routine, RoutineAddButton, TabBar } from '@/components';
 import { RoutineType } from '@/Models';
-import { Media } from '@/styles';
+import { Colors, FontSize, Media } from '@/styles';
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
@@ -14,6 +14,7 @@ const MyRoutinePage = (): JSX.Element => {
     notFinish: [],
   });
   const history = useHistory();
+  const token = sessionStorage.getItem('YAS_USER_TOKEN');
 
   const getMyRoutines = async () => {
     const routines = await routineApi.getRoutines();
@@ -73,64 +74,108 @@ const MyRoutinePage = (): JSX.Element => {
     <Container navBar>
       <TabBar type="myRoutine">
         <TabBar.Item title="전체" index="0">
-          <RoutineGridBox>
-            {routines.all &&
-              routines.all?.map((routine) => (
-                <Routine
-                  onClick={(e) => onClickRoutine(e, routine['routineId'])}
-                  key={routine['routineId']}
-                  routineObject={routine}
-                  type="myRoutine"
-                  completed={false}
-                  deleteRoutine={() => {
-                    deleteRoutine(routine);
-                  }}
-                  updateRoutine={() => {
-                    onClickUpdateRoutine(routine['routineId']);
-                  }}
-                />
-              ))}
-          </RoutineGridBox>
+          {token ? (
+            routines.all.length !== 0 ? (
+              <RoutineGridBox>
+                {routines.all?.map((routine) => (
+                  <Routine
+                    onClick={(e) => onClickRoutine(e, routine['routineId'])}
+                    key={routine['routineId']}
+                    routineObject={routine}
+                    type="myRoutine"
+                    completed={false}
+                    deleteRoutine={() => {
+                      deleteRoutine(routine);
+                    }}
+                    updateRoutine={() => {
+                      onClickUpdateRoutine(routine['routineId']);
+                    }}
+                  />
+                ))}
+              </RoutineGridBox>
+            ) : (
+              <MessageContainer>
+                <p>🥲</p>
+                <p>루틴이 없습니다</p>
+                <p>루틴을 생성해주세요!</p>
+              </MessageContainer>
+            )
+          ) : (
+            <MessageContainer>
+              <p>🥲</p>
+              <p>로그인이 필요한 서비스입니다!</p>
+            </MessageContainer>
+          )}
         </TabBar.Item>
         <TabBar.Item title="오늘의 루틴" index="1">
-          <RoutineGridBox>
-            {routines.notFinish &&
-              routines.notFinish?.map((routine) => (
-                <Routine
-                  onClick={(e) => onClickRoutine(e, routine['routineId'])}
-                  key={routine['routineId']}
-                  routineObject={routine}
-                  type="myRoutine"
-                  completed={false}
-                  deleteRoutine={() => {
-                    deleteRoutine(routine);
-                  }}
-                  updateRoutine={() => {
-                    onClickUpdateRoutine(routine['routineId']);
-                  }}
-                />
-              ))}
-          </RoutineGridBox>
+          {token ? (
+            routines.notFinish.length !== 0 ? (
+              <RoutineGridBox>
+                {routines.notFinish &&
+                  routines.notFinish?.map((routine) => (
+                    <Routine
+                      onClick={(e) => onClickRoutine(e, routine['routineId'])}
+                      key={routine['routineId']}
+                      routineObject={routine}
+                      type="myRoutine"
+                      completed={false}
+                      deleteRoutine={() => {
+                        deleteRoutine(routine);
+                      }}
+                      updateRoutine={() => {
+                        onClickUpdateRoutine(routine['routineId']);
+                      }}
+                    />
+                  ))}
+              </RoutineGridBox>
+            ) : (
+              <MessageContainer>
+                <p>🥲</p>
+                <p>루틴이 없습니다</p>
+                <p>루틴을 생성해주세요!</p>
+              </MessageContainer>
+            )
+          ) : (
+            <MessageContainer>
+              <p>🥲</p>
+              <p>로그인이 필요한 서비스입니다!</p>
+            </MessageContainer>
+          )}
         </TabBar.Item>
         <TabBar.Item title="완료한 루틴" index="2">
-          <RoutineGridBox>
-            {routines.finish &&
-              routines.finish?.map((routine) => (
-                <Routine
-                  onClick={(e) => onClickRoutine(e, routine['routineId'])}
-                  key={routine['routineId']}
-                  routineObject={routine}
-                  type="myRoutine"
-                  completed={true}
-                  deleteRoutine={() => {
-                    deleteRoutine(routine);
-                  }}
-                  updateRoutine={() => {
-                    onClickUpdateRoutine(routine['routineId']);
-                  }}
-                />
-              ))}
-          </RoutineGridBox>
+          {token ? (
+            routines.finish.length !== 0 ? (
+              <RoutineGridBox>
+                {routines.finish &&
+                  routines.finish?.map((routine) => (
+                    <Routine
+                      onClick={(e) => onClickRoutine(e, routine['routineId'])}
+                      key={routine['routineId']}
+                      routineObject={routine}
+                      type="myRoutine"
+                      completed={true}
+                      deleteRoutine={() => {
+                        deleteRoutine(routine);
+                      }}
+                      updateRoutine={() => {
+                        onClickUpdateRoutine(routine['routineId']);
+                      }}
+                    />
+                  ))}
+              </RoutineGridBox>
+            ) : (
+              <MessageContainer>
+                <p>🥲</p>
+                <p>루틴이 없습니다</p>
+                <p>루틴을 생성해주세요!</p>
+              </MessageContainer>
+            )
+          ) : (
+            <MessageContainer>
+              <p>🥲</p>
+              <p>로그인이 필요한 서비스입니다!</p>
+            </MessageContainer>
+          )}
         </TabBar.Item>
       </TabBar>
       <StyledRoutineAddButton />
@@ -167,5 +212,27 @@ const StyledRoutineAddButton = styled(RoutineAddButton)`
   @media ${Media.sm} {
     right: calc(50% - 140px);
     bottom: 62px;
+  }
+`;
+
+const MessageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+  height: 500px;
+  > p {
+    margin: 1rem 0;
+    color: ${Colors.textTertiary};
+  }
+  @media ${Media.sm} {
+    font-size: ${FontSize.medium};
+  }
+  @media ${Media.md} {
+    font-size: 2rem;
+  }
+  @media ${Media.lg} {
+    font-size: 2rem;
   }
 `;
