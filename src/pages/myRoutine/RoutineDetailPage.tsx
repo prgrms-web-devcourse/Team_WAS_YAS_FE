@@ -33,15 +33,40 @@ const RoutineDetailPage = (): JSX.Element => {
   const [routine, setRoutine] = useState<Partial<RoutineDetail>>({});
   const [missions, setMissions] = useState<any>([]);
 
+  const updateMission = useCallback(async () => {
+    const updatedMission: any = {
+      missionOrders: missions.map(
+        (mission: { missionId: number }, i: number) => {
+          return { missionId: mission.missionId, orders: i };
+        },
+      ),
+    };
+
+    try {
+      await missionApi.updateMission(routineId, updatedMission);
+    } catch (e) {
+      console.log(e);
+    }
+  }, [missions, routineId]);
+
   const getRoutineDetail = async () => {
     try {
       const result = await routineApi.getRoutine(routineId);
-      setRoutine(result.data.data);
-      setMissions([
-        ...result.data.data.missionDetailResponses.sort(
-          (a: { orders: number }, b: { orders: number }) => a.orders - b.orders,
-        ),
-      ]);
+      const routineInfo = result.data.data;
+      const missionInfo = result.data.data.missionDetailResponses.sort(
+        (a: { orders: number }, b: { orders: number }) => a.orders - b.orders,
+      );
+
+      setRoutine(routineInfo);
+
+      for (let i = 0; i < missionInfo.length; i++) {
+        if (missionInfo[i].orders !== i) {
+          await updateMission();
+          break;
+        }
+      }
+
+      setMissions([...missionInfo]);
     } catch (e) {
       console.log(e);
     }
@@ -101,22 +126,6 @@ const RoutineDetailPage = (): JSX.Element => {
     },
     [missions],
   );
-
-  const updateMission = useCallback(async () => {
-    const updatedMission: any = {
-      missionOrders: missions.map(
-        (mission: MissionCompletionType, i: number) => {
-          return { missionId: mission.missionId, orders: i };
-        },
-      ),
-    };
-
-    try {
-      await missionApi.updateMission(routineId, updatedMission);
-    } catch (e) {
-      console.log(e);
-    }
-  }, [missions, routineId]);
 
   return (
     <DndProvider backend={HTML5Backend}>
