@@ -20,14 +20,13 @@ const UserPage = (): JSX.Element => {
   const handleClickLogoutButton = () => {
     sessionStorage.removeItem('YAS_USER_TOKEN');
     dispatch(userStore.actions.deleteUser());
+    history.push('/');
     Swal.fire({
       icon: 'success',
       title: '👋🏻',
       text: '로그아웃 되었습니다.',
       showConfirmButton: false,
       timer: 1500,
-    }).then(() => {
-      history.push('/');
     });
   };
 
