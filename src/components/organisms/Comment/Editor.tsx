@@ -76,17 +76,17 @@ const ButtonWrapper = styled.div`
 const ConfirmButton = styled.button`
   width: 100px;
   height: 100%;
-  background-color: ${Colors.functionConfirm};
+  background-color: ${Colors.point};
   border: none;
-  border-radius: 0.5rem 0.5rem 0 0;
+  border-radius: 0 0.5rem 0 0;
   color: ${Colors.textQuaternary};
-  font-weight: ${FontWeight.bold};
+  font-weight: ${FontWeight.medium};
 
   color: ${Colors.textQuaternary};
   cursor: pointer;
 
   &:active {
-    background-color: ${Colors.functionConfirm};
+    background-color: ${Colors.pointLight};
   }
   @media ${Media.sm} {
     font-size: ${FontSize.small};
@@ -102,15 +102,15 @@ const ConfirmButton = styled.button`
 const CancelButton = styled.button`
   width: 100px;
   height: 100%;
-  background-color: ${Colors.functionNegative};
+  background-color: ${Colors.backgroundMenu};
   border: none;
-  border-radius: 0 0 0.5rem 0.5rem;
-  color: ${Colors.textQuaternary};
-  font-weight: ${FontWeight.bold};
+  border-radius: 0 0 0.5rem 0;
+  color: ${Colors.textSecondary};
+  font-weight: ${FontWeight.medium};
   cursor: pointer;
 
   &:active {
-    background-color: ${Colors.functionNegative};
+    background-color: ${Colors.backgroundButton};
   }
   @media ${Media.sm} {
     font-size: ${FontSize.small};

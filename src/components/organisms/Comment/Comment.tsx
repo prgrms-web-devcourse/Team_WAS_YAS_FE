@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled/';
-import { EditBox, LikeBox } from '@/components';
+import { EditBox, LikeBox, SpreadToggle } from '@/components';
 import { Colors, Media, FontSize } from '@/styles';
 import { IconButton, Avatar } from '@mui/material';
 import MoreVert from '@mui/icons-material/MoreVert';
 import Editor from './Editor';
 import { UserType, CommentType } from '@/Models';
+import moment from 'moment';
+import { css } from '@emotion/react';
 
 export interface CommentProps extends React.ComponentProps<'div'> {
   user: UserType;
@@ -19,22 +21,32 @@ export interface CommentProps extends React.ComponentProps<'div'> {
 const Comment = ({
   user,
   comment,
-  editable: initEditable,
+  editable,
   onEditComment,
   onDeleteComment,
   onClickLike,
   ...props
 }: CommentProps): JSX.Element => {
-  const [visible, setVisible] = useState<boolean>(false);
-  const [editable, setEditable] = useState<boolean>(false);
+  const ref = useRef<HTMLTextAreaElement>(null);
   const [text, setText] = useState<string>(comment.text);
+  const [editBoxVisible, setEditBoxVisible] = useState<boolean>(false);
+  const [editMode, setEditMode] = useState<boolean>(false);
+  const [openable, setOpenable] = useState<boolean>(false);
+  const [opened, setOpened] = useState<boolean>(false);
+  // TODO: useRef로 변경하기
+  const scrollHeight = ref.current?.scrollHeight;
+
+  useEffect(() => {
+    if (!ref.current?.scrollHeight) return;
+    setOpenable(ref.current?.scrollHeight > 48);
+  }, [setOpenable]);
 
   const handleClickMoreIconButton = () => {
-    setVisible(true);
+    setEditBoxVisible(true);
   };
 
   const handleCloseDeleteBox = () => {
-    setVisible(false);
+    setEditBoxVisible(false);
   };
 
   const handleClickDeleteButton = () => {
@@ -42,7 +54,8 @@ const Comment = ({
   };
 
   const handleClickUpdateButton = () => {
-    setEditable(true);
+    setEditMode(true);
+    setOpened(false);
   };
 
   const handleClickLikeButton = (likCount: number) => {
@@ -51,8 +64,13 @@ const Comment = ({
 
   const handleSubmit = (newText: string) => {
     setText(newText);
-    setEditable(false);
+    setEditMode(false);
     onEditComment && onEditComment(comment.commentId, newText);
+  };
+
+  const handleClickSpreadToggle = () => {
+    setOpened((opened) => !opened);
+    console.log(scrollHeight);
   };
 
   return (
@@ -64,7 +82,9 @@ const Comment = ({
           />
           <UserInfoTextWrapper>
             <UserNameText>{user.nickname}</UserNameText>
-            <DateText>{comment.updatedAt}</DateText>
+            <DateText>
+              {moment(comment.updatedAt).format('YYYY-MM-DD hh:mm')}
+            </DateText>
           </UserInfoTextWrapper>
         </UserInfoContainer>
         <ToolWrapper>
@@ -73,27 +93,43 @@ const Comment = ({
             count={comment.likes.length}
             onClick={handleClickLikeButton}
           />
-          {initEditable && (
-            <IconButton onClick={handleClickMoreIconButton}>
+          {editable && (
+            <IconButton
+              style={{ padding: 0 }}
+              onClick={handleClickMoreIconButton}
+            >
               <MoreVert />
             </IconButton>
           )}
         </ToolWrapper>
       </Header>
-      {initEditable && editable ? (
+      {editable && editMode ? (
         <Editor
           initText={text}
           onSubmit={handleSubmit}
           onClose={() => {
-            setEditable(false);
+            setEditMode(false);
           }}
         />
       ) : (
-        <TextArea disabled id="text" name="text" value={text} />
+        <TextArea
+          opened={opened}
+          height={scrollHeight}
+          ref={ref}
+          disabled
+          id="text"
+          name="text"
+          value={text}
+        />
       )}
-      {visible && (
+      {openable && !editMode && (
+        <SpreadToggleWrapper>
+          <SpreadToggle onClick={handleClickSpreadToggle} />
+        </SpreadToggleWrapper>
+      )}
+      {editable && (
         <StyledEditBox
-          visible={true}
+          visible={editBoxVisible}
           onClose={handleCloseDeleteBox}
           onClickDeleteButton={handleClickDeleteButton}
           onClickUpdateButton={handleClickUpdateButton}
@@ -121,11 +157,24 @@ const StyledAvatar = styled(Avatar)`
   margin-right: 1rem;
 `;
 
-const TextArea = styled.textarea`
+const TextArea = styled.textarea<
+  React.ComponentProps<'textarea'> & {
+    opened: boolean;
+    height: number | undefined;
+  }
+>`
   width: 100%;
-  height: auto;
-  overflow: visible;
-  padding: ${({ disabled }) => (disabled ? '1rem' : '0.5rem')};
+  height: ${({ opened, height }) => (opened ? `${height}px` : '3rem')};
+  overflow-y: hidden;
+  text-overflow: ellipsis;
+  ${({ disabled }) =>
+    disabled
+      ? css`
+          padding-top: 1rem;
+        `
+      : css`
+          padding: 0.5rem;
+        `}
   border: none;
   border-radius: 8px 0 0 8px;
   outline: none;
@@ -167,6 +216,12 @@ const DateText = styled.p`
 `;
 
 const ToolWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+`;
+
+const SpreadToggleWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;

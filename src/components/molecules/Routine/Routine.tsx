@@ -48,7 +48,10 @@ const Routine = ({
   };
 
   const convertWeeks = (weeks: string[] | undefined) => {
-    const convertedWeeks = weeks?.map((week) => WEEK[week]);
+    const convertedWeeks = weeks
+      ?.map((week) => Object.keys(WEEK).indexOf(week))
+      .sort((a, b) => a - b)
+      .map((week) => Object.values(WEEK)[week]);
     const weekString = convertedWeeks?.join('');
 
     switch (weekString) {
