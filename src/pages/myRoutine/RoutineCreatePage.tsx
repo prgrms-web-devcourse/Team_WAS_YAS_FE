@@ -15,7 +15,7 @@ import styled from '@emotion/styled';
 import moment from 'moment';
 import { RoutineType } from '@/Models';
 import Swal from 'sweetalert2';
-import { ROUTINE_CATEGORY } from '@/constants';
+import { ROUTINE_CATEGORY, WEEK } from '@/constants';
 import { useHistory } from 'react-router-dom';
 import { routineApi } from '@/apis';
 
@@ -32,8 +32,9 @@ const RoutineCreatePage = (): JSX.Element => {
     routineCategory: [],
     weeks: [],
   });
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    const defaultWeeks = Object.keys(WEEK);
+    console.log(routine);
     e.preventDefault();
     const { name, routineCategory } = routine;
     if (!name) {
@@ -48,7 +49,10 @@ const RoutineCreatePage = (): JSX.Element => {
       });
     } else {
       try {
-        await routineApi.createRoutine(routine);
+        await routineApi.createRoutine({
+          ...routine,
+          weeks: routine.weeks.length !== 0 ? routine.weeks : defaultWeeks,
+        });
         Swal.fire({
           icon: 'success',
           title: '루틴 생성이 완료되었습니다!🎉',
@@ -96,6 +100,7 @@ const RoutineCreatePage = (): JSX.Element => {
   };
 
   const handleWeekChange = (selectedDays: string[]) => {
+    console.log(selectedDays);
     setRoutine((routine) => ({
       ...routine,
       weeks: [...selectedDays],
@@ -118,7 +123,7 @@ const RoutineCreatePage = (): JSX.Element => {
     });
   };
   return (
-    <Container style={{ paddingTop: '56px' }}>
+    <Container style={{ paddingTop: '60px' }}>
       <Routine routineObject={routine} type="create" />
       <Form onSubmit={handleSubmit}>
         <Label htmlFor="emoji">이모지</Label>
@@ -183,7 +188,7 @@ const Form = styled.form`
 const Label = styled.label`
   display: inline-block;
   margin: 3rem 0 1.5rem 0;
-  font-size: ${FontSize.base};
+  font-size: ${FontSize.medium};
   color: ${Colors.textSecondary};
 `;
 
@@ -213,7 +218,7 @@ const StyledStartTimePicker = styled.div`
 `;
 
 const Span = styled.span`
-  margin-top: 0.8rem;
+  margin-top: 1rem;
   color: ${Colors.functionNegative};
 `;
 const StyledRoutineCategory = styled.div`

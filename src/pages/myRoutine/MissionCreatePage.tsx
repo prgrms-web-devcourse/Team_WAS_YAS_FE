@@ -112,7 +112,7 @@ const MissionCreatePage = (): JSX.Element => {
       <Mission
         type="create"
         missionObject={mission}
-        style={{ marginTop: '6rem' }}
+        style={{ marginTop: '6.5rem', width: '90%' }}
       />
       <Form onSubmit={handleSubmit}>
         <Label htmlFor="emoji">이모지</Label>
@@ -155,14 +155,14 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 100%;
+  width: 90%;
   margin-top: 3rem;
 `;
 
 const Label = styled.label`
   display: inline-block;
-  margin: 3rem 0 1rem 0;
-  font-size: ${FontSize.base};
+  margin: 3.5rem 0 1rem 0;
+  font-size: ${FontSize.medium};
   color: ${Colors.textSecondary};
 `;
 
@@ -185,7 +185,7 @@ const ButtonContainer = styled.div`
 `;
 
 const Span = styled.span`
-  margin-top: 0.5rem;
+  margin-top: 1rem;
   color: ${Colors.functionNegative};
 `;
 

@@ -1,7 +1,7 @@
 import { routineApi } from '@/apis';
 import { Container, Routine, RoutineAddButton, TabBar } from '@/components';
 import { RoutineType } from '@/Models';
-import { Media } from '@/styles';
+import { Colors, Media } from '@/styles';
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
@@ -33,23 +33,39 @@ const MyRoutinePage = (): JSX.Element => {
 
   const deleteRoutine = async (routine: RoutineType) => {
     const { routineId, name } = routine;
+    Swal.fire({
+      title: `${name}`,
+      text: '루틴을 삭제하겠습니까?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: `${Colors.functionPositive}`,
+      cancelButtonColor: `${Colors.functionNegative}`,
+      confirmButtonText: '네',
+      cancelButtonText: '아니오',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await routineApi.deleteRoutine(routineId);
 
-    try {
-      await routineApi.deleteRoutine(routineId);
+          Swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: `${name}`,
+            text: '루틴이 삭제되었습니다.',
+            showConfirmButton: false,
+            timer: 1200,
+          });
 
-      Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: `${name}`,
-        text: '루틴이 삭제되었습니다.',
-        showConfirmButton: false,
-        timer: 1500,
-      });
-
-      await getMyRoutines();
-    } catch (e) {
-      console.error(e);
-    }
+          await getMyRoutines();
+        } catch (e) {
+          Swal.fire({
+            icon: 'error',
+            title: '이런',
+            text: '미션이 삭제되지 않았어요!',
+          });
+        }
+      }
+    });
   };
 
   const onClickUpdateRoutine = (routineId: number) => {

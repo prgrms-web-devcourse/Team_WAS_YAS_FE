@@ -122,7 +122,7 @@ const Routine = ({
       <Title>{name ? name : '\u00A0'}</Title>
       <TotalTime>{durationTime ? durationTime : '\u00A0'}</TotalTime>
       <Weeks>
-        {type === 'myRoutine' ? `${convertWeeks(weeks)}` : '\u00A0'}
+        {type === 'myRoutine' || 'create' ? `${convertWeeks(weeks)}` : '\u00A0'}
       </Weeks>
       <StartTime>{startTime ? startTime : '\u00A0'}</StartTime>
     </RoutineContainer>

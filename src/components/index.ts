@@ -39,6 +39,7 @@ export type { DaySelectorProps } from './molecules/DaySelector';
 export { ColorPalette } from './molecules/ColorPalette';
 export type { ColorPaletteProps } from './molecules/ColorPalette';
 export { Mission } from './molecules/Mission';
+export { DraggableMission } from './molecules/Mission';
 export type { MissionProps } from './molecules/Mission';
 export { RoutineInfo } from './molecules/RoutineInfo';
 export type { RoutineInfoProps } from './molecules/RoutineInfo';
