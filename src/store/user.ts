@@ -1,9 +1,6 @@
 import { UserType } from '@/Models';
-// TODO: PayloadAction이 임포트 되지 않아서 임시로 pkg로 임포트
-/* eslint-disable */
-import pkg from '@reduxjs/toolkit';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-/* eslint-disable */
+// eslint-disable-next-line
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { userApi } from '@/apis';
 export interface UserStateType {
   loading: boolean;
@@ -28,7 +25,7 @@ export const user = createSlice({
     },
     [fetchUser.fulfilled.type]: (
       state: UserStateType,
-      action: pkg.PayloadAction<UserType>,
+      action: PayloadAction<UserType>,
     ) => {
       state.loading = false;
       state.data = action.payload;
@@ -36,7 +33,7 @@ export const user = createSlice({
     },
     [fetchUser.rejected.type]: (
       state: UserStateType,
-      action: pkg.PayloadAction<UserType>,
+      action: PayloadAction<UserType>,
     ) => {
       state.loading = false;
       state.data = null;
