@@ -34,7 +34,6 @@ const RoutineCreatePage = (): JSX.Element => {
   });
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     const defaultWeeks = Object.keys(WEEK);
-    console.log(routine);
     e.preventDefault();
     const { name, routineCategory } = routine;
     if (!name) {
