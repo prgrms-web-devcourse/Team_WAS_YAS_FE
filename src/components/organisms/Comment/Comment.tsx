@@ -68,7 +68,6 @@ const Comment = ({
 
   const handleClickSpreadToggle = () => {
     setOpened((opened) => !opened);
-    console.log(scrollHeight);
   };
 
   return (

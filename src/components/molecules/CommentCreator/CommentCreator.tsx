@@ -13,31 +13,44 @@ const CommentCreator = ({
   onSubmit,
   ...props
 }: CommentCreatorProps): JSX.Element => {
-  const [comment, setComment] = useState<string>('');
+  const [content, setContent] = useState<string>('');
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
-    setComment(e.target.value);
+    setContent(e.target.value);
     onChange && onChange(e);
   };
 
-  const handleSubmit = (
-    e: React.FormEvent<HTMLFormElement> & { target: HTMLFormElement },
-  ): void => {
-    e.preventDefault();
-    onSubmit && onSubmit(comment);
-    setComment('');
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLTextAreaElement>): void => {
+    if (e.key === 'Enter' && e.shiftKey) return;
+    if (e.key === 'Enter') {
+      submitContent(content);
+      setContent('');
+    }
+  };
+
+  const handleClickSubmitButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+    submitContent(content);
+  };
+
+  const submitContent = (content: string) => {
+    const newContent = content.trim();
+    if (newContent === '') return;
+    onSubmit && onSubmit(newContent);
   };
 
   return (
-    <Form onSubmit={handleSubmit} {...props}>
+    <Form {...props}>
       <TextArea
-        id="comment"
-        name="comment"
+        id="content"
+        name="content"
         placeholder="댓글을 입력하세요."
         onChange={handleChange}
-        value={comment}
+        onKeyUp={handleKeyUp}
+        value={content}
       />
-      <Button type="submit">댓글 쓰기</Button>
+      <Button type="button" onClick={handleClickSubmitButton}>
+        댓글 쓰기
+      </Button>
     </Form>
   );
 };

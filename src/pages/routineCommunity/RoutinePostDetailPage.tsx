@@ -33,7 +33,6 @@ const RoutinePostDetailPage = (): JSX.Element => {
       setLoading(true);
       try {
         const response = await postApi.getPost(parseInt(postId));
-        console.log(response.data);
         setPostData(response.data);
       } catch (error: any) {
         Swal.fire({
@@ -55,6 +54,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
   const handleSubmitComment = async (content: string) => {
     if (!postData?.postId) return;
     await commentApi.createComment(postData.postId, content);
+    // TODO: 새로고침 방식 좀 더 깔끔한 방식이 있는지 찾아보고 변경하기
     window.location.replace(`/community/${postData.postId}`);
   };
 
