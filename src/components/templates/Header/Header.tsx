@@ -3,10 +3,13 @@ import { useRouteMatch, useHistory } from 'react-router-dom';
 import { IconButton, IconButtonProps } from '@/components';
 import { Avatar } from '@mui/material';
 import { Media, Colors } from '@/styles';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
 
 export type HeaderProps = React.ComponentProps<'header'>;
 
 const Header = ({ ...props }: HeaderProps): JSX.Element => {
+  const { data: user } = useSelector((state: RootState) => state.user);
   const [match, history] = [useRouteMatch(), useHistory()];
   const params = parseParams(match.url);
 
@@ -15,6 +18,7 @@ const Header = ({ ...props }: HeaderProps): JSX.Element => {
       <ContentContainer>
         <BackButton visible={params.length > 1 && history.length > 1} />
         <StyledAvatar
+          src={user?.profileImage}
           on={params[0] === 'mypage' ? 1 : 0}
           onClick={() => {
             history.push('/mypage');
@@ -65,6 +69,7 @@ const BackButton = styled(IconButton.Back)<
 
 const StyledAvatar = styled(Avatar)<{ on: number }>`
   background-color: ${({ on }) => (on ? Colors.point : Colors.pointLight)};
+  border: ${({ on }) => (on ? `3px solid ${Colors.point}` : null)};
   cursor: pointer;
 
   @media (hover: hover) {
