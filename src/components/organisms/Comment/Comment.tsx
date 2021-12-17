@@ -5,12 +5,11 @@ import { Colors, Media, FontSize } from '@/styles';
 import { IconButton, Avatar } from '@mui/material';
 import MoreVert from '@mui/icons-material/MoreVert';
 import Editor from './Editor';
-import { UserType, CommentType } from '@/Models';
+import { CommentType } from '@/Models';
 import moment from 'moment';
 import { css } from '@emotion/react';
 
 export interface CommentProps extends React.ComponentProps<'div'> {
-  user: UserType;
   comment: CommentType;
   editable?: boolean;
   onEditComment?: (commentId: number, editedText: string) => void;
@@ -19,7 +18,6 @@ export interface CommentProps extends React.ComponentProps<'div'> {
 }
 
 const Comment = ({
-  user,
   comment,
   editable,
   onEditComment,
@@ -78,10 +76,12 @@ const Comment = ({
       <Header>
         <UserInfoContainer>
           <StyledAvatar
-            src={user.profileImage ? user.profileImage : undefined}
+            src={
+              comment.user.profileImage ? comment.user.profileImage : undefined
+            }
           />
           <UserInfoTextWrapper>
-            <UserNameText>{user.nickname}</UserNameText>
+            <UserNameText>{comment.user.nickname}</UserNameText>
             <DateText>
               {moment(comment.updatedAt).format('YYYY-MM-DD hh:mm')}
             </DateText>

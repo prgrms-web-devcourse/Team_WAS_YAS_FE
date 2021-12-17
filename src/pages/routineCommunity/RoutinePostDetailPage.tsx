@@ -6,10 +6,10 @@ import {
   Mission,
   Comment,
   CommentCreator,
+  Spinner,
 } from '@/components';
 import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { routineDummy, missionDummy } from '@/Models';
 import { Avatar } from '@mui/material';
 import GetAppRoundedIcon from '@mui/icons-material/GetAppRounded';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
@@ -18,28 +18,19 @@ import { ROUTINE_CATEGORY } from '@/constants';
 import { Colors, Media, FontSize } from '@/styles';
 import { useHistory, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { postApi } from '@/apis';
+import { postApi, commentApi } from '@/apis';
 import { RoutinePostType } from '@/Models';
-
-const missionsDummy = [
-  { ...missionDummy, missionId: 1 },
-  { ...missionDummy, missionId: 2 },
-  { ...missionDummy, missionId: 3 },
-  { ...missionDummy, missionId: 4 },
-  { ...missionDummy, missionId: 5 },
-  { ...missionDummy, missionId: 6 },
-  { ...missionDummy, missionId: 7 },
-  { ...missionDummy, missionId: 8 },
-];
 
 const RoutinePostDetailPage = (): JSX.Element => {
   const history = useHistory();
   const { id: postId } = useParams<{ id: string }>();
   const [missionOpened, setMissionOpened] = useState<boolean>(false);
   const [postData, setPostData] = useState<RoutinePostType>();
+  const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
     const getPost = async () => {
+      setLoading(true);
       try {
         const response = await postApi.getPost(parseInt(postId));
         console.log(response.data);
@@ -52,12 +43,19 @@ const RoutinePostDetailPage = (): JSX.Element => {
           confirmButtonColor: Colors.point,
         });
       }
+      setLoading(false);
     };
     getPost();
-  }, []);
+  }, [postId]);
 
   const handleClickMissionOpened = () => {
     setMissionOpened((missionOpened) => !missionOpened);
+  };
+
+  const handleSubmitComment = async (content: string) => {
+    if (!postData?.postId) return;
+    await commentApi.createComment(postData.postId, content);
+    window.location.replace(`/community/${postData.postId}`);
   };
 
   return (
@@ -70,7 +68,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
         <LikeBox interactive />
       </RoutineInfoHeader>
       <RoutineInfo
-        createdAt={routineDummy.startGoalTime}
+        createdAt={postData && postData.createdAt}
         routineObject={{
           emoji: postData && postData.routine.emoji,
           name: postData && postData.routine.name,
@@ -110,7 +108,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
               <Mission
                 key={mission.missionId}
                 type="create"
-                missionObject={missionDummy}
+                missionObject={mission}
               />
             ))}
       </MissionContainer>
@@ -125,20 +123,14 @@ const RoutinePostDetailPage = (): JSX.Element => {
           펼치기
         </SpreadButton>
       )}
-      <StyledCommentCreator />
+      <StyledCommentCreator onSubmit={handleSubmitComment} />
       <CommentContainer>
         {postData &&
           postData.comments.map((comment: any) => (
-            <Comment
-              key={comment.id}
-              user={comment.user.nickname}
-              comment={comment}
-            />
+            <Comment key={comment.commentId} comment={comment} />
           ))}
-        {/* <Comment editable user={userDummy} comment={commentDummy} />
-        <Comment user={userDummy} comment={commentDummy} />
-        <Comment user={userDummy} comment={commentDummy} /> */}
       </CommentContainer>
+      {loading && <Spinner />}
     </Container>
   );
 };
@@ -187,7 +179,6 @@ const CategoryWrapper = styled.div`
   display: flex;
   justify-content: flex-start;
   gap: 0.5rem;
-  /* width: 100%; */
 `;
 
 const BringRoutineButton = styled.button`
