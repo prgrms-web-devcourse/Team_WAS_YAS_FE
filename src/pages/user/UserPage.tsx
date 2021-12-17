@@ -4,8 +4,7 @@ import { Container, Button, Spinner } from '@/components';
 import { useHistory } from 'react-router-dom';
 import { Avatar } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '@/store';
-import { fetchUser } from '@/store/user';
+import { RootState, fetchUser } from '@/store';
 import { useEffect } from 'react';
 import Swal from 'sweetalert2';
 

@@ -7,7 +7,7 @@ import { Container, Input, Button, Spinner } from '@/components';
 import { userApi } from '@/apis';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { fetchUser } from '@/store/user';
+import { fetchUser } from '@/store';
 
 const initialValues = {
   email: '',
