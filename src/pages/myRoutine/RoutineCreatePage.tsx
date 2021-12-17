@@ -34,7 +34,6 @@ const RoutineCreatePage = (): JSX.Element => {
   });
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     const defaultWeeks = Object.keys(WEEK);
-    console.log(routine);
     e.preventDefault();
     const { name, routineCategory } = routine;
     if (!name) {
@@ -123,7 +122,7 @@ const RoutineCreatePage = (): JSX.Element => {
     });
   };
   return (
-    <Container style={{ paddingTop: '60px' }}>
+    <Container style={{ paddingTop: '100px' }}>
       <Routine routineObject={routine} type="create" />
       <Form onSubmit={handleSubmit}>
         <Label htmlFor="emoji">이모지</Label>
