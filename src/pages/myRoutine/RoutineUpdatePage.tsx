@@ -1,33 +1,64 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useState, useCallback } from 'react';
 import { Container, DaySelector, Routine, Button } from '@/components';
 import { Colors, FontSize, Media } from '@/styles';
 import styled from '@emotion/styled';
 import { RoutineType } from '@/Models';
 import Swal from 'sweetalert2';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import { routineApi } from '@/apis';
 
 const RoutineUpdatePage = (): JSX.Element => {
-  const [selectedRoutine, setSelectedRoutine] = useState<Partial<RoutineType>>({
-    routineId: 1,
-    emoji: '🍿',
-    color: Colors.red,
-    name: '밥먹기',
-    durationGoalTime: 1000,
-    startGoalTime: new Date().toISOString(),
-    routineCategory: ['FOOD'],
-    weeks: ['MON', 'WED', 'FRI'],
-    missions: [],
-  });
   const history = useHistory();
+  const { id } = useParams<Record<string, string>>();
+  const [selectedRoutine, setSelectedRoutine] = useState<
+    Omit<RoutineType, 'missions'>
+  >({
+    routineId: 0,
+    emoji: '',
+    color: '',
+    name: '밥먹기',
+    durationGoalTime: 0,
+    startGoalTime: '',
+    routineCategory: [],
+    weeks: [],
+  });
+  const initialRoutine = useCallback(async () => {
+    try {
+      const response = await routineApi.getRoutine(parseInt(id));
+      const routineData = response.data.data;
+      setSelectedRoutine(routineData);
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: '오류로 인해 <p>루틴을 불러올 수 없습니다',
+        confirmButtonColor: Colors.point,
+      });
+    }
+  }, [id]);
+
+  useEffect(() => {
+    initialRoutine();
+  }, [initialRoutine]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    Swal.fire({
-      icon: 'success',
-      title: '루틴 수정이 완료되었습니다!🎉',
-    }).then(() => {
-      history.push('/');
-    });
+    try {
+      await routineApi.updateRoutine(parseInt(id), {
+        weeks: selectedRoutine.weeks,
+      });
+      Swal.fire({
+        icon: 'success',
+        title: '루틴 수정이 완료되었습니다!🎉',
+      }).then(() => {
+        history.push('/');
+      });
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: '오류로 인해 <p>루틴 수정에 실패했습니다',
+        confirmButtonColor: Colors.point,
+      });
+    }
   };
 
   const handleWeekChange = (selectedDays: string[]) => {
