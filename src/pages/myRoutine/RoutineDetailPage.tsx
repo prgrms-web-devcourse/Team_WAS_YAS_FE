@@ -52,6 +52,7 @@ const RoutineDetailPage = (): JSX.Element => {
   const getRoutineDetail = async () => {
     try {
       const result = await routineApi.getRoutine(routineId);
+      console.log(result);
       const routineInfo = result.data.data;
       const missionInfo = result.data.data.missionDetailResponses.sort(
         (a: { orders: number }, b: { orders: number }) => a.orders - b.orders,
