@@ -16,7 +16,21 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async () => {
 export const user = createSlice({
   name: 'user',
   initialState: { loading: false, data: null, error: false } as UserStateType,
-  reducers: {},
+  reducers: {
+    deleteUser: {
+      reducer: (
+        state: UserStateType,
+        action: PayloadAction<UserType | null>,
+      ) => {
+        state.loading = false;
+        state.data = action.payload;
+        state.error = false;
+      },
+      prepare: () => ({
+        payload: null,
+      }),
+    },
+  },
   extraReducers: {
     [fetchUser.pending.type]: (state: UserStateType) => {
       state.loading = true;
