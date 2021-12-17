@@ -7,19 +7,20 @@ import {
   Comment,
   CommentCreator,
   Spinner,
+  SpreadToggle,
 } from '@/components';
 import { useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Avatar } from '@mui/material';
 import GetAppRoundedIcon from '@mui/icons-material/GetAppRounded';
-import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
-import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 import { ROUTINE_CATEGORY } from '@/constants';
 import { Colors, Media, FontSize } from '@/styles';
 import { useHistory, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { postApi, commentApi } from '@/apis';
 import { RoutinePostType } from '@/Models';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
 
 const RoutinePostDetailPage = (): JSX.Element => {
   const history = useHistory();
@@ -27,6 +28,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
   const [missionOpened, setMissionOpened] = useState<boolean>(false);
   const [postData, setPostData] = useState<RoutinePostType>();
   const [loading, setLoading] = useState<boolean>(false);
+  const { data: user } = useSelector((state: RootState) => state.user);
 
   useEffect(() => {
     const getPost = async () => {
@@ -47,7 +49,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
     getPost();
   }, [postId]);
 
-  const handleClickMissionOpened = () => {
+  const handleClickMissionSpreadToggle = () => {
     setMissionOpened((missionOpened) => !missionOpened);
   };
 
@@ -55,6 +57,21 @@ const RoutinePostDetailPage = (): JSX.Element => {
     if (!postData?.postId) return;
     await commentApi.createComment(postData.postId, content);
     // TODO: 새로고침 방식 좀 더 깔끔한 방식이 있는지 찾아보고 변경하기
+    window.location.replace(`/community/${postData.postId}`);
+  };
+
+  const handleUpdateComment = async (commentId: number, content: string) => {
+    const newContent = content.trim();
+    if (!newContent) return;
+    await commentApi.updateComment(commentId, newContent);
+    // TODO: 새로고침 방식 좀 더 깔끔한 방식이 있는지 찾아보고 변경하기
+    if (!postData?.postId) return;
+    window.location.replace(`/community/${postData.postId}`);
+  };
+
+  const handleDeleteComment = async (commentId: number) => {
+    await commentApi.deleteComment(commentId);
+    if (!postData?.postId) return;
     window.location.replace(`/community/${postData.postId}`);
   };
 
@@ -112,22 +129,23 @@ const RoutinePostDetailPage = (): JSX.Element => {
               />
             ))}
       </MissionContainer>
-      {missionOpened ? (
-        <SpreadButton onClick={handleClickMissionOpened}>
-          <KeyboardArrowUpRoundedIcon />
-          접기
-        </SpreadButton>
-      ) : (
-        <SpreadButton onClick={handleClickMissionOpened}>
-          <KeyboardArrowDownRoundedIcon />
-          펼치기
-        </SpreadButton>
+      {postData && postData.routine.missions.length > 4 && (
+        <SpreadToggle
+          open={missionOpened}
+          onClick={handleClickMissionSpreadToggle}
+        />
       )}
       <StyledCommentCreator onSubmit={handleSubmitComment} />
       <CommentContainer>
         {postData &&
           postData.comments.map((comment: any) => (
-            <Comment key={comment.commentId} comment={comment} />
+            <Comment
+              editable={user ? comment.user.userId === user.userId : undefined}
+              onEditComment={handleUpdateComment}
+              onDeleteComment={handleDeleteComment}
+              key={comment.commentId}
+              comment={comment}
+            />
           ))}
       </CommentContainer>
       {loading && <Spinner />}
@@ -222,30 +240,6 @@ const MissionContainer = styled.div`
   gap: 1rem;
   margin: 1rem 0;
   width: 100%;
-`;
-
-const SpreadButton = styled.button`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  border-radius: 1rem;
-  background-color: transparent;
-  color: ${Colors.textPrimary};
-  font-size: ${FontSize.small};
-  padding: 0 0.5rem;
-  height: 2rem;
-  cursor: pointer;
-
-  @media (hover: hover) {
-    :hover {
-      color: ${Colors.point};
-    }
-  }
-
-  &: active {
-    color: ${Colors.pointLight};
-  }
 `;
 
 const StyledCommentCreator = styled(CommentCreator)`
