@@ -123,7 +123,7 @@ const RoutineCreatePage = (): JSX.Element => {
     });
   };
   return (
-    <Container style={{ paddingTop: '56px' }}>
+    <Container style={{ paddingTop: '60px' }}>
       <Routine routineObject={routine} type="create" />
       <Form onSubmit={handleSubmit}>
         <Label htmlFor="emoji">이모지</Label>
@@ -188,7 +188,7 @@ const Form = styled.form`
 const Label = styled.label`
   display: inline-block;
   margin: 3rem 0 1.5rem 0;
-  font-size: ${FontSize.base};
+  font-size: ${FontSize.medium};
   color: ${Colors.textSecondary};
 `;
 
@@ -218,7 +218,7 @@ const StyledStartTimePicker = styled.div`
 `;
 
 const Span = styled.span`
-  margin-top: 0.8rem;
+  margin-top: 1rem;
   color: ${Colors.functionNegative};
 `;
 const StyledRoutineCategory = styled.div`

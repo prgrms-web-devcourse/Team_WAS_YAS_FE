@@ -64,22 +64,30 @@ const RoutinePostCreatePage = (): JSX.Element => {
     <Container>
       <Title>어떤 루틴을 포스트 할까요?</Title>
       <Form onSubmit={handleSubmit}>
-        <RoutineGridBox>
-          {routines.map((routine, i) => (
-            <div key={i}>
-              <Input
-                name="routines"
-                type="radio"
-                id={String(routine['routineId'])}
-                value={routine['routineId']}
-                onChange={handleChange}
-              />
-              <label htmlFor={String(routine['routineId'])}>
-                <Routine routineObject={routine} type="create" />
-              </label>
-            </div>
-          ))}
-        </RoutineGridBox>
+        {routines.length !== 0 ? (
+          <RoutineGridBox>
+            {routines.map((routine, i) => (
+              <div key={i}>
+                <Input
+                  name="routines"
+                  type="radio"
+                  id={String(routine['routineId'])}
+                  value={routine['routineId']}
+                  onChange={handleChange}
+                />
+                <label htmlFor={String(routine['routineId'])}>
+                  <Routine routineObject={routine} type="create" />
+                </label>
+              </div>
+            ))}
+          </RoutineGridBox>
+        ) : (
+          <MessageContainer>
+            <p>🥲</p>
+            <p>포스트할 루틴이 없습니다</p>
+            <p>루틴을 생성해주세요!</p>
+          </MessageContainer>
+        )}
         <CreateButton colorType="white" type="submit">
           포스팅하기
         </CreateButton>
@@ -146,5 +154,26 @@ const CreateButton = styled(Button)`
   }
   @media ${Media.lg} {
     max-width: 270px;
+  }
+`;
+
+const MessageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+  height: 500px;
+  > p {
+    margin: 1rem 0;
+  }
+  @media ${Media.sm} {
+    font-size: ${FontSize.medium};
+  }
+  @media ${Media.md} {
+    font-size: ${FontSize.large};
+  }
+  @media ${Media.lg} {
+    font-size: ${FontSize.large};
   }
 `;
