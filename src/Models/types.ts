@@ -66,10 +66,17 @@ export interface MissionCompletionType {
 }
 
 export interface RoutinePostType {
-  routinePostId: number;
+  postId: number;
   title: string;
-  userId: number;
-  routineId: number;
+  user: Omit<UserType, 'email' | 'userId'>;
+  routine: {
+    routineId: number;
+    name: string;
+    emoji: string;
+    category: string[];
+    durationGoalTime: number;
+    missions: Omit<MissionType, 'orders'>[];
+  };
   createdAt: string;
   updatedAt: string;
   comments: CommentType[];
@@ -89,11 +96,10 @@ export interface RoutinePostType {
 
 export interface CommentType {
   commentId: number;
-  text: string;
-  userId: number;
+  content: string;
   createdAt: string;
   updatedAt: string;
-  likes: CommentLikeType[];
+  user: Omit<UserType, 'userId' | 'email'>;
 }
 
 // export interface CommentType {
