@@ -64,9 +64,6 @@ const RoutinePostDetailPage = (): JSX.Element => {
     const newContent = content.trim();
     if (!newContent) return;
     await commentApi.updateComment(commentId, newContent);
-    // TODO: 새로고침 방식 좀 더 깔끔한 방식이 있는지 찾아보고 변경하기
-    if (!postData?.postId) return;
-    window.location.replace(`/community/${postData.postId}`);
   };
 
   const handleDeleteComment = async (commentId: number) => {
