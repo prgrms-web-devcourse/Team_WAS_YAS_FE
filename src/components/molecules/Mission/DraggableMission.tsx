@@ -13,6 +13,7 @@ interface MissionProps extends React.ComponentProps<'div'> {
   index: number;
   moveMission: (dragIndex: number, hoverIndex: number) => void;
   deleteMission: () => void;
+  updateMission: () => void;
 }
 
 interface DragItem {
@@ -33,6 +34,7 @@ const DraggableMission = ({
   index,
   moveMission,
   deleteMission,
+  updateMission,
   ...props
 }: MissionProps): JSX.Element => {
   const [visible, setVisible] = useState<boolean>(false);
@@ -74,6 +76,9 @@ const DraggableMission = ({
 
       moveMission(dragIndex, hoverIndex);
       item.index = hoverIndex;
+    },
+    drop() {
+      updateMission();
     },
   });
 

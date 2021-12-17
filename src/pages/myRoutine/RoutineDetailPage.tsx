@@ -37,14 +37,17 @@ const RoutineDetailPage = (): JSX.Element => {
     try {
       const result = await routineApi.getRoutine(routineId);
       setRoutine(result.data.data);
-      setMissions([...result.data.data.missionDetailResponses]);
+      setMissions([
+        ...result.data.data.missionDetailResponses.sort(
+          (a: { orders: number }, b: { orders: number }) => a.orders - b.orders,
+        ),
+      ]);
     } catch (e) {
       console.log(e);
     }
   };
 
   const deleteMission = async (mission: any) => {
-    console.log(mission);
     Swal.fire({
       title: `${mission.name}`,
       text: '미션을 삭제하겠습니까?',
@@ -99,6 +102,22 @@ const RoutineDetailPage = (): JSX.Element => {
     [missions],
   );
 
+  const updateMission = useCallback(async () => {
+    const updatedMission: any = {
+      missionOrders: missions.map(
+        (mission: MissionCompletionType, i: number) => {
+          return { missionId: mission.missionId, orders: i };
+        },
+      ),
+    };
+
+    try {
+      await missionApi.updateMission(routineId, updatedMission);
+    } catch (e) {
+      console.log(e);
+    }
+  }, [missions, routineId]);
+
   return (
     <DndProvider backend={HTML5Backend}>
       <Container>
@@ -111,13 +130,16 @@ const RoutineDetailPage = (): JSX.Element => {
               </StyledCategory>
             ))}
           </div>
-          <RoundedButton.Edit />
+          <Link to={`/routine/${routineId}/update`}>
+            <RoundedButton.Edit />
+          </Link>
         </CategoryEditFlexBox>
         {missions.map((mission: any, index: number) => (
           <StyledMission
             deleteMission={() => {
               deleteMission(mission);
             }}
+            updateMission={updateMission}
             index={index}
             moveMission={moveMission}
             type="normal"
