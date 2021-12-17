@@ -21,15 +21,28 @@ const DaySelector = ({
   });
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedDay = e.target.value;
-    if (selectedDays?.includes(selectedDay)) {
+    if (initialSelectedDays?.includes(selectedDay)) {
+      e.target.checked = false;
+      const newSelectedDay = initialSelectedDays.filter(
+        (day) => day !== selectedDay,
+      );
+      setSelctedDays(newSelectedDay);
+      onChange && onChange(newSelectedDay);
+    } else if (selectedDays?.includes(selectedDay)) {
       e.target.checked = false;
       const newSelectedDay = selectedDays.filter((day) => day !== selectedDay);
       setSelctedDays(newSelectedDay);
       onChange && onChange(newSelectedDay);
     } else {
-      const newSelectedDay = [...selectedDays, selectedDay];
-      setSelctedDays(newSelectedDay);
-      onChange && onChange(newSelectedDay);
+      if (initialSelectedDays) {
+        const newSelectedDay = [...initialSelectedDays, selectedDay];
+        setSelctedDays(newSelectedDay);
+        onChange && onChange(newSelectedDay);
+      } else {
+        const newSelectedDay = [...selectedDays, selectedDay];
+        setSelctedDays(newSelectedDay);
+        onChange && onChange(newSelectedDay);
+      }
     }
   };
   return (
@@ -40,7 +53,11 @@ const DaySelector = ({
           key={day}
           onChange={handleChange}
           day={day}
-          checked={selectedDays.includes(day)}
+          checked={
+            initialSelectedDays
+              ? initialSelectedDays.includes(day)
+              : selectedDays.includes(day)
+          }
         />
       ))}
     </StyledDaySelector>
