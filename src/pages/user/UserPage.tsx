@@ -69,7 +69,6 @@ const StyledContainer = styled(Container)`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100vh;
 `;
 
 const ContentContainer = styled.div`
@@ -133,6 +132,7 @@ const ButtonWrapper = styled.div`
   flex-direction: column;
   gap: 2rem;
   width: 100%;
+  margin-bottom: 2rem;
 `;
 
 export default UserPage;
