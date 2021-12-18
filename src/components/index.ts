@@ -62,6 +62,7 @@ export { Comment } from './organisms/Comment';
 export type { CommentProps } from './organisms/Comment';
 export { RoutineProgressModal } from './organisms/RoutineProgressModal';
 export { RoutineProgress } from './organisms/RoutineProgressModal';
+export { RoutinePost } from './organisms/RoutinePost';
 
 //! Template Component
 export { Container } from './templates/Container';

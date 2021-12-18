@@ -85,9 +85,12 @@ export interface RoutinePostWindowType {
   routine: {
     category: [string];
     durationGoalTime: number;
+    startGoalTime: string;
     emoji: string;
     name: string;
     routineId: number;
+    color: string;
+    weeks: string[];
   };
   updatedAt: string;
   user: {
