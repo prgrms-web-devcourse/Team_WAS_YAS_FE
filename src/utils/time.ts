@@ -26,7 +26,8 @@ const calculateTime = (time: number | string): string | null => {
 };
 
 const formatStartTime = (time: string): string => {
-  return moment(time).format('LT');
+  const t = time.includes('Z') ? time : time + 'Z';
+  return moment(t).format('LT');
 };
 
 const dateFromNow = (time: string): string => {
