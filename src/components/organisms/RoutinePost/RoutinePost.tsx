@@ -127,16 +127,7 @@ const UserAvatar = styled(Avatar)`
 
 const UserNameText = styled.p`
   color: ${Colors.textPrimary};
-
-  @media ${Media.sm} {
-    font-size: ${FontSize.small};
-  }
-  @media ${Media.md} {
-    font-size: ${FontSize.base};
-  }
-  @media ${Media.lg} {
-    font-size: ${FontSize.base};
-  }
+  font-size: ${FontSize.base};
 `;
 
 const TextArea = styled.textarea`
