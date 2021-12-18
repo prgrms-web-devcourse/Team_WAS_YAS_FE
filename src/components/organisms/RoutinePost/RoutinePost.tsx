@@ -4,8 +4,8 @@ import { RoutinePostWindowType, RoutineType } from '@/Models';
 import styled from '@emotion/styled';
 import { Colors, Media, FontSize } from '@/styles';
 import { Avatar } from '@mui/material';
-// import { useSelector } from 'react-redux';
-// import { RootState } from '@/store';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
 import TimeUtils from '@/utils/time';
 
 export interface RoutinePostProps extends React.ComponentProps<'div'> {
@@ -24,7 +24,7 @@ const RoutinePost = ({
   },
   ...props
 }: RoutinePostProps): JSX.Element => {
-  // const { data: loginUser } = useSelector((state: RootState) => state.user);
+  const { data: loginUser } = useSelector((state: RootState) => state.user);
   const routineObject: Pick<
     RoutineType,
     'emoji' | 'color' | 'name' | 'durationGoalTime' | 'startGoalTime' | 'weeks'
@@ -48,7 +48,11 @@ const RoutinePost = ({
           </UserProfileContainer>
           <LikeBox
             interactive
-            // active={likes.some((like) => like.userId === loginUser?.userId)}
+            active={
+              loginUser
+                ? likes.some((like) => like.userId === loginUser?.userId)
+                : false
+            }
             count={likes.length}
           />
         </UserInfoContainer>
