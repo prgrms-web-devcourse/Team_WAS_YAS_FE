@@ -31,7 +31,6 @@ const RoutineProgressPage = (): JSX.Element => {
   const [routine, setRoutine] = useState<any>({});
   const [missions, setMissions] = useState<any>([]);
   const [currentMissions, setCurrentMissions] = useState<any>({});
-  const [missionStatusIds, setMissionStatusIds] = useState<any>([]);
   const [routineStatusId, setRoutineStatusId] = useState(0);
   const params: { id: string } = useParams();
   const routineId = +params['id'];
@@ -58,7 +57,6 @@ const RoutineProgressPage = (): JSX.Element => {
         routineStatusId: number;
       } = await createRoutineProgress();
 
-      setMissionStatusIds(missionMissionStatusIds);
       setRoutineStatusId(routineStatusId);
 
       const result = await routineApi.getRoutine(routineId);
@@ -91,34 +89,39 @@ const RoutineProgressPage = (): JSX.Element => {
     }
   };
 
-  const startMission = async () => {
+  const startMission = async (currentMission: {
+    missionStatusId: number;
+    orders: number;
+  }) => {
     try {
       const missionStatus = {
         routineStatusId: routineStatusId,
-        missionStatusId: currentMissions['missionStatusId'],
-        orders: currentMissions['orders'],
+        missionStatusId: currentMission['missionStatusId'],
+        orders: currentMission['orders'],
         startTime: moment().toISOString(),
+        userDurationTime: 0,
       };
-      console.log(missionStatus);
-      console.log(currentMissions);
       await missionStatusApi.updateMissionStatus(routineId, missionStatus);
     } catch (e) {
-      console.error(e);
+      console.error('startMission: ', e);
     }
   };
 
-  const startPrevMission = async () => {
+  const startPrevMission = async (currentMission: {
+    missionStatusId: number;
+    orders: number;
+  }) => {
     try {
       const missionStatus = {
         routineStatusId: routineStatusId,
-        missionStatusId: currentMissions['missionStatusId'],
-        orders: currentMissions['orders'],
+        missionStatusId: currentMission['missionStatusId'],
+        orders: currentMission['orders'],
         startTime: moment().toISOString(),
-        endTime: moment().toISOString(),
+        userDurationTime: 0,
       };
       await missionStatusApi.updateMissionStatus(routineId, missionStatus);
     } catch (e) {
-      console.error(e);
+      console.error('startPrevMission: ', e);
     }
   };
 
@@ -133,7 +136,7 @@ const RoutineProgressPage = (): JSX.Element => {
       };
       await missionStatusApi.updateMissionStatus(routineId, missionStatus);
     } catch (e) {
-      console.error(e);
+      console.error('endMission: ', e);
     }
   };
 
@@ -194,10 +197,10 @@ const RoutineProgressPage = (): JSX.Element => {
 
         setProgress((prevProgress: any) => {
           const nextState = prevProgress.map((progress: any, index: number) => {
-            if (index === currentIndex) {
+            if (index === currentIndex - 1) {
               return {
                 ...progress,
-                isPassed: false,
+                isPassed: undefined,
                 userDurationTime: null,
               };
             }
@@ -220,7 +223,7 @@ const RoutineProgressPage = (): JSX.Element => {
         await sleep(450);
         setPrevStep(false);
 
-        await startPrevMission();
+        await startPrevMission(missions[currentIndex - 1]);
       }
     });
   };
@@ -274,7 +277,7 @@ const RoutineProgressPage = (): JSX.Element => {
         await sleep(450);
         setNextStep(false);
 
-        await startMission();
+        await startMission(missions[currentIndex + 1]);
       }
     });
   };
@@ -334,7 +337,7 @@ const RoutineProgressPage = (): JSX.Element => {
     await sleep(450);
     setNextStep(false);
 
-    await startMission();
+    await startMission(missions[currentIndex + 1]);
   };
 
   const ProgressModalEmement = useMemo(() => {
