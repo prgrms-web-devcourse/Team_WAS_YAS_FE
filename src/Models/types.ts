@@ -6,16 +6,6 @@ export interface UserType {
   email: string;
 }
 
-// export interface UserType2 {
-//   userId: number;
-//   userName: string;
-//   nickName: string;
-//   profileImageUrl: string;
-//   email: string;
-//   likePosts: [postId, postId];
-//   likeComments: [commentId, commentId];
-// }
-
 export interface RoutineType {
   routineId: number;
   name: string;
@@ -107,17 +97,6 @@ export interface RoutinePostWindowType {
   };
 }
 
-// export interface RoutinePostType {
-//   routinePostId: number;
-//   title: string;
-//   user: User; // 이름, 이미지
-//   routineInfo: RoutineInfoType;
-//   createdAt: string;
-//   updatedAt: string;
-//   comments: CommentType[];
-//   likes: PostLikeType[];
-// }
-
 export interface CommentType {
   commentId: number;
   content: string;
@@ -125,15 +104,6 @@ export interface CommentType {
   updatedAt: string;
   user: Omit<UserType, 'userId' | 'email'>;
 }
-
-// export interface CommentType {
-//   commentId: number;
-//   text: string;
-//   user: UserType; // 이름, 이미지
-//   createdAt: string;
-//   updatedAt: string;
-//   likes: CommentLikeType[];
-// }
 
 export interface PostLikeType {
   postLikeId: number;
