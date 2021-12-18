@@ -39,7 +39,7 @@ const RoutinePost = ({
 
   return (
     <Container {...props}>
-      <Routine routineObject={routineObject} type="create" />
+      <StyledRoutine routineObject={routineObject} type="create" />
       <ContentContainer>
         <UserInfoContainer>
           <UserProfileContainer>
@@ -64,7 +64,7 @@ const RoutinePost = ({
 };
 
 const Container = styled.div`
-  display: inline-flex;
+  display: flex;
   background-color: #f9f9f9;
   padding: 0.5rem;
   border-radius: 1rem;
@@ -84,18 +84,22 @@ const Container = styled.div`
   }
 `;
 
+const StyledRoutine = styled(Routine)`
+  min-width: 140px;
+`;
+
 const ContentContainer = styled.div`
+  width: 100%;
+
   @media ${Media.sm} {
     padding: 0.5rem 0.5rem 0 1rem;
     height: 100%;
   }
   @media ${Media.md} {
     padding: 1rem 0.5rem 0.5rem;
-    width: 100%;
   }
   @media ${Media.lg} {
     padding: 1rem 0.5rem 0.5rem;
-    width: 100%;
   }
 `;
 
