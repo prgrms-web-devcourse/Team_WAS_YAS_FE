@@ -16,7 +16,7 @@ interface MissionStatusApiType {
       userDurationTime?: number;
     },
   ) => Promise<AxiosResponse>;
-  getMissionStatus: (missionId: number) => Promise<AxiosResponse>;
+  getMissionStatus: (routineId: number) => Promise<AxiosResponse>;
 }
 
 const missionStatusApi: MissionStatusApiType = {
