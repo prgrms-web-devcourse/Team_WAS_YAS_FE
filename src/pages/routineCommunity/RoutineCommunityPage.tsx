@@ -163,11 +163,11 @@ const RoutineCommunityPage = (): JSX.Element => {
               categories={Object.keys(ROUTINE_CATEGORY)}
             />
           </CategoryContainer>
-          <StyledRoutineGridBox>
+          <RoutinePostGrid>
             {routinePostsDummy.data?.map((routinePost) => (
               <RoutinePost key={routinePost.postId} routinePost={routinePost} />
             ))}
-          </StyledRoutineGridBox>
+          </RoutinePostGrid>
         </TabBar.Item>
 
         <TabBar.Item title="🔥 인기 루틴" index="1">
@@ -316,16 +316,16 @@ const StyledRoutineAddButton = styled(IconButton.Add)`
 `;
 
 // !: RoutinePost 컴포넌트를 담는 용으로 임시 추가
-const StyledRoutineGridBox = styled(RoutineGridBox)`
+const RoutinePostGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 260px);
   justify-content: center;
-  gap: 32px 56px;
+  gap: 2rem 1rem;
   padding-bottom: 24px;
 
   @media ${Media.sm} {
-    grid-template-columns: repeat(290px);
-    gap: 10px 14px;
-    padding-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
   }
 `;
