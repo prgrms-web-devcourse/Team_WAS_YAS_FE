@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container,
   IconButton,
@@ -11,84 +11,10 @@ import styled from '@emotion/styled';
 import { Colors, Media } from '@/styles';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-import { RoutineType, RoutinePostWindowType } from '@/Models';
+import { RoutinePostWindowType } from '@/Models';
 import { ROUTINE_CATEGORY } from '@/constants';
-
-const DUMMY_ROUTINE: Partial<RoutineType>[] = [
-  {
-    routineId: 1,
-    emoji: '🌳',
-    color: Colors.red,
-    name: '집 앞 공원 산책하기',
-    durationGoalTime: 10000,
-    startGoalTime: `${new Date().toISOString()}`,
-    routineCategory: ['EXERCISE'],
-  },
-  {
-    routineId: 2,
-    emoji: '🥽',
-    color: Colors.brown,
-    name: '물 2L 마시기',
-    durationGoalTime: 780,
-    startGoalTime: `${new Date(2021, 12, 8, 12, 0).toISOString()}`,
-    routineCategory: ['HEALTH'],
-  },
-  {
-    routineId: 3,
-    emoji: '🍖',
-    color: Colors.indigo,
-    name: '아침 만들어 먹기',
-    durationGoalTime: 4200,
-    startGoalTime: `${new Date(2021, 12, 8, 6, 30).toISOString()}`,
-    routineCategory: ['FOOD'],
-  },
-  {
-    routineId: 4,
-    emoji: '📝',
-    color: Colors.pink,
-    name: '공부하기',
-    durationGoalTime: 1800,
-    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    routineCategory: ['STUDY'],
-  },
-  {
-    routineId: 5,
-    emoji: '📝',
-    color: Colors.pink,
-    name: '공부하기',
-    durationGoalTime: 1800,
-    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    routineCategory: ['STUDY'],
-  },
-  {
-    routineId: 6,
-    emoji: '📝',
-    color: Colors.pink,
-    name: '공부하기',
-    durationGoalTime: 1800,
-    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    routineCategory: ['STUDY'],
-  },
-  {
-    routineId: 7,
-    emoji: '📝',
-    color: Colors.pink,
-    name: '공부하기',
-    durationGoalTime: 1800,
-    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    routineCategory: ['STUDY'],
-  },
-
-  {
-    routineId: 8,
-    emoji: '📝',
-    color: Colors.pink,
-    name: '공부하기',
-    durationGoalTime: 1800,
-    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    routineCategory: ['STUDY'],
-  },
-];
+import { postApi } from '@/apis';
+import Swal from 'sweetalert2';
 
 // !: RoutinePost 컴포넌트 테스트용 더미
 const routinePostDummy: RoutinePostWindowType = {
@@ -131,26 +57,38 @@ const routinePostsDummy: { data: RoutinePostWindowType[] } = {
 };
 
 const RoutineCommunityPage = (): JSX.Element => {
-  const [clickedCategory, setClickedCategory] = useState<string[]>(['TOTAL']);
-  const categoryChangeHandler = (category: string[]) => {
-    setClickedCategory(category);
-  };
-
   const history = useHistory();
-  const onClickRoutine = (e: React.MouseEvent<HTMLElement>, id: any) => {
-    e.stopPropagation();
-    const element = e.target as HTMLElement;
+  const [routinePosts, setRoutinePosts] = useState<
+    RoutinePostWindowType[] | undefined
+  >();
+  const [category, setCategory] = useState<string[]>(['TOTAL']);
 
-    if (
-      !(
-        element.tagName === 'svg' ||
-        element.tagName === 'path' ||
-        element?.className.includes('ToolBox')
-      )
-    ) {
-      history.push(`/community/${id}`);
-    }
+  useEffect(() => {
+    const getPosts = async () => {
+      try {
+        const response = await postApi.getPosts();
+        const routinePosts = response.data.data;
+        setRoutinePosts(routinePosts);
+        console.log(routinePosts);
+      } catch (error: any) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.message,
+        });
+      }
+    };
+    getPosts();
+  }, []);
+
+  const handleChangeCategory = (category: string[]) => {
+    setCategory(category);
   };
+
+  const handleClickRoutinePosts = (postId: number) => {
+    history.push(`/community/${postId}`);
+  };
+
   return (
     <Container navBar>
       <TabBar type="community">
@@ -159,14 +97,19 @@ const RoutineCommunityPage = (): JSX.Element => {
             <StyledCategorySelector
               type="radio"
               selectedLimit={1}
-              onChange={categoryChangeHandler}
+              onChange={handleChangeCategory}
               categories={Object.keys(ROUTINE_CATEGORY)}
             />
           </CategoryContainer>
           <RoutinePostGrid>
-            {routinePostsDummy.data?.map((routinePost) => (
-              <RoutinePost key={routinePost.postId} routinePost={routinePost} />
-            ))}
+            {routinePosts &&
+              routinePosts.map((routinePost) => (
+                <RoutinePost
+                  key={routinePost.postId}
+                  routinePost={routinePost}
+                  onClickRoutinePost={handleClickRoutinePosts}
+                />
+              ))}
           </RoutinePostGrid>
         </TabBar.Item>
 
@@ -175,12 +118,12 @@ const RoutineCommunityPage = (): JSX.Element => {
             <StyledCategorySelector
               type="radio"
               selectedLimit={1}
-              onChange={categoryChangeHandler}
+              onChange={handleChangeCategory}
               categories={Object.keys(ROUTINE_CATEGORY)}
             />
           </CategoryContainer>
           <RoutineGridBox>
-            {DUMMY_ROUTINE?.map((routine) => {
+            {/* {DUMMY_ROUTINE?.map((routine) => {
               if (clickedCategory[0] === 'TOTAL') {
                 return (
                   <Routine
@@ -204,7 +147,7 @@ const RoutineCommunityPage = (): JSX.Element => {
                   />
                 );
               }
-            })}
+            })} */}
           </RoutineGridBox>
         </TabBar.Item>
 
@@ -213,12 +156,12 @@ const RoutineCommunityPage = (): JSX.Element => {
             <StyledCategorySelector
               type="radio"
               selectedLimit={1}
-              onChange={categoryChangeHandler}
+              onChange={handleChangeCategory}
               categories={Object.keys(ROUTINE_CATEGORY)}
             />
           </CategoryContainer>
           <RoutineGridBox>
-            {DUMMY_ROUTINE?.map((routine) => {
+            {/* {DUMMY_ROUTINE?.map((routine) => {
               if (clickedCategory[0] === 'TOTAL') {
                 return (
                   <Routine
@@ -240,7 +183,7 @@ const RoutineCommunityPage = (): JSX.Element => {
                   />
                 );
               }
-            })}
+            })} */}
           </RoutineGridBox>
         </TabBar.Item>
       </TabBar>

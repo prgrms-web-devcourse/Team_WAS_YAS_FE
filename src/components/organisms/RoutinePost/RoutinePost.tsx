@@ -43,7 +43,7 @@ const RoutinePost = ({
   };
 
   const handleClickRoutinePosts = () => {
-    console.log('루틴 포스트 클릭 ');
+    console.log('루틴 포스트 클릭 ', content);
     onClickRoutinePost && onClickRoutinePost(postId);
   };
 
