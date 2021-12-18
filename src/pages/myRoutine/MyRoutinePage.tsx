@@ -47,7 +47,6 @@ const MyRoutinePage = (): JSX.Element => {
       if (result.isConfirmed) {
         try {
           await routineApi.deleteRoutine(routineId);
-
           Swal.fire({
             position: 'center',
             icon: 'success',
@@ -62,7 +61,7 @@ const MyRoutinePage = (): JSX.Element => {
           Swal.fire({
             icon: 'error',
             title: '이런',
-            text: '미션이 삭제되지 않았어요!',
+            text: '에러로 인해 루틴이 삭제되지 않았어요!',
           });
         }
       }
