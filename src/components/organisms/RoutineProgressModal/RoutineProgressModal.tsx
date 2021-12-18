@@ -43,7 +43,7 @@ const RoutineProgressModal = ({
                       ? TimeUtils.calculateTime(durationGoalTime)
                       : TimeUtils.calculateTime(userDurationTime || 0)}
                   </DurationTime>
-                  {userDurationTime ? (
+                  {userDurationTime || userDurationTime === 0 ? (
                     <UserDurationTime
                       style={{
                         color:
@@ -54,7 +54,9 @@ const RoutineProgressModal = ({
                             : `${Colors.functionPositive}`,
                       }}
                     >
-                      {durationGoalTime < durationGoalTime - userDurationTime
+                      {userDurationTime === 0
+                        ? '(-'
+                        : durationGoalTime < durationGoalTime - userDurationTime
                         ? '(+'
                         : durationGoalTime ===
                           durationGoalTime - userDurationTime
