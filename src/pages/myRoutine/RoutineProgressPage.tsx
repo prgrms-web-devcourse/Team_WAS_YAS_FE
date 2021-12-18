@@ -17,7 +17,7 @@ import { RoutineProgressModal } from '@/components/organisms/RoutineProgressModa
 import Swal from 'sweetalert2';
 import { useHistory, useParams } from 'react-router';
 import { MissionCompletionType, MissionType } from '@/Models';
-import { routineApi } from '@/apis';
+import { missionStatusApi, routineApi } from '@/apis';
 
 const RoutineProgressPage = (): JSX.Element => {
   const history = useHistory();
@@ -27,35 +27,114 @@ const RoutineProgressPage = (): JSX.Element => {
   const [prevStep, setPrevStep] = useState(false);
   const [visible, setVisible] = useState(false);
   const [progress, setProgress] = useState([]);
-  const [startTime, setStartTime] = useState(moment());
   const [isPlay, setIsPlay] = useState(true);
   const [routine, setRoutine] = useState<any>({});
-  const [missions, setMissions] = useState([]);
+  const [missions, setMissions] = useState<any>([]);
   const [currentMissions, setCurrentMissions] = useState<any>({});
+  const [missionStatusIds, setMissionStatusIds] = useState<any>([]);
+  const [routineStatusId, setRoutineStatusId] = useState(0);
   const params: { id: string } = useParams();
   const routineId = +params['id'];
 
-  const getRoutineDetail = async () => {
-    const result = await routineApi.getRoutine(routineId);
-    const routineInfo = { ...result.data.data, weeks: undefined };
-    const missionInfo = result.data.data.missionDetailResponses
-      .sort(
-        (a: { orders: number }, b: { orders: number }) => a.orders - b.orders,
-      )
-      .map((mission: MissionCompletionType) => {
-        return {
-          ...mission,
-          userDurationTime: null,
-        };
-      });
+  const createRoutineProgress = async () => {
+    try {
+      const result = await missionStatusApi.createMissionStatus(routineId);
+      return result.data.data;
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
-    setRoutine(routineInfo);
-    setMissions(missionInfo);
-    setDuration(
-      moment.duration(missionInfo[0].durationGoalTime * 1000, 'milliseconds'),
-    );
-    setProgress(missionInfo);
-    setCurrentMissions(missionInfo[0]);
+  const getRoutineDetail = async () => {
+    try {
+      const {
+        missionMissionStatusIds,
+        routineStatusId,
+      }: {
+        missionMissionStatusIds: {
+          missionId: number;
+          missionStatusId: number;
+        }[];
+        routineStatusId: number;
+      } = await createRoutineProgress();
+
+      setMissionStatusIds(missionMissionStatusIds);
+      setRoutineStatusId(routineStatusId);
+
+      const result = await routineApi.getRoutine(routineId);
+      const routineInfo = { ...result.data.data, weeks: undefined };
+      const missionInfo = result.data.data.missionDetailResponses
+        .sort(
+          (a: { orders: number }, b: { orders: number }) => a.orders - b.orders,
+        )
+        .map((mission: MissionCompletionType) => {
+          const missionStatusId = missionMissionStatusIds.filter(
+            (status: { missionId: number }) =>
+              status['missionId'] === mission['missionId'],
+          )[0];
+          return {
+            ...mission,
+            userDurationTime: null,
+            missionStatusId: missionStatusId['missionStatusId'],
+          };
+        });
+
+      setRoutine(routineInfo);
+      setMissions(missionInfo);
+      setDuration(
+        moment.duration(missionInfo[0].durationGoalTime * 1000, 'milliseconds'),
+      );
+      setProgress(missionInfo);
+      setCurrentMissions(missionInfo[0]);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const startMission = async () => {
+    try {
+      const missionStatus = {
+        routineStatusId: routineStatusId,
+        missionStatusId: currentMissions['missionStatusId'],
+        orders: currentMissions['orders'],
+        startTime: moment().toISOString(),
+      };
+      console.log(missionStatus);
+      console.log(currentMissions);
+      await missionStatusApi.updateMissionStatus(routineId, missionStatus);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const startPrevMission = async () => {
+    try {
+      const missionStatus = {
+        routineStatusId: routineStatusId,
+        missionStatusId: currentMissions['missionStatusId'],
+        orders: currentMissions['orders'],
+        startTime: moment().toISOString(),
+        endTime: moment().toISOString(),
+      };
+      await missionStatusApi.updateMissionStatus(routineId, missionStatus);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const endMission = async (userDurationTime: number) => {
+    try {
+      const missionStatus = {
+        routineStatusId: routineStatusId,
+        missionStatusId: currentMissions['missionStatusId'],
+        orders: currentMissions['orders'],
+        endTime: moment().toISOString(),
+        userDurationTime,
+      };
+      await missionStatusApi.updateMissionStatus(routineId, missionStatus);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   useEffect(() => {
@@ -112,6 +191,21 @@ const RoutineProgressPage = (): JSX.Element => {
           setIsPlay(true);
           toggle();
         }
+
+        setProgress((prevProgress: any) => {
+          const nextState = prevProgress.map((progress: any, index: number) => {
+            if (index === currentIndex) {
+              return {
+                ...progress,
+                isPassed: false,
+                userDurationTime: null,
+              };
+            }
+            return progress;
+          });
+          return nextState;
+        });
+
         setCurrentIndex((prevIndex) => {
           setDuration(
             moment.duration(
@@ -122,10 +216,11 @@ const RoutineProgressPage = (): JSX.Element => {
           setCurrentMissions(missions[prevIndex - 1]);
           return prevIndex - 1;
         });
-        setStartTime(moment());
 
         await sleep(450);
         setPrevStep(false);
+
+        await startPrevMission();
       }
     });
   };
@@ -175,19 +270,20 @@ const RoutineProgressPage = (): JSX.Element => {
           setCurrentMissions(missions[prevIndex + 1]);
           return prevIndex + 1;
         });
-        setStartTime(moment());
 
         await sleep(450);
         setNextStep(false);
+
+        await startMission();
       }
     });
   };
 
   const handleCheckClick = async () => {
     if (nextStep || prevStep) return;
-    const endTime = moment();
     const userDurationTime =
       missions[currentIndex]['durationGoalTime'] - duration.asSeconds();
+    await endMission(userDurationTime);
 
     Swal.fire({
       position: 'center',
@@ -238,10 +334,7 @@ const RoutineProgressPage = (): JSX.Element => {
     await sleep(450);
     setNextStep(false);
 
-    setStartTime(moment());
-    console.log('이전 미션 startTime : ', startTime.toISOString());
-    console.log('이전 미션 endTime : ', endTime.toISOString());
-    console.log('다음 미션 startTime : ', moment().toISOString());
+    await startMission();
   };
 
   const ProgressModalEmement = useMemo(() => {
