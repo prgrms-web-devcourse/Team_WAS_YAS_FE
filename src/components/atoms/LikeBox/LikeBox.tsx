@@ -24,6 +24,7 @@ const LikeBox = ({
   const [count, setCount] = useState<number>(initCount);
 
   const handleClick = (e: React.MouseEvent<HTMLSpanElement>) => {
+    e.stopPropagation();
     if (!interactive) return;
     toggle();
     const newCount = toggled ? count - 1 : count + 1;
