@@ -8,8 +8,11 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import TimeUtils from '@/utils/time';
 
-export interface RoutinePostProps extends React.ComponentProps<'div'> {
+export interface RoutinePostProps
+  extends Omit<React.ComponentProps<'div'>, 'onClick'> {
   routinePost: RoutinePostWindowType;
+  onClickRoutinePost?: (postId: number) => void;
+  onClickLikeToggle?: (postId: number) => void;
 }
 
 const RoutinePost = ({
@@ -22,6 +25,8 @@ const RoutinePost = ({
     createdAt,
     updatedAt,
   },
+  onClickRoutinePost,
+  onClickLikeToggle,
   ...props
 }: RoutinePostProps): JSX.Element => {
   const { data: loginUser } = useSelector((state: RootState) => state.user);
@@ -37,8 +42,18 @@ const RoutinePost = ({
     startGoalTime: routine.startGoalTime,
   };
 
+  const handleClickRoutinePosts = () => {
+    console.log('루틴 포스트 클릭 ');
+    onClickRoutinePost && onClickRoutinePost(postId);
+  };
+
+  const handleClickLikeButton = () => {
+    console.log('좋아요 버튼 클릭');
+    onClickLikeToggle && onClickLikeToggle(postId);
+  };
+
   return (
-    <Container {...props}>
+    <Container onClick={handleClickRoutinePosts} {...props}>
       <StyledRoutine routineObject={routineObject} type="create" />
       <ContentContainer>
         <UserInfoContainer>
@@ -53,6 +68,7 @@ const RoutinePost = ({
                 ? likes.some((like) => like.userId === loginUser?.userId)
                 : false
             }
+            onClick={handleClickLikeButton}
             count={likes.length}
           />
         </UserInfoContainer>
@@ -68,6 +84,7 @@ const Container = styled.div`
   background-color: #f9f9f9;
   padding: 0.5rem;
   border-radius: 1rem;
+  cursor: pointer;
 
   @media ${Media.sm} {
     flex-direction: row;
@@ -150,6 +167,7 @@ const TextArea = styled.textarea`
   border: none;
   outline: none;
   resize: none;
+  cursor: pointer;
 `;
 
 const DateText = styled.p`
