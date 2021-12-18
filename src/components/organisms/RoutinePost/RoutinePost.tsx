@@ -6,6 +6,7 @@ import { Colors, Media, FontSize } from '@/styles';
 import { Avatar } from '@mui/material';
 // import { useSelector } from 'react-redux';
 // import { RootState } from '@/store';
+import TimeUtils from '@/utils/time';
 
 export interface RoutinePostProps extends React.ComponentProps<'div'> {
   routinePost: RoutinePostWindowType;
@@ -52,7 +53,7 @@ const RoutinePost = ({
           />
         </UserInfoContainer>
         <TextArea disabled value={content} />
-        <DateText>{updatedAt}</DateText>
+        <DateText>{TimeUtils.dateFromNow(updatedAt)}</DateText>
       </ContentContainer>
     </Container>
   );
