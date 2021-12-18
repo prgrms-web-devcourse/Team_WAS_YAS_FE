@@ -83,6 +83,30 @@ export interface RoutinePostType {
   likes: PostLikeType[];
 }
 
+export interface RoutinePostWindowType {
+  createdAt: string;
+  likesResponse: [
+    {
+      userId: number;
+    },
+  ];
+  postId: number;
+  content: string;
+  routine: {
+    category: [string];
+    durationGoalTime: number;
+    emoji: string;
+    name: string;
+    routineId: number;
+  };
+  updatedAt: string;
+  user: {
+    nickname: string;
+    profileImage: string;
+    userId: number;
+  };
+}
+
 // export interface RoutinePostType {
 //   routinePostId: number;
 //   title: string;
