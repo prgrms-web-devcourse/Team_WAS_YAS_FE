@@ -5,12 +5,13 @@ import {
   Routine,
   RoutineCategorySelector,
   TabBar,
+  RoutinePost,
 } from '@/components';
 import styled from '@emotion/styled';
 import { Colors, Media } from '@/styles';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-import { RoutineType } from '@/Models';
+import { RoutineType, RoutinePostWindowType } from '@/Models';
 import { ROUTINE_CATEGORY } from '@/constants';
 
 const DUMMY_ROUTINE: Partial<RoutineType>[] = [
@@ -89,6 +90,46 @@ const DUMMY_ROUTINE: Partial<RoutineType>[] = [
   },
 ];
 
+// !: RoutinePost 컴포넌트 테스트용 더미
+const routinePostDummy: RoutinePostWindowType = {
+  createdAt: '2020-06-01T00:00:00.000Z',
+  likesResponse: [
+    {
+      userId: 3,
+    },
+  ],
+  postId: 123,
+  content: '테스트 내용',
+  routine: {
+    category: ['EXERCISE'],
+    durationGoalTime: 500,
+    startGoalTime: '2020-06-01T00:00:00.000Z',
+    emoji: '🌳',
+    name: '공원가서 산책하기',
+    routineId: 123,
+    color: '#E8587B',
+    weeks: ['MON', 'TUE', 'SAT'],
+  },
+  updatedAt: '2020-06-01T00:00:00.000Z',
+  user: {
+    nickname: '노아',
+    profileImage: '',
+    userId: 123,
+  },
+};
+
+// !: RoutinePost 컴포넌트 테스트용 더미
+const routinePostsDummy: { data: RoutinePostWindowType[] } = {
+  data: [
+    routinePostDummy,
+    routinePostDummy,
+    routinePostDummy,
+    routinePostDummy,
+    routinePostDummy,
+    routinePostDummy,
+  ],
+};
+
 const RoutineCommunityPage = (): JSX.Element => {
   const [clickedCategory, setClickedCategory] = useState<string[]>(['TOTAL']);
   const categoryChangeHandler = (category: string[]) => {
@@ -122,31 +163,11 @@ const RoutineCommunityPage = (): JSX.Element => {
               categories={Object.keys(ROUTINE_CATEGORY)}
             />
           </CategoryContainer>
-          <RoutineGridBox>
-            {DUMMY_ROUTINE?.map((routine) => {
-              if (clickedCategory[0] === 'TOTAL') {
-                return (
-                  <Routine
-                    onClick={(e) => onClickRoutine(e, routine.routineId)}
-                    key={routine.routineId}
-                    routineObject={routine}
-                    type="communityRoutine"
-                  />
-                );
-              } else if (
-                routine.routineCategory?.includes(clickedCategory[0])
-              ) {
-                return (
-                  <Routine
-                    onClick={(e) => onClickRoutine(e, routine.routineId)}
-                    key={routine.routineId}
-                    routineObject={routine}
-                    type="communityRoutine"
-                  />
-                );
-              }
-            })}
-          </RoutineGridBox>
+          <StyledRoutineGridBox>
+            {routinePostsDummy.data?.map((routinePost) => (
+              <RoutinePost key={routinePost.postId} routinePost={routinePost} />
+            ))}
+          </StyledRoutineGridBox>
         </TabBar.Item>
 
         <TabBar.Item title="🔥 인기 루틴" index="1">
@@ -291,5 +312,20 @@ const StyledRoutineAddButton = styled(IconButton.Add)`
   @media ${Media.sm} {
     right: calc(50% - 140px);
     bottom: 62px;
+  }
+`;
+
+// !: RoutinePost 컴포넌트를 담는 용으로 임시 추가
+const StyledRoutineGridBox = styled(RoutineGridBox)`
+  display: grid;
+  grid-template-columns: repeat(2, 260px);
+  justify-content: center;
+  gap: 32px 56px;
+  padding-bottom: 24px;
+
+  @media ${Media.sm} {
+    grid-template-columns: repeat(290px);
+    gap: 10px 14px;
+    padding-bottom: 12px;
   }
 `;
