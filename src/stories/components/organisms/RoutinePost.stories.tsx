@@ -6,7 +6,7 @@ export default {
   component: RoutinePost,
 };
 
-const RoutinePostDummy: RoutinePostWindowType = {
+const routinePostDummy: RoutinePostWindowType = {
   createdAt: '2020-06-01T00:00:00.000Z',
   likesResponse: [
     {
@@ -34,5 +34,5 @@ const RoutinePostDummy: RoutinePostWindowType = {
 };
 
 export const Default = (): JSX.Element => {
-  return <RoutinePost routinePost={RoutinePostDummy} />;
+  return <RoutinePost routinePost={routinePostDummy} />;
 };
