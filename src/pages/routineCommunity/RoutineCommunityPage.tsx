@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {
   Container,
   IconButton,
-  Routine,
   RoutineCategorySelector,
   TabBar,
   RoutinePost,
@@ -15,52 +14,21 @@ import { RoutinePostWindowType } from '@/Models';
 import { ROUTINE_CATEGORY } from '@/constants';
 import { postApi } from '@/apis';
 import Swal from 'sweetalert2';
+import { Tabs, Tab, Box } from '@mui/material';
 
-// !: RoutinePost 컴포넌트 테스트용 더미
-const routinePostDummy: RoutinePostWindowType = {
-  createdAt: '2020-06-01T00:00:00.000Z',
-  likesResponse: [
-    {
-      userId: 3,
-    },
-  ],
-  postId: 123,
-  content: '테스트 내용',
-  routine: {
-    category: ['EXERCISE'],
-    durationGoalTime: 500,
-    startGoalTime: '2020-06-01T00:00:00.000Z',
-    emoji: '🌳',
-    name: '공원가서 산책하기',
-    routineId: 123,
-    color: '#E8587B',
-    weeks: ['MON', 'TUE', 'SAT'],
-  },
-  updatedAt: '2020-06-01T00:00:00.000Z',
-  user: {
-    nickname: '노아',
-    profileImage: '',
-    userId: 123,
-  },
-};
-
-// !: RoutinePost 컴포넌트 테스트용 더미
-const routinePostsDummy: { data: RoutinePostWindowType[] } = {
-  data: [
-    routinePostDummy,
-    routinePostDummy,
-    routinePostDummy,
-    routinePostDummy,
-    routinePostDummy,
-    routinePostDummy,
-  ],
-};
+function a11yProps(index: any) {
+  return {
+    id: `scrollable-auto-tab-${index}`,
+    'aria-controls': `scrollable-auto-tabpanel-${index}`,
+  };
+}
 
 const RoutineCommunityPage = (): JSX.Element => {
   const history = useHistory();
   const [routinePosts, setRoutinePosts] = useState<
     RoutinePostWindowType[] | undefined
   >();
+  const [tabValue, setTabValue] = useState(0);
   const [category, setCategory] = useState<string[]>(['TOTAL']);
 
   useEffect(() => {
@@ -85,58 +53,55 @@ const RoutineCommunityPage = (): JSX.Element => {
     setCategory(category);
   };
 
+  const handleChangeTabs = (e: any, newTabValue: any) => {
+    console.log(newTabValue);
+    setTabValue(newTabValue);
+  };
+
   const handleClickRoutinePosts = (postId: number) => {
     history.push(`/community/${postId}`);
   };
 
   return (
     <Container navBar>
-      <TabBar type="community">
-        <TabBar.Item title="🐥 신규 루틴" index="0">
-          <CategoryContainer>
-            <StyledCategorySelector
-              type="radio"
-              selectedLimit={1}
-              onChange={handleChangeCategory}
-              categories={Object.keys(ROUTINE_CATEGORY)}
-            />
-          </CategoryContainer>
-          <RoutinePostGrid>
-            {routinePosts &&
-              routinePosts.map((routinePost) => (
-                <RoutinePost
-                  key={routinePost.postId}
-                  routinePost={routinePost}
-                  onClickRoutinePost={handleClickRoutinePosts}
-                />
-              ))}
-          </RoutinePostGrid>
-        </TabBar.Item>
+      <Box
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+        }}
+      >
+        <Tabs
+          value={tabValue}
+          onChange={handleChangeTabs}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="scrollable"
+          scrollButtons="auto"
+        >
+          <StyledTab label="🐥 신규 루틴" {...a11yProps(0)} />
+          <StyledTab label="🔥 인기 루틴" {...a11yProps(1)} />
+          <StyledTab label="⭐️ 나의 루틴" {...a11yProps(2)} />
+        </Tabs>
+      </Box>
 
-        <TabBar.Item title="🔥 인기 루틴" index="1">
-          <CategoryContainer>
-            <StyledCategorySelector
-              type="radio"
-              selectedLimit={1}
-              onChange={handleChangeCategory}
-              categories={Object.keys(ROUTINE_CATEGORY)}
+      <CategoryContainer>
+        <RoutineCategorySelector
+          type="radio"
+          selectedLimit={1}
+          onChange={handleChangeCategory}
+          categories={Object.keys(ROUTINE_CATEGORY)}
+        />
+      </CategoryContainer>
+      <RoutinePostGrid>
+        {routinePosts &&
+          routinePosts.map((routinePost) => (
+            <RoutinePost
+              key={routinePost.postId}
+              routinePost={routinePost}
+              onClickRoutinePost={handleClickRoutinePosts}
             />
-          </CategoryContainer>
-          <RoutineGridBox></RoutineGridBox>
-        </TabBar.Item>
-
-        <TabBar.Item title="💫 나의 루틴" index="2">
-          <CategoryContainer>
-            <StyledCategorySelector
-              type="radio"
-              selectedLimit={1}
-              onChange={handleChangeCategory}
-              categories={Object.keys(ROUTINE_CATEGORY)}
-            />
-          </CategoryContainer>
-          <RoutineGridBox></RoutineGridBox>
-        </TabBar.Item>
-      </TabBar>
+          ))}
+      </RoutinePostGrid>
 
       <Link to="/community/create">
         <StyledRoutineAddButton />
@@ -145,9 +110,15 @@ const RoutineCommunityPage = (): JSX.Element => {
   );
 };
 
+const StyledTab = styled(Tab)`
+  font-size: 18px;
+  font-weight: bold;
+  width: 200px;
+`;
+
 const CategoryContainer = styled.div`
   overflow-x: scroll;
-  width: 688px;
+  width: 100%;
   margin: 1.5rem 0;
 
   -ms-overflow-style: none;
@@ -181,32 +152,17 @@ const StyledCategorySelector = styled(RoutineCategorySelector)`
   }
 `;
 
-const RoutineGridBox = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 240px);
-  justify-content: center;
-  gap: 32px 56px;
-  padding-bottom: 24px;
-
-  @media ${Media.sm} {
-    grid-template-columns: repeat(2, 140px);
-    gap: 10px 14px;
-    padding-bottom: 12px;
-  }
-`;
-
 const StyledRoutineAddButton = styled(IconButton.Add)`
   position: fixed;
   right: calc(50% - 266px);
   bottom: 116px;
 
   @media ${Media.sm} {
-    right: calc(50% - 140px);
+    right: 1rem;
     bottom: 62px;
   }
 `;
 
-// !: RoutinePost 컴포넌트를 담는 용으로 임시 추가
 const RoutinePostGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 260px);
