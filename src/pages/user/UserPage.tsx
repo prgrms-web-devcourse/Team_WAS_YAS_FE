@@ -4,8 +4,7 @@ import { Container, Button, Spinner } from '@/components';
 import { useHistory } from 'react-router-dom';
 import { Avatar } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from '@/store';
-import { fetchUser } from '@/store/user';
+import { RootState, user as userStore, fetchUser } from '@/store';
 import { useEffect } from 'react';
 import Swal from 'sweetalert2';
 
@@ -20,14 +19,14 @@ const UserPage = (): JSX.Element => {
 
   const handleClickLogoutButton = () => {
     sessionStorage.removeItem('YAS_USER_TOKEN');
+    dispatch(userStore.actions.deleteUser());
+    history.push('/');
     Swal.fire({
       icon: 'success',
       title: '👋🏻',
       text: '로그아웃 되었습니다.',
       showConfirmButton: false,
       timer: 1500,
-    }).then(() => {
-      history.push('/');
     });
   };
 
@@ -70,7 +69,7 @@ const StyledContainer = styled(Container)`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100vh;
+  height: 100%;
 `;
 
 const ContentContainer = styled.div`
@@ -134,6 +133,7 @@ const ButtonWrapper = styled.div`
   flex-direction: column;
   gap: 2rem;
   width: 100%;
+  margin-bottom: 2rem;
 `;
 
 export default UserPage;

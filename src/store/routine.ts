@@ -1,9 +1,6 @@
 import { RoutineType } from '@/Models';
-// TODO: PayloadAction이 임포트 되지 않아서 임시로 pkg로 임포트
-/* eslint-disable */
-import pkg from '@reduxjs/toolkit';
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-/* eslint-disable */
+// eslint-disable-next-line
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { routineApi } from '@/apis';
 export interface UserStateType {
   loading: boolean;
@@ -31,7 +28,7 @@ export const routine = createSlice({
     },
     [fetchRoutine.fulfilled.type]: (
       state: UserStateType,
-      action: pkg.PayloadAction<RoutineType>,
+      action: PayloadAction<RoutineType>,
     ) => {
       state.loading = false;
       state.data = action.payload;
@@ -39,7 +36,7 @@ export const routine = createSlice({
     },
     [fetchRoutine.rejected.type]: (
       state: UserStateType,
-      action: pkg.PayloadAction<RoutineType>,
+      action: PayloadAction<RoutineType>,
     ) => {
       state.loading = false;
       state.data = null;

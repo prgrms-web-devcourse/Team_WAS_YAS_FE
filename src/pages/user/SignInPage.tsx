@@ -6,6 +6,8 @@ import { Colors, FontSize, FontWeight } from '@/styles';
 import { Container, Input, Button, Spinner } from '@/components';
 import { userApi } from '@/apis';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { fetchUser } from '@/store';
 
 const initialValues = {
   email: '',
@@ -27,6 +29,7 @@ const validationSchema = Yup.object().shape({
 
 const SignInPage = (): JSX.Element => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const {
     errors,
     handleBlur,
@@ -43,6 +46,7 @@ const SignInPage = (): JSX.Element => {
         const loginResponse = await userApi.signIn(values);
         const token = loginResponse.data.data.token;
         sessionStorage.setItem('YAS_USER_TOKEN', JSON.stringify(token));
+        dispatch(fetchUser());
         formikHelper.setStatus({ success: true });
         formikHelper.setSubmitting(false);
         Swal.fire({
@@ -113,7 +117,7 @@ const StyledContainer = styled(Container)`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  height: 100vh;
+  height: 100%;
 `;
 
 const HeadText = styled.h1`
