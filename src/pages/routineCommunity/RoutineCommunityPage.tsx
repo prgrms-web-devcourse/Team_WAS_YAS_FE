@@ -122,33 +122,7 @@ const RoutineCommunityPage = (): JSX.Element => {
               categories={Object.keys(ROUTINE_CATEGORY)}
             />
           </CategoryContainer>
-          <RoutineGridBox>
-            {/* {DUMMY_ROUTINE?.map((routine) => {
-              if (clickedCategory[0] === 'TOTAL') {
-                return (
-                  <Routine
-                    onClick={(e) => onClickRoutine(e, routine.routineId)}
-                    key={routine.routineId}
-                    routineObject={routine}
-                    type="communityRoutine"
-                    like={routine.routineId}
-                  />
-                );
-              } else if (
-                routine.routineCategory?.includes(clickedCategory[0])
-              ) {
-                return (
-                  <Routine
-                    onClick={(e) => onClickRoutine(e, routine.routineId)}
-                    key={routine.routineId}
-                    routineObject={routine}
-                    type="communityRoutine"
-                    like={routine.routineId}
-                  />
-                );
-              }
-            })} */}
-          </RoutineGridBox>
+          <RoutineGridBox></RoutineGridBox>
         </TabBar.Item>
 
         <TabBar.Item title="💫 나의 루틴" index="2">
@@ -160,31 +134,7 @@ const RoutineCommunityPage = (): JSX.Element => {
               categories={Object.keys(ROUTINE_CATEGORY)}
             />
           </CategoryContainer>
-          <RoutineGridBox>
-            {/* {DUMMY_ROUTINE?.map((routine) => {
-              if (clickedCategory[0] === 'TOTAL') {
-                return (
-                  <Routine
-                    onClick={(e) => onClickRoutine(e, routine.routineId)}
-                    key={routine.routineId}
-                    routineObject={routine}
-                    type="communityMyRoutine"
-                  />
-                );
-              } else if (
-                routine.routineCategory?.includes(clickedCategory[0])
-              ) {
-                return (
-                  <Routine
-                    onClick={(e) => onClickRoutine(e, routine.routineId)}
-                    key={routine.routineId}
-                    routineObject={routine}
-                    type="communityMyRoutine"
-                  />
-                );
-              }
-            })} */}
-          </RoutineGridBox>
+          <RoutineGridBox></RoutineGridBox>
         </TabBar.Item>
       </TabBar>
 
@@ -194,8 +144,6 @@ const RoutineCommunityPage = (): JSX.Element => {
     </Container>
   );
 };
-
-export default RoutineCommunityPage;
 
 const CategoryContainer = styled.div`
   overflow-x: scroll;
@@ -263,7 +211,7 @@ const RoutinePostGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 260px);
   justify-content: center;
-  gap: 2rem 1rem;
+  gap: 2rem 2rem;
   padding-bottom: 24px;
 
   @media ${Media.sm} {
@@ -272,3 +220,5 @@ const RoutinePostGrid = styled.div`
     width: 100%;
   }
 `;
+
+export default RoutineCommunityPage;
