@@ -28,6 +28,7 @@ export const Default = ({ ...props }: IconButtonProps): JSX.Element => (
     <IconButton.Check {...props} />
     <IconButton.Add {...props} />
     <IconButton.Back {...props} />
+    <IconButton.Delete {...props} />
   </Container>
 );
 
