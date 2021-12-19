@@ -31,7 +31,7 @@ const EmojiPicker = ({
         <PickerContainer>
           <Picker
             onEmojiClick={handleEmojiClick}
-            pickerStyle={{ width: '100%' }}
+            pickerStyle={{ width: '100%', height: '500px', inputMode: 'none' }}
           />
         </PickerContainer>
       )}
