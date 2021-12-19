@@ -63,7 +63,7 @@ const RoutineProgressModal = ({
                         ? '('
                         : '(-'}
                       {TimeUtils.calculateTime(
-                        durationGoalTime - userDurationTime,
+                        Math.abs(durationGoalTime - userDurationTime),
                       ) + ')'}
                     </UserDurationTime>
                   ) : isPassed ? (
