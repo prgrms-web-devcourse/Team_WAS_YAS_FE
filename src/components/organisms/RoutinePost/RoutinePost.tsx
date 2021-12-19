@@ -88,8 +88,9 @@ const Container = styled.div`
 
   @media ${Media.sm} {
     flex-direction: row;
+    align-items: center;
     min-width: 290px;
-    height: 156px;
+    height: 168px;
   }
   @media ${Media.md} {
     flex-direction: column;
@@ -164,7 +165,7 @@ const UserNameText = styled.p`
 
 const TextArea = styled.textarea`
   width: 100%;
-  height: 72px;
+  height: 78px;
   margin: 0.5rem 0;
   font-size: ${FontSize.small};
   color: ${Colors.textSecondary};
@@ -178,6 +179,7 @@ const TextArea = styled.textarea`
 `;
 
 const DateText = styled.p`
+  margin-top: 0.5rem;
   color: ${Colors.textSecondary};
 
   @media ${Media.sm} {
