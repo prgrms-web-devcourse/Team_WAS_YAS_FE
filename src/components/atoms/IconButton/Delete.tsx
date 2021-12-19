@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import React from 'react';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
-import { Colors, Media } from '@/styles';
+import { Colors } from '@/styles';
 
 const Delete = ({ ...props }: React.ComponentProps<'button'>): JSX.Element => {
   return (
