@@ -87,19 +87,23 @@ const RoutineProgressPage = (): JSX.Element => {
       );
       setProgress(missionInfo);
       setCurrentMissions(missionInfo[0]);
+      await startMission(missionInfo[0], routineStatusId);
     } catch (e) {
       console.error(e);
     }
   };
 
-  const startMission = async (currentMission: {
-    missionStatusId: number;
-    orders: number;
-  }) => {
+  const startMission = async (
+    currentMission: {
+      missionStatusId: number;
+      orders: number;
+    },
+    routine_StatusId?: number,
+  ) => {
     try {
       if (!routineId) return;
       const missionStatus = {
-        routineStatusId: routineStatusId,
+        routineStatusId: routine_StatusId ? routine_StatusId : routineStatusId,
         missionStatusId: currentMission['missionStatusId'],
         orders: currentMission['orders'],
         startTime: moment().toISOString(),
