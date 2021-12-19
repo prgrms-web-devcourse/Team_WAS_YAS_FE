@@ -1,6 +1,7 @@
 import { Route, Redirect } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
+// eslint-disable-next-line
 const PublicRoute = ({
   component: Component,
   restricted = false,

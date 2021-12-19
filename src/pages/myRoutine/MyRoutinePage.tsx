@@ -30,6 +30,7 @@ const MyRoutinePage = (): JSX.Element => {
 
   useEffect(() => {
     getMyRoutines();
+    // eslint-disable-next-line
   }, []);
 
   const deleteRoutine = async (routine: RoutineType) => {

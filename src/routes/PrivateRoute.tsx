@@ -1,6 +1,7 @@
 import { Route, Redirect } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
+// eslint-disable-next-line
 const PrivateRoute = ({
   children,
   component: Component,
