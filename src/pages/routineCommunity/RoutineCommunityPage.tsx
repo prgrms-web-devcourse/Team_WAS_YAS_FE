@@ -27,14 +27,13 @@ const RoutineCommunityPage = (): JSX.Element => {
     RoutinePostWindowType[] | undefined
   >();
   const [tabValue, setTabValue] = useState(0);
-  const [category, setCategory] = useState<string[]>(['TOTAL']);
+  const [categoryValue, setCategoryValue] = useState<string[]>(['TOTAL']);
 
   useEffect(() => {
     const getPosts = async () => {
       try {
         const response = await postApi.getPosts();
         const routinePosts = response.data.data;
-        console.log(routinePosts);
         setRoutinePosts(routinePosts);
       } catch (error: any) {
         Swal.fire({
@@ -48,7 +47,8 @@ const RoutineCommunityPage = (): JSX.Element => {
   }, []);
 
   const handleChangeCategory = (category: string[]) => {
-    setCategory(category);
+    setCategoryValue(category);
+    console.log(categoryValue);
   };
 
   const handleChangeTabs = (e: any, newTabValue: any) => {
@@ -126,24 +126,6 @@ const CategoryContainer = styled.div`
     margin: 0.5rem 0;
     max-width: 320px;
     padding: 0 0.75rem;
-  }
-`;
-
-const StyledCategorySelector = styled(RoutineCategorySelector)`
-  @media ${Media.sm} {
-    margin: 0.75rem 0;
-    max-width: 320px;
-    padding: 0 0.75rem;
-
-    div:not(:last-of-type) {
-      margin-right: 8px;
-    }
-    div {
-      height: 20px;
-    }
-  }
-  @media ${Media.md} {
-    max-width: 688px;
   }
 `;
 
