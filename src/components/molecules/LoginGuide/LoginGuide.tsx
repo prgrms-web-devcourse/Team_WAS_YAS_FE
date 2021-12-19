@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom';
 
 export type LoginGuideProps = React.ComponentProps<'div'>;
 
-const LoginGuide = ({ ...props }): JSX.Element => {
+const LoginGuide = ({ ...props }: LoginGuideProps): JSX.Element => {
   const history = useHistory();
 
   return (
@@ -33,6 +33,8 @@ const Container = styled.div`
 `;
 
 const EmojiText = styled.p`
+  margin-top: 64px;
+
   @media ${Media.sm} {
     font-size: 64px;
   }

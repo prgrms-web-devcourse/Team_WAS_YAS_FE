@@ -3,6 +3,7 @@ import {
   IconButton,
   RoutineCategorySelector,
   RoutinePost,
+  LoginGuide,
   Spinner,
 } from '@/components';
 import Swal from 'sweetalert2';
@@ -14,7 +15,8 @@ import { Tabs, Tab } from '@mui/material';
 import { ROUTINE_CATEGORY } from '@/constants';
 import { RoutinePostWindowType } from '@/Models';
 import { Link, useHistory } from 'react-router-dom';
-import { authUtil } from '@/utils';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
 
 const a11yProps = (index: any) => {
   return {
@@ -39,6 +41,7 @@ type OperationType = {
 
 const RoutineCommunityPage = (): JSX.Element => {
   const history = useHistory();
+  const { data: user } = useSelector((state: RootState) => state.user);
   const [loading, setLoading] = useState<boolean>(false);
   const [routinePosts, setRoutinePosts] = useState<
     RoutinePostWindowType[] | undefined
@@ -56,6 +59,10 @@ const RoutineCommunityPage = (): JSX.Element => {
     };
 
     try {
+      if (tabValue === 2 && !user) {
+        setLoading(false);
+        return;
+      }
       const response = await Operation[TAB_VALUE[tabValue]]();
       const routinePosts: RoutinePostWindowType[] = response.data.data;
       if (categoryValue === 'TOTAL') {
@@ -76,7 +83,7 @@ const RoutineCommunityPage = (): JSX.Element => {
     }
 
     setLoading(false);
-  }, [tabValue, categoryValue]);
+  }, [tabValue, categoryValue, user]);
 
   useEffect(() => {
     getPosts();
@@ -99,9 +106,7 @@ const RoutineCommunityPage = (): JSX.Element => {
     postId: number,
     prevToggled: boolean,
   ) => {
-    const isLoggedIn = await authUtil.isLoggedIn();
-
-    if (!isLoggedIn) {
+    if (!user) {
       Swal.fire({
         icon: 'error',
         title: '🤯',
@@ -138,17 +143,22 @@ const RoutineCommunityPage = (): JSX.Element => {
           categories={Object.keys(ROUTINE_CATEGORY)}
         />
       </CategoryContainer>
-      <RoutinePostGrid>
-        {routinePosts &&
-          routinePosts.map((routinePost) => (
-            <RoutinePost
-              key={routinePost.postId}
-              routinePost={routinePost}
-              onClickRoutinePost={handleClickRoutinePosts}
-              onClickLikeToggle={handleClickLikeToggle}
-            />
-          ))}
-      </RoutinePostGrid>
+      {!user && tabValue === 2 ? (
+        <LoginGuide />
+      ) : (
+        <RoutinePostGrid>
+          {routinePosts &&
+            routinePosts.map((routinePost) => (
+              <RoutinePost
+                key={routinePost.postId}
+                routinePost={routinePost}
+                onClickRoutinePost={handleClickRoutinePosts}
+                onClickLikeToggle={handleClickLikeToggle}
+              />
+            ))}
+        </RoutinePostGrid>
+      )}
+
       <Link to="/community/create">
         <StyledRoutineAddButton />
       </Link>
