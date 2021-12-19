@@ -8,7 +8,7 @@ import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded
 export interface LikeBoxProps
   extends Omit<React.ComponentProps<'span'>, 'onClick'> {
   active?: boolean;
-  onClick?: (count: number) => void;
+  onClick?: (count: number, prevToggled: boolean) => void;
   count: number;
   interactive?: boolean;
 }
@@ -26,10 +26,11 @@ const LikeBox = ({
   const handleClick = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
     if (!interactive) return;
-    toggle();
-    const newCount = toggled ? count - 1 : count + 1;
+    const prevToggled = toggled;
+    const newCount = prevToggled ? count - 1 : count + 1;
     setCount(() => newCount);
-    onClick && onClick(newCount);
+    onClick && onClick(newCount, prevToggled);
+    toggle();
   };
 
   return (
