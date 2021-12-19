@@ -45,7 +45,7 @@ const RoutineCategorySelector = ({
           if (newSelectedCategories.length > selectedLimit) {
             Swal.fire({
               icon: 'warning',
-              title: '카테고리는 <p>최대 2개까지만 선택이 가능합니다',
+              text: '카테고리는 최대 2개까지만 선택이 가능합니다',
             });
             return;
           }

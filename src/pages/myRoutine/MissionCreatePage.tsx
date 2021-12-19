@@ -50,12 +50,12 @@ const MissionCreatePage = (): JSX.Element => {
     if (!name) {
       Swal.fire({
         icon: 'warning',
-        title: '미션 이름을 입력해주세요!',
+        text: '미션 이름을 입력해주세요!',
       });
     } else if (!durationGoalTime) {
       Swal.fire({
         icon: 'warning',
-        title: '지속 시간을 입력해주세요!',
+        text: '지속 시간을 입력해주세요!',
       });
     } else {
       try {
@@ -64,14 +64,14 @@ const MissionCreatePage = (): JSX.Element => {
         await missionApi.createMission(parseInt(id), mission);
         Swal.fire({
           icon: 'success',
-          title: '미션 생성이 <p>완료되었습니다~🎉',
+          text: '미션 생성이 완료되었습니다~🎉',
         }).then(() => {
           history.push(`/routine/${id}`);
         });
       } catch (error) {
         Swal.fire({
           icon: 'error',
-          title: '오류로 인해 <p>미션 생성에 실패했습니다',
+          text: '오류로 인해 미션 생성에 실패했습니다',
           confirmButtonColor: Colors.point,
         });
       }
@@ -101,7 +101,7 @@ const MissionCreatePage = (): JSX.Element => {
   const onCancelClick = () => {
     Swal.fire({
       icon: 'warning',
-      title: '작성했던 모든 내용이 초기화됩니다!',
+      text: '작성했던 모든 내용이 초기화됩니다!',
     }).then(() => {
       history.push(`/routine/${id}`);
     });
@@ -143,10 +143,10 @@ const MissionCreatePage = (): JSX.Element => {
           <Span>지속 시간을 입력해주세요</Span>
         )}
         <ButtonContainer>
+          <Button type="submit">생성하기</Button>
           <Button type="button" colorType="white" onClick={onCancelClick}>
             취소하기
           </Button>
-          <Button type="submit">생성하기</Button>
         </ButtonContainer>
       </Form>
     </Container>
