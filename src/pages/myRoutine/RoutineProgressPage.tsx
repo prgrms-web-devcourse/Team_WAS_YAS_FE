@@ -347,7 +347,9 @@ const RoutineProgressPage = (): JSX.Element => {
     await sleep(450);
     setNextStep(false);
 
-    await startMission(missions[currentIndex + 1]);
+    if (currentIndex !== missions.length - 1) {
+      await startMission(missions[currentIndex + 1]);
+    }
   };
 
   const ProgressModalEmement = useMemo(() => {
