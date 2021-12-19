@@ -36,21 +36,7 @@ const RoutinePostCreatePage = (): JSX.Element => {
         title: '포스트할 루틴을 <p>선택해주세요!',
       });
     } else {
-      try {
-        await postApi.createRoutinePost(selectedRoutineId);
-        Swal.fire({
-          icon: 'success',
-          title: '루틴 포스트에 <p>성공했습니다!',
-        }).then(() => {
-          history.push('/community');
-        });
-      } catch (error) {
-        Swal.fire({
-          icon: 'error',
-          title: '오류로 인해 <p>루틴 포스트에 실패했습니다',
-          confirmButtonColor: Colors.point,
-        });
-      }
+      history.push(`/community/${selectedRoutineId}/create`);
     }
   };
 
@@ -83,13 +69,13 @@ const RoutinePostCreatePage = (): JSX.Element => {
           </RoutineGridBox>
         ) : (
           <MessageContainer>
-            <p>🥲</p>
+            <p>😭</p>
             <p>포스트할 루틴이 없습니다</p>
             <p>루틴을 생성해주세요!</p>
           </MessageContainer>
         )}
         <CreateButton colorType="white" type="submit">
-          포스팅하기
+          다음으로
         </CreateButton>
       </Form>
     </Container>
