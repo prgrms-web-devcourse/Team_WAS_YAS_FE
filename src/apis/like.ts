@@ -1,5 +1,5 @@
 import { AxiosResponse } from 'axios';
-import { authRequest, request } from './config';
+import { authRequest } from './config';
 
 interface likeApiType {
   createPostLike: (postId: number) => Promise<AxiosResponse>;
