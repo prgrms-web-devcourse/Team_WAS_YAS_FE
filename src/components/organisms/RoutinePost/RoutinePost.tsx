@@ -12,7 +12,7 @@ export interface RoutinePostProps
   extends Omit<React.ComponentProps<'div'>, 'onClick'> {
   routinePost: RoutinePostWindowType;
   onClickRoutinePost?: (postId: number) => void;
-  onClickLikeToggle?: (postId: number) => void;
+  onClickLikeToggle?: (postId: number, prevToggled: boolean) => void;
 }
 
 const RoutinePost = ({
@@ -47,9 +47,9 @@ const RoutinePost = ({
     onClickRoutinePost && onClickRoutinePost(postId);
   };
 
-  const handleClickLikeButton = () => {
+  const handleClickLikeButton = (newCount: number, prevToggled: boolean) => {
     console.log('좋아요 버튼 클릭');
-    onClickLikeToggle && onClickLikeToggle(postId);
+    onClickLikeToggle && onClickLikeToggle(postId, prevToggled);
   };
 
   return (

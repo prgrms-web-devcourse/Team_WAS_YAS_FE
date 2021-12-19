@@ -6,7 +6,7 @@ import {
   Spinner,
 } from '@/components';
 import Swal from 'sweetalert2';
-import { postApi } from '@/apis';
+import { postApi, likeApi } from '@/apis';
 import { Colors, Media, FontSize } from '@/styles';
 import styled from '@emotion/styled';
 import { useCallback, useEffect, useState } from 'react';
@@ -83,17 +83,24 @@ const RoutineCommunityPage = (): JSX.Element => {
 
   const handleChangeTabs = (e: any, newTabValue: any) => {
     setTabValue(newTabValue);
-    console.log();
   };
 
   const handleChangeCategory = (categoryValue: string[]) => {
     const newCategoryValue = categoryValue[0];
-    console.log(newCategoryValue, routinePosts);
     setCategoryValue(newCategoryValue);
   };
 
   const handleClickRoutinePosts = (postId: number) => {
     history.push(`/community/${postId}`);
+  };
+
+  const handleClickLikeToggle = async (
+    postId: number,
+    prevToggled: boolean,
+  ) => {
+    prevToggled
+      ? await likeApi.deletePostLike(postId)
+      : await likeApi.createPostLike(postId);
   };
 
   return (
@@ -125,6 +132,7 @@ const RoutineCommunityPage = (): JSX.Element => {
               key={routinePost.postId}
               routinePost={routinePost}
               onClickRoutinePost={handleClickRoutinePosts}
+              onClickLikeToggle={handleClickLikeToggle}
             />
           ))}
       </RoutinePostGrid>
