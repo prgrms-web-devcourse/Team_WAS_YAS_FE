@@ -21,6 +21,7 @@ import {
   OnBoardingPage,
 } from '@/pages';
 import { RoutineUpdatePage } from '@/pages/myRoutine';
+import RoutinePostWritePage from '@/pages/routineCommunity/RoutinePostWritePage';
 
 const Router = (): JSX.Element => {
   return (
@@ -60,6 +61,11 @@ const Router = (): JSX.Element => {
         path="/community/create"
         exact
         component={RoutinePostCreatePage}
+      />
+      <PrivateRoute
+        path="/community/:id/create"
+        exact
+        component={RoutinePostWritePage}
       />
       <PublicRoute
         path="/community/:id"
