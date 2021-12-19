@@ -22,7 +22,7 @@ import { routineApi } from '@/apis';
 const RoutineCreatePage = (): JSX.Element => {
   const history = useHistory();
   const [routine, setRoutine] = useState<
-    Omit<RoutineType, 'routineId' | 'missions'>
+    Omit<RoutineType, 'routineId' | 'missionDetailResponse'>
   >({
     emoji: '💫',
     color: Colors.red,
