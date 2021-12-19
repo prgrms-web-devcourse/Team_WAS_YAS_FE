@@ -18,6 +18,7 @@ import {
   UserPage,
   AnalysisPage,
   NotFoundPage,
+  OnBoardingPage,
 } from '@/pages';
 import { RoutineUpdatePage } from '@/pages/myRoutine';
 
@@ -26,6 +27,7 @@ const Router = (): JSX.Element => {
     <Switch>
       <PublicRoute path="/" exact component={MyRoutinePage} />
       <PublicRoute path="/routine" exact component={MyRoutinePage} />
+      <PublicRoute path="/onboarding" exact component={OnBoardingPage} />
       <PrivateRoute
         path="/routine/create"
         exact

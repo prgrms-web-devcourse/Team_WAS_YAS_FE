@@ -17,3 +17,4 @@ export { UserPage } from './user';
 export { AnalysisPage } from './analysis';
 
 export { NotFoundPage } from './etc';
+export { OnBoardingPage } from './etc';
