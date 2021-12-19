@@ -1,13 +1,5 @@
-/* eslint-disable */
-import { Route, Redirect, RouteProps } from 'react-router-dom';
-/* eslint-disable */
+import { Route, Redirect } from 'react-router-dom';
 import Swal from 'sweetalert2';
-
-interface PrivateRouteProps extends RouteProps {
-  component: JSX.Element;
-  path: string;
-  render: (props: any) => JSX.Element;
-}
 
 const PrivateRoute = ({
   children,

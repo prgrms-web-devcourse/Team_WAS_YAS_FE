@@ -1,6 +1,4 @@
-/* eslint-disable */
-import { Route, Redirect, RouteProps } from 'react-router-dom';
-/* eslint-disable */
+import { Route, Redirect } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const PublicRoute = ({
