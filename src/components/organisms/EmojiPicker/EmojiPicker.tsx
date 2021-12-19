@@ -31,7 +31,9 @@ const EmojiPicker = ({
         <PickerContainer>
           <Picker
             onEmojiClick={handleEmojiClick}
-            pickerStyle={{ width: '100%', height: '500px', inputMode: 'none' }}
+            disableAutoFocus={true}
+            disableSearchBar={true}
+            pickerStyle={{ width: '100%', height: '500px' }}
           />
         </PickerContainer>
       )}
