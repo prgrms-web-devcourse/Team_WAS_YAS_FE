@@ -33,7 +33,7 @@ const RoutinePostCreatePage = (): JSX.Element => {
     if (selectedRoutineId === undefined) {
       Swal.fire({
         icon: 'error',
-        title: '포스트할 루틴을 <p>선택해주세요!',
+        text: '포스트할 루틴을 선택해주세요!',
       });
     } else {
       history.push(`/community/${selectedRoutineId}/create`);

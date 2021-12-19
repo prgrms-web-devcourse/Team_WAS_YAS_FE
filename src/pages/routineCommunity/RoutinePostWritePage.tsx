@@ -20,12 +20,12 @@ const RoutinePostWritePage = (): JSX.Element => {
     if (!content) {
       Swal.fire({
         icon: 'info',
-        title: '포스트 내용을 입력해주세요!',
+        text: '포스트 내용을 입력해주세요!',
       });
     } else if (content.length > 80) {
       Swal.fire({
         icon: 'info',
-        title: '포스트는 최대 80글자까지 입력 가능합니다!',
+        text: '포스트는 최대 80글자까지 입력 가능합니다!',
       });
     } else {
       if (!id) return;
