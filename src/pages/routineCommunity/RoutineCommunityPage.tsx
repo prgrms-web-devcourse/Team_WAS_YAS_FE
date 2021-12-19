@@ -7,14 +7,14 @@ import {
   Spinner,
 } from '@/components';
 import Swal from 'sweetalert2';
-import { postApi, likeApi } from '@/apis';
-import { Colors, Media, FontSize } from '@/styles';
 import styled from '@emotion/styled';
-import { useCallback, useEffect, useState } from 'react';
+import { postApi, likeApi } from '@/apis';
 import { Tabs, Tab } from '@mui/material';
 import { ROUTINE_CATEGORY } from '@/constants';
 import { RoutinePostWindowType } from '@/Models';
+import { Colors, Media, FontSize } from '@/styles';
 import { Link, useHistory } from 'react-router-dom';
+import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 
@@ -25,18 +25,12 @@ const a11yProps = (index: any) => {
   };
 };
 
-type ObjType = {
-  [index: number]: string;
-};
-
-const TAB_VALUE: ObjType = {
-  0: 'new',
-  1: 'popular',
-  2: 'my',
-};
-
-type OperationType = {
-  [index: string]: () => ReturnType<typeof postApi.getPosts>;
+const TAB: {
+  [index: string]: number;
+} = {
+  NEW: 0,
+  POPULAR: 1,
+  MY: 2,
 };
 
 const RoutineCommunityPage = (): JSX.Element => {
@@ -46,24 +40,27 @@ const RoutineCommunityPage = (): JSX.Element => {
   const [routinePosts, setRoutinePosts] = useState<
     RoutinePostWindowType[] | undefined
   >();
-  const [tabValue, setTabValue] = useState<number>(0);
+  const [tabValue, setTabValue] = useState<number>(TAB.NEW);
   const [categoryValue, setCategoryValue] = useState<string>('TOTAL');
 
   const getPosts = useCallback(async () => {
     setLoading(true);
 
-    const Operation: OperationType = {
-      new: () => postApi.getPosts(),
-      popular: () => postApi.getPostsByPopular(),
-      my: () => postApi.getMyPosts(),
+    // TODO: TAB.NEW 와 같이 키를 상수로 변경 하기,(호출 시그니쳐가 잘 적용이 안된다.)
+    const Operation: {
+      [index: number]: () => ReturnType<typeof postApi.getPosts>;
+    } = {
+      0: () => postApi.getPosts(),
+      1: () => postApi.getPostsByPopular(),
+      2: () => postApi.getMyPosts(),
     };
 
     try {
-      if (tabValue === 2 && !user) {
+      if (!user && tabValue === TAB.MY) {
         setLoading(false);
         return;
       }
-      const response = await Operation[TAB_VALUE[tabValue]]();
+      const response = await Operation[tabValue]();
       const routinePosts: RoutinePostWindowType[] = response.data.data;
       if (categoryValue === 'TOTAL') {
         setRoutinePosts(routinePosts);
@@ -77,7 +74,7 @@ const RoutineCommunityPage = (): JSX.Element => {
     } catch (error: any) {
       Swal.fire({
         icon: 'error',
-        title: 'Error',
+        title: '😱',
         text: error.message,
       });
     }
@@ -131,9 +128,9 @@ const RoutineCommunityPage = (): JSX.Element => {
         variant="scrollable"
         scrollButtons="auto"
       >
-        <StyledTab label="🐥 신규 루틴" {...a11yProps(0)} />
-        <StyledTab label="🔥 인기 루틴" {...a11yProps(1)} />
-        <StyledTab label="⭐️ 나의 루틴" {...a11yProps(2)} />
+        <StyledTab label="🐥 신규 루틴" {...a11yProps(TAB.NEW)} />
+        <StyledTab label="🔥 인기 루틴" {...a11yProps(TAB.POPULAR)} />
+        <StyledTab label="⭐️ 나의 루틴" {...a11yProps(TAB.MY)} />
       </StyledTabs>
       <CategoryContainer>
         <RoutineCategorySelector
@@ -143,7 +140,7 @@ const RoutineCommunityPage = (): JSX.Element => {
           categories={Object.keys(ROUTINE_CATEGORY)}
         />
       </CategoryContainer>
-      {!user && tabValue === 2 ? (
+      {!user && tabValue === TAB.MY ? (
         <LoginGuide />
       ) : (
         <RoutinePostGrid>
