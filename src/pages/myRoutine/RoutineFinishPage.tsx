@@ -44,7 +44,11 @@ const RoutineFinishPage = (): JSX.Element => {
               isPassed: endTime === null ? true : false,
             };
           },
+        )
+        .sort(
+          (a: { orders: number }, b: { orders: number }) => a.orders - b.orders,
         );
+
       setTodayMissionStatus(missionStatus);
     } catch (e) {
       console.error('getFinishedRoutineDetail: ', e);
