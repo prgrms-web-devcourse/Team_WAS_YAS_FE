@@ -80,7 +80,7 @@ const SignUpPage = (): JSX.Element => {
         Swal.fire({
           icon: 'error',
           title: '🥲 oops!',
-          text: `${error}`,
+          text: `회원가입에 실패하였습니다.`,
           confirmButtonColor: Colors.point,
         });
       }

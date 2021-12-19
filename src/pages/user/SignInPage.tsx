@@ -62,7 +62,7 @@ const SignInPage = (): JSX.Element => {
         Swal.fire({
           icon: 'error',
           title: '🥲',
-          text: `${error}`,
+          text: `로그인에 실패하였습니다. 로그인 정보를 확인해주세요.`,
           confirmButtonColor: Colors.point,
         });
       }
