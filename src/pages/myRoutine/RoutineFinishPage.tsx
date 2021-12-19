@@ -1,96 +1,88 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Container, RoutineInfo, RoutineProgress } from '@/components';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import styled from '@emotion/styled';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import { missionStatusApi, routineApi } from '@/apis';
+import moment from 'moment';
+
+interface RoutineInfoType {
+  emoji: string;
+  name: string;
+  durationGoalTime: number;
+}
 
 const RoutineFinishPage = (): JSX.Element => {
   const history = useHistory();
-  const routineDummy = {
-    emoji: '💪',
-    name: '한강에서 산책하기',
-    durationGoalTime: 12345,
+  const params = useParams();
+  const routineId = params['id'] && +params['id'];
+  const [todayMissionStatus, setTodayMissionStatus] = useState<any>([]);
+  const [routineInfo, setRoutineInfo] = useState<any>([]);
+
+  const getFinishedRoutineDetail = async () => {
+    if (!routineId) return;
+    try {
+      const result = await missionStatusApi.getMissionStatus(routineId);
+      const missionStatus = result.data.data
+        ?.filter(
+          (status: { missionStatusDetailResponse: { startTime: string } }) =>
+            moment(status.missionStatusDetailResponse.startTime).days() === 0,
+        )
+        .map(
+          (status: {
+            missionStatusDetailResponse: {
+              userDurationTime: number;
+              endTime: string | null;
+            };
+          }) => {
+            const { userDurationTime, endTime } =
+              status.missionStatusDetailResponse;
+
+            return {
+              ...status,
+              userDurationTime: endTime === null ? null : userDurationTime,
+              isPassed: endTime === null ? true : false,
+            };
+          },
+        )
+        .sort(
+          (a: { orders: number }, b: { orders: number }) => a.orders - b.orders,
+        );
+
+      setTodayMissionStatus(missionStatus);
+    } catch (e) {
+      console.error('getFinishedRoutineDetail: ', e);
+    }
   };
-  const missionCompletionDummy: {
-    missionId: number;
-    emoji: string;
-    name: string;
-    durationGoalTime: number;
-    color: string;
-    userDurationTime: number;
-  }[] = [
-    {
-      missionId: 10,
-      emoji: '🚿',
-      name: '샤워하기',
-      durationGoalTime: 1200,
-      color: Colors.red,
-      userDurationTime: 1500,
-    },
-    {
-      missionId: 11,
-      emoji: '🪥',
-      name: '양치하기',
-      durationGoalTime: 1200,
-      color: Colors.red,
-      userDurationTime: 1000,
-    },
-    {
-      missionId: 12,
-      emoji: '📝',
-      name: '공부하기',
-      durationGoalTime: 1200,
-      color: Colors.red,
-      userDurationTime: 500,
-    },
-    {
-      missionId: 13,
-      emoji: '🥗',
-      name: '밥먹기',
-      durationGoalTime: 1200,
-      color: Colors.red,
-      userDurationTime: 2500,
-    },
-    {
-      missionId: 14,
-      emoji: '📔',
-      name: '독서하기',
-      durationGoalTime: 1200,
-      color: Colors.red,
-      userDurationTime: 1200,
-    },
-    {
-      missionId: 15,
-      emoji: '📚',
-      name: '공부하기',
-      durationGoalTime: 1200,
-      color: Colors.red,
-      userDurationTime: 500,
-    },
-    {
-      missionId: 16,
-      emoji: '🎂',
-      name: '밥먹기',
-      durationGoalTime: 1200,
-      color: Colors.red,
-      userDurationTime: 2500,
-    },
-    {
-      missionId: 17,
-      emoji: '📋',
-      name: '독서하기',
-      durationGoalTime: 1200,
-      color: Colors.red,
-      userDurationTime: 1200,
-    },
-  ];
+
+  const getRoutineInfo = async () => {
+    if (!routineId) return;
+    try {
+      const result = await routineApi.getRoutine(routineId);
+      const routineInfo: RoutineInfoType = {
+        emoji: result.data.data.emoji,
+        name: result.data.data.name,
+        durationGoalTime: result.data.data.durationGoalTime,
+      };
+      setRoutineInfo(routineInfo);
+    } catch (e) {
+      console.error('getRoutineInfo: ', e);
+    }
+  };
+
+  useEffect(() => {
+    getFinishedRoutineDetail();
+    getRoutineInfo();
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <Container>
       <Title>루틴 요약</Title>
-      <RoutineInfo routineObject={routineDummy} />
+      <RoutineInfo routineObject={routineInfo} />
       <RoutineProgressContainer>
         <StyledRoutineProgress>
-          <RoutineProgress missionObject={missionCompletionDummy} />
+          <RoutineProgress missionObject={todayMissionStatus} />
         </StyledRoutineProgress>
       </RoutineProgressContainer>
       <StyledButton onClick={() => history.push('/')}>종료하기</StyledButton>

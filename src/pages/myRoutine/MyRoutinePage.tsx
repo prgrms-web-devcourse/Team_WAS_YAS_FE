@@ -21,8 +21,16 @@ const MyRoutinePage = (): JSX.Element => {
     const finishedRoutines = await routineApi.getFinishedRoutines();
     const notFinishedRoutines = await routineApi.getNotFinishedRoutines();
 
+    const finishedRoutineIds = finishedRoutines.data.data.map(
+      (routine: { routineId: number }) => routine.routineId,
+    );
+    const allRoutinesExceptFinished = routines.data.data.filter(
+      (routine: { routineId: number }) =>
+        !finishedRoutineIds.includes(routine.routineId),
+    );
+
     setRoutines({
-      all: routines.data.data,
+      all: allRoutinesExceptFinished,
       finish: finishedRoutines.data.data,
       notFinish: notFinishedRoutines.data.data,
     });
@@ -93,21 +101,38 @@ const MyRoutinePage = (): JSX.Element => {
           {token ? (
             routines.all.length !== 0 ? (
               <RoutineGridBox>
-                {routines.all?.map((routine) => (
-                  <Routine
-                    onClick={(e) => onClickRoutine(e, routine['routineId'])}
-                    key={routine['routineId']}
-                    routineObject={routine}
-                    type="myRoutine"
-                    completed={false}
-                    deleteRoutine={() => {
-                      deleteRoutine(routine);
-                    }}
-                    updateRoutine={() => {
-                      onClickUpdateRoutine(routine['routineId']);
-                    }}
-                  />
-                ))}
+                {routines.all &&
+                  routines.all?.map((routine) => (
+                    <Routine
+                      onClick={(e) => onClickRoutine(e, routine['routineId'])}
+                      key={routine['routineId']}
+                      routineObject={routine}
+                      type="myRoutine"
+                      completed={false}
+                      deleteRoutine={() => {
+                        deleteRoutine(routine);
+                      }}
+                      updateRoutine={() => {
+                        onClickUpdateRoutine(routine['routineId']);
+                      }}
+                    />
+                  ))}
+                {routines.finish &&
+                  routines.finish?.map((routine) => (
+                    <Routine
+                      onClick={(e) => onClickRoutine(e, routine['routineId'])}
+                      key={routine['routineId']}
+                      routineObject={routine}
+                      type="myRoutine"
+                      completed={true}
+                      deleteRoutine={() => {
+                        deleteRoutine(routine);
+                      }}
+                      updateRoutine={() => {
+                        onClickUpdateRoutine(routine['routineId']);
+                      }}
+                    />
+                  ))}
               </RoutineGridBox>
             ) : (
               <MessageContainer>

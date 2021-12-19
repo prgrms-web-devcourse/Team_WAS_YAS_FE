@@ -17,7 +17,7 @@ export interface RoutineProgressProps extends React.ComponentProps<'div'> {
 
 const RoutineProgressModal = ({
   missionObject,
-}: RoutineProgressProps): JSX.Element => {
+}: Partial<RoutineProgressProps>): JSX.Element => {
   return (
     <Fragment>
       {missionObject?.map(
