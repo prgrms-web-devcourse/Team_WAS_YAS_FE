@@ -3,56 +3,93 @@ import {
   IconButton,
   RoutineCategorySelector,
   RoutinePost,
+  Spinner,
 } from '@/components';
 import Swal from 'sweetalert2';
 import { postApi } from '@/apis';
 import { Colors, Media, FontSize } from '@/styles';
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Tabs, Tab } from '@mui/material';
 import { ROUTINE_CATEGORY } from '@/constants';
 import { RoutinePostWindowType } from '@/Models';
 import { Link, useHistory } from 'react-router-dom';
 
-function a11yProps(index: any) {
+const a11yProps = (index: any) => {
   return {
     id: `scrollable-auto-tab-${index}`,
     'aria-controls': `scrollable-auto-tabpanel-${index}`,
   };
-}
+};
+
+type ObjType = {
+  [index: number]: string;
+};
+
+const TAB_VALUE: ObjType = {
+  0: 'new',
+  1: 'popular',
+  2: 'my',
+};
+
+type OperationType = {
+  [index: string]: () => ReturnType<typeof postApi.getPosts>;
+};
 
 const RoutineCommunityPage = (): JSX.Element => {
   const history = useHistory();
+  const [loading, setLoading] = useState<boolean>(false);
   const [routinePosts, setRoutinePosts] = useState<
     RoutinePostWindowType[] | undefined
   >();
-  const [tabValue, setTabValue] = useState(0);
-  const [categoryValue, setCategoryValue] = useState<string[]>(['TOTAL']);
+  const [tabValue, setTabValue] = useState<number>(0);
+  const [categoryValue, setCategoryValue] = useState<string>('TOTAL');
+
+  const getPosts = useCallback(async () => {
+    setLoading(true);
+
+    const Operation: OperationType = {
+      new: () => postApi.getPosts(),
+      popular: () => postApi.getPostsByPopular(),
+      my: () => postApi.getMyPosts(),
+    };
+
+    try {
+      const response = await Operation[TAB_VALUE[tabValue]]();
+      const routinePosts: RoutinePostWindowType[] = response.data.data;
+      if (categoryValue === 'TOTAL') {
+        setRoutinePosts(routinePosts);
+      } else {
+        const filteredRoutinePosts = routinePosts.filter((routinePost) => {
+          if (!routinePost.routine.category.includes(categoryValue)) return;
+          return routinePost;
+        });
+        setRoutinePosts(filteredRoutinePosts);
+      }
+    } catch (error: any) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.message,
+      });
+    }
+
+    setLoading(false);
+  }, [tabValue, categoryValue]);
 
   useEffect(() => {
-    const getPosts = async () => {
-      try {
-        const response = await postApi.getPosts();
-        const routinePosts = response.data.data;
-        setRoutinePosts(routinePosts);
-      } catch (error: any) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: error.message,
-        });
-      }
-    };
     getPosts();
-  }, []);
-
-  const handleChangeCategory = (category: string[]) => {
-    setCategoryValue(category);
-    console.log(categoryValue);
-  };
+  }, [tabValue, getPosts]);
 
   const handleChangeTabs = (e: any, newTabValue: any) => {
     setTabValue(newTabValue);
+    console.log();
+  };
+
+  const handleChangeCategory = (categoryValue: string[]) => {
+    const newCategoryValue = categoryValue[0];
+    console.log(newCategoryValue, routinePosts);
+    setCategoryValue(newCategoryValue);
   };
 
   const handleClickRoutinePosts = (postId: number) => {
@@ -94,6 +131,7 @@ const RoutineCommunityPage = (): JSX.Element => {
       <Link to="/community/create">
         <StyledRoutineAddButton />
       </Link>
+      {loading && <Spinner />}
     </Container>
   );
 };
