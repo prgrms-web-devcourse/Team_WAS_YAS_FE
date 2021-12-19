@@ -7,6 +7,7 @@ import {
   Comment,
   CommentCreator,
   Spinner,
+  IconButton,
   SpreadToggle,
 } from '@/components';
 import { useEffect, useState } from 'react';
@@ -114,6 +115,37 @@ const RoutinePostDetailPage = (): JSX.Element => {
       : await likeApi.createCommentLike(postId);
   };
 
+  const handleClickDeleteButton = () => {
+    if (!postData) return;
+    console.log(postData.postId);
+    Swal.fire({
+      title: '🤔',
+      text: '정말로 업로드한 루틴 포스트를 삭제하시겠습니까?',
+      confirmButtonColor: Colors.point,
+      showCancelButton: true,
+      cancelButtonColor: Colors.functionNegative,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await postApi.deletePost(postData.postId);
+          Swal.fire({
+            icon: 'success',
+            title: '😉',
+            text: '업로드한 루틴 포스트가 삭제되었습니다.',
+            confirmButtonColor: Colors.point,
+          }).then(history.push('/community'));
+        } catch (error) {
+          Swal.fire({
+            icon: 'error',
+            title: '😂',
+            text: '삭제하지 못했습니다.',
+            confirmButtonColor: Colors.point,
+          });
+        }
+      }
+    });
+  };
+
   return (
     <Container navBar>
       <RoutineInfoHeader>
@@ -150,21 +182,26 @@ const RoutinePostDetailPage = (): JSX.Element => {
               </RoutineCategory>
             ))}
         </CategoryWrapper>
-        <BringRoutineButton
-          onClick={() => {
-            Swal.fire({
-              position: 'center',
-              icon: 'success',
-              title: `😎`,
-              text: '자유롭게 수정하고 생성하기를 완료해주세요.',
-              confirmButtonColor: Colors.point,
-            });
-            history.push('/routine/create');
-          }}
-        >
-          <GetAppRoundedIcon />
-          루틴 가져오기
-        </BringRoutineButton>
+        <ButtonContainer>
+          {postData && postData.user.userId === user?.userId ? (
+            <IconButton.Delete onClick={handleClickDeleteButton} />
+          ) : null}
+          <BringRoutineButton
+            onClick={() => {
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: `😎`,
+                text: '자유롭게 수정하고 생성하기를 완료해주세요.',
+                confirmButtonColor: Colors.point,
+              });
+              history.push('/routine/create');
+            }}
+          >
+            <GetAppRoundedIcon />
+            루틴 가져오기
+          </BringRoutineButton>
+        </ButtonContainer>
       </RoutineInfoFooter>
       <MissionContainer>
         {postData &&
@@ -263,6 +300,7 @@ const BringRoutineButton = styled.button`
   color: ${Colors.textQuaternary};
   font-size: ${FontSize.small};
   padding: 0 0.5rem;
+  cursor: pointer;
 
   @media (hover: hover) {
     :hover {
@@ -294,6 +332,13 @@ const MissionContainer = styled.div`
   gap: 1rem;
   margin: 1rem 0;
   width: 100%;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
 `;
 
 const StyledCommentCreator = styled(CommentCreator)`

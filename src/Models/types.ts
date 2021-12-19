@@ -58,7 +58,7 @@ export interface MissionCompletionType {
 export interface RoutinePostType {
   postId: number;
   title: string;
-  user: Omit<UserType, 'email' | 'userId'>;
+  user: Omit<UserType, 'email'>;
   routine: {
     routineId: number;
     name: string;
