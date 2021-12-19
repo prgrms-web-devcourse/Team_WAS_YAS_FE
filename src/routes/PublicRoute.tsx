@@ -7,10 +7,7 @@ const PublicRoute = ({
   component: Component,
   restricted = false,
   ...rest
-}: RouteProps &
-  Required<Pick<RouteProps, 'component'>> & {
-    restricted?: boolean;
-  }): JSX.Element => {
+}: any): JSX.Element => {
   const token = sessionStorage.getItem('YAS_USER_TOKEN');
 
   token &&
@@ -26,7 +23,7 @@ const PublicRoute = ({
   return (
     <Route
       {...rest}
-      render={(props) =>
+      render={(props: any) =>
         token && restricted ? <Redirect to="/" /> : <Component {...props} />
       }
     />

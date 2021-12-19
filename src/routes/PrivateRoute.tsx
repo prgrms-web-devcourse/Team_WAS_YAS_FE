@@ -3,12 +3,18 @@ import { Route, Redirect, RouteProps } from 'react-router-dom';
 /* eslint-disable */
 import Swal from 'sweetalert2';
 
+interface PrivateRouteProps extends RouteProps {
+  component: JSX.Element;
+  path: string;
+  render: (props: any) => JSX.Element;
+}
+
 const PrivateRoute = ({
   children,
   component: Component,
   path,
   ...rest
-}: RouteProps & Required<Pick<RouteProps, 'component'>>): JSX.Element => {
+}: any): JSX.Element => {
   const token = sessionStorage.getItem('YAS_USER_TOKEN');
 
   if (!token && path !== '/mypage') {
@@ -25,7 +31,7 @@ const PrivateRoute = ({
     <Route
       path={path}
       {...rest}
-      render={(props) =>
+      render={(props: any) =>
         token ? <Component {...props} /> : <Redirect to="/mypage/signin" />
       }
     />

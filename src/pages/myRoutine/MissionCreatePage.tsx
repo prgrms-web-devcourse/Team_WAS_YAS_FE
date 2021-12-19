@@ -33,6 +33,8 @@ const MissionCreatePage = (): JSX.Element => {
 
   // TODO : 현재 루틴 컬러 및 미션 순서 스토어에서 가져오는 걸로 변경
   const getColorAndOrders = useCallback(async () => {
+    // 예외처리
+    if (!id) return;
     const response = await routineApi.getRoutine(parseInt(id));
     const { color, missionDetailResponses } = response.data.data;
     setMission((mission) => ({
@@ -57,6 +59,8 @@ const MissionCreatePage = (): JSX.Element => {
       });
     } else {
       try {
+        // 예외처리
+        if (!id) return;
         await missionApi.createMission(parseInt(id), mission);
         Swal.fire({
           icon: 'success',

@@ -4,7 +4,7 @@ import { RoutineType } from '@/Models';
 import { Colors, FontSize, Media } from '@/styles';
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const MyRoutinePage = (): JSX.Element => {

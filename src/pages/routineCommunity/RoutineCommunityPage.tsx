@@ -8,7 +8,7 @@ import {
 } from '@/components';
 import styled from '@emotion/styled';
 import { Colors, Media } from '@/styles';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { RoutinePostWindowType } from '@/Models';
 import { ROUTINE_CATEGORY } from '@/constants';

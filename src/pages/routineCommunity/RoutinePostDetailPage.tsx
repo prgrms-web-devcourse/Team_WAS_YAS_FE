@@ -34,6 +34,9 @@ const RoutinePostDetailPage = (): JSX.Element => {
     const getPost = async () => {
       setLoading(true);
       try {
+        // 예외처리
+        if (!postId) return;
+
         const response = await postApi.getPost(parseInt(postId));
         const postData = response.data.data;
         setPostData(postData);

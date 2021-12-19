@@ -28,8 +28,9 @@ interface RoutineDetail {
 }
 
 const RoutineDetailPage = (): JSX.Element => {
-  const params: { id: string } = useParams();
-  const routineId = +params['id'];
+  // 예외처리
+  const { id } = useParams<Record<string, string>>();
+  const routineId = id && parseInt(id);
   const [routine, setRoutine] = useState<Partial<RoutineDetail>>({});
   const [missions, setMissions] = useState<any>([]);
 
@@ -43,6 +44,7 @@ const RoutineDetailPage = (): JSX.Element => {
     };
 
     try {
+      if (!routineId) return;
       await missionApi.updateMission(routineId, updatedMission);
     } catch (e) {
       console.log(e);
@@ -51,6 +53,7 @@ const RoutineDetailPage = (): JSX.Element => {
 
   const getRoutineDetail = async () => {
     try {
+      if (!routineId) return;
       const result = await routineApi.getRoutine(routineId);
       const routineInfo = result.data.data;
       const missionInfo = result.data.data.missionDetailResponses.sort(
@@ -85,6 +88,7 @@ const RoutineDetailPage = (): JSX.Element => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
+          if (!routineId) return;
           await missionApi.deleteMission(routineId, mission.missionId);
           await getRoutineDetail();
 

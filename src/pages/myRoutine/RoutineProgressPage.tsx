@@ -15,7 +15,7 @@ import useInterval from '../../hooks/useInterval';
 import { keyframes } from '@emotion/react';
 import { RoutineProgressModal } from '@/components/organisms/RoutineProgressModal';
 import Swal from 'sweetalert2';
-import { useHistory, useParams } from 'react-router';
+import { useHistory, useParams } from 'react-router-dom';
 import { MissionCompletionType, MissionType } from '@/Models';
 import { missionStatusApi, routineApi } from '@/apis';
 
@@ -32,11 +32,13 @@ const RoutineProgressPage = (): JSX.Element => {
   const [missions, setMissions] = useState<any>([]);
   const [currentMissions, setCurrentMissions] = useState<any>({});
   const [routineStatusId, setRoutineStatusId] = useState(0);
-  const params: { id: string } = useParams();
-  const routineId = +params['id'];
+  // 예외처리
+  const { id } = useParams<Record<string, string>>();
+  const routineId = id && parseInt(id);
 
   const createRoutineProgress = async () => {
     try {
+      if (!routineId) return;
       const result = await missionStatusApi.createMissionStatus(routineId);
       return result.data.data;
     } catch (e) {
@@ -46,6 +48,7 @@ const RoutineProgressPage = (): JSX.Element => {
 
   const getRoutineDetail = async () => {
     try {
+      if (!routineId) return;
       const {
         missionMissionStatusIds,
         routineStatusId,
@@ -94,6 +97,7 @@ const RoutineProgressPage = (): JSX.Element => {
     orders: number;
   }) => {
     try {
+      if (!routineId) return;
       const missionStatus = {
         routineStatusId: routineStatusId,
         missionStatusId: currentMission['missionStatusId'],
@@ -112,6 +116,7 @@ const RoutineProgressPage = (): JSX.Element => {
     orders: number;
   }) => {
     try {
+      if (!routineId) return;
       const missionStatus = {
         routineStatusId: routineStatusId,
         missionStatusId: currentMission['missionStatusId'],
@@ -127,6 +132,7 @@ const RoutineProgressPage = (): JSX.Element => {
 
   const endMission = async (userDurationTime: number) => {
     try {
+      if (!routineId) return;
       const missionStatus = {
         routineStatusId: routineStatusId,
         missionStatusId: currentMissions['missionStatusId'],

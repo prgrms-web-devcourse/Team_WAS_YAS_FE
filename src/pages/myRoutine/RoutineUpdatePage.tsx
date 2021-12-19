@@ -24,6 +24,9 @@ const RoutineUpdatePage = (): JSX.Element => {
   });
   const initialRoutine = useCallback(async () => {
     try {
+      // 예외처리
+      if (!id) return;
+
       const response = await routineApi.getRoutine(parseInt(id));
       const routineData = response.data.data;
       setSelectedRoutine(routineData);
@@ -43,6 +46,9 @@ const RoutineUpdatePage = (): JSX.Element => {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      // 예외처리
+      if (!id) return;
+
       await routineApi.updateRoutine(parseInt(id), {
         weeks: selectedRoutine.weeks,
       });
