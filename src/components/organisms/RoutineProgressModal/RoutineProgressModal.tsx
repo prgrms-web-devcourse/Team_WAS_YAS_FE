@@ -79,7 +79,7 @@ const RoutineProgressModal = ({
           ),
         )}
       </StyledModal>
-      {visible && <StyledButton onClick={onClose}>종료하기</StyledButton>}
+      {visible && <StyledButton onClick={onClose}>닫기</StyledButton>}
     </Fragment>
   );
 };
