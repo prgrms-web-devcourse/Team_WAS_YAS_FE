@@ -16,10 +16,19 @@ const IconButton = styled.button`
   background-color: ${Colors.backgroundButton};
   border: none;
   cursor: pointer;
-
   border-radius: 12px;
   width: 40px;
   height: 40px;
+
+  @media (hover: hover) {
+    &:hover {
+      background-color: ${Colors.pointLight};
+    }
+  }
+
+  &: active {
+    background-color: ${Colors.backgroundModal};
+  }
 `;
 
 const TrashIcon = styled(DeleteRoundedIcon)`
