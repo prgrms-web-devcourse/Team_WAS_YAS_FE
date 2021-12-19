@@ -47,7 +47,12 @@ const RoutineDetailPage = (): JSX.Element => {
       if (!routineId) return;
       await missionApi.updateMission(routineId, updatedMission);
     } catch (e) {
-      console.log(e);
+      Swal.fire({
+        icon: 'error',
+        title: '🥲 oops!',
+        text: `${e}`,
+        confirmButtonColor: Colors.point,
+      });
     }
   }, [missions, routineId]);
 
@@ -71,7 +76,12 @@ const RoutineDetailPage = (): JSX.Element => {
 
       setMissions([...missionInfo]);
     } catch (e) {
-      console.log(e);
+      Swal.fire({
+        icon: 'error',
+        title: '🥲 oops!',
+        text: `${e}`,
+        confirmButtonColor: Colors.point,
+      });
     }
   };
 
