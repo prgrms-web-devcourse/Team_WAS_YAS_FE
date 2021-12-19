@@ -430,11 +430,16 @@ const prevStepAnimation = keyframes`
 
 const MissionProgressContainer = styled.div`
   width: 100%;
+  height: 380px;
   display: grid;
   align-items: center;
   grid-template-columns: repeat(3, 1fr);
   margin: 24px 0 40px;
   overflow: hidden;
+
+  @media ${Media.sm} {
+    height: 190px;
+  }
 `;
 
 const MissionProgress = styled.div<Partial<MissionType>>`
