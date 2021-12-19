@@ -13,7 +13,7 @@ import { MissionCompletionType } from '@/Models';
 import { Colors, Media } from '@/styles';
 import styled from '@emotion/styled';
 import { useEffect, useCallback, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import update from 'immutability-helper';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -33,6 +33,9 @@ const RoutineDetailPage = (): JSX.Element => {
   const routineId = id && parseInt(id);
   const [routine, setRoutine] = useState<Partial<RoutineDetail>>({});
   const [missions, setMissions] = useState<any>([]);
+  const [isFinished, setIsFinished] = useState(false);
+  const [missionIsEmpty, setMissionIsEmpty] = useState(false);
+  const history = useHistory();
 
   const updateMission = useCallback(async () => {
     const updatedMission: any = {
@@ -60,6 +63,12 @@ const RoutineDetailPage = (): JSX.Element => {
         (a: { orders: number }, b: { orders: number }) => a.orders - b.orders,
       );
 
+      if (missionInfo.length === 0) {
+        setMissionIsEmpty(true);
+      } else {
+        setMissionIsEmpty(false);
+      }
+
       setRoutine(routineInfo);
 
       for (let i = 0; i < missionInfo.length; i++) {
@@ -72,6 +81,16 @@ const RoutineDetailPage = (): JSX.Element => {
       setMissions([...missionInfo]);
     } catch (e) {
       console.log(e);
+    }
+  };
+
+  const getFinishedRoutines = async () => {
+    const finishedRoutines = await routineApi.getFinishedRoutines();
+    const finishedRoutineIds = finishedRoutines.data.data.map(
+      (routine: { routineId: number }) => routine.routineId,
+    );
+    if (finishedRoutineIds.includes(routineId)) {
+      setIsFinished(true);
     }
   };
 
@@ -113,6 +132,7 @@ const RoutineDetailPage = (): JSX.Element => {
 
   useEffect(() => {
     getRoutineDetail();
+    getFinishedRoutines();
     // eslint-disable-next-line
   }, []);
 
@@ -130,6 +150,20 @@ const RoutineDetailPage = (): JSX.Element => {
     },
     [missions],
   );
+
+  const startRoutine = () => {
+    if (missionIsEmpty) {
+      Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: '미션을 생성해주세요',
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    } else {
+      history.push(`/routine/${routineId}/progress`);
+    }
+  };
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -160,8 +194,24 @@ const RoutineDetailPage = (): JSX.Element => {
             missionObject={mission}
           />
         ))}
-        <Link to={`/routine/${routineId}/progress`}>
-          <StyledButton colorType="white">
+
+        {isFinished ? (
+          <Link to={`/routine/${routineId}/finish`}>
+            <StyledButton colorType="white">
+              <Svg
+                viewBox="0 0 24 28"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M22.7869 15.5913L3.69882 26.6667C2.0789 27.6057 0 26.4687 0 24.5758V2.42492C0 0.535018 2.0759 -0.604927 3.69882 0.337027L22.7869 11.4125C23.1554 11.6228 23.4617 11.9269 23.6747 12.2939C23.8878 12.6608 24 13.0776 24 13.5019C24 13.9262 23.8878 14.343 23.6747 14.7099C23.4617 15.0768 23.1554 15.3809 22.7869 15.5913Z"
+                  fill="#565656"
+                />
+              </Svg>
+            </StyledButton>
+          </Link>
+        ) : (
+          <StyledButton colorType="white" onClick={startRoutine}>
             <Svg
               viewBox="0 0 24 28"
               fill="none"
@@ -173,7 +223,7 @@ const RoutineDetailPage = (): JSX.Element => {
               />
             </Svg>
           </StyledButton>
-        </Link>
+        )}
         <Link to={`/routine/${routineId}/create`}>
           <StyledRoutineAddButton />
         </Link>
