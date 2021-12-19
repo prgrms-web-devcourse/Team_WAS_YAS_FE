@@ -62,10 +62,18 @@ const ContentContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* max-width: 768px; */
   width: 100%;
-  height: 80px;
   margin: 0 auto;
+
+  @media ${Media.sm} {
+    height: 56px;
+  }
+  @media ${Media.md} {
+    height: 80px;
+  }
+  @media ${Media.lg} {
+    height: 80px;
+  }
 `;
 
 const StyledAvatar = styled(Avatar)<{ on: number }>`
@@ -94,7 +102,7 @@ const StyledAvatar = styled(Avatar)<{ on: number }>`
   @media ${Media.lg} {
     width: 40px;
     height: 40px;
-  }s
+  }
 `;
 
 export default Header;
