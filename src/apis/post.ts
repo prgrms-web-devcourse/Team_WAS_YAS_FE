@@ -2,7 +2,10 @@ import { AxiosResponse } from 'axios';
 import { authRequest } from './config';
 
 interface postApiType {
-  createRoutinePost: (routineId: number) => Promise<AxiosResponse>;
+  createRoutinePost: (
+    routineId: number,
+    postInfo: { content: string },
+  ) => Promise<AxiosResponse>;
   getUnpostedRoutine: () => Promise<AxiosResponse>;
   getPosts: () => Promise<AxiosResponse>;
   getPost: (postId: number) => Promise<AxiosResponse>;
@@ -10,8 +13,8 @@ interface postApiType {
 }
 
 const postApi: postApiType = {
-  createRoutinePost: (routineId) =>
-    authRequest.post(`/routines/${routineId}/posts`),
+  createRoutinePost: (routineId, postInfo) =>
+    authRequest.post(`/routines/${routineId}/posts`, postInfo),
   getUnpostedRoutine: () => authRequest.get('/routines/posts'),
   getPosts: () => authRequest.get(`/posts`),
   getPost: (postId) => authRequest.get(`/posts/${postId}`),
