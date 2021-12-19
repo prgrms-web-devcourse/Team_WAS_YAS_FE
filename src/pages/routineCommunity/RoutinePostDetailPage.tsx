@@ -190,6 +190,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
         {postData &&
           postData.comments.map((comment: CommentType) => (
             <Comment
+              key={comment.commentId}
               editable={user ? comment.user.userId === user.userId : undefined}
               onEditComment={handleUpdateComment}
               onDeleteComment={handleDeleteComment}
@@ -197,7 +198,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
               likeToggled={comment.likes.some(
                 (like) => like.userId === user?.userId,
               )}
-              key={comment.commentId}
+              likeCount={comment.likes.length}
               comment={comment}
             />
           ))}

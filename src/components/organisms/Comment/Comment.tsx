@@ -16,6 +16,7 @@ export interface CommentProps extends React.ComponentProps<'div'> {
   onDeleteComment?: (commentId: number) => void;
   onClickLikeToggle?: (commentId: number, prevToggled: boolean) => void;
   likeToggled?: boolean;
+  likeCount?: number;
 }
 
 const Comment = ({
@@ -25,6 +26,7 @@ const Comment = ({
   onDeleteComment,
   onClickLikeToggle,
   likeToggled,
+  likeCount,
   ...props
 }: CommentProps): JSX.Element => {
   const ref = useRef<HTMLTextAreaElement>(null);
@@ -92,7 +94,7 @@ const Comment = ({
           <LikeBox
             interactive
             active={likeToggled}
-            count={0}
+            count={likeCount ? likeCount : 0}
             onClick={handleClickLikeButton}
           />
           {editable && (
