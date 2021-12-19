@@ -8,7 +8,7 @@ import React, {
 import { Container, Routine, Button } from '@/components';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import styled from '@emotion/styled';
-import { useHistory } from 'react-router';
+import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { postApi } from '@/apis';
 
