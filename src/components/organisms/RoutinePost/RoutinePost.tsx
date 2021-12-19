@@ -38,7 +38,7 @@ const RoutinePost = ({
     color: routine.color,
     name: routine.name,
     durationGoalTime: routine.durationGoalTime,
-    weeks: routine.weeks,
+    weeks: routine.week,
     startGoalTime: routine.startGoalTime,
   };
 

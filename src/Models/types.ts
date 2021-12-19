@@ -90,7 +90,7 @@ export interface RoutinePostWindowType {
     name: string;
     routineId: number;
     color: string;
-    weeks: string[];
+    week: string[];
   };
   updatedAt: string;
   user: {

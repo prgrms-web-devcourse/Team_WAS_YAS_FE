@@ -23,7 +23,7 @@ const routinePostDummy: RoutinePostWindowType = {
     name: '공원가서 산책하기',
     routineId: 123,
     color: '#E8587B',
-    weeks: ['MON', 'TUE', 'SAT'],
+    week: ['MON', 'TUE', 'SAT'],
   },
   updatedAt: '2020-06-01T00:00:00.000Z',
   user: {
@@ -36,3 +36,5 @@ const routinePostDummy: RoutinePostWindowType = {
 export const Default = (): JSX.Element => {
   return <RoutinePost routinePost={routinePostDummy} />;
 };
+
+export {};

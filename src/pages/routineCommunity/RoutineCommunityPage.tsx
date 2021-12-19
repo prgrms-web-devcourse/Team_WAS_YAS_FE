@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Container,
   IconButton,
   RoutineCategorySelector,
-  TabBar,
   RoutinePost,
 } from '@/components';
 import styled from '@emotion/styled';
-import { Colors, Media } from '@/styles';
-import { useHistory } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Media } from '@/styles';
+import { Link, useHistory } from 'react-router-dom';
 import { RoutinePostWindowType } from '@/Models';
 import { ROUTINE_CATEGORY } from '@/constants';
 import { postApi } from '@/apis';
@@ -36,6 +34,7 @@ const RoutineCommunityPage = (): JSX.Element => {
       try {
         const response = await postApi.getPosts();
         const routinePosts = response.data.data;
+        console.log(routinePosts);
         setRoutinePosts(routinePosts);
       } catch (error: any) {
         Swal.fire({
