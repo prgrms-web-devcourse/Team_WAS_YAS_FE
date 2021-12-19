@@ -1,229 +1,104 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Container,
   IconButton,
-  Routine,
   RoutineCategorySelector,
   TabBar,
+  RoutinePost,
 } from '@/components';
 import styled from '@emotion/styled';
 import { Colors, Media } from '@/styles';
 import { useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
-import { RoutineType } from '@/Models';
+import { RoutinePostWindowType } from '@/Models';
 import { ROUTINE_CATEGORY } from '@/constants';
+import { postApi } from '@/apis';
+import Swal from 'sweetalert2';
+import { Tabs, Tab, Box } from '@mui/material';
 
-const DUMMY_ROUTINE: Partial<RoutineType>[] = [
-  {
-    routineId: 1,
-    emoji: '🌳',
-    color: Colors.red,
-    name: '집 앞 공원 산책하기',
-    durationGoalTime: 10000,
-    startGoalTime: `${new Date().toISOString()}`,
-    routineCategory: ['EXERCISE'],
-  },
-  {
-    routineId: 2,
-    emoji: '🥽',
-    color: Colors.brown,
-    name: '물 2L 마시기',
-    durationGoalTime: 780,
-    startGoalTime: `${new Date(2021, 12, 8, 12, 0).toISOString()}`,
-    routineCategory: ['HEALTH'],
-  },
-  {
-    routineId: 3,
-    emoji: '🍖',
-    color: Colors.indigo,
-    name: '아침 만들어 먹기',
-    durationGoalTime: 4200,
-    startGoalTime: `${new Date(2021, 12, 8, 6, 30).toISOString()}`,
-    routineCategory: ['FOOD'],
-  },
-  {
-    routineId: 4,
-    emoji: '📝',
-    color: Colors.pink,
-    name: '공부하기',
-    durationGoalTime: 1800,
-    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    routineCategory: ['STUDY'],
-  },
-  {
-    routineId: 5,
-    emoji: '📝',
-    color: Colors.pink,
-    name: '공부하기',
-    durationGoalTime: 1800,
-    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    routineCategory: ['STUDY'],
-  },
-  {
-    routineId: 6,
-    emoji: '📝',
-    color: Colors.pink,
-    name: '공부하기',
-    durationGoalTime: 1800,
-    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    routineCategory: ['STUDY'],
-  },
-  {
-    routineId: 7,
-    emoji: '📝',
-    color: Colors.pink,
-    name: '공부하기',
-    durationGoalTime: 1800,
-    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    routineCategory: ['STUDY'],
-  },
-
-  {
-    routineId: 8,
-    emoji: '📝',
-    color: Colors.pink,
-    name: '공부하기',
-    durationGoalTime: 1800,
-    startGoalTime: `${new Date(2021, 12, 8, 21, 30).toISOString()}`,
-    routineCategory: ['STUDY'],
-  },
-];
+function a11yProps(index: any) {
+  return {
+    id: `scrollable-auto-tab-${index}`,
+    'aria-controls': `scrollable-auto-tabpanel-${index}`,
+  };
+}
 
 const RoutineCommunityPage = (): JSX.Element => {
-  const [clickedCategory, setClickedCategory] = useState<string[]>(['TOTAL']);
-  const categoryChangeHandler = (category: string[]) => {
-    setClickedCategory(category);
-  };
-
   const history = useHistory();
-  const onClickRoutine = (e: React.MouseEvent<HTMLElement>, id: any) => {
-    e.stopPropagation();
-    const element = e.target as HTMLElement;
+  const [routinePosts, setRoutinePosts] = useState<
+    RoutinePostWindowType[] | undefined
+  >();
+  const [tabValue, setTabValue] = useState(0);
+  const [category, setCategory] = useState<string[]>(['TOTAL']);
 
-    if (
-      !(
-        element.tagName === 'svg' ||
-        element.tagName === 'path' ||
-        element?.className.includes('ToolBox')
-      )
-    ) {
-      history.push(`/community/${id}`);
-    }
+  useEffect(() => {
+    const getPosts = async () => {
+      try {
+        const response = await postApi.getPosts();
+        const routinePosts = response.data.data;
+        setRoutinePosts(routinePosts);
+      } catch (error: any) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.message,
+        });
+      }
+    };
+    getPosts();
+  }, []);
+
+  const handleChangeCategory = (category: string[]) => {
+    setCategory(category);
   };
+
+  const handleChangeTabs = (e: any, newTabValue: any) => {
+    setTabValue(newTabValue);
+  };
+
+  const handleClickRoutinePosts = (postId: number) => {
+    history.push(`/community/${postId}`);
+  };
+
   return (
     <Container navBar>
-      <TabBar type="community">
-        <TabBar.Item title="🐥 신규 루틴" index="0">
-          <CategoryContainer>
-            <StyledCategorySelector
-              type="radio"
-              selectedLimit={1}
-              onChange={categoryChangeHandler}
-              categories={Object.keys(ROUTINE_CATEGORY)}
+      <Box
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+        }}
+      >
+        <Tabs
+          value={tabValue}
+          onChange={handleChangeTabs}
+          indicatorColor="primary"
+          textColor="primary"
+          variant="scrollable"
+          scrollButtons="auto"
+        >
+          <StyledTab label="🐥 신규 루틴" {...a11yProps(0)} />
+          <StyledTab label="🔥 인기 루틴" {...a11yProps(1)} />
+          <StyledTab label="⭐️ 나의 루틴" {...a11yProps(2)} />
+        </Tabs>
+      </Box>
+      <CategoryContainer>
+        <RoutineCategorySelector
+          type="radio"
+          selectedLimit={1}
+          onChange={handleChangeCategory}
+          categories={Object.keys(ROUTINE_CATEGORY)}
+        />
+      </CategoryContainer>
+      <RoutinePostGrid>
+        {routinePosts &&
+          routinePosts.map((routinePost) => (
+            <RoutinePost
+              key={routinePost.postId}
+              routinePost={routinePost}
+              onClickRoutinePost={handleClickRoutinePosts}
             />
-          </CategoryContainer>
-          <RoutineGridBox>
-            {DUMMY_ROUTINE?.map((routine) => {
-              if (clickedCategory[0] === 'TOTAL') {
-                return (
-                  <Routine
-                    onClick={(e) => onClickRoutine(e, routine.routineId)}
-                    key={routine.routineId}
-                    routineObject={routine}
-                    type="communityRoutine"
-                  />
-                );
-              } else if (
-                routine.routineCategory?.includes(clickedCategory[0])
-              ) {
-                return (
-                  <Routine
-                    onClick={(e) => onClickRoutine(e, routine.routineId)}
-                    key={routine.routineId}
-                    routineObject={routine}
-                    type="communityRoutine"
-                  />
-                );
-              }
-            })}
-          </RoutineGridBox>
-        </TabBar.Item>
-
-        <TabBar.Item title="🔥 인기 루틴" index="1">
-          <CategoryContainer>
-            <StyledCategorySelector
-              type="radio"
-              selectedLimit={1}
-              onChange={categoryChangeHandler}
-              categories={Object.keys(ROUTINE_CATEGORY)}
-            />
-          </CategoryContainer>
-          <RoutineGridBox>
-            {DUMMY_ROUTINE?.map((routine) => {
-              if (clickedCategory[0] === 'TOTAL') {
-                return (
-                  <Routine
-                    onClick={(e) => onClickRoutine(e, routine.routineId)}
-                    key={routine.routineId}
-                    routineObject={routine}
-                    type="communityRoutine"
-                    like={routine.routineId}
-                  />
-                );
-              } else if (
-                routine.routineCategory?.includes(clickedCategory[0])
-              ) {
-                return (
-                  <Routine
-                    onClick={(e) => onClickRoutine(e, routine.routineId)}
-                    key={routine.routineId}
-                    routineObject={routine}
-                    type="communityRoutine"
-                    like={routine.routineId}
-                  />
-                );
-              }
-            })}
-          </RoutineGridBox>
-        </TabBar.Item>
-
-        <TabBar.Item title="💫 나의 루틴" index="2">
-          <CategoryContainer>
-            <StyledCategorySelector
-              type="radio"
-              selectedLimit={1}
-              onChange={categoryChangeHandler}
-              categories={Object.keys(ROUTINE_CATEGORY)}
-            />
-          </CategoryContainer>
-          <RoutineGridBox>
-            {DUMMY_ROUTINE?.map((routine) => {
-              if (clickedCategory[0] === 'TOTAL') {
-                return (
-                  <Routine
-                    onClick={(e) => onClickRoutine(e, routine.routineId)}
-                    key={routine.routineId}
-                    routineObject={routine}
-                    type="communityMyRoutine"
-                  />
-                );
-              } else if (
-                routine.routineCategory?.includes(clickedCategory[0])
-              ) {
-                return (
-                  <Routine
-                    onClick={(e) => onClickRoutine(e, routine.routineId)}
-                    key={routine.routineId}
-                    routineObject={routine}
-                    type="communityMyRoutine"
-                  />
-                );
-              }
-            })}
-          </RoutineGridBox>
-        </TabBar.Item>
-      </TabBar>
-
+          ))}
+      </RoutinePostGrid>
       <Link to="/community/create">
         <StyledRoutineAddButton />
       </Link>
@@ -231,11 +106,15 @@ const RoutineCommunityPage = (): JSX.Element => {
   );
 };
 
-export default RoutineCommunityPage;
+const StyledTab = styled(Tab)`
+  font-size: 18px;
+  font-weight: bold;
+  width: 200px;
+`;
 
 const CategoryContainer = styled.div`
   overflow-x: scroll;
-  width: 688px;
+  width: 100%;
   margin: 1.5rem 0;
 
   -ms-overflow-style: none;
@@ -269,27 +148,29 @@ const StyledCategorySelector = styled(RoutineCategorySelector)`
   }
 `;
 
-const RoutineGridBox = styled.div`
-  display: grid;
-  grid-template-columns: repeat(2, 240px);
-  justify-content: center;
-  gap: 32px 56px;
-  padding-bottom: 24px;
-
-  @media ${Media.sm} {
-    grid-template-columns: repeat(2, 140px);
-    gap: 10px 14px;
-    padding-bottom: 12px;
-  }
-`;
-
 const StyledRoutineAddButton = styled(IconButton.Add)`
   position: fixed;
   right: calc(50% - 266px);
   bottom: 116px;
 
   @media ${Media.sm} {
-    right: calc(50% - 140px);
+    right: 1rem;
     bottom: 62px;
   }
 `;
+
+const RoutinePostGrid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 260px);
+  justify-content: center;
+  gap: 2rem 2rem;
+  padding-bottom: 24px;
+
+  @media ${Media.sm} {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+`;
+
+export default RoutineCommunityPage;

@@ -35,7 +35,8 @@ const RoutinePostDetailPage = (): JSX.Element => {
       setLoading(true);
       try {
         const response = await postApi.getPost(parseInt(postId));
-        setPostData(response.data);
+        const postData = response.data.data;
+        setPostData(postData);
       } catch (error: any) {
         Swal.fire({
           icon: 'error',
