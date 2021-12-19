@@ -37,7 +37,6 @@ const RoutineCommunityPage = (): JSX.Element => {
         const response = await postApi.getPosts();
         const routinePosts = response.data.data;
         setRoutinePosts(routinePosts);
-        console.log(routinePosts);
       } catch (error: any) {
         Swal.fire({
           icon: 'error',
@@ -54,7 +53,6 @@ const RoutineCommunityPage = (): JSX.Element => {
   };
 
   const handleChangeTabs = (e: any, newTabValue: any) => {
-    console.log(newTabValue);
     setTabValue(newTabValue);
   };
 
