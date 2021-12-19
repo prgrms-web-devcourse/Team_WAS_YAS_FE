@@ -62,7 +62,7 @@ const RoutinePost = ({
             <UserNameText>{user.nickname}</UserNameText>
           </UserProfileContainer>
           <LikeBox
-            interactive
+            interactive={loginUser ? true : false}
             active={
               loginUser
                 ? likes.some((like) => like.userId === loginUser?.userId)

@@ -122,7 +122,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
           <AuthorNameText>{postData && postData.user.nickname}</AuthorNameText>
         </AuthorInfoWrapper>
         <LikeBox
-          interactive
+          interactive={user ? true : false}
           // active={
           //   user
           //     ? postData &&

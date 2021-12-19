@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import { FontSize, Colors } from '@/styles';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
+import Swal from 'sweetalert2';
 
 export interface LikeBoxProps
   extends Omit<React.ComponentProps<'span'>, 'onClick'> {
@@ -25,11 +26,19 @@ const LikeBox = ({
 
   const handleClick = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
-    if (!interactive) return;
+    if (!interactive) {
+      Swal.fire({
+        icon: 'warning',
+        title: '😅',
+        text: '좋아요는 로그인 후 사용 가능합니다.',
+        confirmButtonColor: Colors.point,
+      });
+      return;
+    }
     const prevToggled = toggled;
     const newCount = prevToggled ? count - 1 : count + 1;
-    setCount(() => newCount);
     onClick && onClick(newCount, prevToggled);
+    setCount(() => newCount);
     toggle();
   };
 
