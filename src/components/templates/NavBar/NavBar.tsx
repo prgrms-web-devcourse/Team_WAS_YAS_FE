@@ -20,15 +20,15 @@ const NavBar = (): JSX.Element => {
 
   return (
     <NavBarContainer>
+      <Link to="/routine">
+        <RoundedButton.Home className="home" active={isClicked.home} />
+      </Link>
+
       <Link to="/community">
         <RoundedButton.Community
           className="community"
           active={isClicked.community}
         />
-      </Link>
-
-      <Link to="/routine">
-        <RoundedButton.Home className="home" active={isClicked.home} />
       </Link>
 
       <Link to="/analysis">
