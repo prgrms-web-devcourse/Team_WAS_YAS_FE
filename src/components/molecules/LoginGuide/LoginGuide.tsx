@@ -33,7 +33,7 @@ const Container = styled.div`
 `;
 
 const EmojiText = styled.p`
-  margin-top: 64px;
+  margin: 72px 0 20px 0;
 
   @media ${Media.sm} {
     font-size: 64px;
@@ -49,7 +49,7 @@ const EmojiText = styled.p`
 const Text = styled.p`
   color: ${Colors.textSecondary};
   font-weight: ${FontWeight.medium};
-  margin: 1rem;
+  margin: 2rem;
   @media ${Media.sm} {
     font-size: ${FontSize.medium};
   }
@@ -62,16 +62,16 @@ const Text = styled.p`
 `;
 
 const StyledButton = styled(Button)`
-  margin: 1rem 0;
+  margin: 2rem 0;
 
   @media ${Media.sm} {
     width: 200px;
   }
   @media ${Media.md} {
-    width: 400px;
+    width: 320px;
   }
   @media ${Media.lg} {
-    width: 400px;
+    width: 320px;
   }
 `;
 

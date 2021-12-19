@@ -1,5 +1,11 @@
 import { routineApi } from '@/apis';
-import { Container, Routine, RoutineAddButton, TabBar } from '@/components';
+import {
+  Container,
+  Routine,
+  RoutineAddButton,
+  TabBar,
+  LoginGuide,
+} from '@/components';
 import { RoutineType } from '@/Models';
 import { Colors, FontSize, Media } from '@/styles';
 import styled from '@emotion/styled';
@@ -136,16 +142,13 @@ const MyRoutinePage = (): JSX.Element => {
               </RoutineGridBox>
             ) : (
               <MessageContainer>
-                <p>🥲</p>
+                <p>😭</p>
                 <p>루틴이 없습니다</p>
-                <p>루틴을 생성해주세요!</p>
+                <p>플러스 버튼을 눌러 루틴을 생성해볼까요?</p>
               </MessageContainer>
             )
           ) : (
-            <MessageContainer>
-              <p>🥲</p>
-              <p>로그인이 필요한 서비스입니다!</p>
-            </MessageContainer>
+            <LoginGuide />
           )}
         </TabBar.Item>
         <TabBar.Item title="오늘의 루틴" index="1">
@@ -171,16 +174,13 @@ const MyRoutinePage = (): JSX.Element => {
               </RoutineGridBox>
             ) : (
               <MessageContainer>
-                <p>🥲</p>
-                <p>루틴이 없습니다</p>
-                <p>루틴을 생성해주세요!</p>
+                <p>😭</p>
+                <p>오늘의 루틴이 없습니다</p>
+                <p>플러스 버튼을 눌러 루틴을 생성해볼까요?</p>
               </MessageContainer>
             )
           ) : (
-            <MessageContainer>
-              <p>🥲</p>
-              <p>로그인이 필요한 서비스입니다!</p>
-            </MessageContainer>
+            <LoginGuide />
           )}
         </TabBar.Item>
         <TabBar.Item title="완료한 루틴" index="2">
@@ -206,16 +206,13 @@ const MyRoutinePage = (): JSX.Element => {
               </RoutineGridBox>
             ) : (
               <MessageContainer>
-                <p>🥲</p>
-                <p>루틴이 없습니다</p>
-                <p>루틴을 생성해주세요!</p>
+                <p>😭</p>
+                <p>아직 완료한 루틴이 없습니다</p>
+                <p>루틴을 진행해주세요!</p>
               </MessageContainer>
             )
           ) : (
-            <MessageContainer>
-              <p>🥲</p>
-              <p>로그인이 필요한 서비스입니다!</p>
-            </MessageContainer>
+            <LoginGuide />
           )}
         </TabBar.Item>
       </TabBar>
