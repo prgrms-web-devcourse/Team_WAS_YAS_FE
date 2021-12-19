@@ -1,7 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
 
-const API_END_POINT = ' http://52.79.219.24:8080';
-
 const setInterceptors = (instance: AxiosInstance) => {
   instance.interceptors.request.use(
     // TODO: 세부 설정 추가
@@ -57,13 +55,19 @@ const setAuthInterceptors = (instance: AxiosInstance) => {
 };
 
 const createInstance = () => {
-  const instance = axios.create({ baseURL: API_END_POINT, timeout: 5000 });
+  const instance = axios.create({
+    baseURL: process.env.REACT_APP_API_END_POINT,
+    timeout: 5000,
+  });
   return setInterceptors(instance);
 };
 export const request = createInstance();
 
 const createInstanceWithAuth = () => {
-  const instance = axios.create({ baseURL: API_END_POINT, timeout: 5000 });
+  const instance = axios.create({
+    baseURL: process.env.REACT_APP_API_END_POINT,
+    timeout: 5000,
+  });
   return setAuthInterceptors(instance);
 };
 export const authRequest = createInstanceWithAuth();

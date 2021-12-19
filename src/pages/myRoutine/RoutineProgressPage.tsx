@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Container,
   Icon,
@@ -15,101 +15,135 @@ import useInterval from '../../hooks/useInterval';
 import { keyframes } from '@emotion/react';
 import { RoutineProgressModal } from '@/components/organisms/RoutineProgressModal';
 import Swal from 'sweetalert2';
-import { useHistory } from 'react-router';
-import { MissionType } from '@/Models';
-
-const DUMMY_ROUTINE_DETAIL = {
-  routineId: 1,
-  emoji: '🌳',
-  color: Colors.indigo,
-  name: '집 앞 공원 산책하기',
-  durationGoalTime: 14200,
-  startGoalTime: `${new Date().toISOString()}`,
-  routineCategories: ['운동', '공부'],
-  missions: [
-    {
-      missionId: 1,
-      emoji: '🌳',
-      color: Colors.indigo,
-      name: '나무 구경하기',
-      durationGoalTime: 300,
-      userDurationTime: null,
-    },
-    {
-      missionId: 2,
-      emoji: '🥽',
-      color: Colors.indigo,
-      name: '수경 구경하기',
-      durationGoalTime: 700,
-      userDurationTime: null,
-    },
-    {
-      missionId: 3,
-      emoji: '🍖',
-      color: Colors.indigo,
-      name: '고기 구워 먹기',
-      durationGoalTime: 4200,
-      userDurationTime: null,
-    },
-    {
-      missionId: 4,
-      emoji: '📝',
-      color: Colors.indigo,
-      name: '공부하기',
-      durationGoalTime: 1800,
-      userDurationTime: null,
-    },
-    {
-      missionId: 5,
-      emoji: '📝',
-      color: Colors.indigo,
-      name: '공부하기',
-      durationGoalTime: 1800,
-      userDurationTime: null,
-    },
-    {
-      missionId: 6,
-      emoji: '📝',
-      color: Colors.indigo,
-      name: '공부하기',
-      durationGoalTime: 1800,
-      userDurationTime: null,
-    },
-    {
-      missionId: 7,
-      emoji: '📝',
-      color: Colors.indigo,
-      name: '공부하기',
-      durationGoalTime: 1800,
-      userDurationTime: null,
-    },
-
-    {
-      missionId: 8,
-      emoji: '📝',
-      color: Colors.indigo,
-      name: '공부하기',
-      durationGoalTime: 1800,
-      userDurationTime: null,
-    },
-  ],
-};
+import { useHistory, useParams } from 'react-router';
+import { MissionCompletionType, MissionType } from '@/Models';
+import { missionStatusApi, routineApi } from '@/apis';
 
 const RoutineProgressPage = (): JSX.Element => {
   const history = useHistory();
-  const [time] = useState(DUMMY_ROUTINE_DETAIL.missions[0].durationGoalTime);
-  const [duration, setDuration] = useState(
-    moment.duration(time * 1000, 'milliseconds'),
-  );
+  const [duration, setDuration] = useState(moment.duration(0, 'milliseconds'));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [nextStep, setNextStep] = useState(false);
   const [prevStep, setPrevStep] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [progress, setProgress] = useState<any>([
-    ...DUMMY_ROUTINE_DETAIL.missions,
-  ]);
-  const [startTime, setStartTime] = useState(moment());
+  const [progress, setProgress] = useState([]);
   const [isPlay, setIsPlay] = useState(true);
+  const [routine, setRoutine] = useState<any>({});
+  const [missions, setMissions] = useState<any>([]);
+  const [currentMissions, setCurrentMissions] = useState<any>({});
+  const [routineStatusId, setRoutineStatusId] = useState(0);
+  const params: { id: string } = useParams();
+  const routineId = +params['id'];
+
+  const createRoutineProgress = async () => {
+    try {
+      const result = await missionStatusApi.createMissionStatus(routineId);
+      return result.data.data;
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const getRoutineDetail = async () => {
+    try {
+      const {
+        missionMissionStatusIds,
+        routineStatusId,
+      }: {
+        missionMissionStatusIds: {
+          missionId: number;
+          missionStatusId: number;
+        }[];
+        routineStatusId: number;
+      } = await createRoutineProgress();
+
+      setRoutineStatusId(routineStatusId);
+
+      const result = await routineApi.getRoutine(routineId);
+      const routineInfo = { ...result.data.data, weeks: undefined };
+      const missionInfo = result.data.data.missionDetailResponses
+        .sort(
+          (a: { orders: number }, b: { orders: number }) => a.orders - b.orders,
+        )
+        .map((mission: MissionCompletionType) => {
+          const missionStatusId = missionMissionStatusIds.filter(
+            (status: { missionId: number }) =>
+              status['missionId'] === mission['missionId'],
+          )[0];
+          return {
+            ...mission,
+            userDurationTime: null,
+            missionStatusId: missionStatusId['missionStatusId'],
+          };
+        });
+
+      setRoutine(routineInfo);
+      setMissions(missionInfo);
+      setDuration(
+        moment.duration(missionInfo[0].durationGoalTime * 1000, 'milliseconds'),
+      );
+      setProgress(missionInfo);
+      setCurrentMissions(missionInfo[0]);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const startMission = async (currentMission: {
+    missionStatusId: number;
+    orders: number;
+  }) => {
+    try {
+      const missionStatus = {
+        routineStatusId: routineStatusId,
+        missionStatusId: currentMission['missionStatusId'],
+        orders: currentMission['orders'],
+        startTime: moment().toISOString(),
+        userDurationTime: 0,
+      };
+      await missionStatusApi.updateMissionStatus(routineId, missionStatus);
+    } catch (e) {
+      console.error('startMission: ', e);
+    }
+  };
+
+  const startPrevMission = async (currentMission: {
+    missionStatusId: number;
+    orders: number;
+  }) => {
+    try {
+      const missionStatus = {
+        routineStatusId: routineStatusId,
+        missionStatusId: currentMission['missionStatusId'],
+        orders: currentMission['orders'],
+        startTime: moment().toISOString(),
+        userDurationTime: 0,
+      };
+      await missionStatusApi.updateMissionStatus(routineId, missionStatus);
+    } catch (e) {
+      console.error('startPrevMission: ', e);
+    }
+  };
+
+  const endMission = async (userDurationTime: number) => {
+    try {
+      const missionStatus = {
+        routineStatusId: routineStatusId,
+        missionStatusId: currentMissions['missionStatusId'],
+        orders: currentMissions['orders'],
+        endTime: moment().toISOString(),
+        userDurationTime,
+      };
+      await missionStatusApi.updateMissionStatus(routineId, missionStatus);
+    } catch (e) {
+      console.error('endMission: ', e);
+    }
+  };
+
+  useEffect(() => {
+    getRoutineDetail();
+    // eslint-disable-next-line
+  }, []);
 
   const toggle = useInterval(
     () => {
@@ -131,6 +165,7 @@ const RoutineProgressPage = (): JSX.Element => {
   const isPlayClass = isPlay ? '' : 'stopped';
   const nextStepClass = nextStep ? 'nextStep' : '';
   const prevStepClass = prevStep ? 'prevStep' : '';
+  const backgroundColor = routine['color'];
 
   const sleep = (time: number) => {
     return new Promise((resolve) => {
@@ -159,31 +194,42 @@ const RoutineProgressPage = (): JSX.Element => {
           setIsPlay(true);
           toggle();
         }
+
+        setProgress((prevProgress: any) => {
+          const nextState = prevProgress.map((progress: any, index: number) => {
+            if (index === currentIndex - 1) {
+              return {
+                ...progress,
+                isPassed: undefined,
+                userDurationTime: null,
+              };
+            }
+            return progress;
+          });
+          return nextState;
+        });
+
         setCurrentIndex((prevIndex) => {
           setDuration(
             moment.duration(
-              DUMMY_ROUTINE_DETAIL.missions[prevIndex - 1].durationGoalTime *
-                1000,
+              missions[prevIndex - 1]['durationGoalTime'] * 1000,
               'milliseconds',
             ),
           );
+          setCurrentMissions(missions[prevIndex - 1]);
           return prevIndex - 1;
         });
-        setStartTime(moment());
 
         await sleep(450);
         setPrevStep(false);
+
+        await startPrevMission(missions[currentIndex - 1]);
       }
     });
   };
 
   const handleForwardClick = async () => {
-    if (
-      currentIndex === DUMMY_ROUTINE_DETAIL.missions.length - 1 ||
-      prevStep ||
-      nextStep
-    )
-      return;
+    if (currentIndex === missions.length - 1 || prevStep || nextStep) return;
 
     Swal.fire({
       title: '이번 미션을 건너뛸까요?',
@@ -220,32 +266,32 @@ const RoutineProgressPage = (): JSX.Element => {
         setCurrentIndex((prevIndex) => {
           setDuration(
             moment.duration(
-              DUMMY_ROUTINE_DETAIL.missions[prevIndex + 1].durationGoalTime *
-                1000,
+              missions[prevIndex + 1]['durationGoalTime'] * 1000,
               'milliseconds',
             ),
           );
+          setCurrentMissions(missions[prevIndex + 1]);
           return prevIndex + 1;
         });
-        setStartTime(moment());
 
         await sleep(450);
         setNextStep(false);
+
+        await startMission(missions[currentIndex + 1]);
       }
     });
   };
 
   const handleCheckClick = async () => {
     if (nextStep || prevStep) return;
-    const endTime = moment();
     const userDurationTime =
-      DUMMY_ROUTINE_DETAIL.missions[currentIndex].durationGoalTime -
-      duration.asSeconds();
+      missions[currentIndex]['durationGoalTime'] - duration.asSeconds();
+    await endMission(userDurationTime);
 
     Swal.fire({
       position: 'center',
       icon: 'success',
-      title: `${DUMMY_ROUTINE_DETAIL.missions[currentIndex].name} 완료`,
+      title: `${missions[currentIndex]['name']} 완료`,
       html: `<i style="color: ${Colors.functionNegative}">${
         TimeUtils.calculateTime(userDurationTime) || '0초'
       }</i>`,
@@ -253,8 +299,8 @@ const RoutineProgressPage = (): JSX.Element => {
       timer: 1200,
     });
 
-    if (currentIndex === DUMMY_ROUTINE_DETAIL.missions.length - 1) {
-      history.push(`/routine/${DUMMY_ROUTINE_DETAIL.routineId}/finish`);
+    if (currentIndex === missions.length - 1) {
+      history.push(`/routine/${routineId}/finish`);
     }
 
     setProgress((prevProgress: any) => {
@@ -280,20 +326,18 @@ const RoutineProgressPage = (): JSX.Element => {
     setCurrentIndex((prevIndex) => {
       setDuration(
         moment.duration(
-          DUMMY_ROUTINE_DETAIL.missions[prevIndex + 1].durationGoalTime * 1000,
+          missions[prevIndex + 1]['durationGoalTime'] * 1000,
           'milliseconds',
         ),
       );
+      setCurrentMissions(missions[prevIndex + 1]);
       return prevIndex + 1;
     });
 
     await sleep(450);
     setNextStep(false);
 
-    setStartTime(moment());
-    console.log('이전 미션 startTime : ', startTime.toISOString());
-    console.log('이전 미션 endTime : ', endTime.toISOString());
-    console.log('다음 미션 startTime : ', moment().toISOString());
+    await startMission(missions[currentIndex + 1]);
   };
 
   const ProgressModalEmement = useMemo(() => {
@@ -308,25 +352,26 @@ const RoutineProgressPage = (): JSX.Element => {
 
   return (
     <Container>
-      <RoutineInfo routineObject={DUMMY_ROUTINE_DETAIL} />
+      <RoutineInfo routineObject={routine} />
 
       <MissionProgressContainer>
         {currentIndex !== 0 ? <ArrowBack onClick={handleBackClick} /> : <div />}
 
-        <MissionProgress className={`${nextStepClass} ${prevStepClass}`}>
-          <Emoji>{DUMMY_ROUTINE_DETAIL.missions[currentIndex].emoji}</Emoji>
-          <Title>{DUMMY_ROUTINE_DETAIL.missions[currentIndex].name}</Title>
+        <MissionProgress
+          style={{ backgroundColor }}
+          className={`${nextStepClass} ${prevStepClass}`}
+        >
+          <Emoji>{currentMissions['emoji']}</Emoji>
+          <Title>{currentMissions['name']}</Title>
           <Time className={`${timeClass} ${isPlayClass}`}>
             {TimeUtils.formatCalendarTime(duration)}
           </Time>
           <DurationTime>
-            {TimeUtils.calculateTime(
-              DUMMY_ROUTINE_DETAIL.missions[currentIndex].durationGoalTime,
-            )}
+            {TimeUtils.calculateTime(currentMissions['durationGoalTime'])}
           </DurationTime>
         </MissionProgress>
 
-        {DUMMY_ROUTINE_DETAIL.missions.length - 1 !== currentIndex ? (
+        {missions.length - 1 !== currentIndex ? (
           <ArrowForward onClick={handleForwardClick} />
         ) : (
           <div />
@@ -389,7 +434,6 @@ const MissionProgress = styled.div<Partial<MissionType>>`
   flex-flow: column;
   align-items: center;
   justify-content: space-evenly;
-  background-color: ${({ color }) => (color ? color : '#7373e2')};
   color: white;
   box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
   overflow: hidden;

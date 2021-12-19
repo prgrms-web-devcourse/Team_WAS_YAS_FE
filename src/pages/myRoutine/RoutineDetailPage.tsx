@@ -85,7 +85,7 @@ const RoutineDetailPage = (): JSX.Element => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await missionApi.deleteMission(mission.missionId);
+          await missionApi.deleteMission(routineId, mission.missionId);
           await getRoutineDetail();
 
           Swal.fire({

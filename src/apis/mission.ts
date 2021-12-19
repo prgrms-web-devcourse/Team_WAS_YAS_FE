@@ -20,7 +20,10 @@ interface MissionApiType {
       missionOrders: { missionId: number; orders: number }[];
     },
   ) => Promise<AxiosResponse>;
-  deleteMission: (missionId: number) => Promise<AxiosResponse>;
+  deleteMission: (
+    routindId: number,
+    missionId: number,
+  ) => Promise<AxiosResponse>;
 }
 
 const missionApi: MissionApiType = {
@@ -28,8 +31,8 @@ const missionApi: MissionApiType = {
     authRequest.post(`/routines/${routineId}/missions`, missionInfo),
   updateMission: (routineId, missionInfo) =>
     authRequest.put(`/routines/${routineId}/missions`, missionInfo),
-  deleteMission: (missionId) =>
-    authRequest.delete(`/routines/missions/${missionId}`),
+  deleteMission: (routindId, missionId) =>
+    authRequest.delete(`/routines/${routindId}/missions/${missionId}`),
 };
 
 export default missionApi;
