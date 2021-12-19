@@ -151,8 +151,15 @@ const UserAvatar = styled(Avatar)`
 `;
 
 const UserNameText = styled.p`
+  display: -webkit-box;
   color: ${Colors.textPrimary};
   font-size: ${FontSize.base};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 1rem;
+  word-wrap: break-word;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 `;
 
 const TextArea = styled.textarea`
