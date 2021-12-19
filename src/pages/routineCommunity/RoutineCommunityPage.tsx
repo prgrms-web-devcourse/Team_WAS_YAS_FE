@@ -14,6 +14,7 @@ import { Tabs, Tab } from '@mui/material';
 import { ROUTINE_CATEGORY } from '@/constants';
 import { RoutinePostWindowType } from '@/Models';
 import { Link, useHistory } from 'react-router-dom';
+import { authUtil } from '@/utils';
 
 const a11yProps = (index: any) => {
   return {
@@ -98,6 +99,18 @@ const RoutineCommunityPage = (): JSX.Element => {
     postId: number,
     prevToggled: boolean,
   ) => {
+    const isLoggedIn = await authUtil.isLoggedIn();
+
+    if (!isLoggedIn) {
+      Swal.fire({
+        icon: 'error',
+        title: '🤯',
+        text: '로그인이 필요합니다.',
+        confirmButtonColor: Colors.point,
+      });
+      return;
+    }
+
     prevToggled
       ? await likeApi.deletePostLike(postId)
       : await likeApi.createPostLike(postId);
