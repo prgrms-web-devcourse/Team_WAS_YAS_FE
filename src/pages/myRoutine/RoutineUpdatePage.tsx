@@ -11,7 +11,7 @@ const RoutineUpdatePage = (): JSX.Element => {
   const history = useHistory();
   const { id } = useParams<Record<string, string>>();
   const [selectedRoutine, setSelectedRoutine] = useState<
-    Omit<RoutineType, 'missions'>
+    Omit<RoutineType, 'missionDetailResponse'>
   >({
     routineId: 0,
     emoji: '',
@@ -26,7 +26,6 @@ const RoutineUpdatePage = (): JSX.Element => {
     try {
       // 예외처리
       if (!id) return;
-
       const response = await routineApi.getRoutine(parseInt(id));
       const routineData = response.data.data;
       setSelectedRoutine(routineData);

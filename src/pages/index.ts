@@ -7,6 +7,7 @@ export { MissionCreatePage } from './myRoutine';
 
 export { RoutineCommunityPage } from './routineCommunity';
 export { RoutinePostCreatePage } from './routineCommunity';
+export { RoutinePostWritePage } from './routineCommunity';
 export { RoutinePostDetailPage } from './routineCommunity';
 
 export { SignInPage } from './user';

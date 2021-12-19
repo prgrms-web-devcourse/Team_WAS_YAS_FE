@@ -15,7 +15,7 @@ export interface RoutineType {
   durationGoalTime: number;
   weeks: string[];
   routineCategory: string[];
-  missions: MissionType[];
+  missionDetailResponse: MissionType[];
   // routineCompletions: RoutineCompletionType[];
 }
 
