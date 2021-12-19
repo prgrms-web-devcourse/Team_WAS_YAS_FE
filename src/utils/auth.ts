@@ -1,6 +1,6 @@
 import { userApi } from '@/apis';
 
-const isLogin = async () => {
+const isLoggedIn = async () => {
   const token = sessionStorage.getItem('YAS_USER_TOKEN');
   if (!token) return false;
   const userInfo = await userApi.getUser();
@@ -9,4 +9,4 @@ const isLogin = async () => {
   return true;
 };
 
-export default { isLogin };
+export default { isLoggedIn };
