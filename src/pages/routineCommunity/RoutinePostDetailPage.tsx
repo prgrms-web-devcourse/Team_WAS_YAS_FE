@@ -7,6 +7,7 @@ import {
   Comment,
   CommentCreator,
   Spinner,
+  IconButton,
   SpreadToggle,
 } from '@/components';
 import { useEffect, useState } from 'react';
@@ -17,8 +18,8 @@ import { ROUTINE_CATEGORY } from '@/constants';
 import { Colors, Media, FontSize } from '@/styles';
 import { useHistory, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { postApi, commentApi } from '@/apis';
-import { RoutinePostType } from '@/Models';
+import { postApi, commentApi, likeApi } from '@/apis';
+import { RoutinePostType, CommentType } from '@/Models';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 
@@ -34,9 +35,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
     const getPost = async () => {
       setLoading(true);
       try {
-        // 예외처리
         if (!postId) return;
-
         const response = await postApi.getPost(parseInt(postId));
         const postData = response.data.data;
         setPostData(postData);
@@ -76,6 +75,77 @@ const RoutinePostDetailPage = (): JSX.Element => {
     window.location.replace(`/community/${postData.postId}`);
   };
 
+  const handleClicPostkLikeToggle = async (
+    count: number,
+    prevToggled: boolean,
+  ) => {
+    if (!user) {
+      Swal.fire({
+        icon: 'error',
+        title: '🤯',
+        text: '로그인이 필요합니다.',
+        confirmButtonColor: Colors.point,
+      });
+      return;
+    }
+
+    if (!postId) return;
+
+    prevToggled
+      ? await likeApi.deletePostLike(parseInt(postId))
+      : await likeApi.createPostLike(parseInt(postId));
+  };
+
+  const handleClickCommentLikeToggle = async (
+    postId: number,
+    prevToggled: boolean,
+  ) => {
+    if (!user) {
+      Swal.fire({
+        icon: 'error',
+        title: '🤯',
+        text: '로그인이 필요합니다.',
+        confirmButtonColor: Colors.point,
+      });
+      return;
+    }
+
+    prevToggled
+      ? await likeApi.deleteCommentLike(postId)
+      : await likeApi.createCommentLike(postId);
+  };
+
+  const handleClickDeleteButton = () => {
+    if (!postData) return;
+    console.log(postData.postId);
+    Swal.fire({
+      title: '🤔',
+      text: '정말로 업로드한 루틴 포스트를 삭제하시겠습니까?',
+      confirmButtonColor: Colors.point,
+      showCancelButton: true,
+      cancelButtonColor: Colors.functionNegative,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await postApi.deletePost(postData.postId);
+          Swal.fire({
+            icon: 'success',
+            title: '😉',
+            text: '업로드한 루틴 포스트가 삭제되었습니다.',
+            confirmButtonColor: Colors.point,
+          }).then(history.push('/community'));
+        } catch (error) {
+          Swal.fire({
+            icon: 'error',
+            title: '😂',
+            text: '삭제하지 못했습니다.',
+            confirmButtonColor: Colors.point,
+          });
+        }
+      }
+    });
+  };
+
   return (
     <Container navBar>
       <RoutineInfoHeader>
@@ -83,7 +153,17 @@ const RoutinePostDetailPage = (): JSX.Element => {
           <StyledAvatar src={postData && postData.user.profileImage} />
           <AuthorNameText>{postData && postData.user.nickname}</AuthorNameText>
         </AuthorInfoWrapper>
-        <LikeBox interactive />
+        <LikeBox
+          interactive={user ? true : false}
+          // active={
+          //   user
+          //     ? postData &&
+          //       postData.likes.some((like) => like.userId === user?.userId)
+          //     : false
+          // }
+          onClick={handleClicPostkLikeToggle}
+          // count={postData && postData.likes.length}
+        />
       </RoutineInfoHeader>
       <RoutineInfo
         createdAt={postData && postData.createdAt}
@@ -102,21 +182,26 @@ const RoutinePostDetailPage = (): JSX.Element => {
               </RoutineCategory>
             ))}
         </CategoryWrapper>
-        <BringRoutineButton
-          onClick={() => {
-            Swal.fire({
-              position: 'center',
-              icon: 'success',
-              title: `😎`,
-              text: '자유롭게 수정하고 생성하기를 완료해주세요.',
-              confirmButtonColor: Colors.point,
-            });
-            history.push('/routine/create');
-          }}
-        >
-          <GetAppRoundedIcon />
-          루틴 가져오기
-        </BringRoutineButton>
+        <ButtonContainer>
+          {postData && postData.user.userId === user?.userId ? (
+            <IconButton.Delete onClick={handleClickDeleteButton} />
+          ) : null}
+          <BringRoutineButton
+            onClick={() => {
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: `😎`,
+                text: '자유롭게 수정하고 생성하기를 완료해주세요.',
+                confirmButtonColor: Colors.point,
+              });
+              history.push('/routine/create');
+            }}
+          >
+            <GetAppRoundedIcon />
+            루틴 가져오기
+          </BringRoutineButton>
+        </ButtonContainer>
       </RoutineInfoFooter>
       <MissionContainer>
         {postData &&
@@ -139,12 +224,17 @@ const RoutinePostDetailPage = (): JSX.Element => {
       <StyledCommentCreator onSubmit={handleSubmitComment} />
       <CommentContainer>
         {postData &&
-          postData.comments.map((comment: any) => (
+          postData.comments.map((comment: CommentType) => (
             <Comment
+              key={comment.commentId}
               editable={user ? comment.user.userId === user.userId : undefined}
               onEditComment={handleUpdateComment}
               onDeleteComment={handleDeleteComment}
-              key={comment.commentId}
+              onClickLikeToggle={handleClickCommentLikeToggle}
+              likeToggled={comment.likes.some(
+                (like) => like.userId === user?.userId,
+              )}
+              likeCount={comment.likes.length}
               comment={comment}
             />
           ))}
@@ -210,6 +300,7 @@ const BringRoutineButton = styled.button`
   color: ${Colors.textQuaternary};
   font-size: ${FontSize.small};
   padding: 0 0.5rem;
+  cursor: pointer;
 
   @media (hover: hover) {
     :hover {
@@ -241,6 +332,13 @@ const MissionContainer = styled.div`
   gap: 1rem;
   margin: 1rem 0;
   width: 100%;
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
 `;
 
 const StyledCommentCreator = styled(CommentCreator)`

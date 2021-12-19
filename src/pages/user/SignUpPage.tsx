@@ -37,7 +37,11 @@ const validationSchema = Yup.object().shape({
     .required('닉네임을 입력해주세요.'),
   password: Yup.string()
     .min(8, '비밀번호는 최소 8글자 이상이어야 합니다.')
-    .max(15, '비밀번호는 최대 15글자 이하까지만 가능합니다.')
+    .max(20, '비밀번호는 최대 15글자 이하까지만 가능합니다.')
+    .matches(
+      /^(?=.*[a-zA-Z])(?=.*\\d)(?=.*\\W).{8,20}$/,
+      '특수문자, 숫자, 영문자를 포함해야 합니다.',
+    )
     .required('비밀번호를 입력해주세요.'),
   checkPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], '비밀번호가 일치하지 않습니다.')
@@ -76,7 +80,7 @@ const SignUpPage = (): JSX.Element => {
         Swal.fire({
           icon: 'error',
           title: '🥲 oops!',
-          text: `${error}`,
+          text: `회원가입에 실패하였습니다.`,
           confirmButtonColor: Colors.point,
         });
       }

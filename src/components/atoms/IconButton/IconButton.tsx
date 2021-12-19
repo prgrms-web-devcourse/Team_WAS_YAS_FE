@@ -8,6 +8,7 @@ import UserProfile from './UserProfile';
 import Check from './Check';
 import Add from './Add';
 import Back from './Back';
+import Delete from './Delete';
 
 import { Colors } from '@/styles';
 
@@ -44,6 +45,7 @@ const IconButton = {
   Check,
   Add,
   Back,
+  Delete,
 };
 
 export default IconButton;

@@ -14,7 +14,9 @@ export interface CommentProps extends React.ComponentProps<'div'> {
   editable?: boolean;
   onEditComment?: (commentId: number, editedText: string) => void;
   onDeleteComment?: (commentId: number) => void;
-  onClickLike?: (commentId: number) => void;
+  onClickLikeToggle?: (commentId: number, prevToggled: boolean) => void;
+  likeToggled?: boolean;
+  likeCount?: number;
 }
 
 const Comment = ({
@@ -22,7 +24,9 @@ const Comment = ({
   editable,
   onEditComment,
   onDeleteComment,
-  onClickLike,
+  onClickLikeToggle,
+  likeToggled,
+  likeCount,
   ...props
 }: CommentProps): JSX.Element => {
   const ref = useRef<HTMLTextAreaElement>(null);
@@ -56,8 +60,8 @@ const Comment = ({
     setOpened(false);
   };
 
-  const handleClickLikeButton = (likCount: number) => {
-    onClickLike && onClickLike(comment.commentId);
+  const handleClickLikeButton = (likCount: number, prevToggled: boolean) => {
+    onClickLikeToggle && onClickLikeToggle(comment.commentId, prevToggled);
   };
 
   const handleSubmit = (newText: string) => {
@@ -87,7 +91,12 @@ const Comment = ({
           </UserInfoTextWrapper>
         </UserInfoContainer>
         <ToolWrapper>
-          <LikeBox interactive count={0} onClick={handleClickLikeButton} />
+          <LikeBox
+            interactive
+            active={likeToggled}
+            count={likeCount ? likeCount : 0}
+            onClick={handleClickLikeButton}
+          />
           {editable && (
             <IconButton
               style={{ padding: 0 }}

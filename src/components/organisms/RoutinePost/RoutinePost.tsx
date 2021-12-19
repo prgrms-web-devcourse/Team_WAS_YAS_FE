@@ -12,7 +12,7 @@ export interface RoutinePostProps
   extends Omit<React.ComponentProps<'div'>, 'onClick'> {
   routinePost: RoutinePostWindowType;
   onClickRoutinePost?: (postId: number) => void;
-  onClickLikeToggle?: (postId: number) => void;
+  onClickLikeToggle?: (postId: number, prevToggled: boolean) => void;
 }
 
 const RoutinePost = ({
@@ -47,9 +47,9 @@ const RoutinePost = ({
     onClickRoutinePost && onClickRoutinePost(postId);
   };
 
-  const handleClickLikeButton = () => {
+  const handleClickLikeButton = (newCount: number, prevToggled: boolean) => {
     console.log('좋아요 버튼 클릭');
-    onClickLikeToggle && onClickLikeToggle(postId);
+    onClickLikeToggle && onClickLikeToggle(postId, prevToggled);
   };
 
   return (
@@ -62,7 +62,7 @@ const RoutinePost = ({
             <UserNameText>{user.nickname}</UserNameText>
           </UserProfileContainer>
           <LikeBox
-            interactive
+            interactive={loginUser ? true : false}
             active={
               loginUser
                 ? likes.some((like) => like.userId === loginUser?.userId)
@@ -88,8 +88,9 @@ const Container = styled.div`
 
   @media ${Media.sm} {
     flex-direction: row;
+    align-items: center;
     min-width: 290px;
-    height: 156px;
+    height: 168px;
   }
   @media ${Media.md} {
     flex-direction: column;
@@ -151,13 +152,20 @@ const UserAvatar = styled(Avatar)`
 `;
 
 const UserNameText = styled.p`
+  display: -webkit-box;
   color: ${Colors.textPrimary};
   font-size: ${FontSize.base};
+  overflow: hidden;
+  text-overflow: ellipsis;
+  height: 1rem;
+  word-wrap: break-word;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 `;
 
 const TextArea = styled.textarea`
   width: 100%;
-  height: 72px;
+  height: 78px;
   margin: 0.5rem 0;
   font-size: ${FontSize.small};
   color: ${Colors.textSecondary};
@@ -171,6 +179,7 @@ const TextArea = styled.textarea`
 `;
 
 const DateText = styled.p`
+  margin-top: 0.5rem;
   color: ${Colors.textSecondary};
 
   @media ${Media.sm} {

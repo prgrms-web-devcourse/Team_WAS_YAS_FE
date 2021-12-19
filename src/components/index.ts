@@ -49,6 +49,8 @@ export { RoutineCategorySelector } from './molecules/RoutineCategorySelector';
 export type { RoutineCategorySelectorProps } from './molecules/RoutineCategorySelector';
 export { SpreadToggle } from './molecules/SpreadToggle';
 export type { SpreadToggleProps } from './molecules/SpreadToggle';
+export { LoginGuide } from './molecules/LoginGuide';
+export type { LoginGuideProps } from './molecules/LoginGuide';
 
 //! Organism Component
 export { RoutineAddButton } from './organisms/RoutineAddButton';
