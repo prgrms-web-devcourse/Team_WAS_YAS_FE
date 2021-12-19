@@ -35,6 +35,7 @@ const RoutineDetailPage = (): JSX.Element => {
   const [missions, setMissions] = useState<any>([]);
   const [isFinished, setIsFinished] = useState(false);
   const [missionIsEmpty, setMissionIsEmpty] = useState(false);
+  const [isTodayRoutine, setIsTodayRoutine] = useState(false);
   const history = useHistory();
 
   const updateMission = useCallback(async () => {
@@ -84,13 +85,22 @@ const RoutineDetailPage = (): JSX.Element => {
     }
   };
 
-  const getFinishedRoutines = async () => {
+  const getMyRoutines = async () => {
     const finishedRoutines = await routineApi.getFinishedRoutines();
+    const notFinishedRoutines = await routineApi.getNotFinishedRoutines();
+
     const finishedRoutineIds = finishedRoutines.data.data.map(
       (routine: { routineId: number }) => routine.routineId,
     );
+    const notFinishedRoutineIds = notFinishedRoutines.data.data.map(
+      (routine: { routineId: number }) => routine.routineId,
+    );
+
     if (finishedRoutineIds.includes(routineId)) {
       setIsFinished(true);
+    }
+    if (notFinishedRoutineIds.includes(routineId)) {
+      setIsTodayRoutine(true);
     }
   };
 
@@ -132,7 +142,7 @@ const RoutineDetailPage = (): JSX.Element => {
 
   useEffect(() => {
     getRoutineDetail();
-    getFinishedRoutines();
+    getMyRoutines();
     // eslint-disable-next-line
   }, []);
 
@@ -156,7 +166,17 @@ const RoutineDetailPage = (): JSX.Element => {
       Swal.fire({
         position: 'center',
         icon: 'warning',
-        title: '미션을 생성해주세요',
+        title: '미션이 없어요!',
+        text: '미션을 생성해주세요',
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    } else if (!isTodayRoutine) {
+      Swal.fire({
+        position: 'center',
+        icon: 'warning',
+        title: '오늘 수행 가능한 루틴이 아니에요',
+        text: `${routine.name}의 요일을 확인해주세요`,
         showConfirmButton: false,
         timer: 2000,
       });
