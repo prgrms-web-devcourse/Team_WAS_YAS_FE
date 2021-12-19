@@ -28,7 +28,7 @@ const RoutineCreatePage = (): JSX.Element => {
     color: Colors.red,
     name: '',
     durationGoalTime: 0,
-    startGoalTime: new Date().toISOString(),
+    startGoalTime: new Date(2021, 0, 0, 9).toISOString(),
     routineCategory: [],
     weeks: [],
   });
@@ -39,12 +39,12 @@ const RoutineCreatePage = (): JSX.Element => {
     if (!name) {
       Swal.fire({
         icon: 'warning',
-        title: '루틴 이름을 입력해주세요!',
+        text: '루틴 이름을 입력해주세요!',
       });
     } else if (!routineCategory?.length) {
       Swal.fire({
         icon: 'warning',
-        title: '루틴 카테고리를 선택해주세요!',
+        text: '루틴 카테고리를 선택해주세요!',
       });
     } else {
       try {
@@ -54,14 +54,14 @@ const RoutineCreatePage = (): JSX.Element => {
         });
         Swal.fire({
           icon: 'success',
-          title: '루틴 생성이 완료되었습니다!🎉',
+          text: '루틴 생성이 완료되었습니다!🎉',
         }).then(() => {
           history.push('/');
         });
       } catch (error) {
         Swal.fire({
           icon: 'error',
-          title: '오류로 인해 <p>루틴 생성에 실패했습니다',
+          text: '오류로 인해 루틴 생성에 실패했습니다',
           confirmButtonColor: Colors.point,
         });
       }
@@ -116,7 +116,7 @@ const RoutineCreatePage = (): JSX.Element => {
   const onCancelClick = () => {
     Swal.fire({
       icon: 'warning',
-      title: '작성했던 모든 내용이 초기화됩니다!',
+      text: '작성했던 모든 내용이 초기화됩니다!',
     }).then(() => {
       history.push('/');
     });
@@ -166,10 +166,10 @@ const RoutineCreatePage = (): JSX.Element => {
           />
         </StyledStartTimePicker>
         <ButtonContainer>
+          <Button type="submit">생성하기</Button>
           <Button type="button" colorType="white" onClick={onCancelClick}>
             취소하기
           </Button>
-          <Button type="submit">생성하기</Button>
         </ButtonContainer>
       </Form>
     </Container>
