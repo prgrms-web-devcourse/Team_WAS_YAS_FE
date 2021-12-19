@@ -17,8 +17,8 @@ import { ROUTINE_CATEGORY } from '@/constants';
 import { Colors, Media, FontSize } from '@/styles';
 import { useHistory, useParams } from 'react-router-dom';
 import Swal from 'sweetalert2';
-import { postApi, commentApi } from '@/apis';
-import { RoutinePostType } from '@/Models';
+import { postApi, commentApi, likeApi } from '@/apis';
+import { RoutinePostType, CommentType } from '@/Models';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 
@@ -34,11 +34,10 @@ const RoutinePostDetailPage = (): JSX.Element => {
     const getPost = async () => {
       setLoading(true);
       try {
-        // 예외처리
         if (!postId) return;
-
         const response = await postApi.getPost(parseInt(postId));
         const postData = response.data.data;
+        console.log(postData);
         setPostData(postData);
       } catch (error: any) {
         Swal.fire({
@@ -76,6 +75,46 @@ const RoutinePostDetailPage = (): JSX.Element => {
     window.location.replace(`/community/${postData.postId}`);
   };
 
+  const handleClicPostkLikeToggle = async (
+    count: number,
+    prevToggled: boolean,
+  ) => {
+    if (!user) {
+      Swal.fire({
+        icon: 'error',
+        title: '🤯',
+        text: '로그인이 필요합니다.',
+        confirmButtonColor: Colors.point,
+      });
+      return;
+    }
+
+    if (!postId) return;
+
+    prevToggled
+      ? await likeApi.deletePostLike(parseInt(postId))
+      : await likeApi.createPostLike(parseInt(postId));
+  };
+
+  const handleClickCommentLikeToggle = async (
+    postId: number,
+    prevToggled: boolean,
+  ) => {
+    if (!user) {
+      Swal.fire({
+        icon: 'error',
+        title: '🤯',
+        text: '로그인이 필요합니다.',
+        confirmButtonColor: Colors.point,
+      });
+      return;
+    }
+
+    prevToggled
+      ? await likeApi.deleteCommentLike(postId)
+      : await likeApi.createCommentLike(postId);
+  };
+
   return (
     <Container navBar>
       <RoutineInfoHeader>
@@ -83,7 +122,17 @@ const RoutinePostDetailPage = (): JSX.Element => {
           <StyledAvatar src={postData && postData.user.profileImage} />
           <AuthorNameText>{postData && postData.user.nickname}</AuthorNameText>
         </AuthorInfoWrapper>
-        <LikeBox interactive />
+        <LikeBox
+          interactive
+          // active={
+          //   user
+          //     ? postData &&
+          //       postData.likes.some((like) => like.userId === user?.userId)
+          //     : false
+          // }
+          onClick={handleClicPostkLikeToggle}
+          // count={postData && postData.likes.length}
+        />
       </RoutineInfoHeader>
       <RoutineInfo
         createdAt={postData && postData.createdAt}
@@ -139,11 +188,15 @@ const RoutinePostDetailPage = (): JSX.Element => {
       <StyledCommentCreator onSubmit={handleSubmitComment} />
       <CommentContainer>
         {postData &&
-          postData.comments.map((comment: any) => (
+          postData.comments.map((comment: CommentType) => (
             <Comment
               editable={user ? comment.user.userId === user.userId : undefined}
               onEditComment={handleUpdateComment}
               onDeleteComment={handleDeleteComment}
+              onClickLikeToggle={handleClickCommentLikeToggle}
+              likeToggled={comment.likes.some(
+                (like) => like.userId === user?.userId,
+              )}
               key={comment.commentId}
               comment={comment}
             />

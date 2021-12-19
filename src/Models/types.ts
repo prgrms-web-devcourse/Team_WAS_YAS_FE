@@ -105,7 +105,11 @@ export interface CommentType {
   content: string;
   createdAt: string;
   updatedAt: string;
-  user: Omit<UserType, 'userId' | 'email'>;
+  likes: {
+    userId: number;
+    userName: string;
+  }[];
+  user: Omit<UserType, 'email'>;
 }
 
 export interface PostLikeType {
