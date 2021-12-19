@@ -83,7 +83,6 @@ const RoutineCommunityPage = (): JSX.Element => {
           <StyledTab label="⭐️ 나의 루틴" {...a11yProps(2)} />
         </Tabs>
       </Box>
-
       <CategoryContainer>
         <RoutineCategorySelector
           type="radio"
@@ -102,7 +101,6 @@ const RoutineCommunityPage = (): JSX.Element => {
             />
           ))}
       </RoutinePostGrid>
-
       <Link to="/community/create">
         <StyledRoutineAddButton />
       </Link>
