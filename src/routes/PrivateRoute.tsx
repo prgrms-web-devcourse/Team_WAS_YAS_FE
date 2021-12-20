@@ -13,7 +13,6 @@ const PrivateRoute = ({
   if (!token && path !== '/mypage') {
     Swal.fire({
       icon: 'warning',
-      title: '😆',
       text: '지금 당장 로그인을 하고 YAS를 시작해봐요!',
       showConfirmButton: false,
       timer: 1500,

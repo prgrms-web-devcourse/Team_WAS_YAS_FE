@@ -23,8 +23,8 @@ const UserPage = (): JSX.Element => {
     history.push('/');
     Swal.fire({
       icon: 'success',
-      title: '👋🏻',
-      text: '로그아웃 되었습니다.',
+
+      text: '👋🏻 로그아웃 되었습니다.',
       showConfirmButton: false,
       timer: 1500,
     });

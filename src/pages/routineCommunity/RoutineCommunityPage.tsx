@@ -73,7 +73,6 @@ const RoutineCommunityPage = (): JSX.Element => {
     } catch (error: any) {
       Swal.fire({
         icon: 'error',
-        title: '😱',
         text: error.message,
       });
     }
@@ -105,7 +104,6 @@ const RoutineCommunityPage = (): JSX.Element => {
     if (!user) {
       Swal.fire({
         icon: 'error',
-        title: '🤯',
         text: '로그인이 필요합니다.',
         confirmButtonColor: Colors.point,
       });

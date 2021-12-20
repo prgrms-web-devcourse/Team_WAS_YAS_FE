@@ -72,7 +72,6 @@ const UserEditPage = (): JSX.Element => {
       } catch (error) {
         Swal.fire({
           icon: 'error',
-          title: '🥲 oops!',
           text: `${error}`,
           confirmButtonColor: Colors.point,
         });

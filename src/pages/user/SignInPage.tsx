@@ -55,8 +55,7 @@ const SignInPage = (): JSX.Element => {
         formikHelper.setSubmitting(false);
         Swal.fire({
           icon: 'success',
-          title: '🎉',
-          text: '환영합니다!',
+          text: '🎉 환영합니다! 🎉',
           showConfirmButton: false,
           timer: 1500,
         }).then(() => {
@@ -65,7 +64,6 @@ const SignInPage = (): JSX.Element => {
       } catch (error) {
         Swal.fire({
           icon: 'error',
-          title: '🥲',
           text: `로그인에 실패하였습니다. 로그인 정보를 확인해주세요.`,
           confirmButtonColor: Colors.point,
         });

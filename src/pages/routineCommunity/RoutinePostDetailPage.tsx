@@ -42,7 +42,6 @@ const RoutinePostDetailPage = (): JSX.Element => {
       } catch (error: any) {
         Swal.fire({
           icon: 'error',
-          title: '🥲 oops!',
           text: `${error}`,
           confirmButtonColor: Colors.point,
         });
@@ -81,7 +80,6 @@ const RoutinePostDetailPage = (): JSX.Element => {
     if (!loginUser) {
       Swal.fire({
         icon: 'error',
-        title: '🤯',
         text: '로그인이 필요합니다.',
         confirmButtonColor: Colors.point,
       });
@@ -102,7 +100,6 @@ const RoutinePostDetailPage = (): JSX.Element => {
     if (!loginUser) {
       Swal.fire({
         icon: 'error',
-        title: '🤯',
         text: '로그인이 필요합니다.',
         confirmButtonColor: Colors.point,
       });
@@ -128,14 +125,12 @@ const RoutinePostDetailPage = (): JSX.Element => {
           await postApi.deletePost(postData.postId);
           Swal.fire({
             icon: 'success',
-            title: '😉',
             text: '업로드한 루틴 포스트가 삭제되었습니다.',
             confirmButtonColor: Colors.point,
           }).then(history.push('/community'));
         } catch (error) {
           Swal.fire({
             icon: 'error',
-            title: '😂',
             text: '삭제하지 못했습니다.',
             confirmButtonColor: Colors.point,
           });
@@ -148,7 +143,6 @@ const RoutinePostDetailPage = (): JSX.Element => {
     Swal.fire({
       position: 'center',
       icon: 'success',
-      title: `😎`,
       text: '자유롭게 수정하고 생성하기를 완료해주세요.',
       confirmButtonColor: Colors.point,
     });

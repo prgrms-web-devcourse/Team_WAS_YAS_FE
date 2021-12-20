@@ -36,7 +36,6 @@ const LikeBox = ({
     if (!interactive) {
       Swal.fire({
         icon: 'warning',
-        title: '😅',
         text: '좋아요는 로그인 후 사용 가능합니다.',
         confirmButtonColor: Colors.point,
       });

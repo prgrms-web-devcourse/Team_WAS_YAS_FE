@@ -13,7 +13,6 @@ const PublicRoute = ({
     restricted &&
     Swal.fire({
       icon: 'warning',
-      title: '🤯',
       text: '잘못된 접근입니다.',
       showConfirmButton: false,
       timer: 1500,
