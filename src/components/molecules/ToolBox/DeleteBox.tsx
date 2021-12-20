@@ -6,7 +6,7 @@ import { Colors, FontSize } from '@/styles';
 import { useClickAway } from '@/hooks';
 
 export interface DeleteBoxProps extends React.ComponentProps<'div'> {
-  onClickDeleteButton: (e: React.MouseEvent) => void;
+  onClickDeleteButton?: (e: React.MouseEvent) => void;
   visible: boolean;
   onClose: () => void;
 }
@@ -23,7 +23,7 @@ const DeleteBox = ({
   });
 
   const handleClickDeleteButton = (e: React.MouseEvent<HTMLButtonElement>) => {
-    onClickDeleteButton(e);
+    onClickDeleteButton && onClickDeleteButton(e);
   };
 
   return (
