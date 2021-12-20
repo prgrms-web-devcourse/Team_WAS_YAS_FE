@@ -95,7 +95,7 @@ const RoutineCreatePage = (): JSX.Element => {
             name,
             emoji,
             color,
-            startGoalTime,
+            startGoalTime: moment(startGoalTime).toISOString(),
             durationGoalTime,
             routineCategory,
             weeks,
