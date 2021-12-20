@@ -1,11 +1,10 @@
 import styled from '@emotion/styled';
 import { useRouteMatch, useHistory } from 'react-router-dom';
-import { Avatar } from '@mui/material';
+import { Avatar, IconButton } from '@mui/material';
 import { Media, Colors } from '@/styles';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import BackButton from './BackButton';
-import { IconButton } from '@mui/material';
 import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
 
 export type HeaderProps = React.ComponentProps<'header'>;
