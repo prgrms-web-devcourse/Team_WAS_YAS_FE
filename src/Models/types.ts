@@ -70,7 +70,7 @@ export interface RoutinePostType {
   createdAt: string;
   updatedAt: string;
   comments: CommentType[];
-  likes: PostLikeType[];
+  likes: { userId: number }[];
 }
 
 export interface RoutinePostWindowType {

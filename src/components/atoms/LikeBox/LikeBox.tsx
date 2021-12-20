@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useToggle } from '@/hooks';
+import React, { memo, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { FontSize, Colors } from '@/styles';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
@@ -10,19 +9,27 @@ export interface LikeBoxProps
   extends Omit<React.ComponentProps<'span'>, 'onClick'> {
   active?: boolean;
   onClick?: (count: number, prevToggled: boolean) => void;
-  count: number;
+  count?: number;
   interactive?: boolean;
 }
 
 const LikeBox = ({
-  active,
-  interactive,
+  active = false,
+  interactive = false,
   onClick,
-  count: initCount,
+  count: initCount = 0,
   ...props
 }: LikeBoxProps): JSX.Element => {
-  const [toggled, toggle] = useToggle(active ? true : false);
-  const [count, setCount] = useState<number>(initCount);
+  const [toggle, setToggle] = useState(active);
+  const [count, setCount] = useState<number>(() => initCount);
+
+  useEffect(() => {
+    setCount(initCount);
+  }, [initCount]);
+
+  useEffect(() => {
+    setToggle(active);
+  }, [active]);
 
   const handleClick = (e: React.MouseEvent<HTMLSpanElement>) => {
     e.stopPropagation();
@@ -35,16 +42,16 @@ const LikeBox = ({
       });
       return;
     }
-    const prevToggled = toggled;
+    const prevToggled = toggle;
     const newCount = prevToggled ? count - 1 : count + 1;
     onClick && onClick(newCount, prevToggled);
     setCount(() => newCount);
-    toggle();
+    setToggle((toggle) => !toggle);
   };
 
   return (
     <Wrapper onClick={handleClick} {...props}>
-      {toggled ? <LikeIcon /> : <LikeBorderIcon />}
+      {toggle ? <LikeIcon /> : <LikeBorderIcon />}
       <Text>{count}</Text>
     </Wrapper>
   );
@@ -77,12 +84,12 @@ const Text = styled.p`
   font-size: ${FontSize.medium};
 `;
 
-const defaultProps: LikeBoxProps = {
-  active: false,
-  interactive: false,
-  count: 0,
-};
+// const defaultProps: LikeBoxProps = {
+//   active: false,
+//   interactive: false,
+//   count: 0,
+// };
 
-LikeBox.defaultProps = defaultProps;
+// LikeBox.defaultProps = defaultProps;
 
-export default LikeBox;
+export default memo(LikeBox);
