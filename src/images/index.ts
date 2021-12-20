@@ -1,0 +1,9 @@
+export { default as intro } from './intro.png';
+export { default as myRoutine } from './myRoutine.png';
+export { default as routineCreate } from './routineCreate.png';
+export { default as routineDetail } from './routineDetail.png';
+export { default as routineProgress } from './routineProgress.png';
+export { default as routineCommunity } from './routineCommunity.png';
+export { default as postDetail } from './postDetail.png';
+export { default as notFound } from './notFound.png';
+export { default as prepare } from './prepare.png';

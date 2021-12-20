@@ -2,10 +2,10 @@ import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import Swal from 'sweetalert2';
 import styled from '@emotion/styled';
-import { Colors, FontSize, FontWeight } from '@/styles';
+import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import { Container, Input, Button, Spinner } from '@/components';
 import { userApi } from '@/apis';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { fetchUser } from '@/store';
 
@@ -97,6 +97,9 @@ const SignInPage = (): JSX.Element => {
           value={values.password}
         />
         <GuideText>{touched.password && errors.password}&nbsp;</GuideText>
+        <OnBoardingLink to="/onboarding">
+          📔 YAS 첫 방문자를 위한 가이드 📔
+        </OnBoardingLink>
         <StyledButton type="submit" disabled={isSubmitting}>
           입장하기
         </StyledButton>
@@ -151,6 +154,29 @@ const GuideText = styled.p`
 
 const StyledButton = styled(Button)`
   margin: 1rem 0;
+`;
+
+const OnBoardingLink = styled(Link)`
+  text-align: center;
+  margin: 1.5rem auto;
+  color: ${Colors.point};
+  border-bottom: 1px solid ${Colors.point};
+  font-weight: ${FontWeight.medium};
+  @media ${Media.sm} {
+    font-size: ${FontSize.base};
+  }
+  @media ${Media.md} {
+    font-size: ${FontSize.medium};
+  }
+  @media ${Media.lg} {
+    font-size: ${FontSize.medium};
+  }
+  @media (hover: hover) {
+    :hover {
+      color: ${Colors.pointLight};
+      border-color: ${Colors.pointLight};
+    }
+  }
 `;
 
 export default SignInPage;

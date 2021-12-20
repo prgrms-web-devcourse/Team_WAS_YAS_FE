@@ -32,7 +32,7 @@ const RoutineUpdatePage = (): JSX.Element => {
     } catch (error) {
       Swal.fire({
         icon: 'error',
-        title: '오류로 인해 <p>루틴을 불러올 수 없습니다',
+        text: '오류로 인해 루틴을 불러올 수 없습니다',
         confirmButtonColor: Colors.point,
       });
     }
@@ -53,14 +53,14 @@ const RoutineUpdatePage = (): JSX.Element => {
       });
       Swal.fire({
         icon: 'success',
-        title: '루틴 수정이 완료되었습니다!🎉',
+        text: '루틴 수정이 완료되었습니다!🎉',
       }).then(() => {
         history.push('/');
       });
     } catch (error) {
       Swal.fire({
         icon: 'error',
-        title: '오류로 인해 <p>루틴 수정에 실패했습니다',
+        text: '오류로 인해 루틴 수정에 실패했습니다',
         confirmButtonColor: Colors.point,
       });
     }
@@ -76,7 +76,7 @@ const RoutineUpdatePage = (): JSX.Element => {
   const onCancelClick = () => {
     Swal.fire({
       icon: 'warning',
-      title: '작성했던 모든 내용이 초기화됩니다!',
+      text: '작성했던 모든 내용이 초기화됩니다!',
     }).then(() => {
       history.push('/');
     });
