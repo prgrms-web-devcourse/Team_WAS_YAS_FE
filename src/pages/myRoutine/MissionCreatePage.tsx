@@ -66,7 +66,7 @@ const MissionCreatePage = (): JSX.Element => {
           icon: 'success',
           text: '미션 생성이 완료되었습니다~🎉',
         }).then(() => {
-          history.push(`/routine/${id}`);
+          history.goBack();
         });
       } catch (error) {
         Swal.fire({
