@@ -19,27 +19,35 @@ const MyRoutinePage = (): JSX.Element => {
     finish: [],
     notFinish: [],
   });
+  const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
   const token = sessionStorage.getItem('YAS_USER_TOKEN');
 
   const getMyRoutines = async () => {
-    const routines = await routineApi.getRoutines();
-    const finishedRoutines = await routineApi.getFinishedRoutines();
-    const notFinishedRoutines = await routineApi.getNotFinishedRoutines();
+    try {
+      if (!token) return;
+      setIsLoading(true);
+      const routines = await routineApi.getRoutines();
+      const finishedRoutines = await routineApi.getFinishedRoutines();
+      const notFinishedRoutines = await routineApi.getNotFinishedRoutines();
 
-    const finishedRoutineIds = finishedRoutines.data.data.map(
-      (routine: { routineId: number }) => routine.routineId,
-    );
-    const allRoutinesExceptFinished = routines.data.data.filter(
-      (routine: { routineId: number }) =>
-        !finishedRoutineIds.includes(routine.routineId),
-    );
+      const finishedRoutineIds = finishedRoutines.data.data.map(
+        (routine: { routineId: number }) => routine.routineId,
+      );
+      const allRoutinesExceptFinished = routines.data.data.filter(
+        (routine: { routineId: number }) =>
+          !finishedRoutineIds.includes(routine.routineId),
+      );
 
-    setRoutines({
-      all: allRoutinesExceptFinished,
-      finish: finishedRoutines.data.data,
-      notFinish: notFinishedRoutines.data.data,
-    });
+      setRoutines({
+        all: allRoutinesExceptFinished,
+        finish: finishedRoutines.data.data,
+        notFinish: notFinishedRoutines.data.data,
+      });
+      setIsLoading(false);
+    } catch (e) {
+      console.error('getMyRoutines: ', e);
+    }
   };
 
   useEffect(() => {
@@ -104,7 +112,7 @@ const MyRoutinePage = (): JSX.Element => {
     <Container navBar>
       <TabBar type="myRoutine">
         <TabBar.Item title="전체" index="0">
-          {token ? (
+          {isLoading ? null : token ? (
             routines.all.length !== 0 ? (
               <RoutineGridBox>
                 {routines.all &&
@@ -152,7 +160,7 @@ const MyRoutinePage = (): JSX.Element => {
           )}
         </TabBar.Item>
         <TabBar.Item title="오늘의 루틴" index="1">
-          {token ? (
+          {isLoading ? null : token ? (
             routines.notFinish.length !== 0 ? (
               <RoutineGridBox>
                 {routines.notFinish &&
@@ -184,7 +192,7 @@ const MyRoutinePage = (): JSX.Element => {
           )}
         </TabBar.Item>
         <TabBar.Item title="완료한 루틴" index="2">
-          {token ? (
+          {isLoading ? null : token ? (
             routines.finish.length !== 0 ? (
               <RoutineGridBox>
                 {routines.finish &&
