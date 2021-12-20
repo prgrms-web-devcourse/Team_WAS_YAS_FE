@@ -117,7 +117,6 @@ const RoutinePostDetailPage = (): JSX.Element => {
 
   const handleClickDeleteButton = () => {
     if (!postData) return;
-    console.log(postData.postId);
     Swal.fire({
       title: '🤔',
       text: '정말로 업로드한 루틴 포스트를 삭제하시겠습니까?',

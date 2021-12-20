@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import { Colors, Media, FontSize } from '@/styles';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import Swal from 'sweetalert2';
 
 export interface CommentCreatorProps
   extends Omit<React.ComponentProps<'form'>, 'onChange' | 'onSubmit'> {
