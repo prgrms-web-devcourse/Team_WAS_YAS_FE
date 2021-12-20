@@ -1,6 +1,7 @@
 import { Route, Redirect } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
+// TODO: RouteProps 임포트해서 사용하는 방식 해결하기
 // eslint-disable-next-line
 const PublicRoute = ({
   component: Component,
