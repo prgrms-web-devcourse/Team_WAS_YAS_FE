@@ -39,8 +39,26 @@ const RoutineProgressPage = (): JSX.Element => {
   const createRoutineProgress = async () => {
     try {
       if (!routineId) return;
-      const result = await missionStatusApi.createMissionStatus(routineId);
-      return result.data.data;
+      const finishedRoutines = await routineApi.getFinishedRoutines();
+      const finishedRoutineIds = finishedRoutines.data.data.map(
+        (routine: { routineId: number }) => routine.routineId,
+      );
+
+      if (finishedRoutineIds.includes(routineId)) {
+        Swal.fire({
+          position: 'center',
+          icon: 'info',
+          title: '오늘 루틴을 수행했군요!',
+          text: '결과 페이지로 이동합니다',
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        history.replace(`/routine/${routineId}/finish`);
+        return false;
+      } else {
+        const result = await missionStatusApi.createMissionStatus(routineId);
+        return result.data.data;
+      }
     } catch (e) {
       console.error(e);
     }
@@ -49,6 +67,10 @@ const RoutineProgressPage = (): JSX.Element => {
   const getRoutineDetail = async () => {
     try {
       if (!routineId) return;
+      const createdRoutineStatus = await createRoutineProgress();
+
+      if (!createdRoutineStatus) return;
+
       const {
         missionMissionStatusIds,
         routineStatusId,
@@ -58,7 +80,7 @@ const RoutineProgressPage = (): JSX.Element => {
           missionStatusId: number;
         }[];
         routineStatusId: number;
-      } = await createRoutineProgress();
+      } = createdRoutineStatus;
 
       setRoutineStatusId(routineStatusId);
 
@@ -76,7 +98,8 @@ const RoutineProgressPage = (): JSX.Element => {
           return {
             ...mission,
             userDurationTime: null,
-            missionStatusId: missionStatusId['missionStatusId'],
+            missionStatusId:
+              missionStatusId && missionStatusId['missionStatusId'],
           };
         });
 
@@ -152,6 +175,7 @@ const RoutineProgressPage = (): JSX.Element => {
 
   useEffect(() => {
     getRoutineDetail();
+    return;
     // eslint-disable-next-line
   }, []);
 
@@ -310,7 +334,7 @@ const RoutineProgressPage = (): JSX.Element => {
     });
 
     if (currentIndex === missions.length - 1) {
-      history.push(`/routine/${routineId}/finish`);
+      history.replace(`/routine/${routineId}/finish`);
     }
 
     setProgress((prevProgress: any) => {
