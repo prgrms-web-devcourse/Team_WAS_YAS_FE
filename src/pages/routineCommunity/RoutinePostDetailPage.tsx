@@ -15,7 +15,7 @@ import styled from '@emotion/styled';
 import { Avatar } from '@mui/material';
 import { RootState } from '@/store';
 import { useSelector } from 'react-redux';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ROUTINE_CATEGORY } from '@/constants';
 import { Colors, Media, FontSize } from '@/styles';
 import { postApi, commentApi, likeApi } from '@/apis';
@@ -52,79 +52,69 @@ const RoutinePostDetailPage = (): JSX.Element => {
     getPost();
   }, [postId]);
 
-  const handleClickMissionSpreadToggle = useCallback(() => {
+  const handleClickMissionSpreadToggle = () => {
     setMissionOpened((missionOpened) => !missionOpened);
-  }, []);
+  };
 
-  const handleSubmitComment = useCallback(
-    async (content: string) => {
-      if (!postData?.postId) return;
-      await commentApi.createComment(postData.postId, content);
-      // TODO: 새로고침 방식 좀 더 깔끔한 방식이 있는지 찾아보고 변경하기
-      window.location.replace(`/community/${postData.postId}`);
-    },
-    [postData?.postId],
-  );
+  const handleSubmitComment = async (content: string) => {
+    if (!postData?.postId) return;
+    await commentApi.createComment(postData.postId, content);
+    window.location.replace(`/community/${postData.postId}`);
+  };
 
-  const handleUpdateComment = useCallback(
-    async (commentId: number, content: string) => {
-      const newContent = content.trim();
-      if (!newContent) return;
-      await commentApi.updateComment(commentId, newContent);
-    },
-    [],
-  );
+  const handleUpdateComment = async (commentId: number, content: string) => {
+    const newContent = content.trim();
+    if (!newContent) return;
+    await commentApi.updateComment(commentId, newContent);
+  };
 
-  const handleDeleteComment = useCallback(
-    async (commentId: number) => {
-      await commentApi.deleteComment(commentId);
-      if (!postData?.postId) return;
-      window.location.replace(`/community/${postData.postId}`);
-    },
-    [postData?.postId],
-  );
+  const handleDeleteComment = async (commentId: number) => {
+    await commentApi.deleteComment(commentId);
+    if (!postData?.postId) return;
+    window.location.replace(`/community/${postData.postId}`);
+  };
 
-  const handleClickPostLikeToggle = useCallback(
-    async (count: number, prevToggled: boolean) => {
-      if (!loginUser) {
-        Swal.fire({
-          icon: 'error',
-          title: '🤯',
-          text: '로그인이 필요합니다.',
-          confirmButtonColor: Colors.point,
-        });
-        return;
-      }
+  const handleClickPostLikeToggle = async (
+    count: number,
+    prevToggled: boolean,
+  ) => {
+    if (!loginUser) {
+      Swal.fire({
+        icon: 'error',
+        title: '🤯',
+        text: '로그인이 필요합니다.',
+        confirmButtonColor: Colors.point,
+      });
+      return;
+    }
 
-      if (!postData) return;
+    if (!postData) return;
 
-      prevToggled
-        ? await likeApi.deletePostLike(postData.postId)
-        : await likeApi.createPostLike(postData.postId);
-    },
-    [postData, loginUser],
-  );
+    prevToggled
+      ? await likeApi.deletePostLike(postData.postId)
+      : await likeApi.createPostLike(postData.postId);
+  };
 
-  const handleClickCommentLikeToggle = useCallback(
-    async (postId: number, prevToggled: boolean) => {
-      if (!loginUser) {
-        Swal.fire({
-          icon: 'error',
-          title: '🤯',
-          text: '로그인이 필요합니다.',
-          confirmButtonColor: Colors.point,
-        });
-        return;
-      }
+  const handleClickCommentLikeToggle = async (
+    postId: number,
+    prevToggled: boolean,
+  ) => {
+    if (!loginUser) {
+      Swal.fire({
+        icon: 'error',
+        title: '🤯',
+        text: '로그인이 필요합니다.',
+        confirmButtonColor: Colors.point,
+      });
+      return;
+    }
 
-      prevToggled
-        ? await likeApi.deleteCommentLike(postId)
-        : await likeApi.createCommentLike(postId);
-    },
-    [loginUser],
-  );
+    prevToggled
+      ? await likeApi.deleteCommentLike(postId)
+      : await likeApi.createCommentLike(postId);
+  };
 
-  const handleClickDeleteButton = useCallback(() => {
+  const handleClickDeleteButton = () => {
     if (!postData) return;
     Swal.fire({
       title: '🤔',
@@ -152,7 +142,21 @@ const RoutinePostDetailPage = (): JSX.Element => {
         }
       }
     });
-  }, [postData, history]);
+  };
+
+  const handleClickBringRoutineButton = () => {
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: `😎`,
+      text: '자유롭게 수정하고 생성하기를 완료해주세요.',
+      confirmButtonColor: Colors.point,
+    });
+    history.push({
+      pathname: '/routine/create',
+      state: { data: postData?.routine },
+    });
+  };
 
   return (
     <Container navBar>
@@ -194,21 +198,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
           {postData && postData.user.userId === loginUser?.userId ? (
             <IconButton.Delete onClick={handleClickDeleteButton} />
           ) : null}
-          <BringRoutineButton
-            onClick={() => {
-              Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: `😎`,
-                text: '자유롭게 수정하고 생성하기를 완료해주세요.',
-                confirmButtonColor: Colors.point,
-              });
-              history.push({
-                pathname: '/routine/create',
-                state: { data: postData?.routine },
-              });
-            }}
-          >
+          <BringRoutineButton onClick={handleClickBringRoutineButton}>
             <GetAppRoundedIcon />
             루틴 가져오기
           </BringRoutineButton>
@@ -283,9 +273,8 @@ const StyledAvatar = styled(Avatar)`
 `;
 
 const AuthorNameText = styled.p`
-  color: & {
+  color: ${Colors.textPrimary};
 
-  }
   @media ${Media.sm} {
     font-size: ${FontSize.small};
   }
@@ -355,7 +344,7 @@ const ButtonContainer = styled.div`
 `;
 
 const StyledCommentCreator = styled(CommentCreator)`
-  margin: 2rem 0 1rem; 0;
+  margin: 2rem 0 1rem 0;
 `;
 
 const CommentContainer = styled.div`
