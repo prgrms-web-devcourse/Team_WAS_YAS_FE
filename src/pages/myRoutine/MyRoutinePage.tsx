@@ -34,9 +34,6 @@ const MyRoutinePage = (): JSX.Element => {
       const routines = await routineApi.getRoutines();
       const finishedRoutines = await routineApi.getFinishedRoutines();
       const notFinishedRoutines = await routineApi.getNotFinishedRoutines();
-      console.log(routines);
-      console.log(finishedRoutines);
-      console.log(notFinishedRoutines);
 
       const finishedRoutineIds = finishedRoutines.data.data.map(
         (routine: { routineId: number }) => routine.routineId,
