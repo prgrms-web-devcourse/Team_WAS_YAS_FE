@@ -95,7 +95,7 @@ const RoutineCreatePage = (): JSX.Element => {
             name,
             emoji,
             color,
-            startGoalTime,
+            startGoalTime: moment(startGoalTime).toISOString(),
             durationGoalTime,
             routineCategory,
             weeks,
@@ -150,7 +150,7 @@ const RoutineCreatePage = (): JSX.Element => {
     setRoutine((routine) => ({
       ...routine,
       color: selectedColor,
-      missionCreateRequest: routine.missionCreateRequest.map((mission) => ({
+      missionCreateRequest: routine.missionCreateRequest?.map((mission) => ({
         ...mission,
         color: selectedColor,
       })),
