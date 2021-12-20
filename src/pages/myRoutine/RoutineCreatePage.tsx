@@ -52,12 +52,18 @@ const RoutineCreatePage = (): JSX.Element => {
                 durationGoalTime,
               }: Omit<MissionType, 'missionId' | 'orders'>,
               index: number,
-            ) => ({ name, emoji, color, durationGoalTime, orders: index }),
+            ) => ({
+              name,
+              emoji,
+              color,
+              durationGoalTime,
+              orders: index,
+            }),
           ),
         }
       : initialRoutine,
   );
-  console.log(routine);
+
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     const defaultWeeks = Object.keys(WEEK);
     e.preventDefault();
@@ -144,6 +150,10 @@ const RoutineCreatePage = (): JSX.Element => {
     setRoutine((routine) => ({
       ...routine,
       color: selectedColor,
+      missionCreateRequest: routine.missionCreateRequest.map((mission) => ({
+        ...mission,
+        color: selectedColor,
+      })),
     }));
   };
 
