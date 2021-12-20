@@ -11,5 +11,5 @@ export default {
 };
 
 export const Default = ({ ...args }: LikeBoxProps): JSX.Element => {
-  return <LikeBox {...args} />;
+  return <LikeBox />;
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { FontSize, Colors } from '@/styles';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
@@ -22,7 +22,6 @@ const LikeBox = ({
 }: LikeBoxProps): JSX.Element => {
   const [toggle, setToggle] = useState(active);
   const [count, setCount] = useState<number>(() => initCount);
-  console.log(initCount, count);
 
   useEffect(() => {
     setCount(initCount);
@@ -93,4 +92,4 @@ const Text = styled.p`
 
 // LikeBox.defaultProps = defaultProps;
 
-export default LikeBox;
+export default memo(LikeBox);

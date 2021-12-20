@@ -15,7 +15,7 @@ import styled from '@emotion/styled';
 import { Avatar } from '@mui/material';
 import { RootState } from '@/store';
 import { useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ROUTINE_CATEGORY } from '@/constants';
 import { Colors, Media, FontSize } from '@/styles';
 import { postApi, commentApi, likeApi } from '@/apis';
@@ -29,7 +29,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
   const [missionOpened, setMissionOpened] = useState<boolean>(false);
   const [postData, setPostData] = useState<RoutinePostType>();
   const [loading, setLoading] = useState<boolean>(false);
-  const { data: user } = useSelector((state: RootState) => state.user);
+  const loginUser = useSelector((state: RootState) => state.user.data);
 
   useEffect(() => {
     const getPost = async () => {
@@ -52,72 +52,79 @@ const RoutinePostDetailPage = (): JSX.Element => {
     getPost();
   }, [postId]);
 
-  const handleClickMissionSpreadToggle = () => {
+  const handleClickMissionSpreadToggle = useCallback(() => {
     setMissionOpened((missionOpened) => !missionOpened);
-  };
+  }, []);
 
-  const handleSubmitComment = async (content: string) => {
-    if (!postData?.postId) return;
-    await commentApi.createComment(postData.postId, content);
-    // TODO: 새로고침 방식 좀 더 깔끔한 방식이 있는지 찾아보고 변경하기
-    window.location.replace(`/community/${postData.postId}`);
-  };
+  const handleSubmitComment = useCallback(
+    async (content: string) => {
+      if (!postData?.postId) return;
+      await commentApi.createComment(postData.postId, content);
+      // TODO: 새로고침 방식 좀 더 깔끔한 방식이 있는지 찾아보고 변경하기
+      window.location.replace(`/community/${postData.postId}`);
+    },
+    [postData?.postId],
+  );
 
-  const handleUpdateComment = async (commentId: number, content: string) => {
-    const newContent = content.trim();
-    if (!newContent) return;
-    await commentApi.updateComment(commentId, newContent);
-  };
+  const handleUpdateComment = useCallback(
+    async (commentId: number, content: string) => {
+      const newContent = content.trim();
+      if (!newContent) return;
+      await commentApi.updateComment(commentId, newContent);
+    },
+    [],
+  );
 
-  const handleDeleteComment = async (commentId: number) => {
-    await commentApi.deleteComment(commentId);
-    if (!postData?.postId) return;
-    window.location.replace(`/community/${postData.postId}`);
-  };
+  const handleDeleteComment = useCallback(
+    async (commentId: number) => {
+      await commentApi.deleteComment(commentId);
+      if (!postData?.postId) return;
+      window.location.replace(`/community/${postData.postId}`);
+    },
+    [postData?.postId],
+  );
 
-  const handleClickPostLikeToggle = async (
-    count: number,
-    prevToggled: boolean,
-  ) => {
-    if (!user) {
-      Swal.fire({
-        icon: 'error',
-        title: '🤯',
-        text: '로그인이 필요합니다.',
-        confirmButtonColor: Colors.point,
-      });
-      return;
-    }
-    console.log('좋아요 클릭!');
+  const handleClickPostLikeToggle = useCallback(
+    async (count: number, prevToggled: boolean) => {
+      if (!loginUser) {
+        Swal.fire({
+          icon: 'error',
+          title: '🤯',
+          text: '로그인이 필요합니다.',
+          confirmButtonColor: Colors.point,
+        });
+        return;
+      }
 
-    if (!postData) return;
-    console.log(postData.postId);
+      if (!postData) return;
 
-    prevToggled
-      ? await likeApi.deletePostLike(postData.postId)
-      : await likeApi.createPostLike(postData.postId);
-  };
+      prevToggled
+        ? await likeApi.deletePostLike(postData.postId)
+        : await likeApi.createPostLike(postData.postId);
+    },
+    [postData, loginUser],
+  );
 
-  const handleClickCommentLikeToggle = async (
-    postId: number,
-    prevToggled: boolean,
-  ) => {
-    if (!user) {
-      Swal.fire({
-        icon: 'error',
-        title: '🤯',
-        text: '로그인이 필요합니다.',
-        confirmButtonColor: Colors.point,
-      });
-      return;
-    }
+  const handleClickCommentLikeToggle = useCallback(
+    async (postId: number, prevToggled: boolean) => {
+      if (!loginUser) {
+        Swal.fire({
+          icon: 'error',
+          title: '🤯',
+          text: '로그인이 필요합니다.',
+          confirmButtonColor: Colors.point,
+        });
+        return;
+      }
 
-    prevToggled
-      ? await likeApi.deleteCommentLike(postId)
-      : await likeApi.createCommentLike(postId);
-  };
+      prevToggled
+        ? await likeApi.deleteCommentLike(postId)
+        : await likeApi.createCommentLike(postId);
+    },
+    [loginUser],
+  );
 
-  const handleClickDeleteButton = () => {
+  const handleClickDeleteButton = useCallback(() => {
     if (!postData) return;
     Swal.fire({
       title: '🤔',
@@ -145,7 +152,8 @@ const RoutinePostDetailPage = (): JSX.Element => {
         }
       }
     });
-  };
+  }, [postData, history]);
+
   return (
     <Container navBar>
       <RoutineInfoHeader>
@@ -154,11 +162,11 @@ const RoutinePostDetailPage = (): JSX.Element => {
           <AuthorNameText>{postData && postData.user.nickname}</AuthorNameText>
         </AuthorInfoWrapper>
         <LikeBox
-          interactive={user ? true : false}
+          interactive={loginUser ? true : false}
           active={
-            user
+            loginUser
               ? postData &&
-                postData.likes.some((like) => like.userId === user?.userId)
+                postData.likes.some((like) => like.userId === loginUser?.userId)
               : false
           }
           onClick={handleClickPostLikeToggle}
@@ -183,7 +191,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
             ))}
         </CategoryWrapper>
         <ButtonContainer>
-          {postData && postData.user.userId === user?.userId ? (
+          {postData && postData.user.userId === loginUser?.userId ? (
             <IconButton.Delete onClick={handleClickDeleteButton} />
           ) : null}
           <BringRoutineButton
@@ -230,12 +238,14 @@ const RoutinePostDetailPage = (): JSX.Element => {
           postData.comments.map((comment: CommentType) => (
             <Comment
               key={comment.commentId}
-              editable={user ? comment.user.userId === user.userId : undefined}
+              editable={
+                loginUser ? comment.user.userId === loginUser.userId : undefined
+              }
               onEditComment={handleUpdateComment}
               onDeleteComment={handleDeleteComment}
               onClickLikeToggle={handleClickCommentLikeToggle}
               likeToggled={comment.likes.some(
-                (like) => like.userId === user?.userId,
+                (like) => like.userId === loginUser?.userId,
               )}
               likeCount={comment.likes.length}
               comment={comment}
