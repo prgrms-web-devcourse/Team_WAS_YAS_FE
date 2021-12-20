@@ -75,7 +75,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
     window.location.replace(`/community/${postData.postId}`);
   };
 
-  const handleClicPostkLikeToggle = async (
+  const handleClickPostLikeToggle = async (
     count: number,
     prevToggled: boolean,
   ) => {
@@ -159,7 +159,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
           //       postData.likes.some((like) => like.userId === user?.userId)
           //     : false
           // }
-          onClick={handleClicPostkLikeToggle}
+          onClick={handleClickPostLikeToggle}
           // count={postData && postData.likes.length}
         />
       </RoutineInfoHeader>
