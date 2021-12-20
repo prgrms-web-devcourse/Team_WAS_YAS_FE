@@ -37,8 +37,8 @@ const RoutinePostDetailPage = (): JSX.Element => {
       try {
         if (!postId) return;
         const response = await postApi.getPost(parseInt(postId));
-        const postData = response.data.data;
-        setPostData(postData);
+        const postData: RoutinePostType = response.data.data;
+        setPostData(() => ({ ...postData }));
       } catch (error: any) {
         Swal.fire({
           icon: 'error',
@@ -88,12 +88,14 @@ const RoutinePostDetailPage = (): JSX.Element => {
       });
       return;
     }
+    console.log('좋아요 클릭!');
 
-    if (!postId) return;
+    if (!postData) return;
+    console.log(postData.postId);
 
     prevToggled
-      ? await likeApi.deletePostLike(parseInt(postId))
-      : await likeApi.createPostLike(parseInt(postId));
+      ? await likeApi.deletePostLike(postData.postId)
+      : await likeApi.createPostLike(postData.postId);
   };
 
   const handleClickCommentLikeToggle = async (
@@ -153,14 +155,14 @@ const RoutinePostDetailPage = (): JSX.Element => {
         </AuthorInfoWrapper>
         <LikeBox
           interactive={user ? true : false}
-          // active={
-          //   user
-          //     ? postData &&
-          //       postData.likes.some((like) => like.userId === user?.userId)
-          //     : false
-          // }
+          active={
+            user
+              ? postData &&
+                postData.likes.some((like) => like.userId === user?.userId)
+              : false
+          }
           onClick={handleClickPostLikeToggle}
-          // count={postData && postData.likes.length}
+          count={postData && postData.likes.length}
         />
       </RoutineInfoHeader>
       <RoutineInfo
@@ -224,7 +226,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
       )}
       <StyledCommentCreator onSubmit={handleSubmitComment} />
       <CommentContainer>
-        {postData &&
+        {/* {postData &&
           postData.comments.map((comment: CommentType) => (
             <Comment
               key={comment.commentId}
@@ -238,7 +240,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
               likeCount={comment.likes.length}
               comment={comment}
             />
-          ))}
+          ))} */}
       </CommentContainer>
       {loading && <Spinner />}
     </Container>
