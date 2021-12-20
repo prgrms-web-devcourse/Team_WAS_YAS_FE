@@ -4,6 +4,7 @@ import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import styled from '@emotion/styled';
 import { useHistory, useParams } from 'react-router-dom';
 import { missionStatusApi, routineApi } from '@/apis';
+import Swal from 'sweetalert2';
 
 interface RoutineInfoType {
   emoji: string;
@@ -21,40 +22,60 @@ const RoutineFinishPage = (): JSX.Element => {
   const getFinishedRoutineDetail = async () => {
     if (!routineId) return;
     try {
-      const result = await missionStatusApi.getMissionStatus(routineId);
-      const missionStatus = result.data.data
-        ?.filter(
-          (status: { missionStatusDetailResponse: { startTime: string } }) => {
-            const missionDate = new Date(
-              status.missionStatusDetailResponse.startTime + 'Z',
-            ).toLocaleDateString();
-            const today = new Date().toLocaleDateString();
+      const notFinishedRoutines = await routineApi.getNotFinishedRoutines();
+      const notFinishedRoutineIds = notFinishedRoutines.data.data.map(
+        (routine: { routineId: number }) => routine.routineId,
+      );
 
-            return missionDate === today;
-          },
-        )
-        .map(
-          (status: {
-            missionStatusDetailResponse: {
-              userDurationTime: number;
-              endTime: string | null;
-            };
-          }) => {
-            const { userDurationTime, endTime } =
-              status.missionStatusDetailResponse;
+      if (notFinishedRoutineIds.includes(routineId)) {
+        Swal.fire({
+          position: 'center',
+          icon: 'info',
+          title: '루틴을 수행하지 않았네요!',
+          text: '해당 루틴페이지로 이동합니다',
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        history.replace(`/routine/${routineId}`);
+      } else {
+        const result = await missionStatusApi.getMissionStatus(routineId);
+        const missionStatus = result.data.data
+          ?.filter(
+            (status: {
+              missionStatusDetailResponse: { startTime: string };
+            }) => {
+              const missionDate = new Date(
+                status.missionStatusDetailResponse.startTime + 'Z',
+              ).toLocaleDateString();
+              const today = new Date().toLocaleDateString();
 
-            return {
-              ...status,
-              userDurationTime: endTime === null ? null : userDurationTime,
-              isPassed: endTime === null ? true : false,
-            };
-          },
-        )
-        .sort(
-          (a: { orders: number }, b: { orders: number }) => a.orders - b.orders,
-        );
+              return missionDate === today;
+            },
+          )
+          .map(
+            (status: {
+              missionStatusDetailResponse: {
+                userDurationTime: number;
+                endTime: string | null;
+              };
+            }) => {
+              const { userDurationTime, endTime } =
+                status.missionStatusDetailResponse;
 
-      setTodayMissionStatus(missionStatus);
+              return {
+                ...status,
+                userDurationTime: endTime === null ? null : userDurationTime,
+                isPassed: endTime === null ? true : false,
+              };
+            },
+          )
+          .sort(
+            (a: { orders: number }, b: { orders: number }) =>
+              a.orders - b.orders,
+          );
+
+        setTodayMissionStatus(missionStatus);
+      }
     } catch (e) {
       console.error('getFinishedRoutineDetail: ', e);
     }
