@@ -277,7 +277,7 @@ const StyledRoutineAddButton = styled(RoutineAddButton)`
   bottom: 116px;
 
   @media ${Media.sm} {
-    right: calc(50% - 140px);
+    right: 1rem;
     bottom: 62px;
   }
 `;
