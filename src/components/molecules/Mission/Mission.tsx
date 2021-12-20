@@ -26,10 +26,6 @@ const Mission = ({
     setVisible(false);
   };
 
-  const handleClickDeleteButton = () => {
-    console.log('clicked delete button');
-  };
-
   return (
     <MissionContainer style={{ backgroundColor, ...style }} {...props}>
       <Emoji>{emoji}</Emoji>
@@ -42,7 +38,6 @@ const Mission = ({
             style={{ transform: 'translate(-100px, -50px)', width: 110 }}
             visible={visible}
             onClose={handleCloseToolBox}
-            onClickDeleteButton={handleClickDeleteButton}
           />
         </ToolBoxContainer>
       ) : (

@@ -30,7 +30,7 @@ const formatStartTime = (time: string): string => {
 };
 
 const dateFromNow = (time: string): string => {
-  return moment(time).startOf('day').fromNow();
+  return moment(time).startOf('milliseconds').fromNow();
 };
 
 // eslint-disable-next-line

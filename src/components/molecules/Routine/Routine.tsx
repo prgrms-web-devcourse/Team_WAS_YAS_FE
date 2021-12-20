@@ -188,7 +188,8 @@ const Emoji = styled.div`
 
   @media ${Media.sm} {
     font-size: 2rem;
-    margin: 0.5rem 0 0.25rem;
+    height: 2.75rem;
+    margin: 0.25rem 0;
   }
 `;
 
@@ -211,7 +212,7 @@ const TotalTime = styled.h2`
 
   @media ${Media.sm} {
     font-size: 0.625rem;
-    margin: 0.25rem 0;
+    margin: 0.3rem 0;
   }
 `;
 
@@ -222,7 +223,7 @@ const Weeks = styled.p`
 
   @media ${Media.sm} {
     font-size: 0.625rem;
-    margin-bottom: 0.25rem;
+    margin: 0.3rem 0;
   }
 `;
 
