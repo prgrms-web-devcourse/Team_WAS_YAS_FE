@@ -26,7 +26,7 @@ import RoutinePostWritePage from '@/pages/routineCommunity/RoutinePostWritePage'
 const Router = (): JSX.Element => {
   return (
     <Switch>
-      <PublicRoute path="/" exact component={MyRoutinePage} />
+      <PublicRoute path="/" exact component={RoutineCommunityPage} />
       <PublicRoute path="/routine" exact component={MyRoutinePage} />
       <PublicRoute path="/onboarding" exact component={OnBoardingPage} />
       <PrivateRoute
