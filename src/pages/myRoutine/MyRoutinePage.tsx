@@ -106,8 +106,17 @@ const MyRoutinePage = (): JSX.Element => {
     }
   };
 
-  const onClickUpdateRoutine = (routineId: number) => {
-    history.push(`/routine/${routineId}/update`);
+  const onClickUpdateRoutine = (routine: RoutineType) => {
+    const { routineId, posted } = routine;
+    if (posted) {
+      Swal.fire({
+        icon: 'error',
+        title: '이런, 루틴이 포스팅 되어있군요',
+        text: '포스팅 되어있는 루틴을 먼저 삭제해주세요',
+      });
+    } else {
+      history.push(`/routine/${routineId}/update`);
+    }
   };
 
   const onClickRoutine = (e: React.MouseEvent<HTMLElement>, id: any) => {
@@ -142,7 +151,7 @@ const MyRoutinePage = (): JSX.Element => {
                         deleteRoutine(routine);
                       }}
                       updateRoutine={() => {
-                        onClickUpdateRoutine(routine['routineId']);
+                        onClickUpdateRoutine(routine);
                       }}
                     />
                   ))}
@@ -158,7 +167,7 @@ const MyRoutinePage = (): JSX.Element => {
                         deleteRoutine(routine);
                       }}
                       updateRoutine={() => {
-                        onClickUpdateRoutine(routine['routineId']);
+                        onClickUpdateRoutine(routine);
                       }}
                     />
                   ))}
@@ -190,7 +199,7 @@ const MyRoutinePage = (): JSX.Element => {
                         deleteRoutine(routine);
                       }}
                       updateRoutine={() => {
-                        onClickUpdateRoutine(routine['routineId']);
+                        onClickUpdateRoutine(routine);
                       }}
                     />
                   ))}
@@ -222,7 +231,7 @@ const MyRoutinePage = (): JSX.Element => {
                         deleteRoutine(routine);
                       }}
                       updateRoutine={() => {
-                        onClickUpdateRoutine(routine['routineId']);
+                        onClickUpdateRoutine(routine);
                       }}
                     />
                   ))}
