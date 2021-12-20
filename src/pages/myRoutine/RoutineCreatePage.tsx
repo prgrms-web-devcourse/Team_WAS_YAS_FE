@@ -99,7 +99,6 @@ const RoutineCreatePage = (): JSX.Element => {
   };
 
   const handleWeekChange = (selectedDays: string[]) => {
-    console.log(selectedDays);
     setRoutine((routine) => ({
       ...routine,
       weeks: [...selectedDays],
