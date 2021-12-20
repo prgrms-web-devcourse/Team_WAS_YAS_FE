@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Colors, Media, FontSize } from '@/styles';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store';
+import Swal from 'sweetalert2';
 
 export interface CommentCreatorProps
   extends Omit<React.ComponentProps<'form'>, 'onChange' | 'onSubmit'> {
@@ -14,6 +17,7 @@ const CommentCreator = ({
   ...props
 }: CommentCreatorProps): JSX.Element => {
   const [content, setContent] = useState<string>('');
+  const user = useSelector((state: RootState) => state.user.data);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
     setContent(e.target.value);
@@ -43,12 +47,19 @@ const CommentCreator = ({
       <TextArea
         id="content"
         name="content"
-        placeholder="댓글을 입력하세요."
+        disabled={user ? false : true}
+        placeholder={
+          user ? '댓글을 입력하세요.' : '로그인 후 댓글을 작성할 수 있습니다.'
+        }
         onChange={handleChange}
         onKeyUp={handleKeyUp}
         value={content}
       />
-      <Button type="button" onClick={handleClickSubmitButton}>
+      <Button
+        disabled={user ? false : true}
+        type="button"
+        onClick={handleClickSubmitButton}
+      >
         댓글 쓰기
       </Button>
     </Form>
