@@ -10,18 +10,18 @@ import {
   IconButton,
   SpreadToggle,
 } from '@/components';
-import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 import styled from '@emotion/styled';
 import { Avatar } from '@mui/material';
-import GetAppRoundedIcon from '@mui/icons-material/GetAppRounded';
+import { RootState } from '@/store';
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { ROUTINE_CATEGORY } from '@/constants';
 import { Colors, Media, FontSize } from '@/styles';
-import { useHistory, useParams } from 'react-router-dom';
-import Swal from 'sweetalert2';
 import { postApi, commentApi, likeApi } from '@/apis';
 import { RoutinePostType, CommentType } from '@/Models';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store';
+import { useHistory, useParams } from 'react-router-dom';
+import GetAppRoundedIcon from '@mui/icons-material/GetAppRounded';
 
 const RoutinePostDetailPage = (): JSX.Element => {
   const history = useHistory();
@@ -226,7 +226,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
       )}
       <StyledCommentCreator onSubmit={handleSubmitComment} />
       <CommentContainer>
-        {/* {postData &&
+        {postData &&
           postData.comments.map((comment: CommentType) => (
             <Comment
               key={comment.commentId}
@@ -240,7 +240,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
               likeCount={comment.likes.length}
               comment={comment}
             />
-          ))} */}
+          ))}
       </CommentContainer>
       {loading && <Spinner />}
     </Container>
