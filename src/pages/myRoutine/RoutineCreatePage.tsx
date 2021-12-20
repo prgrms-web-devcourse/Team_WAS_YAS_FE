@@ -13,7 +13,7 @@ import {
 import { Colors, FontSize, Media } from '@/styles';
 import styled from '@emotion/styled';
 import moment from 'moment';
-import { RoutineType } from '@/Models';
+import { MissionType, RoutineType } from '@/Models';
 import Swal from 'sweetalert2';
 import { ROUTINE_CATEGORY, WEEK } from '@/constants';
 import { useHistory } from 'react-router-dom';
@@ -21,9 +21,7 @@ import { routineApi } from '@/apis';
 
 const RoutineCreatePage = (): JSX.Element => {
   const history = useHistory();
-  const [routine, setRoutine] = useState<
-    Omit<RoutineType, 'routineId' | 'missionDetailResponse'>
-  >({
+  const initialRoutine = {
     emoji: '💫',
     color: Colors.red,
     name: '',
@@ -31,7 +29,35 @@ const RoutineCreatePage = (): JSX.Element => {
     startGoalTime: new Date(2021, 0, 0, 9).toISOString(),
     routineCategory: [],
     weeks: [],
-  });
+  };
+  const broughtRoutine = history.location.state
+    ? history.location.state.data
+    : '';
+
+  const [routine, setRoutine] = useState<
+    Omit<RoutineType, 'routineId' | 'missionDetailResponse'> & {
+      missionCreateRequest: MissionType[];
+    }
+  >(
+    broughtRoutine
+      ? {
+          ...broughtRoutine,
+          routineCategory: broughtRoutine.category,
+          missionCreateRequest: broughtRoutine.missions.map(
+            (
+              {
+                name,
+                emoji,
+                color,
+                durationGoalTime,
+              }: Omit<MissionType, 'missionId' | 'orders'>,
+              index: number,
+            ) => ({ name, emoji, color, durationGoalTime, orders: index }),
+          ),
+        }
+      : initialRoutine,
+  );
+  console.log(routine);
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     const defaultWeeks = Object.keys(WEEK);
     e.preventDefault();
@@ -48,10 +74,33 @@ const RoutineCreatePage = (): JSX.Element => {
       });
     } else {
       try {
-        await routineApi.createRoutine({
-          ...routine,
-          weeks: routine.weeks.length !== 0 ? routine.weeks : defaultWeeks,
-        });
+        if (routine.missionCreateRequest) {
+          const {
+            name,
+            emoji,
+            color,
+            startGoalTime,
+            durationGoalTime,
+            routineCategory,
+            weeks,
+            missionCreateRequest,
+          } = routine;
+          await routineApi.createBroughtRoutine({
+            name,
+            emoji,
+            color,
+            startGoalTime,
+            durationGoalTime,
+            routineCategory,
+            weeks,
+            missionCreateRequest,
+          });
+        } else {
+          await routineApi.createRoutine({
+            ...routine,
+            weeks: routine.weeks.length !== 0 ? routine.weeks : defaultWeeks,
+          });
+        }
         Swal.fire({
           icon: 'success',
           text: '루틴 생성이 완료되었습니다!🎉',
@@ -131,6 +180,7 @@ const RoutineCreatePage = (): JSX.Element => {
           id="name"
           name="name"
           placeholder="루틴 이름을 입력해주세요"
+          value={routine.name}
           onChange={handleTitleChange}
         />
         {routine.name ? (
@@ -155,7 +205,11 @@ const RoutineCreatePage = (): JSX.Element => {
           onChange={handleColorChange}
         />
         <Label htmlFor="weeks">요일</Label>
-        <DaySelector name="weeks" onChange={handleWeekChange} />
+        <DaySelector
+          name="weeks"
+          initialSelectedDays={routine.weeks}
+          onChange={handleWeekChange}
+        />
         <Label htmlFor="startGoalTime">시작 시간</Label>
         <StyledStartTimePicker>
           <StartTimePicker

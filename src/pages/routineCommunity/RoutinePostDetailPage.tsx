@@ -145,7 +145,6 @@ const RoutinePostDetailPage = (): JSX.Element => {
       }
     });
   };
-
   return (
     <Container navBar>
       <RoutineInfoHeader>
@@ -195,7 +194,10 @@ const RoutinePostDetailPage = (): JSX.Element => {
                 text: '자유롭게 수정하고 생성하기를 완료해주세요.',
                 confirmButtonColor: Colors.point,
               });
-              history.push('/routine/create');
+              history.push({
+                pathname: '/routine/create',
+                state: { data: postData?.routine },
+              });
             }}
           >
             <GetAppRoundedIcon />

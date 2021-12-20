@@ -1,3 +1,4 @@
+import { MissionType } from '@/Models';
 import { AxiosResponse } from 'axios';
 import { authRequest } from './config';
 
@@ -20,6 +21,16 @@ interface RoutineApiType {
     routineId: number,
     routineInfo: { weeks: string[] },
   ) => Promise<AxiosResponse>;
+  createBroughtRoutine: (routineInfo: {
+    name: string;
+    routineCategory: string[];
+    startGoalTime: string;
+    durationGoalTime: number;
+    weeks: string[];
+    emoji: string;
+    color: string;
+    missionCreateRequest: MissionType[];
+  }) => Promise<AxiosResponse>;
 }
 
 const routineApi: RoutineApiType = {
@@ -31,6 +42,8 @@ const routineApi: RoutineApiType = {
   deleteRoutine: (routineId) => authRequest.delete(`/routines/${routineId}`),
   updateRoutine: (routineId, routineInfo) =>
     authRequest.put(`/routines/${routineId}`, routineInfo),
+  createBroughtRoutine: (routineInfo) =>
+    authRequest.post('/routines/my', routineInfo),
 };
 
 export default routineApi;
