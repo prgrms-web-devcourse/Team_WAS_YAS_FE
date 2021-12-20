@@ -1,14 +1,14 @@
 import React from 'react';
 import { Container } from '@/components';
 import styled from '@emotion/styled';
-import notFoundImg from '@/images/notFoundImg.png';
+import { notFound } from '@/images';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 
 const NotFoundPage = (): JSX.Element => {
   return (
     <Container navBar>
       <ContentsContainer>
-        <Img src={notFoundImg} alt="이미지" />
+        <Img src={notFound} alt="이미지" />
         <Span>존재하지 않는 페이지입니다!</Span>
       </ContentsContainer>
     </Container>

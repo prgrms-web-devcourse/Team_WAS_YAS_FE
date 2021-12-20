@@ -1,21 +1,42 @@
 import { Button, Container, Icon } from '@/components';
-import { Colors, FontSize, Media } from '@/styles';
+import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import styled from '@emotion/styled';
-import myRoutine from '@/images/myRoutine.png';
-import routineDetail from '@/images/routineDetail.png';
+import {
+  intro,
+  myRoutine,
+  routineDetail,
+  routineCreate,
+  routineProgress,
+  routineCommunity,
+  postDetail,
+} from '@/images';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { MobileStepper } from '@mui/material';
 
 const OnBoardingPage = (): JSX.Element => {
   const history = useHistory();
   const token = sessionStorage.getItem('YAS_USER_TOKEN');
-  const imageList = [myRoutine, routineDetail];
-  const textList = [
-    '나만의 루틴을 생성하고 지켜나가보세요!',
-    '루틴의 세부 미션들을 생성해보세요!',
+  const imageList = [
+    intro,
+    myRoutine,
+    routineCreate,
+    routineDetail,
+    routineProgress,
+    routineCommunity,
+    postDetail,
   ];
-  const [currentIndex, setCurrentIndex] = useState<number>(1);
+  const textList = [
+    'YAS가 처음이신 분들을 위해 준비했어요!',
+    '전체, 오늘, 완료한 루틴을 확인해보세요!',
+    '새로운 나만의 루틴을 생성해볼까요?',
+    '루틴의 세부 미션들을 확인해보세요!',
+    '루틴을 시간에 맞춰 진행해보세요!',
+    '다른 사람들의 루틴을 구경해볼까요?',
+    '댓글과 좋아요로 소통해보세요!',
+  ];
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
   const handleNextClick = () => {
     setCurrentIndex((prevIndex) => prevIndex + 1);
   };
@@ -35,18 +56,8 @@ const OnBoardingPage = (): JSX.Element => {
       history.push('/mypage/signin');
     }
   };
-  const handleSignUpClick = () => {
-    if (token) {
-      Swal.fire({
-        icon: 'info',
-        title: '로그아웃 진행 후 회원가입해주세요!',
-        text: '마이 페이지로 이동합니다',
-      }).then(() => {
-        history.push('/mypage');
-      });
-    } else {
-      history.push('/mypage/signup');
-    }
+  const handleCommunityClick = () => {
+    history.push('/community');
   };
   return (
     <Container>
@@ -60,10 +71,19 @@ const OnBoardingPage = (): JSX.Element => {
           <div />
         )}
       </ContentsContainer>
+      <MobileStepper
+        variant="dots"
+        steps={7}
+        position="static"
+        activeStep={currentIndex}
+        sx={{ maxWidth: 400, flexGrow: 1, marginTop: '1.5rem' }}
+        backButton={''}
+        nextButton={''}
+      />
       <ButtonContainer>
         <Button onClick={handleSignInClick}>로그인 하러가기</Button>
-        <Button colorType="white" onClick={handleSignUpClick}>
-          회원가입 하러가기
+        <Button colorType="white" onClick={handleCommunityClick}>
+          지금 바로 YAS 둘러보기
         </Button>
       </ButtonContainer>
     </Container>
@@ -93,7 +113,7 @@ const Image = styled.img`
 `;
 
 const ButtonContainer = styled.div`
-  margin-top: 4rem;
+  margin-top: 3rem;
   width: 60%;
   > button {
     margin: 0 1rem 1rem 0;
@@ -104,7 +124,7 @@ const ArrowBack = styled(Icon.ArrowBack)`
   cursor: pointer;
   justify-self: flex-start;
   @media ${Media.sm} {
-    width: 8px;
+    width: 12px;
   }
   @media ${Media.md} {
     width: 16px;
@@ -118,7 +138,7 @@ const ArrowForward = styled(Icon.ArrowForward)`
   cursor: pointer;
   justify-self: flex-end;
   @media ${Media.sm} {
-    width: 8px;
+    width: 12px;
   }
   @media ${Media.md} {
     width: 16px;
@@ -130,6 +150,15 @@ const ArrowForward = styled(Icon.ArrowForward)`
 
 const Span = styled.span`
   margin: 2rem 0;
-  font-size: ${FontSize.medium};
   color: ${Colors.textSecondary};
+  font-weight: ${FontWeight.medium};
+  @media ${Media.sm} {
+    font-size: ${FontSize.medium};
+  }
+  @media ${Media.md} {
+    font-size: ${FontSize.large};
+  }
+  @media ${Media.lg} {
+    font-size: ${FontSize.large};
+  }
 `;

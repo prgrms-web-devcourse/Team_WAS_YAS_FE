@@ -1,14 +1,14 @@
 import React from 'react';
 import { Container } from '@/components';
 import styled from '@emotion/styled';
-import prepareImg from '@/images/prepareImg.png';
+import { prepare } from '@/images';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 
 const AnalysisPage = (): JSX.Element => {
   return (
     <Container navBar>
       <ContentsContainer>
-        <Img src={prepareImg} alt="이미지" />
+        <Img src={prepare} alt="이미지" />
         <Span>준비중인 서비스입니다!</Span>
       </ContentsContainer>
     </Container>
