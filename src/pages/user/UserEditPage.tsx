@@ -20,7 +20,6 @@ const validationSchema = Yup.object().shape({
     .required('닉네임을 입력해주세요.'),
 });
 
-// TODO: API 연동시 파일처리 부분 리팩토링
 const UserEditPage = (): JSX.Element => {
   const history = useHistory();
   const { data: user } = useSelector((state: RootState) => state.user);
