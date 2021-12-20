@@ -4,7 +4,6 @@ import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import styled from '@emotion/styled';
 import { useHistory, useParams } from 'react-router-dom';
 import { missionStatusApi, routineApi } from '@/apis';
-import moment from 'moment';
 
 interface RoutineInfoType {
   emoji: string;
@@ -25,8 +24,14 @@ const RoutineFinishPage = (): JSX.Element => {
       const result = await missionStatusApi.getMissionStatus(routineId);
       const missionStatus = result.data.data
         ?.filter(
-          (status: { missionStatusDetailResponse: { startTime: string } }) =>
-            moment(status.missionStatusDetailResponse.startTime).days() === 0,
+          (status: { missionStatusDetailResponse: { startTime: string } }) => {
+            const missionDate = new Date(
+              status.missionStatusDetailResponse.startTime + 'Z',
+            ).toLocaleDateString();
+            const today = new Date().toLocaleDateString();
+
+            return missionDate === today;
+          },
         )
         .map(
           (status: {
