@@ -169,6 +169,12 @@ const OnBoardingLink = styled(Link)`
   @media ${Media.lg} {
     font-size: ${FontSize.medium};
   }
+  @media (hover: hover) {
+    :hover {
+      color: ${Colors.pointLight};
+      border-color: ${Colors.pointLight};
+    }
+  }
 `;
 
 export default SignInPage;
