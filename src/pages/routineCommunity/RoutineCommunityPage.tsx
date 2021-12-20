@@ -46,13 +46,12 @@ const RoutineCommunityPage = (): JSX.Element => {
   const getPosts = useCallback(async () => {
     setLoading(true);
 
-    // TODO: TAB.NEW 와 같이 키를 상수로 변경 하기,(호출 시그니쳐가 잘 적용이 안된다.)
     const Operation: {
       [index: number]: () => ReturnType<typeof postApi.getPosts>;
     } = {
-      0: () => postApi.getPosts(),
-      1: () => postApi.getPostsByPopular(),
-      2: () => postApi.getMyPosts(),
+      [TAB.NEW]: () => postApi.getPosts(),
+      [TAB.POPULAR]: () => postApi.getPostsByPopular(),
+      [TAB.MY]: () => postApi.getMyPosts(),
     };
 
     try {
