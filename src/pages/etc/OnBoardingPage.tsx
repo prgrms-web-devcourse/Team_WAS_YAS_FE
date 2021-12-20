@@ -1,6 +1,7 @@
 import { Button, Container, Icon } from '@/components';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import styled from '@emotion/styled';
+import { keyframes } from '@emotion/react';
 import {
   intro,
   myRoutine,
@@ -10,7 +11,7 @@ import {
   routineCommunity,
   postDetail,
 } from '@/images';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { MobileStepper } from '@mui/material';
@@ -37,12 +38,33 @@ const OnBoardingPage = (): JSX.Element => {
     '댓글과 좋아요로 소통해보세요!',
   ];
   const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [isRendered, setIsRendered] = useState<boolean>(true);
+  const fadeInAnimationClass = isRendered ? 'fadeIn' : '';
+
   const handleNextClick = () => {
+    if (isRendered) return;
     setCurrentIndex((prevIndex) => prevIndex + 1);
   };
   const handlePrevClick = () => {
+    if (isRendered) return;
     setCurrentIndex((prevIndex) => prevIndex - 1);
   };
+
+  useEffect(() => {
+    if (isRendered) {
+      setIsRendered(false);
+    }
+    setIsRendered(true);
+
+    const timer = setTimeout(() => {
+      setIsRendered(false);
+    }, 600);
+
+    return () => {
+      clearTimeout(timer);
+    };
+    // eslint-disable-next-line
+  }, [currentIndex]);
   const handleSignInClick = () => {
     if (token) {
       Swal.fire({
@@ -64,7 +86,11 @@ const OnBoardingPage = (): JSX.Element => {
       <Span>{textList[currentIndex]}</Span>
       <ContentsContainer>
         {currentIndex !== 0 ? <ArrowBack onClick={handlePrevClick} /> : <div />}
-        <Image src={imageList[currentIndex]} alt="onBoardingImage" />
+        <Image
+          className={`${fadeInAnimationClass}`}
+          src={imageList[currentIndex]}
+          alt="onBoardingImage"
+        />
         {currentIndex !== imageList.length - 1 ? (
           <ArrowForward onClick={handleNextClick} />
         ) : (
@@ -100,6 +126,11 @@ const ContentsContainer = styled.div`
   overflow: hidden;
 `;
 
+const fadeIn = keyframes`
+  from {opacity: 0.2; transform: translateY(20px);}
+  to   {opacity: 1; transform: translateY(0);}
+`;
+
 const Image = styled.img`
   @media ${Media.sm} {
     height: 360px;
@@ -109,6 +140,10 @@ const Image = styled.img`
   }
   @media ${Media.lg} {
     height: 424px;
+  }
+
+  &.fadeIn {
+    animation: ${fadeIn} 0.6s ease-out;
   }
 `;
 
