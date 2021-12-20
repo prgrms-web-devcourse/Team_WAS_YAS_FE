@@ -5,6 +5,7 @@ import {
   IconButton,
   RoundedButton,
   RoutineInfo,
+  Spinner,
 } from '@/components';
 import styled from '@emotion/styled';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
@@ -32,6 +33,7 @@ const RoutineProgressPage = (): JSX.Element => {
   const [missions, setMissions] = useState<any>([]);
   const [currentMissions, setCurrentMissions] = useState<any>({});
   const [routineStatusId, setRoutineStatusId] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   // 예외처리
   const { id } = useParams<Record<string, string>>();
   const routineId = id && parseInt(id);
@@ -39,8 +41,27 @@ const RoutineProgressPage = (): JSX.Element => {
   const createRoutineProgress = async () => {
     try {
       if (!routineId) return;
-      const result = await missionStatusApi.createMissionStatus(routineId);
-      return result.data.data;
+      setIsLoading(true);
+      const finishedRoutines = await routineApi.getFinishedRoutines();
+      const finishedRoutineIds = finishedRoutines.data.data.map(
+        (routine: { routineId: number }) => routine.routineId,
+      );
+
+      if (finishedRoutineIds.includes(routineId)) {
+        Swal.fire({
+          position: 'center',
+          icon: 'info',
+          title: '오늘 루틴을 수행했군요!',
+          text: '결과 페이지로 이동합니다',
+          showConfirmButton: false,
+          timer: 2000,
+        });
+        history.replace(`/routine/${routineId}/finish`);
+        return false;
+      } else {
+        const result = await missionStatusApi.createMissionStatus(routineId);
+        return result.data.data;
+      }
     } catch (e) {
       console.error(e);
     }
@@ -49,6 +70,10 @@ const RoutineProgressPage = (): JSX.Element => {
   const getRoutineDetail = async () => {
     try {
       if (!routineId) return;
+      const createdRoutineStatus = await createRoutineProgress();
+
+      if (!createdRoutineStatus) return;
+
       const {
         missionMissionStatusIds,
         routineStatusId,
@@ -58,7 +83,7 @@ const RoutineProgressPage = (): JSX.Element => {
           missionStatusId: number;
         }[];
         routineStatusId: number;
-      } = await createRoutineProgress();
+      } = createdRoutineStatus;
 
       setRoutineStatusId(routineStatusId);
 
@@ -76,7 +101,8 @@ const RoutineProgressPage = (): JSX.Element => {
           return {
             ...mission,
             userDurationTime: null,
-            missionStatusId: missionStatusId['missionStatusId'],
+            missionStatusId:
+              missionStatusId && missionStatusId['missionStatusId'],
           };
         });
 
@@ -88,6 +114,7 @@ const RoutineProgressPage = (): JSX.Element => {
       setProgress(missionInfo);
       setCurrentMissions(missionInfo[0]);
       await startMission(missionInfo[0], routineStatusId);
+      setIsLoading(false);
     } catch (e) {
       console.error(e);
     }
@@ -152,6 +179,7 @@ const RoutineProgressPage = (): JSX.Element => {
 
   useEffect(() => {
     getRoutineDetail();
+    return;
     // eslint-disable-next-line
   }, []);
 
@@ -310,7 +338,7 @@ const RoutineProgressPage = (): JSX.Element => {
     });
 
     if (currentIndex === missions.length - 1) {
-      history.push(`/routine/${routineId}/finish`);
+      history.replace(`/routine/${routineId}/finish`);
     }
 
     setProgress((prevProgress: any) => {
@@ -397,6 +425,7 @@ const RoutineProgressPage = (): JSX.Element => {
         <RoundedButton.Play isPlay={isPlay} onClick={toggle} />
         <IconButton.Check onClick={handleCheckClick} />
       </ButtonContainer>
+      {isLoading && <Spinner />}
     </Container>
   );
 };
