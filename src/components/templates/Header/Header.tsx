@@ -5,6 +5,8 @@ import { Media, Colors } from '@/styles';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
 import BackButton from './BackButton';
+import { IconButton } from '@mui/material';
+import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
 
 export type HeaderProps = React.ComponentProps<'header'>;
 
@@ -24,13 +26,22 @@ const Header = ({ ...props }: HeaderProps): JSX.Element => {
           onClick={handleClickBackButton}
           visible={params.length > 1 && history.length > 1}
         />
-        <StyledAvatar
-          src={user?.profileImage}
-          on={params[0] === 'mypage' ? 1 : 0}
-          onClick={() => {
-            history.push('/mypage');
-          }}
-        />
+        <Aside>
+          <IconButton
+            onClick={() => {
+              history.push('/onBoarding');
+            }}
+          >
+            <HelpIcon />
+          </IconButton>
+          <StyledAvatar
+            src={user?.profileImage}
+            on={params[0] === 'mypage' ? 1 : 0}
+            onClick={() => {
+              history.push('/mypage');
+            }}
+          />
+        </Aside>
       </ContentContainer>
     </Container>
   );
@@ -103,6 +114,18 @@ const StyledAvatar = styled(Avatar)<{ on: number }>`
     width: 40px;
     height: 40px;
   }
+`;
+
+const Aside = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
+const HelpIcon = styled(HelpOutlineRoundedIcon)`
+  color: ${Colors.point};
+  width: 32px;
+  height: 32px;
 `;
 
 export default Header;
