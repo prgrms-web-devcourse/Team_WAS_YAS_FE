@@ -32,8 +32,8 @@ const StyledButton = styled.button`
   cursor: pointer;
 
   @media ${Media.sm} {
-    width: 56px;
-    height: 56px;
+    width: 42px;
+    height: 42px;
   }
   @media ${Media.md} {
     width: 64px;
@@ -55,8 +55,8 @@ const StyledButton = styled.button`
 
 const StyledSvg = styled.svg`
   @media ${Media.sm} {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
   }
   @media ${Media.md} {
     width: 48px;
