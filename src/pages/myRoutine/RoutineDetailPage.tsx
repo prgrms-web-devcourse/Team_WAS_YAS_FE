@@ -36,6 +36,7 @@ const RoutineDetailPage = (): JSX.Element => {
   const [isFinished, setIsFinished] = useState(false);
   const [missionIsEmpty, setMissionIsEmpty] = useState(false);
   const [isTodayRoutine, setIsTodayRoutine] = useState(false);
+  const [isPosted, setIsPosted] = useState(false);
   const history = useHistory();
 
   const updateMission = useCallback(async () => {
@@ -48,7 +49,7 @@ const RoutineDetailPage = (): JSX.Element => {
     };
 
     try {
-      if (!routineId) return;
+      if (!routineId || isPosted) return;
       await missionApi.updateMission(routineId, updatedMission);
     } catch (e) {
       Swal.fire({
@@ -58,12 +59,13 @@ const RoutineDetailPage = (): JSX.Element => {
         confirmButtonColor: Colors.point,
       });
     }
-  }, [missions, routineId]);
+  }, [missions, routineId, isPosted]);
 
   const getRoutineDetail = async () => {
     try {
       if (!routineId) return;
       const result = await routineApi.getRoutine(routineId);
+      setIsPosted(result.data.data.posted);
       const routineInfo = result.data.data;
       const missionInfo = result.data.data.missionDetailResponses.sort(
         (a: { orders: number }, b: { orders: number }) => a.orders - b.orders,
@@ -158,6 +160,7 @@ const RoutineDetailPage = (): JSX.Element => {
 
   const moveMission = useCallback(
     (dragIndex: number, hoverIndex: number) => {
+      if (isPosted) return;
       const dragMission = missions[dragIndex];
       setMissions(
         update(missions, {
@@ -168,7 +171,7 @@ const RoutineDetailPage = (): JSX.Element => {
         }),
       );
     },
-    [missions],
+    [missions, isPosted],
   );
 
   const startRoutine = () => {
@@ -195,6 +198,18 @@ const RoutineDetailPage = (): JSX.Element => {
     }
   };
 
+  const moveToUpdatePage = () => {
+    if (isPosted) {
+      Swal.fire({
+        icon: 'warning',
+        title: '포스팅된 루틴은 수정할 수 없어요',
+        text: `포스팅된 루틴을 먼저 삭제해주세요`,
+      });
+    } else {
+      history.push(`/routine/${routineId}/update`);
+    }
+  };
+
   return (
     <DndProvider backend={HTML5Backend}>
       <Container>
@@ -207,9 +222,7 @@ const RoutineDetailPage = (): JSX.Element => {
               </StyledCategory>
             ))}
           </div>
-          <Link to={`/routine/${routineId}/update`}>
-            <RoundedButton.Edit />
-          </Link>
+          <RoundedButton.Edit onClick={moveToUpdatePage} />
         </CategoryEditFlexBox>
         {missions.map((mission: any, index: number) => (
           <StyledMission
@@ -219,7 +232,7 @@ const RoutineDetailPage = (): JSX.Element => {
             updateMission={updateMission}
             index={index}
             moveMission={moveMission}
-            type="normal"
+            type={isPosted ? 'create' : 'normal'}
             key={mission.missionId}
             missionObject={mission}
           />
@@ -254,9 +267,11 @@ const RoutineDetailPage = (): JSX.Element => {
             </Svg>
           </StyledButton>
         )}
-        <Link to={`/routine/${routineId}/create`}>
-          <StyledRoutineAddButton />
-        </Link>
+        {!isPosted && (
+          <Link to={`/routine/${routineId}/create`}>
+            <StyledRoutineAddButton />
+          </Link>
+        )}
       </Container>
     </DndProvider>
   );
