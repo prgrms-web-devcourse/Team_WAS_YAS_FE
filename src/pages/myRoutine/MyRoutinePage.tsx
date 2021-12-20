@@ -6,12 +6,16 @@ import {
   TabBar,
   LoginGuide,
 } from '@/components';
-import { RoutineType } from '@/Models';
+import { RoutineType as RT } from '@/Models';
 import { Colors, FontSize, Media } from '@/styles';
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
+
+interface RoutineType extends RT {
+  posted: boolean;
+}
 
 const MyRoutinePage = (): JSX.Element => {
   const [routines, setRoutines] = useState({
@@ -19,27 +23,35 @@ const MyRoutinePage = (): JSX.Element => {
     finish: [],
     notFinish: [],
   });
+  const [isLoading, setIsLoading] = useState(false);
   const history = useHistory();
   const token = sessionStorage.getItem('YAS_USER_TOKEN');
 
   const getMyRoutines = async () => {
-    const routines = await routineApi.getRoutines();
-    const finishedRoutines = await routineApi.getFinishedRoutines();
-    const notFinishedRoutines = await routineApi.getNotFinishedRoutines();
+    try {
+      if (!token) return;
+      setIsLoading(true);
+      const routines = await routineApi.getRoutines();
+      const finishedRoutines = await routineApi.getFinishedRoutines();
+      const notFinishedRoutines = await routineApi.getNotFinishedRoutines();
 
-    const finishedRoutineIds = finishedRoutines.data.data.map(
-      (routine: { routineId: number }) => routine.routineId,
-    );
-    const allRoutinesExceptFinished = routines.data.data.filter(
-      (routine: { routineId: number }) =>
-        !finishedRoutineIds.includes(routine.routineId),
-    );
+      const finishedRoutineIds = finishedRoutines.data.data.map(
+        (routine: { routineId: number }) => routine.routineId,
+      );
+      const allRoutinesExceptFinished = routines.data.data.filter(
+        (routine: { routineId: number }) =>
+          !finishedRoutineIds.includes(routine.routineId),
+      );
 
-    setRoutines({
-      all: allRoutinesExceptFinished,
-      finish: finishedRoutines.data.data,
-      notFinish: notFinishedRoutines.data.data,
-    });
+      setRoutines({
+        all: allRoutinesExceptFinished,
+        finish: finishedRoutines.data.data,
+        notFinish: notFinishedRoutines.data.data,
+      });
+      setIsLoading(false);
+    } catch (e) {
+      console.error('getMyRoutines: ', e);
+    }
   };
 
   useEffect(() => {
@@ -48,43 +60,60 @@ const MyRoutinePage = (): JSX.Element => {
   }, []);
 
   const deleteRoutine = async (routine: RoutineType) => {
-    const { routineId, name } = routine;
-    Swal.fire({
-      title: `${name}`,
-      text: '루틴을 삭제하겠습니까?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: `${Colors.functionPositive}`,
-      cancelButtonColor: `${Colors.functionNegative}`,
-      confirmButtonText: '네',
-      cancelButtonText: '아니오',
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          await routineApi.deleteRoutine(routineId);
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: `${name}`,
-            text: '루틴이 삭제되었습니다.',
-            showConfirmButton: false,
-            timer: 1200,
-          });
+    const { routineId, name, posted } = routine;
+    if (posted) {
+      Swal.fire({
+        icon: 'error',
+        title: '이런, 루틴이 포스팅 되어있군요',
+        text: '포스팅 되어있는 루틴을 먼저 삭제해주세요',
+      });
+    } else {
+      Swal.fire({
+        title: `${name}`,
+        text: '루틴을 삭제하겠습니까?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: `${Colors.functionPositive}`,
+        cancelButtonColor: `${Colors.functionNegative}`,
+        confirmButtonText: '네',
+        cancelButtonText: '아니오',
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          try {
+            await routineApi.deleteRoutine(routineId);
+            Swal.fire({
+              position: 'center',
+              icon: 'success',
+              title: `${name}`,
+              text: '루틴이 삭제되었습니다.',
+              showConfirmButton: false,
+              timer: 1200,
+            });
 
-          await getMyRoutines();
-        } catch (e) {
-          Swal.fire({
-            icon: 'error',
-            title: '이런',
-            text: '에러로 인해 루틴이 삭제되지 않았어요!',
-          });
+            await getMyRoutines();
+          } catch (e) {
+            Swal.fire({
+              icon: 'error',
+              title: '이런',
+              text: '에러로 인해 루틴이 삭제되지 않았어요!',
+            });
+          }
         }
-      }
-    });
+      });
+    }
   };
 
-  const onClickUpdateRoutine = (routineId: number) => {
-    history.push(`/routine/${routineId}/update`);
+  const onClickUpdateRoutine = (routine: RoutineType) => {
+    const { routineId, posted } = routine;
+    if (posted) {
+      Swal.fire({
+        icon: 'error',
+        title: '이런, 루틴이 포스팅 되어있군요',
+        text: '포스팅 되어있는 루틴을 먼저 삭제해주세요',
+      });
+    } else {
+      history.push(`/routine/${routineId}/update`);
+    }
   };
 
   const onClickRoutine = (e: React.MouseEvent<HTMLElement>, id: any) => {
@@ -104,7 +133,7 @@ const MyRoutinePage = (): JSX.Element => {
     <Container navBar>
       <TabBar type="myRoutine">
         <TabBar.Item title="전체" index="0">
-          {token ? (
+          {isLoading ? null : token ? (
             routines.all.length !== 0 ? (
               <RoutineGridBox>
                 {routines.all &&
@@ -119,7 +148,7 @@ const MyRoutinePage = (): JSX.Element => {
                         deleteRoutine(routine);
                       }}
                       updateRoutine={() => {
-                        onClickUpdateRoutine(routine['routineId']);
+                        onClickUpdateRoutine(routine);
                       }}
                     />
                   ))}
@@ -135,7 +164,7 @@ const MyRoutinePage = (): JSX.Element => {
                         deleteRoutine(routine);
                       }}
                       updateRoutine={() => {
-                        onClickUpdateRoutine(routine['routineId']);
+                        onClickUpdateRoutine(routine);
                       }}
                     />
                   ))}
@@ -152,7 +181,7 @@ const MyRoutinePage = (): JSX.Element => {
           )}
         </TabBar.Item>
         <TabBar.Item title="오늘의 루틴" index="1">
-          {token ? (
+          {isLoading ? null : token ? (
             routines.notFinish.length !== 0 ? (
               <RoutineGridBox>
                 {routines.notFinish &&
@@ -167,7 +196,7 @@ const MyRoutinePage = (): JSX.Element => {
                         deleteRoutine(routine);
                       }}
                       updateRoutine={() => {
-                        onClickUpdateRoutine(routine['routineId']);
+                        onClickUpdateRoutine(routine);
                       }}
                     />
                   ))}
@@ -184,7 +213,7 @@ const MyRoutinePage = (): JSX.Element => {
           )}
         </TabBar.Item>
         <TabBar.Item title="완료한 루틴" index="2">
-          {token ? (
+          {isLoading ? null : token ? (
             routines.finish.length !== 0 ? (
               <RoutineGridBox>
                 {routines.finish &&
@@ -199,7 +228,7 @@ const MyRoutinePage = (): JSX.Element => {
                         deleteRoutine(routine);
                       }}
                       updateRoutine={() => {
-                        onClickUpdateRoutine(routine['routineId']);
+                        onClickUpdateRoutine(routine);
                       }}
                     />
                   ))}

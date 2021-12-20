@@ -10,18 +10,18 @@ import {
   IconButton,
   SpreadToggle,
 } from '@/components';
-import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
 import styled from '@emotion/styled';
 import { Avatar } from '@mui/material';
-import GetAppRoundedIcon from '@mui/icons-material/GetAppRounded';
+import { RootState } from '@/store';
+import { useSelector } from 'react-redux';
+import { useEffect, useState } from 'react';
 import { ROUTINE_CATEGORY } from '@/constants';
 import { Colors, Media, FontSize } from '@/styles';
-import { useHistory, useParams } from 'react-router-dom';
-import Swal from 'sweetalert2';
 import { postApi, commentApi, likeApi } from '@/apis';
 import { RoutinePostType, CommentType } from '@/Models';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store';
+import { useHistory, useParams } from 'react-router-dom';
+import GetAppRoundedIcon from '@mui/icons-material/GetAppRounded';
 
 const RoutinePostDetailPage = (): JSX.Element => {
   const history = useHistory();
@@ -29,7 +29,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
   const [missionOpened, setMissionOpened] = useState<boolean>(false);
   const [postData, setPostData] = useState<RoutinePostType>();
   const [loading, setLoading] = useState<boolean>(false);
-  const { data: user } = useSelector((state: RootState) => state.user);
+  const loginUser = useSelector((state: RootState) => state.user.data);
 
   useEffect(() => {
     const getPost = async () => {
@@ -37,8 +37,8 @@ const RoutinePostDetailPage = (): JSX.Element => {
       try {
         if (!postId) return;
         const response = await postApi.getPost(parseInt(postId));
-        const postData = response.data.data;
-        setPostData(postData);
+        const postData: RoutinePostType = response.data.data;
+        setPostData(() => ({ ...postData }));
       } catch (error: any) {
         Swal.fire({
           icon: 'error',
@@ -59,7 +59,6 @@ const RoutinePostDetailPage = (): JSX.Element => {
   const handleSubmitComment = async (content: string) => {
     if (!postData?.postId) return;
     await commentApi.createComment(postData.postId, content);
-    // TODO: 새로고침 방식 좀 더 깔끔한 방식이 있는지 찾아보고 변경하기
     window.location.replace(`/community/${postData.postId}`);
   };
 
@@ -75,11 +74,11 @@ const RoutinePostDetailPage = (): JSX.Element => {
     window.location.replace(`/community/${postData.postId}`);
   };
 
-  const handleClicPostkLikeToggle = async (
+  const handleClickPostLikeToggle = async (
     count: number,
     prevToggled: boolean,
   ) => {
-    if (!user) {
+    if (!loginUser) {
       Swal.fire({
         icon: 'error',
         title: '🤯',
@@ -89,18 +88,18 @@ const RoutinePostDetailPage = (): JSX.Element => {
       return;
     }
 
-    if (!postId) return;
+    if (!postData) return;
 
     prevToggled
-      ? await likeApi.deletePostLike(parseInt(postId))
-      : await likeApi.createPostLike(parseInt(postId));
+      ? await likeApi.deletePostLike(postData.postId)
+      : await likeApi.createPostLike(postData.postId);
   };
 
   const handleClickCommentLikeToggle = async (
     postId: number,
     prevToggled: boolean,
   ) => {
-    if (!user) {
+    if (!loginUser) {
       Swal.fire({
         icon: 'error',
         title: '🤯',
@@ -117,7 +116,6 @@ const RoutinePostDetailPage = (): JSX.Element => {
 
   const handleClickDeleteButton = () => {
     if (!postData) return;
-    console.log(postData.postId);
     Swal.fire({
       title: '🤔',
       text: '정말로 업로드한 루틴 포스트를 삭제하시겠습니까?',
@@ -145,6 +143,21 @@ const RoutinePostDetailPage = (): JSX.Element => {
       }
     });
   };
+
+  const handleClickBringRoutineButton = () => {
+    Swal.fire({
+      position: 'center',
+      icon: 'success',
+      title: `😎`,
+      text: '자유롭게 수정하고 생성하기를 완료해주세요.',
+      confirmButtonColor: Colors.point,
+    });
+    history.push({
+      pathname: '/routine/create',
+      state: { data: postData?.routine },
+    });
+  };
+
   return (
     <Container navBar>
       <RoutineInfoHeader>
@@ -153,15 +166,15 @@ const RoutinePostDetailPage = (): JSX.Element => {
           <AuthorNameText>{postData && postData.user.nickname}</AuthorNameText>
         </AuthorInfoWrapper>
         <LikeBox
-          interactive={user ? true : false}
-          // active={
-          //   user
-          //     ? postData &&
-          //       postData.likes.some((like) => like.userId === user?.userId)
-          //     : false
-          // }
-          onClick={handleClicPostkLikeToggle}
-          // count={postData && postData.likes.length}
+          interactive={loginUser ? true : false}
+          active={
+            loginUser
+              ? postData &&
+                postData.likes.some((like) => like.userId === loginUser?.userId)
+              : false
+          }
+          onClick={handleClickPostLikeToggle}
+          count={postData && postData.likes.length}
         />
       </RoutineInfoHeader>
       <RoutineInfo
@@ -182,24 +195,10 @@ const RoutinePostDetailPage = (): JSX.Element => {
             ))}
         </CategoryWrapper>
         <ButtonContainer>
-          {postData && postData.user.userId === user?.userId ? (
+          {postData && postData.user.userId === loginUser?.userId ? (
             <IconButton.Delete onClick={handleClickDeleteButton} />
           ) : null}
-          <BringRoutineButton
-            onClick={() => {
-              Swal.fire({
-                position: 'center',
-                icon: 'success',
-                title: `😎`,
-                text: '자유롭게 수정하고 생성하기를 완료해주세요.',
-                confirmButtonColor: Colors.point,
-              });
-              history.push({
-                pathname: '/routine/create',
-                state: { data: postData?.routine },
-              });
-            }}
-          >
+          <BringRoutineButton onClick={handleClickBringRoutineButton}>
             <GetAppRoundedIcon />
             루틴 가져오기
           </BringRoutineButton>
@@ -229,12 +228,14 @@ const RoutinePostDetailPage = (): JSX.Element => {
           postData.comments.map((comment: CommentType) => (
             <Comment
               key={comment.commentId}
-              editable={user ? comment.user.userId === user.userId : undefined}
+              editable={
+                loginUser ? comment.user.userId === loginUser.userId : undefined
+              }
               onEditComment={handleUpdateComment}
               onDeleteComment={handleDeleteComment}
               onClickLikeToggle={handleClickCommentLikeToggle}
               likeToggled={comment.likes.some(
-                (like) => like.userId === user?.userId,
+                (like) => like.userId === loginUser?.userId,
               )}
               likeCount={comment.likes.length}
               comment={comment}
@@ -272,9 +273,8 @@ const StyledAvatar = styled(Avatar)`
 `;
 
 const AuthorNameText = styled.p`
-  color: & {
+  color: ${Colors.textPrimary};
 
-  }
   @media ${Media.sm} {
     font-size: ${FontSize.small};
   }
@@ -344,7 +344,7 @@ const ButtonContainer = styled.div`
 `;
 
 const StyledCommentCreator = styled(CommentCreator)`
-  margin: 2rem 0 1rem; 0;
+  margin: 2rem 0 1rem 0;
 `;
 
 const CommentContainer = styled.div`

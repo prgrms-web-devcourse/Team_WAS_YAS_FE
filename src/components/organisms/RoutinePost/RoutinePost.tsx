@@ -43,12 +43,10 @@ const RoutinePost = ({
   };
 
   const handleClickRoutinePosts = () => {
-    console.log('루틴 포스트 클릭 ', content);
     onClickRoutinePost && onClickRoutinePost(postId);
   };
 
   const handleClickLikeButton = (newCount: number, prevToggled: boolean) => {
-    console.log('좋아요 버튼 클릭');
     onClickLikeToggle && onClickLikeToggle(postId, prevToggled);
   };
 
