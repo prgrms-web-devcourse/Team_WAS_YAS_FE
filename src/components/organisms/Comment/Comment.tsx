@@ -120,7 +120,7 @@ const Comment = ({
           opened={opened}
           height={scrollHeight}
           ref={ref}
-          disabled
+          readOnly
           id="text"
           name="text"
           value={text}
