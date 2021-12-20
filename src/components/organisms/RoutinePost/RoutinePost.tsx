@@ -70,7 +70,7 @@ const RoutinePost = ({
             count={likes.length}
           />
         </UserInfoContainer>
-        <TextArea disabled value={content || ''} />
+        <TextArea readOnly value={content || ''} />
         <DateText>{TimeUtils.dateFromNow(updatedAt)}</DateText>
       </ContentContainer>
     </Container>
