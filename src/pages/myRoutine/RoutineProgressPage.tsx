@@ -5,6 +5,7 @@ import {
   IconButton,
   RoundedButton,
   RoutineInfo,
+  Spinner,
 } from '@/components';
 import styled from '@emotion/styled';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
@@ -32,6 +33,7 @@ const RoutineProgressPage = (): JSX.Element => {
   const [missions, setMissions] = useState<any>([]);
   const [currentMissions, setCurrentMissions] = useState<any>({});
   const [routineStatusId, setRoutineStatusId] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
   // 예외처리
   const { id } = useParams<Record<string, string>>();
   const routineId = id && parseInt(id);
@@ -39,6 +41,7 @@ const RoutineProgressPage = (): JSX.Element => {
   const createRoutineProgress = async () => {
     try {
       if (!routineId) return;
+      setIsLoading(true);
       const finishedRoutines = await routineApi.getFinishedRoutines();
       const finishedRoutineIds = finishedRoutines.data.data.map(
         (routine: { routineId: number }) => routine.routineId,
@@ -111,6 +114,7 @@ const RoutineProgressPage = (): JSX.Element => {
       setProgress(missionInfo);
       setCurrentMissions(missionInfo[0]);
       await startMission(missionInfo[0], routineStatusId);
+      setIsLoading(false);
     } catch (e) {
       console.error(e);
     }
@@ -421,6 +425,7 @@ const RoutineProgressPage = (): JSX.Element => {
         <RoundedButton.Play isPlay={isPlay} onClick={toggle} />
         <IconButton.Check onClick={handleCheckClick} />
       </ButtonContainer>
+      {isLoading && <Spinner />}
     </Container>
   );
 };
