@@ -149,8 +149,11 @@ const MissionContainer = styled.div`
 
 const Emoji = styled.span`
   font-size: 2.25rem;
+  text-align: center;
+  width: 50px;
   @media ${Media.sm} {
     font-size: 1.25rem;
+    width: 24px;
   }
 `;
 
