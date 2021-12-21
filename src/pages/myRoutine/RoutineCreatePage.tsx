@@ -21,12 +21,18 @@ import { routineApi } from '@/apis';
 
 const RoutineCreatePage = (): JSX.Element => {
   const history = useHistory();
+  const now = new Date();
   const initialRoutine = {
     emoji: '💫',
     color: Colors.red,
     name: '',
     durationGoalTime: 0,
-    startGoalTime: new Date(2021, 0, 0, 9).toISOString(),
+    startGoalTime: new Date(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      9,
+    ).toISOString(),
     routineCategory: [],
     weeks: [],
   };
@@ -63,7 +69,6 @@ const RoutineCreatePage = (): JSX.Element => {
         }
       : initialRoutine,
   );
-
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     const defaultWeeks = Object.keys(WEEK);
     e.preventDefault();
