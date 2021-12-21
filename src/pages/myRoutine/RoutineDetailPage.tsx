@@ -18,6 +18,7 @@ import update from 'immutability-helper';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import Swal from 'sweetalert2';
+import { TouchBackend } from 'react-dnd-touch-backend';
 
 interface RoutineDetail {
   color: string;
@@ -33,11 +34,19 @@ const RoutineDetailPage = (): JSX.Element => {
   const routineId = id && parseInt(id);
   const [routine, setRoutine] = useState<Partial<RoutineDetail>>({});
   const [missions, setMissions] = useState<any>([]);
-  const [isFinished, setIsFinished] = useState(false);
-  const [missionIsEmpty, setMissionIsEmpty] = useState(false);
-  const [isTodayRoutine, setIsTodayRoutine] = useState(false);
-  const [isPosted, setIsPosted] = useState(false);
+  const [isFinished, setIsFinished] = useState<boolean>(false);
+  const [missionIsEmpty, setMissionIsEmpty] = useState<boolean>(false);
+  const [isTodayRoutine, setIsTodayRoutine] = useState<boolean>(false);
+  const [isPosted, setIsPosted] = useState<boolean>(false);
   const history = useHistory();
+
+  const [width, setWidth] = useState<number>(window.innerWidth);
+
+  function handleWindowSizeChange() {
+    setWidth(window.innerWidth);
+  }
+
+  const isMobile = width <= 768;
 
   const updateMission = useCallback(async () => {
     const updatedMission: any = {
@@ -155,6 +164,11 @@ const RoutineDetailPage = (): JSX.Element => {
   useEffect(() => {
     getRoutineDetail();
     getMyRoutines();
+
+    window.addEventListener('resize', handleWindowSizeChange);
+    return () => {
+      window.removeEventListener('resize', handleWindowSizeChange);
+    };
     // eslint-disable-next-line
   }, []);
 
@@ -210,9 +224,16 @@ const RoutineDetailPage = (): JSX.Element => {
     }
   };
 
+  const options = {
+    enableMouseEvents: true,
+  };
+
   return (
-    <DndProvider backend={HTML5Backend}>
-      <Container>
+    <DndProvider
+      backend={isMobile ? TouchBackend : HTML5Backend}
+      options={isMobile ? options : {}}
+    >
+      <Container style={{ overscrollBehaviorY: 'none' }}>
         <RoutineInfo routineObject={routine} />
         <CategoryEditFlexBox>
           <div>
