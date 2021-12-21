@@ -169,6 +169,7 @@ const TextArea = styled.textarea<
 >`
   width: 100%;
   height: ${({ opened, height }) => (opened ? `${height}px` : '3rem')};
+  margin-top: 1rem;
   overflow-y: hidden;
   text-overflow: ellipsis;
   ${({ disabled }) =>
@@ -183,8 +184,7 @@ const TextArea = styled.textarea<
   border-radius: 8px 0 0 8px;
   outline: none;
   color: ${Colors.textPrimary};
-  background-color: ${({ disabled }) =>
-    disabled ? 'transparent' : Colors.backgroundModal};
+  background-color: transparent;
   resize: none;
 
   @media ${Media.sm} {
