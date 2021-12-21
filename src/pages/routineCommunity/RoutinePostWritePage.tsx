@@ -68,16 +68,18 @@ const RoutinePostWritePage = (): JSX.Element => {
 export default RoutinePostWritePage;
 
 const Title = styled.h1`
-  margin: 3.5rem 0;
   @media ${Media.sm} {
+    margin: 2.5rem 0;
     font-weight: ${FontWeight.medium};
     font-size: ${FontSize.medium};
   }
   @media ${Media.md} {
+    margin: 3.5rem 0;
     font-weight: ${FontWeight.medium};
     font-size: ${FontSize.large};
   }
   @media ${Media.lg} {
+    margin: 3.5rem 0;
     font-weight: ${FontWeight.medium};
     font-size: ${FontSize.large};
   }
@@ -92,23 +94,25 @@ const Form = styled.form`
 `;
 
 const Span = styled.span`
-  width: 80%;
-  margin-top: 4rem;
+  width: 70%;
   text-align: right;
   color: ${Colors.functionNegative};
   @media ${Media.sm} {
+    margin-top: 2rem;
     font-size: ${FontSize.micro};
   }
   @media ${Media.md} {
+    margin-top: 4rem;
     font-size: ${FontSize.medium};
   }
   @media ${Media.lg} {
+    margin-top: 4rem;
     font-size: ${FontSize.medium};
   }
 `;
 
 const TextArea = styled.textarea`
-  width: 80%;
+  width: 70%;
   border: none;
   outline-color: ${Colors.pointLight};
   background-color: ${Colors.backgroundButton};
@@ -118,21 +122,21 @@ const TextArea = styled.textarea`
   resize: none;
   margin: 1rem 0;
   @media ${Media.sm} {
-    min-height: 240px;
+    min-height: 160px;
     font-size: ${FontSize.small};
   }
   @media ${Media.md} {
-    min-height: 340px;
+    min-height: 200px;
     font-size: ${FontSize.medium};
   }
   @media ${Media.lg} {
-    min-height: 340px;
+    min-height: 200px;
     font-size: ${FontSize.medium};
   }
 `;
 
 const WarningText = styled.span`
-  width: 80%;
+  width: 70%;
   text-align: left;
   color: ${Colors.functionNegative};
   @media ${Media.sm} {
@@ -147,9 +151,7 @@ const WarningText = styled.span`
 `;
 
 const PostButton = styled(Button)`
-  position: fixed;
-  bottom: 2rem;
-  z-index: 1000;
+  margin-top: 2rem;
   @media ${Media.sm} {
     max-width: 150px;
   }

@@ -59,7 +59,7 @@ const Header = ({ ...props }: HeaderProps): JSX.Element => {
               </Link>
               <IconButton
                 onClick={() => {
-                  history.push('/onBoarding');
+                  history.push('/onboarding');
                 }}
               >
                 <HelpIcon />
