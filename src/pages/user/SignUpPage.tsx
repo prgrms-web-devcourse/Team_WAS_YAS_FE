@@ -154,6 +154,15 @@ const SignUpPage = (): JSX.Element => {
         <StyledButton type="submit" disabled={isSubmitting}>
           가입하기
         </StyledButton>
+        <StyledButton
+          colorType="white"
+          type="button"
+          onClick={() => {
+            history.goBack();
+          }}
+        >
+          취소하기
+        </StyledButton>
       </SignInForm>
       {isSubmitting && <Spinner />}
     </StyledContainer>
