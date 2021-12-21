@@ -129,6 +129,7 @@ const StyledAvatar = styled(Avatar)<{ on: number }>`
   @media (hover: hover) {
     &:hover {
       background-color: ${Colors.backgroundButton};
+      opacity: 0.8;
     }
   }
 
@@ -137,16 +138,16 @@ const StyledAvatar = styled(Avatar)<{ on: number }>`
   }
 
   @media ${Media.sm} {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
   }
   @media ${Media.md} {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
   }
   @media ${Media.lg} {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
   }
 `;
 
@@ -158,7 +159,7 @@ const LeftAside = styled.div`
 const RightAside = styled.div`
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
 `;
 
 const HelpIcon = styled(HelpOutlineRoundedIcon)`
