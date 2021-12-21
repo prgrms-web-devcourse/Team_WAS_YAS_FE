@@ -74,9 +74,13 @@ const RoutinePostCreatePage = (): JSX.Element => {
             <p>루틴을 생성해주세요!</p>
           </MessageContainer>
         )}
-        <CreateButton colorType="white" type="submit">
-          다음으로
-        </CreateButton>
+        {routines.length ? (
+          <CreateButton colorType="white" type="submit">
+            다음으로
+          </CreateButton>
+        ) : (
+          ''
+        )}
       </Form>
     </Container>
   );
@@ -130,7 +134,7 @@ const Input = styled.input`
 
 const CreateButton = styled(Button)`
   position: fixed;
-  bottom: 1rem;
+  bottom: 5.5rem;
   z-index: 1000;
   @media ${Media.sm} {
     max-width: 150px;

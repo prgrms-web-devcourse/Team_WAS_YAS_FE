@@ -273,7 +273,7 @@ const RoutineGridBox = styled.div`
 
 const StyledRoutineAddButton = styled(RoutineAddButton)`
   position: fixed;
-  right: calc(50% - 266px);
+  right: calc(50% - 280px);
   bottom: 116px;
 
   @media ${Media.sm} {
