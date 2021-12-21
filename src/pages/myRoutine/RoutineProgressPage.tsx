@@ -179,7 +179,6 @@ const RoutineProgressPage = (): JSX.Element => {
 
   useEffect(() => {
     getRoutineDetail();
-    return;
     // eslint-disable-next-line
   }, []);
 
@@ -267,7 +266,7 @@ const RoutineProgressPage = (): JSX.Element => {
   };
 
   const handleForwardClick = async () => {
-    if (currentIndex === missions.length - 1 || prevStep || nextStep) return;
+    if (prevStep || nextStep) return;
 
     Swal.fire({
       title: '이번 미션을 건너뛸까요?',
@@ -280,6 +279,11 @@ const RoutineProgressPage = (): JSX.Element => {
       cancelButtonText: '아니오',
     }).then(async (result) => {
       if (result.isConfirmed) {
+        if (currentIndex === missions.length - 1) {
+          history.replace(`/routine/${routineId}/finish`);
+          return;
+        }
+
         setNextStep(true);
 
         await sleep(450);
@@ -339,6 +343,7 @@ const RoutineProgressPage = (): JSX.Element => {
 
     if (currentIndex === missions.length - 1) {
       history.replace(`/routine/${routineId}/finish`);
+      return;
     }
 
     setProgress((prevProgress: any) => {
@@ -411,11 +416,7 @@ const RoutineProgressPage = (): JSX.Element => {
           </DurationTime>
         </MissionProgress>
 
-        {missions.length - 1 !== currentIndex ? (
-          <ArrowForward onClick={handleForwardClick} />
-        ) : (
-          <div />
-        )}
+        <ArrowForward onClick={handleForwardClick} />
       </MissionProgressContainer>
 
       <RoutineProgressButton onClick={() => setVisible(true)} />
