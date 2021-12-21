@@ -55,7 +55,7 @@ const RoutineUpdatePage = (): JSX.Element => {
         icon: 'success',
         text: '루틴 수정이 완료되었습니다!🎉',
       }).then(() => {
-        history.push('/');
+        history.push('/routine');
       });
     } catch (error) {
       Swal.fire({
@@ -78,7 +78,7 @@ const RoutineUpdatePage = (): JSX.Element => {
       icon: 'warning',
       text: '작성했던 모든 내용이 초기화됩니다!',
     }).then(() => {
-      history.push('/');
+      history.push('/routine');
     });
   };
   return (

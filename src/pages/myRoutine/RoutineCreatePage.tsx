@@ -111,7 +111,7 @@ const RoutineCreatePage = (): JSX.Element => {
           icon: 'success',
           text: '루틴 생성이 완료되었습니다!🎉',
         }).then(() => {
-          history.push('/');
+          history.push('/routine');
         });
       } catch (error) {
         Swal.fire({
@@ -167,7 +167,7 @@ const RoutineCreatePage = (): JSX.Element => {
   const handleTimeChange = (time: any) => {
     setRoutine((routine) => ({
       ...routine,
-      startGoalTime: moment(time).toISOString(),
+      startGoalTime: time,
     }));
   };
 
@@ -176,7 +176,7 @@ const RoutineCreatePage = (): JSX.Element => {
       icon: 'warning',
       text: '작성했던 모든 내용이 초기화됩니다!',
     }).then(() => {
-      history.push('/');
+      history.push('/routine');
     });
   };
   return (
