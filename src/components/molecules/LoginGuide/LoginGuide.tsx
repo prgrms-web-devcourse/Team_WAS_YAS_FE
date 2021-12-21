@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import React from 'react';
 import { Colors, Media, FontSize, FontWeight } from '@/styles';
 import { useHistory } from 'react-router-dom';
+import { logo } from '@/images';
 
 export type LoginGuideProps = React.ComponentProps<'div'>;
 
@@ -11,7 +12,7 @@ const LoginGuide = ({ ...props }: LoginGuideProps): JSX.Element => {
 
   return (
     <Container {...props}>
-      <EmojiText>💫</EmojiText>
+      <Img src={logo} alt="로고 이미지" />
       <Text>지금 당장 YAS를 시작해볼까요?</Text>
       <StyledButton
         onClick={() => {
@@ -32,7 +33,7 @@ const Container = styled.div`
   width: 100%;
 `;
 
-const EmojiText = styled.p`
+const Img = styled.img`
   margin: 72px 0 20px 0;
 
   @media ${Media.sm} {

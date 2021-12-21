@@ -1,14 +1,14 @@
 import React from 'react';
 import { Container } from '@/components';
 import styled from '@emotion/styled';
-import { notFound } from '@/images';
+import { logo } from '@/images';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 
 const NotFoundPage = (): JSX.Element => {
   return (
     <Container navBar>
       <ContentsContainer>
-        <Img src={notFound} alt="이미지" />
+        <Img src={logo} alt="이미지" />
         <Span>존재하지 않는 페이지입니다!</Span>
       </ContentsContainer>
     </Container>
@@ -17,18 +17,28 @@ const NotFoundPage = (): JSX.Element => {
 export default NotFoundPage;
 
 const ContentsContainer = styled.div`
-  margin-top: 20%;
+  margin-top: 3rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  min-height: 500px;
-`;
-const Span = styled.span`
-  font-weight: ${FontWeight.bold}
-  color: ${Colors.textSecondary};
   @media ${Media.sm} {
-    font-size: ${FontSize.small};
+    min-height: 400px;
+  }
+  @media ${Media.md} {
+    min-height: 500px;
+  }
+  @media ${Media.lg} {
+    min-height: 500px;
+  }
+`;
+
+const Span = styled.span`
+  margin: 1rem 0;
+  color: ${Colors.textSecondary};
+  font-weight: ${FontWeight.medium};
+  @media ${Media.sm} {
+    font-size: ${FontSize.medium};
   }
   @media ${Media.md} {
     font-size: ${FontSize.large};
@@ -40,12 +50,12 @@ const Span = styled.span`
 
 const Img = styled.img`
   @media ${Media.sm} {
-    height: 140px;
+    height: 100px;
   }
   @media ${Media.md} {
-    height: 236px;
+    height: 140px;
   }
   @media ${Media.lg} {
-    height: 236px;
+    height: 140px;
   }
 `;
