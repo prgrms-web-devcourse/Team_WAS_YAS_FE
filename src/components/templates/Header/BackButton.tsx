@@ -13,7 +13,7 @@ const BackButton = ({ visible, ...props }: BackButtonProps): JSX.Element => {
   return (
     <Button visible={visible ? 1 : 0} {...props}>
       <ArrowBackIcon />
-      뒤로가기
+      <Text>뒤로가기</Text>
     </Button>
   );
 };
@@ -39,6 +39,10 @@ const ArrowBackIcon = styled(ArrowBackIosRoundedIcon)`
       color: ${Colors.point};
     }
   }
+`;
+
+const Text = styled.p`
+  font-size: ${FontSize.small};
 `;
 
 export default BackButton;

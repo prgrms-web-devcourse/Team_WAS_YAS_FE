@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState, user as userStore } from '@/store';
 import { Link, useRouteMatch, useHistory } from 'react-router-dom';
 import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
+import BackButton from './BackButton';
 
 export type HeaderProps = React.ComponentProps<'header'>;
 
@@ -41,20 +42,30 @@ const Header = ({ ...props }: HeaderProps): JSX.Element => {
     });
   };
 
+  const handleClickBackButton = () => {
+    history.goBack();
+  };
+
   return (
     <Container {...props}>
       <ContentContainer>
         <LeftAside>
-          <Link to="/">
-            <LogoWideImage alt="logo" src={logoWide} />
-          </Link>
-          <IconButton
-            onClick={() => {
-              history.push('/onBoarding');
-            }}
-          >
-            <HelpIcon />
-          </IconButton>
+          {params.length > 1 && history.length > 1 ? (
+            <BackButton onClick={handleClickBackButton} visible />
+          ) : (
+            <>
+              <Link to="/">
+                <LogoWideImage alt="logo" src={logoWide} />
+              </Link>
+              <IconButton
+                onClick={() => {
+                  history.push('/onBoarding');
+                }}
+              >
+                <HelpIcon />
+              </IconButton>
+            </>
+          )}
         </LeftAside>
         <RightAside>
           {user ? (
