@@ -1,5 +1,5 @@
 import { RoundedButton } from '@/components';
-import { Media } from '@/styles';
+import { Colors, Media, FontSize, FontWeight } from '@/styles';
 import styled from '@emotion/styled';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -20,23 +20,26 @@ const NavBar = (): JSX.Element => {
 
   return (
     <NavBarContainer>
-      <Link to="/routine">
+      <NavLink to="/routine">
         <RoundedButton.Home className="home" active={isClicked.home} />
-      </Link>
+        <Text>마이루틴</Text>
+      </NavLink>
 
-      <Link to="/community">
+      <NavLink to="/community">
         <RoundedButton.Community
           className="community"
           active={isClicked.community}
         />
-      </Link>
+        <Text>커뮤니티</Text>
+      </NavLink>
 
-      <Link to="/analysis">
+      <NavLink to="/analysis">
         <RoundedButton.Analysis
           className="analysis"
           active={isClicked.analysis}
         />
-      </Link>
+        <Text>루틴요약</Text>
+      </NavLink>
     </NavBarContainer>
   );
 };
@@ -54,13 +57,36 @@ const NavBarContainer = styled.div`
   background-color: white;
 
   @media ${Media.sm} {
-    height: 56px;
+    height: 64px;
   }
   @media ${Media.md} {
     height: 100px;
   }
   @media ${Media.lg} {
     height: 100px;
+  }
+`;
+
+const NavLink = styled(Link)`
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Text = styled.p`
+  margin-top: 0.5rem;
+  color: ${Colors.textTertiary};
+  font-weight: ${FontWeight.medium};
+
+  @media ${Media.sm} {
+    font-size: ${FontSize.micro};
+  }
+  @media ${Media.md} {
+    font-size: ${FontSize.small};
+  }
+  @media ${Media.lg} {
+    font-size: ${FontSize.small};
   }
 `;
 

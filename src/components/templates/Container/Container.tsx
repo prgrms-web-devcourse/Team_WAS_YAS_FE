@@ -55,7 +55,7 @@ const ContentContainer = styled.div`
   padding-top: 80px;
 
   @media ${Media.sm} {
-    padding-bottom: 56px;
+    padding-bottom: 64px;
   }
   @media ${Media.md} {
     padding-bottom: 100px;
