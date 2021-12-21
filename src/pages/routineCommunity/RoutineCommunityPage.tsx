@@ -211,7 +211,7 @@ const StyledRoutineAddButton = styled(IconButton.Add)`
 
   @media ${Media.sm} {
     right: 1rem;
-    bottom: 62px;
+    bottom: 80px;
   }
 `;
 
