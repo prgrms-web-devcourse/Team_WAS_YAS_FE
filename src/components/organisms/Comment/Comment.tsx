@@ -168,7 +168,7 @@ const TextArea = styled.textarea<
   }
 >`
   width: 100%;
-  height: ${({ opened, height }) => (opened ? `${height}px` : '3rem')};
+  height: ${({ opened, height }) => (opened ? `${height}px` : '2rem')};
   margin-top: 1rem;
   overflow-y: hidden;
   text-overflow: ellipsis;
