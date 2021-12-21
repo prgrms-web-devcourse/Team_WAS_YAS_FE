@@ -18,15 +18,26 @@ const UserPage = (): JSX.Element => {
   }, [dispatch]);
 
   const handleClickLogoutButton = () => {
-    sessionStorage.removeItem('YAS_USER_TOKEN');
-    dispatch(userStore.actions.deleteUser());
-    history.push('/');
     Swal.fire({
-      icon: 'success',
-
-      text: '👋🏻 로그아웃 되었습니다.',
-      showConfirmButton: false,
-      timer: 1500,
+      icon: 'question',
+      text: '정말 로그아웃 하시겠습니까?',
+      showCancelButton: true,
+      confirmButtonColor: Colors.point,
+      cancelButtonColor: Colors.functionNegative,
+      confirmButtonText: '네',
+      cancelButtonText: '아니오',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        sessionStorage.removeItem('YAS_USER_TOKEN');
+        dispatch(userStore.actions.deleteUser());
+        history.replace('/');
+        Swal.fire({
+          icon: 'success',
+          text: '👋🏻 로그아웃 되었습니다.',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
     });
   };
 
