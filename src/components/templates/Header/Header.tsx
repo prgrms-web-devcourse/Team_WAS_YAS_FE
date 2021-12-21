@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
-import { useRouteMatch, useHistory } from 'react-router-dom';
+import { Link, useRouteMatch, useHistory } from 'react-router-dom';
 import { Avatar, IconButton } from '@mui/material';
 import { Media, Colors } from '@/styles';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
-import BackButton from './BackButton';
 import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
+import { logoWide } from '@/images';
 
 export type HeaderProps = React.ComponentProps<'header'>;
 
@@ -14,17 +14,12 @@ const Header = ({ ...props }: HeaderProps): JSX.Element => {
   const [match, history] = [useRouteMatch(), useHistory()];
   const params = parseParams(match.url);
 
-  const handleClickBackButton = () => {
-    history.goBack();
-  };
-
   return (
     <Container {...props}>
       <ContentContainer>
-        <BackButton
-          onClick={handleClickBackButton}
-          visible={params.length > 1 && history.length > 1}
-        />
+        <Link to="/">
+          <LogoWideImage alt="logo" src={logoWide} />
+        </Link>
         <Aside>
           <IconButton
             onClick={() => {
@@ -125,6 +120,16 @@ const HelpIcon = styled(HelpOutlineRoundedIcon)`
   color: ${Colors.point};
   width: 32px;
   height: 32px;
+`;
+
+const LogoWideImage = styled.img`
+  width: 88px;
+  height: auto;
+  @media (hover: hover) {
+    &:hover {
+      opacity: 0.8;
+    }
+  }
 `;
 
 export default Header;
