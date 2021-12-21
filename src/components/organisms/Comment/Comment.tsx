@@ -86,7 +86,7 @@ const Comment = ({
           <UserInfoTextWrapper>
             <UserNameText>{comment.user.nickname}</UserNameText>
             <DateText>
-              {moment(comment.updatedAt).format('YYYY-MM-DD hh:mm')}
+              {moment(comment.updatedAt).format('YYYY-MM-DD HH:mm')}
             </DateText>
           </UserInfoTextWrapper>
         </UserInfoContainer>
