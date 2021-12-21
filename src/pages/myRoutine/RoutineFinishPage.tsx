@@ -45,7 +45,7 @@ const RoutineFinishPage = (): JSX.Element => {
               missionStatusDetailResponse: { startTime: string };
             }) => {
               const missionDate = new Date(
-                status.missionStatusDetailResponse.startTime + 'Z',
+                status.missionStatusDetailResponse.startTime,
               ).toLocaleDateString();
               const today = new Date().toLocaleDateString();
 
