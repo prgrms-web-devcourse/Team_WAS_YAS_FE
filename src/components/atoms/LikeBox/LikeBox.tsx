@@ -65,14 +65,14 @@ const Wrapper = styled.span`
 `;
 
 const LikeIcon = styled(FavoriteRoundedIcon)`
-  color: ${Colors.point};
+  color: ${Colors.red};
 
   width: 22px;
   height: 22px;
 `;
 
 const LikeBorderIcon = styled(FavoriteBorderRoundedIcon)`
-  color: ${Colors.point};
+  color: ${Colors.red};
 
   width: 22px;
   height: 22px;
