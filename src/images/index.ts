@@ -9,3 +9,4 @@ export { default as notFound } from './notFound.png';
 export { default as prepare } from './prepare.png';
 export { default as logo } from './logo/logo.png';
 export { default as logoWide } from './logo/logoWide.png';
+export { default as logoSimple } from './logo/logoSimple.png';
