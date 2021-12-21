@@ -13,8 +13,8 @@ const NavBar = (): JSX.Element => {
   const location = useLocation();
   const pathname: string = location.pathname.split('/')[1];
   const isClicked: clickedNav = {
-    community: pathname === 'community' || pathname === '' ? true : false,
-    home: pathname === 'routine' ? true : false,
+    community: pathname === 'community' ? true : false,
+    home: pathname === 'routine' || pathname === '' ? true : false,
     analysis: pathname === 'analysis' ? true : false,
   };
 
