@@ -171,9 +171,9 @@ const MyRoutinePage = (): JSX.Element => {
               </RoutineGridBox>
             ) : (
               <MessageContainer>
-                <p>😭</p>
-                <p>루틴이 없습니다</p>
-                <p>플러스 버튼을 눌러 루틴을 생성해볼까요?</p>
+                <Emoji>😭</Emoji>
+                <Text>루틴이 없습니다</Text>
+                <Text>플러스 버튼을 눌러 루틴을 생성해볼까요?</Text>
               </MessageContainer>
             )
           ) : (
@@ -203,9 +203,9 @@ const MyRoutinePage = (): JSX.Element => {
               </RoutineGridBox>
             ) : (
               <MessageContainer>
-                <p>😭</p>
-                <p>오늘의 루틴이 없습니다</p>
-                <p>플러스 버튼을 눌러 루틴을 생성해볼까요?</p>
+                <Emoji>😭</Emoji>
+                <Text>오늘의 루틴이 없습니다</Text>
+                <Text>플러스 버튼을 눌러 루틴을 생성해볼까요?</Text>
               </MessageContainer>
             )
           ) : (
@@ -235,9 +235,9 @@ const MyRoutinePage = (): JSX.Element => {
               </RoutineGridBox>
             ) : (
               <MessageContainer>
-                <p>😭</p>
-                <p>아직 완료한 루틴이 없습니다</p>
-                <p>루틴을 진행해주세요!</p>
+                <Emoji>😭</Emoji>
+                <Text>아직 완료한 루틴이 없습니다</Text>
+                <Text>루틴을 진행해주세요!</Text>
               </MessageContainer>
             )
           ) : (
@@ -302,4 +302,13 @@ const MessageContainer = styled.div`
   @media ${Media.lg} {
     font-size: 2rem;
   }
+`;
+
+const Emoji = styled.p`
+  font-size: 48px;
+`;
+
+const Text = styled.p`
+  font-size: ${FontSize.medium};
+  color: ${Colors.textSecondary};
 `;
