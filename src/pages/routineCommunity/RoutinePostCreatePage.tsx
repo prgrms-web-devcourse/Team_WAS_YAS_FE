@@ -69,9 +69,9 @@ const RoutinePostCreatePage = (): JSX.Element => {
           </RoutineGridBox>
         ) : (
           <MessageContainer>
-            <p>😭</p>
-            <p>포스트할 루틴이 없습니다</p>
-            <p>루틴을 생성해주세요!</p>
+            <Emoji>😭</Emoji>
+            <Text>포스트할 루틴이 없습니다</Text>
+            <Text>루틴을 생성해주세요!</Text>
           </MessageContainer>
         )}
         {routines.length ? (
@@ -166,4 +166,13 @@ const MessageContainer = styled.div`
   @media ${Media.lg} {
     font-size: ${FontSize.large};
   }
+`;
+
+const Emoji = styled.p`
+  font-size: 48px;
+`;
+
+const Text = styled.p`
+  font-size: ${FontSize.medium};
+  color: ${Colors.textSecondary};
 `;
