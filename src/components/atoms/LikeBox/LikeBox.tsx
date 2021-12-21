@@ -83,12 +83,4 @@ const Text = styled.p`
   font-size: ${FontSize.medium};
 `;
 
-// const defaultProps: LikeBoxProps = {
-//   active: false,
-//   interactive: false,
-//   count: 0,
-// };
-
-// LikeBox.defaultProps = defaultProps;
-
 export default memo(LikeBox);
