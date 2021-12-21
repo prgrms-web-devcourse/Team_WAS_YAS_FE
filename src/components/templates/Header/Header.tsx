@@ -1,11 +1,13 @@
-import styled from '@emotion/styled';
-import { Link, useRouteMatch, useHistory } from 'react-router-dom';
-import { Avatar, IconButton } from '@mui/material';
-import { Media, Colors } from '@/styles';
-import { useSelector } from 'react-redux';
-import { RootState } from '@/store';
-import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
+import React from 'react';
+import Swal from 'sweetalert2';
 import { logoWide } from '@/images';
+import styled from '@emotion/styled';
+import { Avatar, IconButton } from '@mui/material';
+import { Media, Colors, FontSize } from '@/styles';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, user as userStore } from '@/store';
+import { Link, useRouteMatch, useHistory } from 'react-router-dom';
+import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
 
 export type HeaderProps = React.ComponentProps<'header'>;
 
@@ -13,14 +15,39 @@ const Header = ({ ...props }: HeaderProps): JSX.Element => {
   const { data: user } = useSelector((state: RootState) => state.user);
   const [match, history] = [useRouteMatch(), useHistory()];
   const params = parseParams(match.url);
+  const dispatch = useDispatch();
+
+  const handleClickLogOutButton = () => {
+    Swal.fire({
+      icon: 'question',
+      text: '정말 로그아웃 하시겠습니까?',
+      showCancelButton: true,
+      confirmButtonColor: Colors.point,
+      cancelButtonColor: Colors.functionNegative,
+      confirmButtonText: '네',
+      cancelButtonText: '아니오',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        sessionStorage.removeItem('YAS_USER_TOKEN');
+        dispatch(userStore.actions.deleteUser());
+        history.replace('/');
+        Swal.fire({
+          icon: 'success',
+          text: '👋🏻 로그아웃 되었습니다.',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
+  };
 
   return (
     <Container {...props}>
       <ContentContainer>
-        <Link to="/">
-          <LogoWideImage alt="logo" src={logoWide} />
-        </Link>
-        <Aside>
+        <LeftAside>
+          <Link to="/">
+            <LogoWideImage alt="logo" src={logoWide} />
+          </Link>
           <IconButton
             onClick={() => {
               history.push('/onBoarding');
@@ -28,14 +55,27 @@ const Header = ({ ...props }: HeaderProps): JSX.Element => {
           >
             <HelpIcon />
           </IconButton>
-          <StyledAvatar
-            src={user?.profileImage}
-            on={params[0] === 'mypage' ? 1 : 0}
-            onClick={() => {
-              history.push('/mypage');
-            }}
-          />
-        </Aside>
+        </LeftAside>
+        <RightAside>
+          {user ? (
+            <>
+              <StyledAvatar
+                src={user?.profileImage}
+                on={params[0] === 'mypage' ? 1 : 0}
+                onClick={() => {
+                  history.push('/mypage');
+                }}
+              />
+              <Button onClick={handleClickLogOutButton}>
+                <Text>로그아웃</Text>
+              </Button>
+            </>
+          ) : (
+            <Link to="/mypage/signin">
+              <Text>로그인</Text>
+            </Link>
+          )}
+        </RightAside>
       </ContentContainer>
     </Container>
   );
@@ -83,7 +123,7 @@ const ContentContainer = styled.div`
 
 const StyledAvatar = styled(Avatar)<{ on: number }>`
   background-color: ${({ on }) => (on ? Colors.point : Colors.pointLight)};
-  border: ${({ on }) => (on ? `3px solid ${Colors.point}` : null)};
+  border: ${({ on }) => (on ? `2px solid ${Colors.point}` : null)};
   cursor: pointer;
 
   @media (hover: hover) {
@@ -101,28 +141,35 @@ const StyledAvatar = styled(Avatar)<{ on: number }>`
     height: 32px;
   }
   @media ${Media.md} {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
   }
   @media ${Media.lg} {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
   }
 `;
 
-const Aside = styled.div`
+const LeftAside = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const RightAside = styled.div`
   display: flex;
   align-items: center;
   gap: 0.5rem;
 `;
 
 const HelpIcon = styled(HelpOutlineRoundedIcon)`
-  color: ${Colors.point};
+  color: ${Colors.pointLight};
   width: 32px;
   height: 32px;
 `;
 
 const LogoWideImage = styled.img`
+  align-self: flex-end;
+  margin-top: 4px;
   width: 88px;
   height: auto;
   @media (hover: hover) {
@@ -130,6 +177,27 @@ const LogoWideImage = styled.img`
       opacity: 0.8;
     }
   }
+`;
+
+const Text = styled.p`
+  color: ${Colors.textPrimary};
+  font-size: ${FontSize.small};
+
+  @media (hover: hover) {
+    &:hover {
+      color: ${Colors.pointLight};
+    }
+  }
+
+  &:active {
+    color: ${Colors.point};
+  }
+`;
+
+const Button = styled.button`
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
 `;
 
 export default Header;
