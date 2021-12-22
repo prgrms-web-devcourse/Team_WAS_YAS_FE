@@ -139,11 +139,11 @@ YAS 內 소속감, 공감대 형성
 
 |<p align="center">로그인</p>|<p align="center">로그아웃</p>|
 |------|------|
-|<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147057497-91ff8b68-5f4f-41a7-b697-1272d5fe137a.gif" width=60%/></p> |<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147057041-c99c798c-c59d-403a-b102-2050e9575a99.gif" width=60%/></p> |
+|<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147056861-8213b6f0-7643-4de4-a14e-05219d4afd86.gif" width=60%/></p> |<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147057041-c99c798c-c59d-403a-b102-2050e9575a99.gif" width=60%/></p> |
 
 |<p align="center">회원정보 수정</p>|<p align="center">회원정보 수정_이미지</p>|
 |------|------|
-|<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147056861-8213b6f0-7643-4de4-a14e-05219d4afd86.gif" width=60%/></p> |<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147057510-2b428dc2-704c-44e3-908a-62376086094b.gif" width=60%/></p> |
+|<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147057497-91ff8b68-5f4f-41a7-b697-1272d5fe137a.gif" width=60%/></p> |<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147057510-2b428dc2-704c-44e3-908a-62376086094b.gif" width=60%/></p> |
 
 |<p align="center">루틴 생성</p>|<p align="center">미션 생성</p>|
 |------|------|
