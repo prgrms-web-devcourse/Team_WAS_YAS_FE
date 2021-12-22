@@ -10,7 +10,7 @@ import {
 } from '@/components';
 import { ROUTINE_CATEGORY } from '@/constants';
 import { MissionCompletionType } from '@/Models';
-import { Colors, Media } from '@/styles';
+import { Colors, FontSize, Media } from '@/styles';
 import styled from '@emotion/styled';
 import { useEffect, useCallback, useState } from 'react';
 import { Link, useHistory, useParams } from 'react-router-dom';
@@ -245,19 +245,27 @@ const RoutineDetailPage = (): JSX.Element => {
           </div>
           <RoundedButton.Edit onClick={moveToUpdatePage} />
         </CategoryEditFlexBox>
-        {missions.map((mission: any, index: number) => (
-          <StyledMission
-            deleteMission={() => {
-              deleteMission(mission);
-            }}
-            updateMission={updateMission}
-            index={index}
-            moveMission={moveMission}
-            type={isPosted ? 'create' : 'normal'}
-            key={mission.missionId}
-            missionObject={mission}
-          />
-        ))}
+        {missions.length !== 0 ? (
+          missions.map((mission: any, index: number) => (
+            <StyledMission
+              deleteMission={() => {
+                deleteMission(mission);
+              }}
+              updateMission={updateMission}
+              index={index}
+              moveMission={moveMission}
+              type={isPosted ? 'create' : 'normal'}
+              key={mission.missionId}
+              missionObject={mission}
+            />
+          ))
+        ) : (
+          <MessageContainer>
+            <Emoji>😭</Emoji>
+            <Text>루틴의 세부 미션이 없습니다</Text>
+            <Text>플러스 버튼을 눌러 미션을 생성해볼까요?</Text>
+          </MessageContainer>
+        )}
 
         {isFinished ? (
           <Link to={`/routine/${routineId}/finish`}>
@@ -358,4 +366,35 @@ const Svg = styled.svg`
   @media ${Media.lg} {
     width: 24px;
   }
+`;
+
+const MessageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2rem;
+  height: 500px;
+  > p {
+    margin: 1rem 0;
+    color: ${Colors.textTertiary};
+  }
+  @media ${Media.sm} {
+    font-size: ${FontSize.medium};
+  }
+  @media ${Media.md} {
+    font-size: 2rem;
+  }
+  @media ${Media.lg} {
+    font-size: 2rem;
+  }
+`;
+
+const Emoji = styled.p`
+  font-size: 48px;
+`;
+
+const Text = styled.p`
+  font-size: ${FontSize.medium};
+  color: ${Colors.textSecondary};
 `;
