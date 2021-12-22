@@ -137,9 +137,9 @@ YAS 內 소속감, 공감대 형성
 
 </br>
 
-|<p align="center">로그인</p>|<p align="center">로그아웃</p>|
+|<p align="center">회원가입</p>|<p align="center">로그인</p>|
 |------|------|
-|<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147056861-8213b6f0-7643-4de4-a14e-05219d4afd86.gif" width=60%/></p> |<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147057041-c99c798c-c59d-403a-b102-2050e9575a99.gif" width=60%/></p> |
+|<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147063248-fb45f859-9e1a-4411-97d6-ca01b8683dc7.gif" width=60%/></p> |<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147056861-8213b6f0-7643-4de4-a14e-05219d4afd86.gif" width=60%/></p> |
 
 |<p align="center">회원정보 수정</p>|<p align="center">회원정보 수정_이미지</p>|
 |------|------|
@@ -157,6 +157,14 @@ YAS 內 소속감, 공감대 형성
 |<p align="center">루틴, 미션 삭제</p>|<p align="center">루틴 진행</p>|
 |------|------|
 |<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147058496-d293beee-f983-4cb8-82c1-8f373e0cf240.gif" width=60%/></p> |<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147058483-f5965a24-0ae0-459f-b9ff-ed2dd6378f3b.gif" width=60%/></p> |
+
+|<p align="center">커뮤니티 포스팅 가져오기</p>|<p align="center">나의 루틴 포스팅 하기</p>|
+|------|------|
+|<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147063260-c8b51dea-e3e3-408f-9237-93876f29b344.gif" width=60%/></p> |<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147063279-9a7fd0ed-c148-48f6-8521-ac12e1d6b0f3.gif" width=60%/></p> |
+
+|<p align="center">댓글 작성하기</p>|<p align="center">포스팅, 댓글 좋아요</p>|
+|------|------|
+|<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147064180-81f11ee4-12bf-4352-b66f-314922fccc26.gif" width=60%/></p> |<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147064248-7fdbb41f-b04b-43d6-8336-4cfdb8157a14.gif" width=60%/></p> |
 
 
 
