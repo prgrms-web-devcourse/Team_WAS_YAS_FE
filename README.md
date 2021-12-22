@@ -4,7 +4,7 @@
   <img src='https://images.zenhubusercontent.com/619b9f736adb7d25a30e500d/fb2a2530-2088-4abf-9e97-f8cafc4f138b' alt='YAS 로고'/>
   <img src='https://images.zenhubusercontent.com/619b9f736adb7d25a30e500d/ede2b5f0-ece6-496f-8bf5-7bda74086950' alt='YAS 로고' />
 
-<span>일상에 새로운 루틴을 더하다!</span>
+  <h3>일상에 새로운 루틴을 더하다!</h3>
 
   <img src="https://img.shields.io/badge/React-v17.0.2-61dafb?logo=React"/>
   <img src="https://img.shields.io/badge/Typescript-v4.1.2-3178c6?logo=typescript"/>
@@ -72,7 +72,7 @@
 
 ## 📅 개발 기간 & 일정
 
-> 2021/11/26 ~ 2021/12/23 (총 28일)
+> 2021/11/26 ~ 2021/12/21 (총 26일)
 
 <table>
 
