@@ -41,7 +41,7 @@
     <td><img src="https://user-images.githubusercontent.com/77623643/147047817-051405e1-df34-4ea5-b9d0-cfc2ca0d6034.png" width="150px"/></td>
   </tr>
 
-  <tr align="center">
+  <tr>
   <td><ul><li>팀장</li><li>아이디어 기획</li><li>루틴 생성, 미션 생성 페이지</li></ul></td>
   <td><ul><li>팀원</li><li>프로젝트 셋팅</li><li>나의 루틴, 루틴 진행 페이지</li></ul></td>
   <td><ul><li>팀원</li><li>UI, Design 기획</li><li>유저, 커뮤니티 페이지</li></ul></td>
