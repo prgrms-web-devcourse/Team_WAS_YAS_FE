@@ -17,6 +17,9 @@ export const ROUTINE_CATEGORY: ConstantType = Object.freeze({
   SHOPPING: '쇼핑',
   HEALTH: '건강',
   STUDY: '공부',
+  LIFE: '라이프',
+  ART: '아트',
+  MUSIC: '뮤직',
 });
 
 export const WEEK: ConstantType = Object.freeze({
