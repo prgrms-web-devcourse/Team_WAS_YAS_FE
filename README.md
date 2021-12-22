@@ -1,137 +1,122 @@
-## ⭐️ YAS - You Are Special
+# 💫 YAS(You Are Special)
+
+<div align="center">
+  <img src='https://images.zenhubusercontent.com/619b9f736adb7d25a30e500d/fb2a2530-2088-4abf-9e97-f8cafc4f138b' alt='YAS 로고'/>
+  <img src='https://images.zenhubusercontent.com/619b9f736adb7d25a30e500d/ede2b5f0-ece6-496f-8bf5-7bda74086950' alt='YAS 로고' />
+
+  <h2>일상에 새로운 루틴을 더하다!</h2>
+  </br>
+  <img src="https://img.shields.io/badge/React-v17.0.2-61dafb?logo=React"/>
+  <img src="https://img.shields.io/badge/Typescript-v4.1.2-3178c6?logo=typescript"/>
+  <img src="https://img.shields.io/badge/Redux-v4.1.2-764abc?logo=Redux"/>
+
+  <img src="https://img.shields.io/badge/Storybook-v6.4.9-ff4785?logo=Storybook"/>
+  <img src="https://img.shields.io/badge/axios-v0.24.0-671CDE"/>
+  <img src="https://img.shields.io/badge/ReactRouterDom-v5.3.0-671CDE?logo=ReactRouter"/>
+</div>
+
+</br>
+
+## 👀 YAS 구경가기
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/33eae5cf-8244-4f93-a6fb-39b9a165100b/deploy-status)](https://app.netlify.com/sites/hungry-boyd-fb4c8d/deploys)
 
-<br />
+> [일상에 새로운 루틴을 더하러 GO](https://was-yas.netlify.app/)
 
-## 🔎 기획 배경 및 동기
+</br>
 
-학생 때는 `학교→학원→집→학교→학원→집` 직장인이 되고 나서는 `회사→집→회사→집`
+## 🧑🏻‍💻 팀원 소개
 
-이런 반복되는 일상을 겪으면서 무기력증을 느낀 경험 한번 쯤은 있으시죠?
+<table>
 
-성인 남녀 1,322명을 대상으로 한 잡코리아의 통계 자료에 따르면,
+  <tr align="center">
+    <td><a href="https://github.com/dasssseul">김다슬(JOY)</a></td>
+    <td><a href="https://github.com/Junhyeong-B">배준형(George)</a></td>
+    <td><a href="https://github.com/younoah">정윤호(Noah)</a></td>
+  </tr>
 
-성인 남녀의 `56%이상이 매일 반복되는 일상에 지쳐` 소위 말하는 `노잼 시기`를 겪은 적이 있다고 합니다.
+  <tr align="center">
+    <td><img src="https://user-images.githubusercontent.com/77623643/147047795-e8e64f10-34e9-4b5c-801d-3eca7ca39c68.png" width="150px"/></td>
+    <td><img src="https://user-images.githubusercontent.com/77623643/147047809-36e1d41d-42af-4953-b8a7-3619c88d5491.png"  width="150px"/></td>
+    <td><img src="https://user-images.githubusercontent.com/77623643/147047817-051405e1-df34-4ea5-b9d0-cfc2ca0d6034.png" width="150px"/></td>
+  </tr>
 
-이러한 노잼 시기를 타파하기 위한 방법으로는 맛있는 음식을 먹거나, 여행을 다녀오거나, 운동을 하거나 등등 다양한 방법이 존재하겠죠?
+  <tr>
+  <td><ul><li>팀장</li><li>아이디어 기획</li><li>루틴 생성, 미션 생성 페이지</li></ul></td>
+  <td><ul><li>팀원</li><li>프로젝트 셋팅</li><li>나의 루틴, 루틴 진행 페이지</li></ul></td>
+  <td><ul><li>팀원</li><li>UI, Design 기획</li><li>유저, 커뮤니티 페이지</li></ul></td>
+  </tr>
 
-**하지만, 노잼 시기를 타파하는 방법을 모르는 사람도 부지기수입니다...**
-
-(예를 들면, 저요...무엇을 해야할지 몰라 그냥 잠을 자긴합니다...)
-
-다른 사람들은 어떻게 노잼 시기를 극복할까?
-
-나는 어떤 것들을 하면 스트레스가 풀리고, 다시 삶에 열정을 불어넣을 수 있을까?
-
-이런 고민들이 모여 `모든 사람의 일상을 한번 특별하게 만들어보면 어떨까?`라는 작은 아이디어에서
-
-`YAS(너는 특별해!)`를 기획하게 됐습니다
-
-<br />
-
-## 🧑‍🤝‍🧑 타겟 유저
-
-- 노잼 시기를 겪고 있는 누구나
-- 똑같은 일상에서도 소소한 행복 및 특별함을 느끼고 싶은 사람
+</table>
 
 <br />
 
-## ☝️ 기대 효과
+## 📌 프로젝트 소개
 
-- 반복되는 일상 속 주어지는 미션을 하나씩 해결하면서 스트레스 해소
-- 아무 의미가 없다고 생각했던 평범한 행동들도 특별하게 느껴짐
-- 사람마다 노잼 시기를 어떻게 극복하는지 YAS를 통해 알게 되고, 사람들의 미션 수행 정도를 보면서
-  YAS 內 소속감, 공감대 형성
+### 프로젝트 주제
 
-<br />
+### 기획 배경
 
-## 📝 기능 구현(요구 리스트)
+### 핵심 기능
 
-### 📌 간단 요약
+- 회원가입, 로그인 기능
+- 루틴 및 루틴에 해당하는 세부 미션 생성 기능
+- 시간에 따른 루틴 진행 기능
+- 커뮤니티에 루틴 공유 및 댓글, 좋아요 기능
 
-- YAS 사용자는 자신이 원하는 루틴과 루틴에 해당하는 세부 미션들을 생성 및 수정할 수 있다
-- 각 미션별 시간에 따른 루틴 진행이 가능하며, 루틴 완료 후 평가 및 후기 작성이 가능하다
-- 자신의 루틴을 커뮤니티에 공유 가능하며 댓글과 좋아요를 통해 소통이 가능하다
-- 자신의 월별, 일별 완료 루틴 현황을 마이 페이지에서 확인할 수 있다
+### 타겟 유저
 
-### 📄 페이지별 기능 명세
+### 기대 효과
 
-- 회원 가입 페이지
-  - 이메일, 닉네임, 비밀번호를 입력해 회원가입이 가능하다
-    - 이메일 인증 기능 또는 중복 확인 기능(이메일, 닉네임) 구현
-  - SNS 계정을 이용한 간편 회원가입이 가능하다
-    - 페이스북, 카카오톡, 네이버 중 하나 도전
-- 로그인 페이지
-  - 회원가입 시 입력한 이메일, 비밀번호로 로그인이 가능하다
-  - SNS 계정을 이용한 간편 로그인이 가능하다
-  - 비밀번호, 아이디 찾기 기능
-- 나의 루틴 페이지
-  - 나의 루틴을 확인할 수 있다
-    - 아이콘, 루틴명, 시간, 요일 확인 가능
-  - 카테고리 별, 완료/미완료 루틴에 대한 필터 기능이 존재한다
-  - 플러스 버튼을 이용해 새로운 루틴 생성(루틴 생성 및 수정 페이지)
-    또는 추천 루틴 탐색(커뮤니티 페이지)이 가능하다
-  - 수정과 삭제 버튼이 존재한다
-    - 호버 시 수정 & 삭제 버튼 활성화
-    - 수정 버튼 클릭 시 루틴 생성 및 수정 페이지로 이동
-    - 삭제 버튼 클릭 시 해당 루틴이 삭제된다
-- 루틴 생성 및 수정 페이지
-  - 아이콘, 루틴 명, 요일, 시작 시간, 카테고리를 지정하여 생성 가능하다
-  - 카테고리의 경우 미리 관리자가 정해놓은 카테고리 중에서 선택이 가능하다
-    - 운동, 게임, 음식 or 맛집, 취미, 쇼핑, 건강, 공부 등
-    - 복수로도 가능하도록 생각중
-  - 하나라도 미입력 시 완료 버튼 비활성화
-- 미션(루틴 세부) 페이지
-  - 루틴에 대한 세부 미션 확인이 가능하다
-    - 아이콘, 미션명, 시간 확인 가능
-  - 플러스 버튼을 이용하여 새로운 미션 추가(미션 생성 및 수정 페이지)가 가능하다
-  - 수정과 삭제 버튼이 존재한다
-    - 호버 시 수정 & 삭제 버튼 활성화
-    - 수정 버튼 클릭 시 미션 생성 및 수정 페이지로 이동한다
-    - 삭제 버튼 클릭 시 해당 미션이 삭제된다
-  - 미션들은 드래그를 통해 위치 이동이 가능하다
-  - 플레이 버튼을 통해 루틴 시작(루틴 진행 페이지)이 가능하다
-    - 미션이 없을 경우 플레이 버튼은 비활성화 상태이다
-- 미션 생성 및 수정 페이지
-  - 아이콘, 미션 명, 색상, 지속 시간 지정이 가능하다
-  - 하나라도 미입력 시 완료 버튼 비활성화
-- 루틴 진행 페이지
-  - 플레이 버튼을 눌러 각 미션 시작, 멈춤이 가능하다
-  - 미션 완료 후 체크 버튼을 누르면 다음 미션으로 이동하고 해당 미션에 맞는 시간이 셋팅된다
-  - 패스 버튼을 클릭하여 미션 넘어가기가 가능하다
-  - 미션 전체 보기 버튼을 눌러 미션 리스트 확인이 가능하다(모달 형태)
-  - X 버튼을 통해 진행 중인 루틴을 종료할 수 있다
-    - 종료 시 현재까지 진행했던 루틴 기록은 삭제 및 초기화된다
-    - Alert 창을 이용한 경고 표시
-- 루틴 요약 페이지
-  - 내가 진행한 미션들의 시간, 패스/완료 확인이 가능하다
-  - 후기 작성을 원하는 경우 후기 남기기를 눌러 후기 작성이 가능하다
-    - 후기는 사진, 이모티콘을 이용한 평가, 간단한 글을 작성하고 등록할 수 있다
-  - 후기 작성을 원하지않는 경우 확인 버튼을 눌러 마이 페이지로 이동한다
-- 커뮤니티 페이지
-  - 여러 사람들의 루틴 확인이 가능하다
-  - 신규, 인기, 카테고리별 필터 기능이 존재한다
-  - 루틴 게시글에는 댓글, 좋아요 기능이 존재한다
-  - 게시글 생성 및 수정 페이지
-    - 플러스 버튼을 이용해 루틴 또는 미션 게시글 생성이 가능하다
-    - 나의 루틴 또는 미션이 리스트로 보여지며 원하는 루틴 또는 미션을 선택해 게시글을 구성할 수 있다
-  - 루틴 게시글 조회 페이지
-    - 특정 루틴 게시글 선택 시 루틴과 해당하는 미션들 확인이 가능하다
-    - 해당 루틴에 대한 후기, 질문 등을 댓글로 남길 수 있으며 확인이 가능하다
-      - 댓글 좋아요 기능이 존재한다
-- 마이 페이지
-  - 달력 형태로 구성되어있으며, 일별 나의 완료 루틴 확인이 가능하다
-    - 루틴을 달성한 정도에 따라 일별 색깔이 짙어진다
-    - 루틴은 리스트 형태로 구성되어있으며, 완료한 루틴의 경우 클릭하면 루틴 요약 페이지로 이동 가능하다
-    - 요약 페이지에서는 이전에 작성하지 못한 후기 작성이 가능하다
-- 설정 페이지
-  - 프로필 사진 변경 기능
-  - 닉네임 변경 기능
-  - 비밀번호 변경 기능
+</br>
 
-<br />
+## 📅 개발 기간 & 일정
 
-## 🧶 흐름도
+> 2021/11/26 ~ 2021/12/23 (총 28일)
 
-![2021-11-25_16-32-27.png](https://s3.us-west-2.amazonaws.com/secure.notion-static.com/f3fb0793-73d5-4b0a-a354-beb1e583b1d1/2021-11-25_16-32-27.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAT73L2G45EIPT3X45%2F20211126%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20211126T165918Z&X-Amz-Expires=86400&X-Amz-Signature=b8d4c0e0a1f04482b17f186e9453716bf79d5e9bc6cd5c2d26138869d6d17590&X-Amz-SignedHeaders=host&response-content-disposition=filename%20%3D%222021-11-25_16-32-27.png%22&x-id=GetObject)
+<table>
+
+  <tr align="center">
+    <td>주차</td>
+    <td>주요 일정</td>
+    <td>노션 링크</td>
+  </tr>
+
+  <tr align="center">
+    <td>1주차</td>
+    <td>세부 기획, 요구사항 명세</td>
+    <td><a href="https://backend-devcourse.notion.site/MosCow-6268b00d390548c8aaab5d787837a424">요구사항 MosCow</a></td>
+  </tr>
+    <tr align="center">
+    <td>2주차</td>
+    <td>UI 와이어 프레임, Atom, Molecule 컴포넌트 개발</td>
+    <td><a href="https://www.figma.com/file/IODl7OQQ8y13wJNjyfM8CM/Free-8%2C000%2B-Icons-(Community)?node-id=504%3A2">피그마 UI</a></td>
+  </tr>
+    <tr align="center">
+    <td>3주차</td>
+    <td>Page 컴포넌트 개발, 라우터 처리</td>
+    <td><a href="https://backend-devcourse.notion.site/d3a794ad57b545a5bd62296c7ec871d4">라우터</a></td>
+  </tr>
+    <tr align="center">
+    <td>4주차</td>
+    <td>API 연동, 리팩토링</td>
+    <td><a href="https://backend-devcourse.notion.site/API-0b8de81cb2df4f07b7aee00194ce6ddd">API</a></td>
+  </tr>
+
+</table>
+
+</br>
+
+## 📈 플로우 차트
+
+<img width="600" alt="흐름도" src="https://user-images.githubusercontent.com/77623643/147051348-773c34b3-b2aa-4dbf-9791-13e31c891fd0.png">
+
+</br>
+
+## 🔎 페이지별 기능
+
+</br>
+
+## 📝 협업 문서
+
+[YAS 노션 링크](https://backend-devcourse.notion.site/fab7876021924fb79076c749f9aeee16)
