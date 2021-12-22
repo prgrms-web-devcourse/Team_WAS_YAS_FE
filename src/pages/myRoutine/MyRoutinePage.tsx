@@ -134,7 +134,7 @@ const MyRoutinePage = (): JSX.Element => {
       <TabBar type="myRoutine">
         <TabBar.Item title="전체" index="0">
           {isLoading ? null : token ? (
-            routines.all.length !== 0 ? (
+            routines.all.length !== 0 || routines.finish.length !== 0 ? (
               <RoutineGridBox>
                 {routines.all &&
                   routines.all?.map((routine) => (
