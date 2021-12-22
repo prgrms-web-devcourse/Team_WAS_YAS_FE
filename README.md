@@ -41,7 +41,7 @@
     <td><img src="https://user-images.githubusercontent.com/77623643/147047817-051405e1-df34-4ea5-b9d0-cfc2ca0d6034.png" width="150px"/></td>
   </tr>
 
-  <tr>
+  <tr align="center">
   <td><ul><li>팀장</li><li>아이디어 기획</li><li>루틴 생성, 미션 생성 페이지</li></ul></td>
   <td><ul><li>팀원</li><li>프로젝트 셋팅</li><li>나의 루틴, 루틴 진행 페이지</li></ul></td>
   <td><ul><li>팀원</li><li>UI, Design 기획</li><li>유저, 커뮤니티 페이지</li></ul></td>
@@ -53,13 +53,13 @@
 
 ## 📌 프로젝트 소개
 
-###  프로젝트 주제
+### 📝 프로젝트 주제
 
 - `학교 → 집 → 학교` / `회사 → 집 → 회사`가 반복되는 일상 속 루틴을 통해 노잼 시기를 타파하고 일상을 특별하게 만들어보자!
 
 ### 🔎 기획 배경
 
-학생 때는 `학교→학원→집→학교→학원→집` 직장인이 되고 나서는 `회사→집→회사→집` 
+학생 때는 `학교→학원→집→학교→학원→집` 직장인이 되고 나서는 `회사→집→회사→집`
 이런 반복되는 일상을 겪으면서 무기력증을 느낀 경험 한번 쯤은 있으시죠?
 
 이러한 반복되는 일상의 무기력증을 타파하기 위한 방법으로 맛있는 음식을 먹거나, 여행을 다녀오거나, 운동을 하거나 등등 다양한 방법이 있겠지만, <br />
@@ -83,10 +83,8 @@
 
 - 반복되는 일상 속 주어지는 미션을 하나씩 해결하면서 스트레스 해소
 - 아무 의미가 없다고 생각했던 평범한 행동들도 특별하게 느껴짐
-- 사람마다 노잼 시기를 어떻게 극복하는지 YAS를 통해 알게 되고, 사람들의 미션 수행 정도를 보면서 
-YAS 內 소속감, 공감대 형성
-
-
+- 사람마다 노잼 시기를 어떻게 극복하는지 YAS를 통해 알게 되고, 사람들의 미션 수행 정도를 보면서
+  YAS 內 소속감, 공감대 형성
 
 </br>
 
@@ -133,33 +131,30 @@ YAS 內 소속감, 공감대 형성
 
 </br>
 
-## 🔎 페이지별 기능
+## 🔥 페이지별 기능
 
 </br>
 
-|<p align="center">로그인</p>|<p align="center">로그아웃</p>|
-|------|------|
-|<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147056861-8213b6f0-7643-4de4-a14e-05219d4afd86.gif" width=60%/></p> |<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147057041-c99c798c-c59d-403a-b102-2050e9575a99.gif" width=60%/></p> |
+| <p align="center">로그인</p>                                                                                                                       | <p align="center">로그아웃</p>                                                                                                                     |
+| -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <p align="center"><img src="https://user-images.githubusercontent.com/85148549/147056861-8213b6f0-7643-4de4-a14e-05219d4afd86.gif" width=60%/></p> | <p align="center"><img src="https://user-images.githubusercontent.com/85148549/147057041-c99c798c-c59d-403a-b102-2050e9575a99.gif" width=60%/></p> |
 
-|<p align="center">회원정보 수정</p>|<p align="center">회원정보 수정_이미지</p>|
-|------|------|
-|<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147057497-91ff8b68-5f4f-41a7-b697-1272d5fe137a.gif" width=60%/></p> |<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147057510-2b428dc2-704c-44e3-908a-62376086094b.gif" width=60%/></p> |
+| <p align="center">회원정보 수정</p>                                                                                                                | <p align="center">회원정보 수정\_이미지</p>                                                                                                        |
+| -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <p align="center"><img src="https://user-images.githubusercontent.com/85148549/147057497-91ff8b68-5f4f-41a7-b697-1272d5fe137a.gif" width=60%/></p> | <p align="center"><img src="https://user-images.githubusercontent.com/85148549/147057510-2b428dc2-704c-44e3-908a-62376086094b.gif" width=60%/></p> |
 
-|<p align="center">루틴 생성</p>|<p align="center">미션 생성</p>|
-|------|------|
-|<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147057650-d2097c1f-45ae-4b93-a662-05dd80928c79.gif" width=60%/></p> |<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147057660-e5fcfdae-c5c9-4f07-93e0-a9b0c0a9ac39.gif" width=60%/></p> |
+| <p align="center">루틴 생성</p>                                                                                                                    | <p align="center">미션 생성</p>                                                                                                                    |
+| -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <p align="center"><img src="https://user-images.githubusercontent.com/85148549/147057650-d2097c1f-45ae-4b93-a662-05dd80928c79.gif" width=60%/></p> | <p align="center"><img src="https://user-images.githubusercontent.com/85148549/147057660-e5fcfdae-c5c9-4f07-93e0-a9b0c0a9ac39.gif" width=60%/></p> |
 
-|<p align="center">루틴 수정(요일)</p>|<p align="center">미션 순서 변경</p>|
-|------|------|
-|<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147057874-2d571f01-83b0-4006-a4f0-e5a171245d0b.gif" width=60%/></p> |<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147057902-5740b63d-f916-4647-8ff3-3b71562e30f5.gif" width=60%/></p> |
+| <p align="center">루틴 수정(요일)</p>                                                                                                              | <p align="center">미션 순서 변경</p>                                                                                                               |
+| -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <p align="center"><img src="https://user-images.githubusercontent.com/85148549/147057874-2d571f01-83b0-4006-a4f0-e5a171245d0b.gif" width=60%/></p> | <p align="center"><img src="https://user-images.githubusercontent.com/85148549/147057902-5740b63d-f916-4647-8ff3-3b71562e30f5.gif" width=60%/></p> |
 
+| <p align="center">루틴, 미션 삭제</p>                                                                                                              | <p align="center">루틴 진행</p>                                                                                                                    |
+| -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <p align="center"><img src="https://user-images.githubusercontent.com/85148549/147058496-d293beee-f983-4cb8-82c1-8f373e0cf240.gif" width=60%/></p> | <p align="center"><img src="https://user-images.githubusercontent.com/85148549/147058483-f5965a24-0ae0-459f-b9ff-ed2dd6378f3b.gif" width=60%/></p> |
 
-|<p align="center">루틴, 미션 삭제</p>|<p align="center">루틴 진행</p>|
-|------|------|
-|<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147058496-d293beee-f983-4cb8-82c1-8f373e0cf240.gif" width=60%/></p> |<p align="center"><img src="https://user-images.githubusercontent.com/85148549/147058483-f5965a24-0ae0-459f-b9ff-ed2dd6378f3b.gif" width=60%/></p> |
-
-
-
-## 📝 협업 문서
+## 🗂 협업 문서
 
 [YAS 노션 링크](https://backend-devcourse.notion.site/fab7876021924fb79076c749f9aeee16)
