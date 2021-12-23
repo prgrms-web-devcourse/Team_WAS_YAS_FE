@@ -47,16 +47,16 @@ const UploadIcon = styled(FileUploadRoundedIcon)`
   color: #ffffff;
 
   @media ${Media.sm} {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
   }
   @media ${Media.md} {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
   }
   @media ${Media.lg} {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
   }
 `;
 
