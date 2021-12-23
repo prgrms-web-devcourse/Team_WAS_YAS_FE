@@ -9,6 +9,7 @@ import Check from './Check';
 import Add from './Add';
 import Back from './Back';
 import Delete from './Delete';
+import RoutineUpload from './RoutineUpload';
 
 import { Colors } from '@/styles';
 
@@ -46,6 +47,7 @@ const IconButton = {
   Add,
   Back,
   Delete,
+  RoutineUpload,
 };
 
 export default IconButton;

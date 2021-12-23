@@ -1,5 +1,5 @@
 import { IconButtonProps } from './IconButton';
-import { Colors, Media } from '@/styles';
+import { Colors, Media, Shadow } from '@/styles';
 import styled from '@emotion/styled';
 
 const Add = ({ ...props }: IconButtonProps): JSX.Element => {
@@ -25,11 +25,11 @@ const StyledButton = styled.button`
   display: inline-flex;
   justify-content: center;
   align-items: center;
-
   border: none;
   border-radius: 50%;
   background-color: ${Colors.point};
   cursor: pointer;
+  box-shadow: ${Shadow.button};
 
   @media ${Media.sm} {
     width: 42px;

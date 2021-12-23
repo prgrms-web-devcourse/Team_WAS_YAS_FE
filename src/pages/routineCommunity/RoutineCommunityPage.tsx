@@ -154,7 +154,7 @@ const RoutineCommunityPage = (): JSX.Element => {
       )}
 
       <Link to="/community/create">
-        <StyledRoutineAddButton />
+        <RoutineUploadButton />
       </Link>
       {loading && <Spinner />}
     </Container>
@@ -204,7 +204,7 @@ const CategoryContainer = styled.div`
   }
 `;
 
-const StyledRoutineAddButton = styled(IconButton.Add)`
+const RoutineUploadButton = styled(IconButton.RoutineUpload)`
   position: fixed;
   right: calc(50% - 280px);
   bottom: 116px;
