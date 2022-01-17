@@ -1,12 +1,9 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { IconButton } from '@mui/material';
 import AccountBoxRoundedIcon from '@mui/icons-material/AccountBoxRounded';
 import ExitToAppRoundedIcon from '@mui/icons-material/ExitToAppRounded';
 import { Colors, FontSize, Shadow } from '@/styles';
 import { useClickAway } from '@/hooks';
-// import Container from './Container';
-import { Icon } from '@/components/';
 
 export interface UserToolBoxProps extends React.ComponentProps<'div'> {
   onClickUserButton?: (e: React.MouseEvent) => void;

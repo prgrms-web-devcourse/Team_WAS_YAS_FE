@@ -219,12 +219,6 @@ const Text = styled.p`
   }
 `;
 
-const Button = styled.button`
-  border: none;
-  background-color: transparent;
-  cursor: pointer;
-`;
-
 const StyledUserToolBox = styled(UserToolBox)`
   position: absolute;
   z-index: 1;
