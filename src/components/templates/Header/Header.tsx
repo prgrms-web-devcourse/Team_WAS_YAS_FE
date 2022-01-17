@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Swal from 'sweetalert2';
 import { logoWide } from '@/images';
 import styled from '@emotion/styled';
@@ -9,10 +9,12 @@ import { RootState, user as userStore } from '@/store';
 import { Link, useRouteMatch, useHistory } from 'react-router-dom';
 import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
 import BackButton from './BackButton';
+import { UserToolBox } from '@/components';
 
 export type HeaderProps = React.ComponentProps<'header'>;
 
 const Header = ({ ...props }: HeaderProps): JSX.Element => {
+  const [userToolBoxVisible, setUserToolBoxVisible] = useState<boolean>(false);
   const { data: user } = useSelector((state: RootState) => state.user);
   const [match, history] = [useRouteMatch(), useHistory()];
   const params = parseParams(match.url);
@@ -46,6 +48,14 @@ const Header = ({ ...props }: HeaderProps): JSX.Element => {
     history.goBack();
   };
 
+  const handleCloseUserToolBox = () => {
+    setUserToolBoxVisible(false);
+  };
+
+  const handleClickUserButton = () => {
+    history.push('/mypage');
+  };
+
   return (
     <Container {...props}>
       <ContentContainer>
@@ -74,18 +84,21 @@ const Header = ({ ...props }: HeaderProps): JSX.Element => {
                 src={user?.profileImage}
                 on={params[0] === 'mypage' ? 1 : 0}
                 onClick={() => {
-                  history.push('/mypage');
+                  setUserToolBoxVisible(true);
                 }}
               />
-              <Button onClick={handleClickLogOutButton}>
-                <Text>로그아웃</Text>
-              </Button>
             </>
           ) : (
             <Link to="/mypage/signin">
               <Text>로그인</Text>
             </Link>
           )}
+          <StyledUserToolBox
+            visible={userToolBoxVisible}
+            onClose={handleCloseUserToolBox}
+            onClickUserButton={handleClickUserButton}
+            onClickSignOutButton={handleClickLogOutButton}
+          />
         </RightAside>
       </ContentContainer>
     </Container>
@@ -210,6 +223,24 @@ const Button = styled.button`
   border: none;
   background-color: transparent;
   cursor: pointer;
+`;
+
+const StyledUserToolBox = styled(UserToolBox)`
+  position: absolute;
+  z-index: 1;
+
+  @media ${Media.sm} {
+    top: 3rem;
+    right: 1rem;
+  }
+  @media ${Media.md} {
+    top: 4rem;
+    right: 2rem;
+  }
+  @media ${Media.lg} {
+    top: 4rem;
+    right: 2rem;
+  }
 `;
 
 export default Header;
