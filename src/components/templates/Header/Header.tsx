@@ -72,7 +72,7 @@ const Header = ({ ...props }: HeaderProps): JSX.Element => {
                   history.push('/onboarding');
                 }}
               >
-                <HelpIcon />
+                <HelpIcon on={params[0] === 'onboarding' ? 1 : 0} />
               </IconButton>
             </>
           )}
@@ -186,8 +186,8 @@ const RightAside = styled.div`
   gap: 1rem;
 `;
 
-const HelpIcon = styled(HelpOutlineRoundedIcon)`
-  color: ${Colors.pointLight};
+const HelpIcon = styled(HelpOutlineRoundedIcon)<{ on: number }>`
+  color: ${({ on }) => (on ? Colors.point : Colors.pointLight)};
   width: 32px;
   height: 32px;
 `;

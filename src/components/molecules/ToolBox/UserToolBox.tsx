@@ -25,12 +25,10 @@ const UserToolBox = ({
   });
 
   const handleClickUserButton = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log('handleClickUserButton');
     onClickUserButton && onClickUserButton(e);
   };
 
   const handleClickSignOutButton = (e: React.MouseEvent<HTMLButtonElement>) => {
-    console.log('handleClickSignOutButton');
     onClickSignOutButton && onClickSignOutButton(e);
   };
 
