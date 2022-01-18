@@ -1,17 +1,31 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
+import qs from 'qs';
 import styled from '@emotion/styled';
 import { Container, Spinner } from '@/components';
 import { logo } from '@/images';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
+import { useLocation } from 'react-router-dom';
 
 const SocialSignInPage = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const location = useLocation();
+
+  useEffect(() => {
+    setLoading(true);
+    const query = qs.parse(location.search, {
+      ignoreQueryPrefix: true,
+    });
+    console.log(query);
+    setLoading(false);
+  }, []);
+
   return (
     <Container navBar>
       <ContentsContainer>
         <Img src={logo} alt="이미지" />
         <Span>소셜로그인을 진행합니다.</Span>
       </ContentsContainer>
-      <Spinner />
+      {loading && <Spinner />}
     </Container>
   );
 };

@@ -16,6 +16,7 @@ import {
   SignUpPage,
   UserEditPage,
   UserPage,
+  SocialSignInPage,
   AnalysisPage,
   NotFoundPage,
   OnBoardingPage,
@@ -87,6 +88,7 @@ const Router = (): JSX.Element => {
         exact
         component={SignUpPage}
       />
+      <PublicRoute path="/abc" exact component={SocialSignInPage} />
 
       <PublicRoute path="/analysis" exact component={AnalysisPage} />
 

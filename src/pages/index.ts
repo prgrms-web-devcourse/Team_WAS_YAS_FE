@@ -14,6 +14,7 @@ export { SignInPage } from './user';
 export { SignUpPage } from './user';
 export { UserEditPage } from './user';
 export { UserPage } from './user';
+export { SocialSignInPage } from './user';
 
 export { AnalysisPage } from './analysis';
 
