@@ -112,7 +112,7 @@ const SignInPage = (): JSX.Element => {
         <StyledKakaoSignInButton
           type="button"
           onClick={() => {
-            window.location.href = `http://was-yas.shop/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/oauth/redirect`;
+            window.location.href = `http://was-yas.shop/oauth2/authorization/kakao?redirect_uri=https://was-yas.netlify.app/oauth/redirect`;
           }}
         />
         <StyledButton
