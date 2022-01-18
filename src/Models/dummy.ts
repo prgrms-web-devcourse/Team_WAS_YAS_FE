@@ -17,7 +17,7 @@ export const routineDummy: RoutineType = {
   durationGoalTime: 1000,
   weeks: ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'],
   routineCategory: ['HEALTH', 'EXERCISE'],
-  missionDetailResponse: [],
+  missionDetailResponses: [],
 };
 
 export const missionDummy: MissionType = {

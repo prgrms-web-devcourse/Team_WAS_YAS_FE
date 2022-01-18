@@ -55,7 +55,7 @@ export const Default = (): JSX.Element => {
           durationGoalTime: 0,
           startGoalTime: `${new Date().toISOString()}`,
           routineCategory: [],
-          missionDetailResponse: [],
+          missionDetailResponses: [],
           weeks: [],
         }}
         type="create"

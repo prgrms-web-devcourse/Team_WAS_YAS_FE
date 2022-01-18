@@ -11,7 +11,7 @@ const RoutineUpdatePage = (): JSX.Element => {
   const history = useHistory();
   const { id } = useParams<Record<string, string>>();
   const [selectedRoutine, setSelectedRoutine] = useState<
-    Omit<RoutineType, 'missionDetailResponse'>
+    Omit<RoutineType, 'missionDetailResponses'>
   >({
     routineId: 0,
     emoji: '',
