@@ -28,7 +28,7 @@ const userApi: UserApiType = {
     return authRequest.put('/users', formData);
   },
   validateEmail: (email) => {
-    return request.get('/users/email', { params: { email } });
+    return request.get('/users/email', { params: { value: email } });
   },
 };
 
