@@ -41,7 +41,7 @@ const RoutineCreatePage = (): JSX.Element => {
     : '';
 
   const [routine, setRoutine] = useState<
-    Omit<RoutineType, 'routineId' | 'missionDetailResponse'> & {
+    Omit<RoutineType, 'routineId' | 'missionDetailResponses'> & {
       missionCreateRequest: MissionType[];
     }
   >(
