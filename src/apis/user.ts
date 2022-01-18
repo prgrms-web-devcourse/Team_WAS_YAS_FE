@@ -16,6 +16,7 @@ interface UserApiType {
   }) => Promise<AxiosResponse>;
   getUser: () => Promise<AxiosResponse>;
   updateUser: (formData: FormData) => Promise<AxiosResponse>;
+  validateEmail: (email: string) => Promise<AxiosResponse>;
 }
 
 const userApi: UserApiType = {
@@ -25,6 +26,9 @@ const userApi: UserApiType = {
   getUser: () => authRequest.get(`/users`),
   updateUser: (formData) => {
     return authRequest.put('/users', formData);
+  },
+  validateEmail: (email) => {
+    return request.get('/users/email', { params: { email } });
   },
 };
 
