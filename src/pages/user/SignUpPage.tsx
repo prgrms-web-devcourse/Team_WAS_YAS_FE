@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import Swal from 'sweetalert2';
@@ -7,6 +7,7 @@ import { Colors, FontSize, FontWeight } from '@/styles';
 import { Container, Input, Button, Spinner } from '@/components';
 import { userApi } from '@/apis';
 import { useHistory } from 'react-router-dom';
+import { css } from '@emotion/react';
 
 const initialValues = {
   email: '',
@@ -50,6 +51,7 @@ const validationSchema = Yup.object().shape({
 
 const SignUpPage = (): JSX.Element => {
   const history = useHistory();
+  const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
   const {
     errors,
     handleBlur,
@@ -63,6 +65,13 @@ const SignUpPage = (): JSX.Element => {
     initialValues,
     validationSchema,
     onSubmit: async (values, formikHelper) => {
+      if (!isValidEmail) {
+        Swal.fire({
+          icon: 'error',
+          title: '이메일 중복 확인을 해주세요.',
+        });
+        return;
+      }
       try {
         await userApi.signUp(values);
         formikHelper.resetForm();
@@ -90,20 +99,64 @@ const SignUpPage = (): JSX.Element => {
     handleBlur(e);
   };
 
+  const checkValidEmail = async () => {
+    if (errors.email) {
+      Swal.fire({
+        icon: 'error',
+        text: `이메일 폼 형식을 확인해주세요.`,
+        confirmButtonColor: Colors.point,
+      });
+      return;
+    }
+    const response = await userApi.validateEmail(values.email);
+    const isValidEmail = response.data.data;
+
+    if (isValidEmail) {
+      Swal.fire({
+        icon: 'success',
+        text: `사용가능한 이메일입니다.`,
+        confirmButtonColor: Colors.point,
+      });
+      setIsValidEmail(true);
+    } else {
+      Swal.fire({
+        icon: 'error',
+        text: `이미 존재하는 이메일입니다. 다른 이메일을 사용해주세요!`,
+        confirmButtonColor: Colors.point,
+      });
+    }
+  };
+
+  const handleChangeEmailInput = (
+    e: React.FormEvent & { target: HTMLInputElement },
+  ) => {
+    isValidEmail && setIsValidEmail(false);
+    handleChange(e);
+  };
+
   return (
     <StyledContainer navBar>
       <HeadText>지금 당장 YAS를 시작해볼까요?</HeadText>
       <SignInForm onSubmit={handleSubmit}>
         <Label htmlFor="email">이메일</Label>
-        <Input
-          id="email"
-          name="email"
-          type="email"
-          placeholder="이메일"
-          onChange={handleChange}
-          onBlur={transformBlur}
-          value={values.email}
-        />
+        <Divider>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="이메일"
+            onChange={handleChangeEmailInput}
+            onBlur={transformBlur}
+            value={values.email}
+          />
+          <EmailCheckButton
+            type="button"
+            disabled={isValidEmail}
+            onClick={checkValidEmail}
+          >
+            {isValidEmail ? '사용가능' : '중복확인'}
+          </EmailCheckButton>
+        </Divider>
         <GuideText>{touched.email && errors.email}&nbsp;</GuideText>
         <Label htmlFor="name">이름</Label>
         <Input
@@ -205,6 +258,31 @@ const GuideText = styled.p`
 
 const StyledButton = styled(Button)`
   margin: 1rem 0;
+`;
+
+const EmailCheckButton = styled(Button)`
+  margin-left: 1rem;
+  width: 120px;
+
+  ${({ disabled }) => css`
+    background-color: ${disabled && Colors.pointLight};
+
+    @media (hover: hover) {
+      :hover {
+        color: ${disabled && Colors.textQuaternary};
+        background-color: ${disabled && Colors.pointLight};
+      }
+    }
+
+    :active {
+      background-color: ${disabled && Colors.pointLight};
+    }
+  `}
+`;
+
+const Divider = styled.div`
+  display: flex;
+  justify-content: center;
 `;
 
 export default SignUpPage;
