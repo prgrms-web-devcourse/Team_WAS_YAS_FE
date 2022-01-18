@@ -7,7 +7,7 @@ import { logo } from '@/images';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import { useLocation, useHistory } from 'react-router-dom';
 
-const SocialSignInPage = () => {
+const SocialSignInPage = (): JSX.Element => {
   const [loading, setLoading] = useState<boolean>(false);
   const location = useLocation();
   const history = useHistory();
@@ -30,7 +30,7 @@ const SocialSignInPage = () => {
     // }
 
     setLoading(false);
-  }, []);
+  }, [location]);
 
   return (
     <Container navBar>
