@@ -3,7 +3,6 @@ import qs from 'qs';
 import Swal from 'sweetalert2';
 import styled from '@emotion/styled';
 import { Container, Spinner } from '@/components';
-import { userApi } from '@/apis';
 import { logo } from '@/images';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import { useLocation, useHistory } from 'react-router-dom';
@@ -42,7 +41,7 @@ const SocialSignInPage = (): JSX.Element => {
 
     setLoading(false);
     history.push('/');
-  }, [location]);
+  }, [location, history, dispatch]);
 
   return (
     <Container navBar>
