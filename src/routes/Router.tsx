@@ -92,7 +92,7 @@ const Router = (): JSX.Element => {
 
       <PublicRoute path="/onboarding" exact component={OnBoardingPage} />
 
-      <PublicRoute path="/social-signin" exact component={SocialSignInPage} />
+      <PublicRoute path="/oauth/redirect" exact component={SocialSignInPage} />
 
       <PublicRoute path="*" component={NotFoundPage} />
     </Switch>
