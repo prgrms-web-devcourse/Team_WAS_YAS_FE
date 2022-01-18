@@ -95,15 +95,18 @@ const SignUpPage = (): JSX.Element => {
       <HeadText>지금 당장 YAS를 시작해볼까요?</HeadText>
       <SignInForm onSubmit={handleSubmit}>
         <Label htmlFor="email">이메일</Label>
-        <Input
-          id="email"
-          name="email"
-          type="email"
-          placeholder="이메일"
-          onChange={handleChange}
-          onBlur={transformBlur}
-          value={values.email}
-        />
+        <Divider>
+          <Input
+            id="email"
+            name="email"
+            type="email"
+            placeholder="이메일"
+            onChange={handleChange}
+            onBlur={transformBlur}
+            value={values.email}
+          />
+          <EmailCheckButton type="button">중복검사</EmailCheckButton>
+        </Divider>
         <GuideText>{touched.email && errors.email}&nbsp;</GuideText>
         <Label htmlFor="name">이름</Label>
         <Input
@@ -205,6 +208,21 @@ const GuideText = styled.p`
 
 const StyledButton = styled(Button)`
   margin: 1rem 0;
+`;
+
+const EmailCheckButton = styled(Button)`
+  margin-left: 1rem;
+  width: 120px;
+`;
+
+const Divider = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const EmailInputWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 export default SignUpPage;
