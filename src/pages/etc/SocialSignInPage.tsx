@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 import qs from 'qs';
+import Swal from 'sweetalert2';
 import styled from '@emotion/styled';
 import { Container, Spinner } from '@/components';
 import { logo } from '@/images';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 
 const SocialSignInPage = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const location = useLocation();
+  const history = useHistory();
 
   useEffect(() => {
     setLoading(true);
@@ -16,6 +18,17 @@ const SocialSignInPage = () => {
       ignoreQueryPrefix: true,
     });
     console.log(query);
+
+    // if (!query.hasOwnProperty('token')) {
+    //   Swal.fire({
+    //     icon: 'error',
+    //     text: '잘못된 접근입니다.',
+    //     confirmButtonColor: Colors.point,
+    //   }).then(() => {
+    //     history.push('/');
+    //   });
+    // }
+
     setLoading(false);
   }, []);
 
