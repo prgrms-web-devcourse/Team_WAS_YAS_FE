@@ -65,6 +65,13 @@ const SignUpPage = (): JSX.Element => {
     initialValues,
     validationSchema,
     onSubmit: async (values, formikHelper) => {
+      if (!isValidEmail) {
+        Swal.fire({
+          icon: 'error',
+          title: '이메일 중복 확인을 해주세요.',
+        });
+        return;
+      }
       try {
         await userApi.signUp(values);
         formikHelper.resetForm();
@@ -92,14 +99,39 @@ const SignUpPage = (): JSX.Element => {
     handleBlur(e);
   };
 
-  const checkValidEmail = () => {
-    console.log('checkValidEmail');
-    Swal.fire({
-      icon: 'success',
-      text: `사용가능한 이메일입니다.`,
-      confirmButtonColor: Colors.point,
-    });
-    setIsValidEmail(true);
+  const checkValidEmail = async () => {
+    if (errors.email) {
+      Swal.fire({
+        icon: 'error',
+        text: `이메일 폼 형식을 확인해주세요.`,
+        confirmButtonColor: Colors.point,
+      });
+      return;
+    }
+    const response = await userApi.validateEmail(values.email);
+    const isValidEmail = response.data.data;
+
+    if (isValidEmail) {
+      Swal.fire({
+        icon: 'success',
+        text: `사용가능한 이메일입니다.`,
+        confirmButtonColor: Colors.point,
+      });
+      setIsValidEmail(true);
+    } else {
+      Swal.fire({
+        icon: 'error',
+        text: `이미 존재하는 이메일입니다. 다른 이메일을 사용해주세요!`,
+        confirmButtonColor: Colors.point,
+      });
+    }
+  };
+
+  const handleChangeEmailInput = (
+    e: React.FormEvent & { target: HTMLInputElement },
+  ) => {
+    isValidEmail && setIsValidEmail(false);
+    handleChange(e);
   };
 
   return (
@@ -113,7 +145,7 @@ const SignUpPage = (): JSX.Element => {
             name="email"
             type="email"
             placeholder="이메일"
-            onChange={handleChange}
+            onChange={handleChangeEmailInput}
             onBlur={transformBlur}
             value={values.email}
           />
