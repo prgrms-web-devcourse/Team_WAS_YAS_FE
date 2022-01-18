@@ -9,6 +9,7 @@ import {
   Spinner,
   IconButton,
   SpreadToggle,
+  RoutinePostContent,
 } from '@/components';
 import Swal from 'sweetalert2';
 import styled from '@emotion/styled';
@@ -171,9 +172,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
           count={postData && postData.likes.length}
         />
       </RoutineInfoHeader>
-      <RoutinePostContent>
-        <Text>{postData && postData.content}</Text>
-      </RoutinePostContent>
+      <RoutinePostContent content={postData && postData.content} />
       <RoutineInfo
         createdAt={postData && postData.createdAt}
         routineObject={{
@@ -351,9 +350,5 @@ const CommentContainer = styled.div`
   margin: 1rem 0;
   width: 100%;
 `;
-
-const RoutinePostContent = styled.div``;
-
-const Text = styled.p``;
 
 export default RoutinePostDetailPage;
