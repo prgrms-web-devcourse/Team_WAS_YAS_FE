@@ -9,3 +9,4 @@ export { default as analysis } from './etc/analysis.png';
 export { default as logo } from './logo/logo.png';
 export { default as logoWide } from './logo/logoWide.png';
 export { default as logoSimple } from './logo/logoSimple.png';
+export { default as kakao } from './social/kakao.png';

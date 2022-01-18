@@ -23,6 +23,7 @@ export { Modal } from './atoms/Modal';
 export type { ModalProps } from './atoms/Modal';
 export { LikeBox } from './atoms/LikeBox';
 export type { LikeBoxProps } from './atoms/LikeBox';
+export { KakaoSignInButton } from './atoms/SocialSignInButton';
 
 //! Molecule Component
 export { TabBar } from './molecules/TabBar';
