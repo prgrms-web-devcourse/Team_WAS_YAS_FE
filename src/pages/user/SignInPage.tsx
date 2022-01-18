@@ -3,7 +3,13 @@ import { useFormik } from 'formik';
 import Swal from 'sweetalert2';
 import styled from '@emotion/styled';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
-import { Container, Input, Button, Spinner } from '@/components';
+import {
+  Container,
+  Input,
+  Button,
+  Spinner,
+  KakaoSignInButton,
+} from '@/components';
 import { userApi } from '@/apis';
 import { useHistory, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -103,6 +109,12 @@ const SignInPage = (): JSX.Element => {
         <StyledButton type="submit" disabled={isSubmitting}>
           입장하기
         </StyledButton>
+        <StyledKakaoSignInButton
+          type="button"
+          onClick={() => {
+            window.location.href = `http://was-yas.shop/oauth2/authorization/kakao?redirect_uri=http://localhost:3000/oauth/redirect`;
+          }}
+        />
         <StyledButton
           type="button"
           colorType="white"
@@ -177,6 +189,10 @@ const OnBoardingLink = styled(Link)`
       border-color: ${Colors.pointLight};
     }
   }
+`;
+
+const StyledKakaoSignInButton = styled(KakaoSignInButton)`
+  margin-top: 2rem;
 `;
 
 export default SignInPage;
