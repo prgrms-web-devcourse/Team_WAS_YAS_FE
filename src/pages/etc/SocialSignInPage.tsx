@@ -22,7 +22,6 @@ const SocialSignInPage = (): JSX.Element => {
       const query = qs.parse(location.search, {
         ignoreQueryPrefix: true,
       });
-      console.log(query);
 
       if (!query.hasOwnProperty('token')) {
         Swal.fire({
