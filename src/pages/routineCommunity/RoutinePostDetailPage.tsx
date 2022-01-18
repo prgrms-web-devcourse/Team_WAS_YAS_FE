@@ -304,7 +304,7 @@ const BringRoutineButton = styled.button`
     }
   }
 
-  &: active {
+  :active  {
     background-color: ${Colors.backgroundButton};
   }
 
