@@ -9,12 +9,13 @@ const KakaoSignInButton = ({ ...props }: ButtonProps): JSX.Element => {
   return (
     <StyledButton {...props}>
       <LogoImage alt="kakao" src={kakao} />
-      <Text>카카오 로그인</Text>
+      <p>카카오 로그인</p>
     </StyledButton>
   );
 };
 
 const StyledButton = styled.button<ButtonProps>`
+  position: relative;
   width: 100%;
   background-color: #ffeb3b;
   border-radius: 16px;
@@ -46,9 +47,8 @@ const StyledButton = styled.button<ButtonProps>`
 
 const LogoImage = styled.img`
   position: absolute;
-  top: 1.5rem;
-  left: 2rem;
-  height: auto;
+  top: 0.6rem;
+  left: 1rem;
   @media ${Media.sm} {
     width: 32px;
     font-size: ${FontSize.small};
@@ -62,7 +62,5 @@ const LogoImage = styled.img`
     font-size: ${FontSize.medium};
   }
 `;
-
-const Text = styled.p``;
 
 export default KakaoSignInButton;
