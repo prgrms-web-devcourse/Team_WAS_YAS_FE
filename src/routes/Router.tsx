@@ -29,7 +29,6 @@ const Router = (): JSX.Element => {
     <Switch>
       <PublicRoute path="/" exact component={MyRoutinePage} />
       <PublicRoute path="/routine" exact component={MyRoutinePage} />
-      <PublicRoute path="/onboarding" exact component={OnBoardingPage} />
       <PrivateRoute
         path="/routine/create"
         exact
@@ -88,9 +87,12 @@ const Router = (): JSX.Element => {
         exact
         component={SignUpPage}
       />
-      <PublicRoute path="/abc" exact component={SocialSignInPage} />
 
       <PublicRoute path="/analysis" exact component={AnalysisPage} />
+
+      <PublicRoute path="/onboarding" exact component={OnBoardingPage} />
+
+      <PublicRoute path="/social-signin" exact component={SocialSignInPage} />
 
       <PublicRoute path="*" component={NotFoundPage} />
     </Switch>
