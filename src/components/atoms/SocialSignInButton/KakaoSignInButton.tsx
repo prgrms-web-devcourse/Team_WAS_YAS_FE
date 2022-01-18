@@ -1,5 +1,5 @@
 import React from 'react';
-import { Colors, FontWeight, FontSize, Media } from '@/styles';
+import { FontWeight, FontSize, Media } from '@/styles';
 import styled from '@emotion/styled';
 import { kakao } from '@/images';
 
