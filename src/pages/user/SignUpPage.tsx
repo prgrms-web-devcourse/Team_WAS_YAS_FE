@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import * as Yup from 'yup';
 import { useFormik } from 'formik';
 import Swal from 'sweetalert2';
@@ -7,6 +7,7 @@ import { Colors, FontSize, FontWeight } from '@/styles';
 import { Container, Input, Button, Spinner } from '@/components';
 import { userApi } from '@/apis';
 import { useHistory } from 'react-router-dom';
+import { css } from '@emotion/react';
 
 const initialValues = {
   email: '',
@@ -50,6 +51,7 @@ const validationSchema = Yup.object().shape({
 
 const SignUpPage = (): JSX.Element => {
   const history = useHistory();
+  const [isValidEmail, setIsValidEmail] = useState<boolean>(false);
   const {
     errors,
     handleBlur,
@@ -90,6 +92,16 @@ const SignUpPage = (): JSX.Element => {
     handleBlur(e);
   };
 
+  const checkValidEmail = () => {
+    console.log('checkValidEmail');
+    Swal.fire({
+      icon: 'success',
+      text: `사용가능한 이메일입니다.`,
+      confirmButtonColor: Colors.point,
+    });
+    setIsValidEmail(true);
+  };
+
   return (
     <StyledContainer navBar>
       <HeadText>지금 당장 YAS를 시작해볼까요?</HeadText>
@@ -105,7 +117,13 @@ const SignUpPage = (): JSX.Element => {
             onBlur={transformBlur}
             value={values.email}
           />
-          <EmailCheckButton type="button">중복검사</EmailCheckButton>
+          <EmailCheckButton
+            type="button"
+            disabled={isValidEmail}
+            onClick={checkValidEmail}
+          >
+            {isValidEmail ? '사용가능' : '중복확인'}
+          </EmailCheckButton>
         </Divider>
         <GuideText>{touched.email && errors.email}&nbsp;</GuideText>
         <Label htmlFor="name">이름</Label>
@@ -213,16 +231,26 @@ const StyledButton = styled(Button)`
 const EmailCheckButton = styled(Button)`
   margin-left: 1rem;
   width: 120px;
+
+  ${({ disabled }) => css`
+    background-color: ${disabled && Colors.pointLight};
+
+    @media (hover: hover) {
+      :hover {
+        color: ${disabled && Colors.textQuaternary};
+        background-color: ${disabled && Colors.pointLight};
+      }
+    }
+
+    :active {
+      background-color: ${disabled && Colors.pointLight};
+    }
+  `}
 `;
 
 const Divider = styled.div`
   display: flex;
   justify-content: center;
-`;
-
-const EmailInputWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
 `;
 
 export default SignUpPage;
