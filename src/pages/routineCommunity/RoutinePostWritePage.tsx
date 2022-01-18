@@ -22,11 +22,6 @@ const RoutinePostWritePage = (): JSX.Element => {
         icon: 'info',
         text: '포스트 내용을 입력해주세요!',
       });
-    } else if (content.length > 80) {
-      Swal.fire({
-        icon: 'info',
-        text: '포스트는 최대 80글자까지 입력 가능합니다!',
-      });
     } else {
       if (!id) return;
       await postApi.createRoutinePost(parseInt(id), { content: content });
@@ -47,7 +42,6 @@ const RoutinePostWritePage = (): JSX.Element => {
       <Title>나의 루틴을 소개해주세요!</Title>
       {routine && <Routine type="create" routineObject={routine} />}
       <Form onSubmit={handlePostSubmit}>
-        <Span>최대 80글자까지 입력 가능</Span>
         <TextArea
           id="content"
           name="content"
@@ -55,11 +49,6 @@ const RoutinePostWritePage = (): JSX.Element => {
           onChange={handleContentChange}
           placeholder="루틴 소개글을 작성해주세요."
         />
-        {content && content.length > 80 ? (
-          <WarningText>80글자 이하로 작성해주세요</WarningText>
-        ) : (
-          <WarningText>&nbsp;</WarningText>
-        )}
         <PostButton>포스팅하기</PostButton>
       </Form>
     </Container>
@@ -93,24 +82,6 @@ const Form = styled.form`
   justify-content: center;
 `;
 
-const Span = styled.span`
-  width: 70%;
-  text-align: right;
-  color: ${Colors.functionNegative};
-  @media ${Media.sm} {
-    margin-top: 2rem;
-    font-size: ${FontSize.micro};
-  }
-  @media ${Media.md} {
-    margin-top: 4rem;
-    font-size: ${FontSize.medium};
-  }
-  @media ${Media.lg} {
-    margin-top: 4rem;
-    font-size: ${FontSize.medium};
-  }
-`;
-
 const TextArea = styled.textarea`
   width: 70%;
   border: none;
@@ -120,7 +91,7 @@ const TextArea = styled.textarea`
   border-radius: 16px;
   padding: 1.5rem;
   resize: none;
-  margin: 1rem 0;
+  margin: 2.5rem 0;
   @media ${Media.sm} {
     min-height: 160px;
     font-size: ${FontSize.small};
@@ -135,23 +106,8 @@ const TextArea = styled.textarea`
   }
 `;
 
-const WarningText = styled.span`
-  width: 70%;
-  text-align: left;
-  color: ${Colors.functionNegative};
-  @media ${Media.sm} {
-    font-size: ${FontSize.micro};
-  }
-  @media ${Media.md} {
-    font-size: ${FontSize.medium};
-  }
-  @media ${Media.lg} {
-    font-size: ${FontSize.medium};
-  }
-`;
-
 const PostButton = styled(Button)`
-  margin-top: 2rem;
+  margin-top: 1.8em;
   @media ${Media.sm} {
     max-width: 150px;
   }
