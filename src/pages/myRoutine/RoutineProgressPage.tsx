@@ -10,8 +10,6 @@ import {
 import styled from '@emotion/styled';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import TimeUtils from '@/utils/time';
-import moment from 'moment';
-import 'moment/locale/ko';
 import useInterval from '../../hooks/useInterval';
 import { keyframes } from '@emotion/react';
 import { RoutineProgressModal } from '@/components/organisms/RoutineProgressModal';
@@ -19,10 +17,16 @@ import Swal from 'sweetalert2';
 import { useHistory, useParams } from 'react-router-dom';
 import { MissionCompletionType, MissionType } from '@/Models';
 import { missionStatusApi, routineApi } from '@/apis';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import duration from 'dayjs/plugin/duration';
+import 'dayjs/locale/ko';
+dayjs.extend(relativeTime);
+dayjs.extend(duration);
 
 const RoutineProgressPage = (): JSX.Element => {
   const history = useHistory();
-  const [duration, setDuration] = useState(moment.duration(0, 'milliseconds'));
+  const [duration, setDuration] = useState(dayjs.duration(0, 'ms'));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [nextStep, setNextStep] = useState(false);
   const [prevStep, setPrevStep] = useState(false);
@@ -108,9 +112,7 @@ const RoutineProgressPage = (): JSX.Element => {
 
       setRoutine(routineInfo);
       setMissions(missionInfo);
-      setDuration(
-        moment.duration(missionInfo[0].durationGoalTime * 1000, 'milliseconds'),
-      );
+      setDuration(dayjs.duration(missionInfo[0].durationGoalTime * 1000, 'ms'));
       setProgress(missionInfo);
       setCurrentMissions(missionInfo[0]);
       await startMission(missionInfo[0], routineStatusId);
@@ -133,7 +135,7 @@ const RoutineProgressPage = (): JSX.Element => {
         routineStatusId: routine_StatusId ? routine_StatusId : routineStatusId,
         missionStatusId: currentMission['missionStatusId'],
         orders: currentMission['orders'],
-        startTime: moment().toISOString(),
+        startTime: dayjs().toISOString(),
         userDurationTime: 0,
       };
       await missionStatusApi.updateMissionStatus(routineId, missionStatus);
@@ -152,7 +154,7 @@ const RoutineProgressPage = (): JSX.Element => {
         routineStatusId: routineStatusId,
         missionStatusId: currentMission['missionStatusId'],
         orders: currentMission['orders'],
-        startTime: moment().toISOString(),
+        startTime: dayjs().toISOString(),
         userDurationTime: 0,
       };
       await missionStatusApi.updateMissionStatus(routineId, missionStatus);
@@ -168,7 +170,7 @@ const RoutineProgressPage = (): JSX.Element => {
         routineStatusId: routineStatusId,
         missionStatusId: currentMissions['missionStatusId'],
         orders: currentMissions['orders'],
-        endTime: moment().toISOString(),
+        endTime: dayjs().toISOString(),
         userDurationTime,
       };
       await missionStatusApi.updateMissionStatus(routineId, missionStatus);
@@ -184,9 +186,7 @@ const RoutineProgressPage = (): JSX.Element => {
 
   const toggle = useInterval(
     () => {
-      setDuration(
-        moment.duration(duration.asMilliseconds() - 1000, 'milliseconds'),
-      );
+      setDuration((prevDuration) => prevDuration.subtract(1000, 'ms'));
     },
     1000,
     (isStop: boolean) => {
@@ -248,9 +248,9 @@ const RoutineProgressPage = (): JSX.Element => {
 
         setCurrentIndex((prevIndex) => {
           setDuration(
-            moment.duration(
+            dayjs.duration(
               missions[prevIndex - 1]['durationGoalTime'] * 1000,
-              'milliseconds',
+              'ms',
             ),
           );
           setCurrentMissions(missions[prevIndex - 1]);
@@ -307,9 +307,9 @@ const RoutineProgressPage = (): JSX.Element => {
 
         setCurrentIndex((prevIndex) => {
           setDuration(
-            moment.duration(
+            dayjs.duration(
               missions[prevIndex + 1]['durationGoalTime'] * 1000,
-              'milliseconds',
+              'ms',
             ),
           );
           setCurrentMissions(missions[prevIndex + 1]);
@@ -368,9 +368,9 @@ const RoutineProgressPage = (): JSX.Element => {
     }
     setCurrentIndex((prevIndex) => {
       setDuration(
-        moment.duration(
+        dayjs.duration(
           missions[prevIndex + 1]['durationGoalTime'] * 1000,
-          'milliseconds',
+          'ms',
         ),
       );
       setCurrentMissions(missions[prevIndex + 1]);
@@ -409,7 +409,7 @@ const RoutineProgressPage = (): JSX.Element => {
           <Emoji>{currentMissions['emoji']}</Emoji>
           <Title>{currentMissions['name']}</Title>
           <Time className={`${timeClass} ${isPlayClass}`}>
-            {TimeUtils.formatCalendarTime(duration)}
+            {TimeUtils.formatMissionTime(duration)}
           </Time>
           <DurationTime>
             {TimeUtils.calculateTime(currentMissions['durationGoalTime'])}

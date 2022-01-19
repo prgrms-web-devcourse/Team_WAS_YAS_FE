@@ -1,5 +1,11 @@
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import duration from 'dayjs/plugin/duration';
+import 'dayjs/locale/ko';
 import moment from 'moment';
 import 'moment/locale/ko';
+dayjs.extend(relativeTime);
+dayjs.extend(duration);
 
 const calculateTime = (time: number | string): string | null => {
   const parseNumber = +time;
@@ -44,11 +50,17 @@ const formatCalendarTime = (duration: any): string => {
   }:${seconds >= 10 ? `${seconds}` : `0${seconds}`}`;
 };
 
+const formatMissionTime = (duration: duration.Duration): string => {
+  const milliseconds = Math.abs(duration.asMilliseconds());
+  return dayjs.duration(milliseconds, 'ms').format('mm:ss');
+};
+
 const TimeUtils = {
   calculateTime,
   formatStartTime,
   dateFromNow,
   formatCalendarTime,
+  formatMissionTime,
 };
 
 export default TimeUtils;
