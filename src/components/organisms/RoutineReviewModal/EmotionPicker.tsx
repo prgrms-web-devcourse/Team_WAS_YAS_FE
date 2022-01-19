@@ -32,7 +32,7 @@ export default EmotionPicker;
 const Input = styled.input`
   display: none;
   :checked + label > img {
-    opacity: 0.5;
+    opacity: 0.4;
   }
 `;
 
@@ -50,4 +50,5 @@ const Image = styled.img`
     height: 48px;
   }
   margin: 0.5rem;
+  cursor: pointer;
 `;
