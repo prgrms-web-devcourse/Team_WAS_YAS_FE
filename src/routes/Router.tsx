@@ -16,6 +16,7 @@ import {
   SignUpPage,
   UserEditPage,
   UserPage,
+  SocialSignInPage,
   AnalysisPage,
   NotFoundPage,
   OnBoardingPage,
@@ -28,7 +29,6 @@ const Router = (): JSX.Element => {
     <Switch>
       <PublicRoute path="/" exact component={MyRoutinePage} />
       <PublicRoute path="/routine" exact component={MyRoutinePage} />
-      <PublicRoute path="/onboarding" exact component={OnBoardingPage} />
       <PrivateRoute
         path="/routine/create"
         exact
@@ -89,6 +89,10 @@ const Router = (): JSX.Element => {
       />
 
       <PublicRoute path="/analysis" exact component={AnalysisPage} />
+
+      <PublicRoute path="/onboarding" exact component={OnBoardingPage} />
+
+      <PublicRoute path="/oauth/redirect" exact component={SocialSignInPage} />
 
       <PublicRoute path="*" component={NotFoundPage} />
     </Switch>

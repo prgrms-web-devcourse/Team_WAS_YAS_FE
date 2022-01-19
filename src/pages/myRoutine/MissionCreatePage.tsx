@@ -18,10 +18,13 @@ import { Colors, FontSize, Media } from '@/styles';
 import styled from '@emotion/styled';
 import Swal from 'sweetalert2';
 import { useHistory, useParams } from 'react-router-dom';
-import { routineApi, missionApi } from '@/apis';
+import { missionApi } from '@/apis';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchRoutine, RootState } from '@/store';
 
 const MissionCreatePage = (): JSX.Element => {
   const history = useHistory();
+  const dispatch = useDispatch();
   const { id } = useParams<Record<string, string>>();
   const [mission, setMission] = useState<Omit<MissionType, 'missionId'>>({
     name: '',
@@ -31,18 +34,22 @@ const MissionCreatePage = (): JSX.Element => {
     orders: 0,
   });
 
-  // TODO : 현재 루틴 컬러 및 미션 순서 스토어에서 가져오는 걸로 변경
+  const { data: routine } = useSelector((state: RootState) => state.routine);
+
   const getColorAndOrders = useCallback(async () => {
-    // 예외처리
-    if (!id) return;
-    const response = await routineApi.getRoutine(parseInt(id));
-    const { color, missionDetailResponses } = response.data.data;
+    if (!routine) return;
+    const { color, missionDetailResponses } = routine;
     setMission((mission) => ({
       ...mission,
       color,
       orders: missionDetailResponses.length,
     }));
-  }, [id]);
+  }, [routine]);
+
+  useEffect(() => {
+    if (!id) return;
+    dispatch(fetchRoutine(parseInt(id)));
+  }, [id, dispatch]);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

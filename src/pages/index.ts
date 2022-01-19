@@ -19,3 +19,4 @@ export { AnalysisPage } from './analysis';
 
 export { NotFoundPage } from './etc';
 export { OnBoardingPage } from './etc';
+export { SocialSignInPage } from './etc';
