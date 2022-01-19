@@ -1,3 +1,5 @@
+import { angry, good, happy, sad, sick } from '@/images';
+
 interface ConstantType {
   [index: string]: string;
 }
@@ -30,4 +32,12 @@ export const WEEK: ConstantType = Object.freeze({
   FRI: '금',
   SAT: '토',
   SUN: '일',
+});
+
+export const EMOTION: ConstantType = Object.freeze({
+  1: good,
+  2: happy,
+  3: sick,
+  4: sad,
+  5: angry,
 });
