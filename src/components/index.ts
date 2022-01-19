@@ -54,6 +54,7 @@ export { LoginGuide } from './molecules/LoginGuide';
 export type { LoginGuideProps } from './molecules/LoginGuide';
 export { UserToolBox } from './molecules/ToolBox';
 export type { UserToolBoxProps } from './molecules/ToolBox';
+export { RoutineReview } from './molecules/RoutineReview';
 
 //! Organism Component
 export { RoutineAddButton } from './organisms/RoutineAddButton';
