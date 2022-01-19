@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import { useHistory, useParams } from 'react-router-dom';
 import { missionStatusApi, routineApi } from '@/apis';
 import Swal from 'sweetalert2';
+import { RoutineReviewModal } from '@/components/organisms/RoutineReviewModal';
 
 interface RoutineInfoType {
   emoji: string;
@@ -18,6 +19,7 @@ const RoutineFinishPage = (): JSX.Element => {
   const routineId = params['id'] && +params['id'];
   const [todayMissionStatus, setTodayMissionStatus] = useState<any>([]);
   const [routineInfo, setRoutineInfo] = useState<any>([]);
+  const [visible, setVisible] = useState<boolean>(false);
 
   const getFinishedRoutineDetail = async () => {
     if (!routineId) return;
@@ -111,7 +113,13 @@ const RoutineFinishPage = (): JSX.Element => {
           <RoutineProgress missionObject={todayMissionStatus} />
         </StyledRoutineProgress>
       </RoutineProgressContainer>
-      <StyledButton onClick={() => history.push('/')}>종료하기</StyledButton>
+      <ButtonContainer>
+        <Button colorType="white" onClick={() => history.push('/')}>
+          종료하기
+        </Button>
+        <Button onClick={() => setVisible(true)}>후기 작성하기</Button>
+      </ButtonContainer>
+      <RoutineReviewModal visible={visible} onClose={() => setVisible(false)} />
     </Container>
   );
 };
@@ -150,17 +158,23 @@ const StyledRoutineProgress = styled.div`
   margin: 3rem 0;
 `;
 
-const StyledButton = styled(Button)`
+const ButtonContainer = styled.div`
   position: fixed;
-  bottom: 2rem;
+  bottom: 1rem;
   z-index: 1000;
+  margin-top: 3rem;
   @media ${Media.sm} {
-    max-width: 150px;
+    width: 240px;
   }
   @media ${Media.md} {
-    max-width: 270px;
+    display: flex;
+    width: 480px;
   }
   @media ${Media.lg} {
-    max-width: 270px;
+    display: flex;
+    width: 480px;
+  }
+  > button {
+    margin: 0 1rem 1rem 0;
   }
 `;
