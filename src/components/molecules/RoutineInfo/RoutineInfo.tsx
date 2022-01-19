@@ -2,7 +2,6 @@ import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import TimeUtils from '@/utils/time';
 import styled from '@emotion/styled';
 import React from 'react';
-import 'moment/locale/ko';
 import { WEEK } from '@/constants';
 
 export interface RoutineInfoProps extends React.ComponentProps<'div'> {

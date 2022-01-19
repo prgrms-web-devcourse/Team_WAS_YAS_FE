@@ -1,5 +1,10 @@
-import moment from 'moment';
-import 'moment/locale/ko';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import duration from 'dayjs/plugin/duration';
+import 'dayjs/locale/ko';
+dayjs.extend(relativeTime);
+dayjs.extend(duration);
+dayjs.locale('ko');
 
 const calculateTime = (time: number | string): string | null => {
   const parseNumber = +time;
@@ -26,29 +31,23 @@ const calculateTime = (time: number | string): string | null => {
 };
 
 const formatStartTime = (time: string): string => {
-  return moment(time).format('LT');
+  return dayjs(time).format('A HH:mm');
 };
 
 const dateFromNow = (time: string): string => {
-  return moment(time).startOf('milliseconds').fromNow();
+  return dayjs(time).fromNow();
 };
 
-// eslint-disable-next-line
-const formatCalendarTime = (duration: any): string => {
-  const { seconds: s, minutes: m, hours: h } = duration._data;
-  const seconds = Math.abs(s);
-  const minutes = Math.abs(m);
-  const hours = Math.abs(h);
-  return `${hours >= 1 ? `0${hours}:` : ''}${
-    minutes >= 10 ? `${minutes}` : `0${minutes}`
-  }:${seconds >= 10 ? `${seconds}` : `0${seconds}`}`;
+const formatMissionTime = (duration: duration.Duration): string => {
+  const milliseconds = Math.abs(duration.asMilliseconds());
+  return dayjs.duration(milliseconds, 'ms').format('mm:ss');
 };
 
 const TimeUtils = {
   calculateTime,
   formatStartTime,
   dateFromNow,
-  formatCalendarTime,
+  formatMissionTime,
 };
 
 export default TimeUtils;
