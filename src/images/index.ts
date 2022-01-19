@@ -10,3 +10,8 @@ export { default as logo } from './logo/logo.png';
 export { default as logoWide } from './logo/logoWide.png';
 export { default as logoSimple } from './logo/logoSimple.png';
 export { default as kakao } from './social/kakao.png';
+export { default as good } from './emotion/good.png';
+export { default as happy } from './emotion/happy.png';
+export { default as sick } from './emotion/sick.png';
+export { default as sad } from './emotion/sad.png';
+export { default as angry } from './emotion/angry.png';
