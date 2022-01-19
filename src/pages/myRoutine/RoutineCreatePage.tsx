@@ -12,12 +12,12 @@ import {
 } from '@/components';
 import { Colors, FontSize, Media } from '@/styles';
 import styled from '@emotion/styled';
-import moment from 'moment';
 import { MissionType, RoutineType } from '@/Models';
 import Swal from 'sweetalert2';
 import { ROUTINE_CATEGORY, WEEK } from '@/constants';
 import { useHistory } from 'react-router-dom';
 import { routineApi } from '@/apis';
+import dayjs from 'dayjs';
 
 const RoutineCreatePage = (): JSX.Element => {
   const history = useHistory();
@@ -100,7 +100,7 @@ const RoutineCreatePage = (): JSX.Element => {
             name,
             emoji,
             color,
-            startGoalTime: moment(startGoalTime).toISOString(),
+            startGoalTime: dayjs(startGoalTime).toISOString(),
             durationGoalTime,
             routineCategory,
             weeks,
