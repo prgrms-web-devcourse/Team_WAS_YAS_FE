@@ -81,7 +81,7 @@ const PasswordEditPage = (): JSX.Element => {
 
   return (
     <StyledContainer navBar>
-      <HeadText>프로필 수정</HeadText>
+      <HeadText>비밀번호 수정</HeadText>
       <Form onSubmit={handleSubmit}>
         <Label htmlFor="currentPassword">현재 비밀번호</Label>
         <Input
