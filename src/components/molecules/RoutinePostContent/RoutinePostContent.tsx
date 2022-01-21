@@ -46,7 +46,6 @@ const RoutinePostContent = ({
 };
 
 const Container = styled.div`
-  /* position: relative; */
   display: flex;
   flex-direction: column;
   width: 100%;
