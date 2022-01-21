@@ -72,7 +72,7 @@ const PasswordEditPage = (): JSX.Element => {
       } catch (error) {
         Swal.fire({
           icon: 'error',
-          text: `${error}`,
+          text: '비밀번호를 확인해주세요.',
           confirmButtonColor: Colors.point,
         });
       }
