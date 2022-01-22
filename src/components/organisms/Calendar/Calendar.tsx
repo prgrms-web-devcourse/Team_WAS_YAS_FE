@@ -77,8 +77,14 @@ const Calendar = ({
                       key={date ? date.get('date') : `${line}-${index}`}
                       date={date}
                       disabled={
-                        date &&
-                        !date.isBetween(dayjs(MIN_DATE), dayjs(), 'day', '[]')
+                        date
+                          ? !date.isBetween(
+                              dayjs(MIN_DATE),
+                              dayjs(),
+                              'day',
+                              '[]',
+                            )
+                          : true
                       }
                       selected={date && date.isSame(selectedDate, 'day')}
                       marked={
