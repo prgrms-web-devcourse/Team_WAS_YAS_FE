@@ -30,11 +30,15 @@ const YearMonthPicker = ({
   };
 
   const handleClickPrevIcon = () => {
-    setDate((date) => date.add(-1, 'month'));
+    const newDate = date.add(-1, 'month');
+    setDate(() => newDate);
+    handleChange(newDate);
   };
 
   const handleClickNextIcon = () => {
-    setDate((date) => date.add(1, 'month'));
+    const newDate = date.add(1, 'month');
+    setDate(() => newDate);
+    handleChange(newDate);
   };
 
   return (

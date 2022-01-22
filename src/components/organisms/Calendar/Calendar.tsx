@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import YearMonthPicker from './YearMonthPicker';
@@ -16,9 +17,13 @@ const Calendar = ({
   const [yearMonth, setYearMonth] = useState();
   const [selectedDate, setSelectedDate] = useState();
 
+  const handleChangeYearMonth = (date: dayjs.Dayjs) => {
+    console.log('handleChangeYearMonth', date);
+  };
+
   return (
     <Container {...props}>
-      <Picker />
+      <Picker onChangeYearMonth={handleChangeYearMonth} />
       <Table>
         <TableHeader>
           <TableRow>
