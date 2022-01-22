@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import React, { useState } from 'react';
 import YearMonthPicker from './YearMonthPicker';
+import { FontSize, Colors } from '@/styles';
 
 export interface CalendarProps extends React.ComponentProps<'div'> {
   onClickDate?: () => void;
@@ -28,13 +29,27 @@ const Calendar = ({
         </TableHeader>
         <TableBody>
           <TableRow>
-            <TableData>1</TableData>
-            <TableData>2</TableData>
-            <TableData>3</TableData>
-            <TableData>4</TableData>
-            <TableData>5</TableData>
-            <TableData>6</TableData>
-            <TableData>7</TableData>
+            <TableData>
+              <DateText>1</DateText>
+            </TableData>
+            <TableData>
+              <DateText>2</DateText>
+            </TableData>
+            <TableData>
+              <DateText>3</DateText>
+            </TableData>
+            <TableData>
+              <DateText>4</DateText>
+            </TableData>
+            <TableData>
+              <DateText>5</DateText>
+            </TableData>
+            <TableData>
+              <DateText>6</DateText>
+            </TableData>
+            <TableData>
+              <DateText>7</DateText>
+            </TableData>
           </TableRow>
         </TableBody>
       </Table>
@@ -65,10 +80,22 @@ const TableRow = styled.tr``;
 
 const TableHead = styled.th`
   height: 2rem;
+  font-size: ${FontSize.medium};
+  font-weight: bold;
 `;
 
 const TableData = styled.td`
-  text-align: center;
+  height: 2rem;
+  font-size: ${FontSize.medium};
+  vertical-align: middle;
+`;
+
+const DateText = styled.p`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  width: 2rem;
   height: 2rem;
 `;
 
