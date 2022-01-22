@@ -4,25 +4,29 @@ import { FontSize, Colors } from '@/styles';
 import dayjs from 'dayjs';
 
 export interface CalendarDateProps extends React.ComponentProps<'td'> {
-  date: dayjs.Dayjs | undefined | null;
+  date: dayjs.Dayjs | null;
+  disabled?: boolean;
   selected?: boolean;
+  marked?: boolean;
   onClickDate?: (date: dayjs.Dayjs) => void;
 }
 
 const CalendarDate = ({
   date,
+  disabled = false,
   selected = false,
+  marked = false,
   onClickDate,
   ...props
 }: CalendarDateProps): JSX.Element => {
   const handleClick = () => {
-    if (!date) return;
+    if (!date || disabled) return;
     onClickDate && onClickDate(date);
   };
 
   return (
     <TableData {...props}>
-      <DateText disabled={!date} selected={selected} onClick={handleClick}>
+      <DateText disabled={disabled} selected={selected} onClick={handleClick}>
         {date?.get('date')}
       </DateText>
     </TableData>
@@ -49,8 +53,10 @@ const DateText = styled.p<
   height: 3rem;
   cursor: ${({ disabled }) => (disabled ? null : 'pointer')};
   border-radius: 50%;
-  color: ${({ selected }) =>
-    selected ? Colors.textQuaternary : Colors.textPrimary};
+  color: ${({ selected, disabled }) => {
+    if (disabled) return 'lightgray';
+    return selected ? Colors.textQuaternary : Colors.textPrimary;
+  }};
   background-color: ${({ selected }) =>
     selected ? Colors.point : 'transparent'};
 

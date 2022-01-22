@@ -1,11 +1,15 @@
 import dayjs from 'dayjs';
+import isBetween from 'dayjs/plugin/isBetween';
+
 import styled from '@emotion/styled';
 import React, { useState, useEffect } from 'react';
 import YearMonthPicker from './YearMonthPicker';
 import { FontSize } from '@/styles';
 import CalendarDate from './CalendarDate';
-import { DAY_OF_WEEK } from './constants';
+import { DAY_OF_WEEK, MIN_DATE } from './constants';
 import { generateCalendarDates } from './utils';
+
+dayjs.extend(isBetween);
 
 export interface CalendarProps extends React.ComponentProps<'div'> {
   onClickDate?: (date: dayjs.Dayjs) => void;
@@ -69,9 +73,20 @@ const Calendar = ({
                     <CalendarDate
                       key={date ? date.get('date') : `${line}-${index}`}
                       date={date}
+                      disabled={
+                        date
+                          ? !date.isBetween(
+                              dayjs(MIN_DATE),
+                              dayjs(),
+                              'day',
+                              '[]',
+                            )
+                          : true
+                      }
                       selected={
                         date && date.isSame(selectedDate, 'day') ? true : false
                       }
+                      // marked={markedDates && markedDates.includes(date)}
                       onClickDate={handleClickDate}
                     />
                   );

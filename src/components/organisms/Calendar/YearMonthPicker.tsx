@@ -1,6 +1,5 @@
 import React from 'react';
 import dayjs from 'dayjs';
-import isBetween from 'dayjs/plugin/isBetween';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import styled from '@emotion/styled';
@@ -14,7 +13,6 @@ import {
 import { IconButton, TextField } from '@mui/material';
 import { MIN_DATE } from './constants';
 
-dayjs.extend(isBetween);
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
 export interface YearMonthPickerProps extends React.ComponentProps<'div'> {
