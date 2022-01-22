@@ -59,8 +59,7 @@ const DateText = styled.p<
     if (disabled) return 'lightgray';
     return selected ? Colors.textQuaternary : Colors.textPrimary;
   }};
-  background-color: ${({ selected }) =>
-    selected ? Colors.point : 'transparent'};
+  background-color: ${({ selected }) => (selected ? '#2F3A8F' : 'transparent')};
 
   @media (hover: hover) {
     :hover {
@@ -73,7 +72,7 @@ const DateText = styled.p<
 const Dot = styled.div`
   position: absolute;
   margin: 0 auto;
-  background-color: orange;
+  background-color: #fe7e6d;
   width: 8px;
   height: 8px;
   border-radius: 50%;

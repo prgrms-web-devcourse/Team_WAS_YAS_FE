@@ -65,9 +65,9 @@ const YearMonthPicker = ({
           onChange={handleChange}
           renderInput={(params) => (
             <YearMonthTextField
-              InputProps={{
-                readOnly: true,
-              }}
+              type="text"
+              // TODO: inputProps 적용되지 않음, 해결방법 찾아보기
+              inputProps={{ style: { textAlign: 'center' }, readOnly: true }}
               variant="standard"
               {...params}
             />
