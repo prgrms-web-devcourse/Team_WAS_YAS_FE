@@ -1,11 +1,13 @@
 import dayjs from 'dayjs';
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import YearMonthPicker from './YearMonthPicker';
-import { FontSize, Colors } from '@/styles';
+import { FontSize } from '@/styles';
+import CalendarDate from './CalendarDate';
+import { DAY_OF_WEEK } from './constants';
 
 export interface CalendarProps extends React.ComponentProps<'div'> {
-  onClickDate?: () => void;
+  onClickDate?: (date: dayjs.Dayjs) => void;
   markedDates?: [];
 }
 
@@ -14,48 +16,97 @@ const Calendar = ({
   markedDates,
   ...props
 }: CalendarProps): JSX.Element => {
-  const [yearMonth, setYearMonth] = useState();
-  const [selectedDate, setSelectedDate] = useState();
+  const [yearMonth, setYearMonth] = useState<dayjs.Dayjs>(dayjs());
+  const [calendarDates, setCalendarDates] = useState<string[][]>([]);
+  const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs>(dayjs());
 
   const handleChangeYearMonth = (date: dayjs.Dayjs) => {
-    console.log('handleChangeYearMonth', date);
+    console.log(
+      'handleChangeYearMonth',
+      date,
+      date.get('year'),
+      date.get('month'),
+    );
+    setYearMonth(date);
+    changeCalendarDates(date);
   };
+
+  const changeCalendarDates = (date: dayjs.Dayjs) => {
+    console.log('changeCalendarDates');
+    const calendarDates: string[] = [];
+
+    const firstDayOfWeek = date.startOf('month').get('day');
+    console.log('firstDayOfWeek', firstDayOfWeek);
+
+    [...Array(firstDayOfWeek)].forEach((_) => {
+      calendarDates.push('');
+    });
+
+    [...Array(date.daysInMonth())].forEach((_, index) => {
+      calendarDates.push(`${index + 1}`);
+    });
+
+    const leftDays = 7 - (calendarDates.length % 7);
+
+    [...Array(leftDays)].forEach((_) => {
+      calendarDates.push('');
+    });
+
+    const divideDates = (dates: string[]): string[][] => {
+      const dividedDates = [];
+      for (let i = 0; i < dates.length; i += 7) {
+        dividedDates.push(dates.slice(i, i + 7));
+      }
+      return dividedDates;
+    };
+
+    console.log('changeCalendarDates', divideDates(calendarDates));
+    setCalendarDates(divideDates(calendarDates));
+  };
+
+  const handleClickDate = (dateString: string) => {
+    const selectedDate = dayjs(
+      `${yearMonth.get('year')}-${yearMonth.get('month')}-${dateString}`,
+    );
+    setSelectedDate(selectedDate);
+    onClickDate && onClickDate(selectedDate);
+  };
+
+  useEffect(() => {
+    changeCalendarDates(selectedDate);
+  }, [selectedDate]);
 
   return (
     <Container {...props}>
-      <Picker onChangeYearMonth={handleChangeYearMonth} />
+      <Picker
+        initialYearMonth={selectedDate}
+        onChangeYearMonth={handleChangeYearMonth}
+      />
       <Table>
         <TableHeader>
           <TableRow>
-            {['일', '월', '화', '수', '목', '금', '토'].map((day, index) => (
+            {DAY_OF_WEEK.map((day, index) => (
               <TableHead key={index}>{day}</TableHead>
             ))}
           </TableRow>
         </TableHeader>
         <TableBody>
-          <TableRow>
-            <TableData>
-              <DateText>1</DateText>
-            </TableData>
-            <TableData>
-              <DateText>2</DateText>
-            </TableData>
-            <TableData>
-              <DateText>3</DateText>
-            </TableData>
-            <TableData>
-              <DateText>4</DateText>
-            </TableData>
-            <TableData>
-              <DateText>5</DateText>
-            </TableData>
-            <TableData>
-              <DateText>6</DateText>
-            </TableData>
-            <TableData>
-              <DateText>7</DateText>
-            </TableData>
-          </TableRow>
+          {calendarDates.map((dates, line) => {
+            return (
+              <tr key={line}>
+                {dates.map((date, index) => {
+                  return (
+                    <CalendarDate
+                      key={date === '' ? `${line}-${index}` : date}
+                      onClickDate={handleClickDate}
+                    >
+                      {date}
+                    </CalendarDate>
+                  );
+                })}
+              </tr>
+            );
+          })}
         </TableBody>
       </Table>
     </Container>
@@ -89,23 +140,8 @@ const TableHead = styled.th`
   font-weight: bold;
 `;
 
-const TableData = styled.td`
-  height: 2rem;
-  font-size: ${FontSize.medium};
-  vertical-align: middle;
-`;
-
-const DateText = styled.p`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
-  width: 2rem;
-  height: 2rem;
-`;
-
 const Picker = styled(YearMonthPicker)`
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 `;
 
 export default Calendar;

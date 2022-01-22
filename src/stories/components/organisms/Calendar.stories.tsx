@@ -8,12 +8,12 @@ export default {
 };
 
 export const Default = (): JSX.Element => {
-  const handleChange = (value: any) => {
+  const handleClickDate = (value: any) => {
     console.log(value);
   };
   return (
     <Container>
-      <StyledCalendar />
+      <StyledCalendar onClickDate={handleClickDate} />
     </Container>
   );
 };
