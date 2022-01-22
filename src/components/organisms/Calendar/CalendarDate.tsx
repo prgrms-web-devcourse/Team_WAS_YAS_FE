@@ -4,7 +4,7 @@ import { FontSize, Colors } from '@/styles';
 import dayjs from 'dayjs';
 
 export interface CalendarDateProps extends React.ComponentProps<'td'> {
-  date: dayjs.Dayjs | null;
+  date: dayjs.Dayjs | undefined;
   disabled?: boolean;
   selected?: boolean;
   marked?: boolean;
@@ -29,11 +29,13 @@ const CalendarDate = ({
       <DateText disabled={disabled} selected={selected} onClick={handleClick}>
         {date?.get('date')}
       </DateText>
+      {marked && <Dot />}
     </TableData>
   );
 };
 
 const TableData = styled.td`
+  position: relative;
   height: 2rem;
   font-size: ${FontSize.medium};
   vertical-align: middle;
@@ -48,9 +50,9 @@ const DateText = styled.p<
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: auto;
-  width: 3rem;
-  height: 3rem;
+  margin: 0.5rem auto;
+  width: 3.2rem;
+  height: 3.2rem;
   cursor: ${({ disabled }) => (disabled ? null : 'pointer')};
   border-radius: 50%;
   color: ${({ selected, disabled }) => {
@@ -66,6 +68,18 @@ const DateText = styled.p<
         disabled ? null : Colors.pointLight};
     }
   }
+`;
+
+const Dot = styled.div`
+  position: absolute;
+  margin: 0 auto;
+  background-color: orange;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  bottom: 0.5rem;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 export default CalendarDate;

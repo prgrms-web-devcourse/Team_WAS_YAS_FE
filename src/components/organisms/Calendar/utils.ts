@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 
 const divideDates = (
-  dates: (dayjs.Dayjs | null)[],
-): (dayjs.Dayjs | null)[][] => {
+  dates: (dayjs.Dayjs | undefined)[],
+): (dayjs.Dayjs | undefined)[][] => {
   const dividedDates = [];
 
   for (let i = 0; i < dates.length; i += 7) {
@@ -15,13 +15,13 @@ const divideDates = (
 export const generateCalendarDates = (
   year: number,
   month: number,
-): (dayjs.Dayjs | null)[][] => {
+): (dayjs.Dayjs | undefined)[][] => {
   const date = dayjs().set('year', year).set('month', month);
-  const calendarDates: (dayjs.Dayjs | null)[] = [];
+  const calendarDates: (dayjs.Dayjs | undefined)[] = [];
   const firstDayOfWeek = date.startOf('month').get('day');
 
   [...Array(firstDayOfWeek)].forEach((_) => {
-    calendarDates.push(null);
+    calendarDates.push(undefined);
   });
 
   [...Array(date.daysInMonth())].forEach((_, index) => {
@@ -35,7 +35,7 @@ export const generateCalendarDates = (
   const leftDays = 7 - (calendarDates.length % 7);
 
   [...Array(leftDays)].forEach((_) => {
-    calendarDates.push(null);
+    calendarDates.push(undefined);
   });
 
   return divideDates(calendarDates);

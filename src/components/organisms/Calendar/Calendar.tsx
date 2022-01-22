@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 
 import styled from '@emotion/styled';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import YearMonthPicker from './YearMonthPicker';
 import { FontSize } from '@/styles';
 import CalendarDate from './CalendarDate';
@@ -13,18 +13,22 @@ dayjs.extend(isBetween);
 
 export interface CalendarProps extends React.ComponentProps<'div'> {
   onClickDate?: (date: dayjs.Dayjs) => void;
-  markedDates?: [];
+  markedDates?: dayjs.Dayjs[];
 }
 
 const Calendar = ({
   onClickDate,
-  markedDates,
+  markedDates: rawMarkedDates = [],
   ...props
 }: CalendarProps): JSX.Element => {
-  const [calendarDates, setCalendarDates] = useState<(dayjs.Dayjs | null)[][]>(
-    [],
-  );
+  const [calendarDates, setCalendarDates] = useState<
+    (dayjs.Dayjs | undefined)[][]
+  >([]);
   const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs>(dayjs());
+  const markedDates: string[] = useMemo(() => {
+    return rawMarkedDates.map((date) => date.format('YYYY-MM-DD'));
+  }, [rawMarkedDates]);
+  console.log(markedDates);
 
   const handleChangeYearMonth = (yearMonth: dayjs.Dayjs) => {
     const newCalendarDates = generateCalendarDates(
@@ -74,19 +78,15 @@ const Calendar = ({
                       key={date ? date.get('date') : `${line}-${index}`}
                       date={date}
                       disabled={
-                        date
-                          ? !date.isBetween(
-                              dayjs(MIN_DATE),
-                              dayjs(),
-                              'day',
-                              '[]',
-                            )
-                          : true
+                        date &&
+                        !date.isBetween(dayjs(MIN_DATE), dayjs(), 'day', '[]')
                       }
-                      selected={
-                        date && date.isSame(selectedDate, 'day') ? true : false
+                      selected={date && date.isSame(selectedDate, 'day')}
+                      marked={
+                        markedDates &&
+                        date &&
+                        markedDates.includes(date.format('YYYY-MM-DD'))
                       }
-                      // marked={markedDates && markedDates.includes(date)}
                       onClickDate={handleClickDate}
                     />
                   );

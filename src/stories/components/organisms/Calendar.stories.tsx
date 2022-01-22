@@ -8,13 +8,21 @@ export default {
   component: Calendar,
 };
 
+const markedDates = [
+  dayjs('2022-01-01'),
+  dayjs('2022-01-04'),
+  dayjs('2022-01-05'),
+  dayjs('2022-01-12'),
+  dayjs('2022-01-15'),
+];
+
 export const Default = (): JSX.Element => {
   const handleClickDate = (date: dayjs.Dayjs) => {
     console.log(date);
   };
   return (
     <Container>
-      <StyledCalendar onClickDate={handleClickDate} />
+      <StyledCalendar markedDates={markedDates} onClickDate={handleClickDate} />
     </Container>
   );
 };
