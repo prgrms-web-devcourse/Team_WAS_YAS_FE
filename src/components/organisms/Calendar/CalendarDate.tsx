@@ -1,29 +1,29 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { FontSize, Colors } from '@/styles';
-// import dayjs from 'dayjs';
+import dayjs from 'dayjs';
 
 export interface CalendarDateProps extends React.ComponentProps<'td'> {
-  onClickDate?: (selectedDate: string) => void;
+  date: dayjs.Dayjs | undefined | null;
+  selected?: boolean;
+  onClickDate?: (date: dayjs.Dayjs) => void;
 }
 
 const CalendarDate = ({
-  children,
+  date,
+  selected = false,
   onClickDate,
   ...props
 }: CalendarDateProps): JSX.Element => {
   const handleClick = () => {
-    console.log();
-    const date = children?.toString();
-    console.log(typeof date);
     if (!date) return;
     onClickDate && onClickDate(date);
   };
 
   return (
     <TableData {...props}>
-      <DateText disabled={!children} onClick={handleClick}>
-        {children}
+      <DateText disabled={!date} selected={selected} onClick={handleClick}>
+        {date?.get('date')}
       </DateText>
     </TableData>
   );
@@ -38,6 +38,7 @@ const TableData = styled.td`
 const DateText = styled.p<
   React.ComponentProps<'p'> & {
     disabled?: boolean;
+    selected?: boolean;
   }
 >`
   display: flex;
@@ -48,7 +49,10 @@ const DateText = styled.p<
   height: 3rem;
   cursor: ${({ disabled }) => (disabled ? null : 'pointer')};
   border-radius: 50%;
-  color: ${Colors.textPrimary};
+  color: ${({ selected }) =>
+    selected ? Colors.textQuaternary : Colors.textPrimary};
+  background-color: ${({ selected }) =>
+    selected ? Colors.point : 'transparent'};
 
   @media (hover: hover) {
     :hover {

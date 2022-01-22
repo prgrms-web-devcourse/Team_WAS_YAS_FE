@@ -1,6 +1,7 @@
 import { Calendar } from '@/components';
 // import { UserType, CommentType } from '@/Models';
 import styled from '@emotion/styled';
+import dayjs from 'dayjs';
 
 export default {
   title: 'Components/Organisms/Calendar',
@@ -8,8 +9,8 @@ export default {
 };
 
 export const Default = (): JSX.Element => {
-  const handleClickDate = (value: any) => {
-    console.log(value);
+  const handleClickDate = (date: dayjs.Dayjs) => {
+    console.log(date);
   };
   return (
     <Container>
