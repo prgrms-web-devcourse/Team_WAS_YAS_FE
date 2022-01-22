@@ -2,7 +2,6 @@ import React from 'react';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import styled from '@emotion/styled';
-// import { DatePicker, type DatePickerProps } from '@mui/lab';
 import { DatePicker } from '@mui/lab';
 import DateAdapter from '@mui/lab/AdapterDayjs';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
@@ -13,10 +12,9 @@ import {
 import { IconButton, TextField } from '@mui/material';
 import { MIN_DATE } from './constants';
 
-// export type YearMonthPickerProps = DatePickerProps;
 dayjs.extend(isBetween);
 export interface YearMonthPickerProps extends React.ComponentProps<'div'> {
-  onChangeYearMonth?: (date: Date) => void;
+  onChangeYearMonth?: (date: dayjs.Dayjs) => void;
 }
 
 const YearMonthPicker = ({
@@ -26,6 +24,7 @@ const YearMonthPicker = ({
   const [date, setDate] = React.useState<dayjs.Dayjs>(dayjs());
 
   const handleChange = (date: any) => {
+    // TODO: DatePicker의 date타입을 제네릭을 이용하여 dayjs.Dayjs으로 변경하기
     setDate(date);
     onChangeYearMonth && onChangeYearMonth(date);
   };
@@ -52,8 +51,6 @@ const YearMonthPicker = ({
       <LocalizationProvider dateAdapter={DateAdapter}>
         <Picker
           views={['year', 'month']}
-          // label="Year and Month"
-          // readOnly
           inputFormat="YYYY년 MM월"
           minDate={dayjs(MIN_DATE)}
           maxDate={dayjs()}
@@ -96,7 +93,6 @@ const Picker = styled(DatePicker)`
 `;
 
 const YearMonthTextField = styled(TextField)`
-  /* display: inline; */
   width: 124px;
 `;
 
