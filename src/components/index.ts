@@ -70,6 +70,7 @@ export type { CommentProps } from './organisms/Comment';
 export { RoutineProgressModal } from './organisms/RoutineProgressModal';
 export { RoutineProgress } from './organisms/RoutineProgressModal';
 export { RoutinePost } from './organisms/RoutinePost';
+export { Calendar } from './organisms/Calendar';
 
 //! Template Component
 export { Container } from './templates/Container';
