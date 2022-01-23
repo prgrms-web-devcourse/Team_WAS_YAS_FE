@@ -69,10 +69,11 @@ const PasswordEditPage = (): JSX.Element => {
         }).then(() => {
           history.replace('/');
         });
-      } catch (error) {
+      } catch (error: any) {
+        const message = error.data.message || '비밀번호를 확인해주세요.';
         Swal.fire({
           icon: 'error',
-          text: '비밀번호를 확인해주세요.',
+          text: message,
           confirmButtonColor: Colors.point,
         });
       }
