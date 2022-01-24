@@ -15,6 +15,7 @@ import {
   SignInPage,
   SignUpPage,
   UserEditPage,
+  PasswordEditPage,
   UserPage,
   SocialSignInPage,
   AnalysisPage,
@@ -75,6 +76,11 @@ const Router = (): JSX.Element => {
 
       <PrivateRoute path="/mypage" exact component={UserPage} />
       <PrivateRoute path="/mypage/edit" exact component={UserEditPage} />
+      <PrivateRoute
+        path="/mypage/edit/password"
+        exact
+        component={PasswordEditPage}
+      />
       <PublicRoute
         restricted
         path="/mypage/signin"
