@@ -2,7 +2,7 @@ import { Button, Modal, Text } from '@/components';
 import EmotionPicker from './EmotionPicker';
 import { Colors, FontSize, Media } from '@/styles';
 import styled from '@emotion/styled';
-import React, { ChangeEvent, FormEvent, useCallback, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import Swal from 'sweetalert2';
 import ImageUploader from './ImageUploader';
 

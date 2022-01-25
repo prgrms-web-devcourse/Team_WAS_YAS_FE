@@ -186,20 +186,3 @@ const DeleteButton = styled.button`
     }
   }
 `;
-
-const Span = styled.span`
-  margin-top: 1rem;
-  width: 100%;
-  padding: 0.5rem;
-  color: ${Colors.functionNegative};
-  text-align: left;
-  @media ${Media.sm} {
-    font-size: ${FontSize.small};
-  }
-  @media ${Media.md} {
-    font-size: ${FontSize.medium};
-  }
-  @media ${Media.lg} {
-    font-size: ${FontSize.medium};
-  }
-`;
