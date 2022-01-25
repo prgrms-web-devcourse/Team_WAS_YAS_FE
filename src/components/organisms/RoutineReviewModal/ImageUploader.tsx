@@ -29,6 +29,7 @@ const ImageUploader = ({
           setUrlList((urlList) => [...urlList, newUrl]);
         };
       });
+      e.target.value = '';
     }
   };
 
