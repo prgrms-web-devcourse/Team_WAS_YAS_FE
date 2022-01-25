@@ -98,6 +98,10 @@ const RoutineFinishPage = (): JSX.Element => {
     }
   };
 
+  const handleReviewSubmit = () => {
+    // console.log('API 연동하기');
+  };
+
   useEffect(() => {
     getFinishedRoutineDetail();
     getRoutineInfo();
@@ -119,7 +123,11 @@ const RoutineFinishPage = (): JSX.Element => {
         </Button>
         <Button onClick={() => setVisible(true)}>후기 작성하기</Button>
       </ButtonContainer>
-      <RoutineReviewModal visible={visible} onClose={() => setVisible(false)} />
+      <RoutineReviewModal
+        visible={visible}
+        onClose={() => setVisible(false)}
+        onSubmit={handleReviewSubmit}
+      />
     </Container>
   );
 };
