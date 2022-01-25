@@ -2,35 +2,75 @@ import { Button, Modal, Text } from '@/components';
 import EmotionPicker from './EmotionPicker';
 import { Colors, FontSize, Media } from '@/styles';
 import styled from '@emotion/styled';
-import React, { ChangeEvent, FormEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useCallback, useState } from 'react';
 import Swal from 'sweetalert2';
 import ImageUploader from './ImageUploader';
 
 export interface ReviewProps {
   visible: boolean;
   onClose?: () => void;
+  onSubmit: (review: {
+    emotion: string;
+    text: string;
+    urlList: { id: string; url: string }[];
+  }) => void;
 }
 
-const RoutineReviewModal = ({ visible, onClose }: ReviewProps): JSX.Element => {
-  const [review, setReview] = useState<{ emotion: string; text: string }>({
+const RoutineReviewModal = ({
+  visible,
+  onClose,
+  onSubmit,
+}: ReviewProps): JSX.Element => {
+  const [review, setReview] = useState<{
+    emotion: string;
+    text: string;
+    urlList: { id: string; url: string }[];
+  }>({
     emotion: '1',
     text: '',
+    urlList: [],
   });
 
   const handleEmotionChange = (emotion: string) => {
-    setReview({ ...review, emotion });
+    setReview((review) => ({ ...review, emotion }));
   };
 
   const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setReview({ ...review, text: e.target.value });
+    setReview((review) => ({ ...review, text: e.target.value }));
+  };
+
+  const handleImageChange = (newUrl: { id: string; url: string }) => {
+    setReview((review) => ({
+      ...review,
+      urlList: [...review.urlList, newUrl],
+    }));
+  };
+
+  const handleImageDelete = (id: string) => {
+    const newUrlList = review.urlList.filter((url) => url.id !== id);
+    setReview((review) => ({ ...review, urlList: [...newUrlList] }));
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (review.text) {
+    if (!review.text) {
+      Swal.fire({
+        icon: 'error',
+        text: '루틴 후기를 작성해주세요',
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    } else if (review.urlList.length > 5) {
+      Swal.fire({
+        icon: 'error',
+        text: '사진은 최대 5장까지 업로드가 가능합니다',
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    } else {
       Swal.fire({
         icon: 'success',
-        text: '후기 등록이 완료되었습니다!🎉',
+        text: '루틴 후기 등록에 성공했습니다!🎉',
       });
     }
   };
@@ -40,7 +80,10 @@ const RoutineReviewModal = ({ visible, onClose }: ReviewProps): JSX.Element => {
       <Title>오늘의 루틴은 어떠셨나요?</Title>
       <Form onSubmit={handleSubmit}>
         <EmotionPicker onChange={handleEmotionChange} />
-        <ImageUploader />
+        <ImageUploader
+          onChange={handleImageChange}
+          onImageDelete={handleImageDelete}
+        />
         <TextArea
           name="text"
           placeholder="루틴 후기를 입력해주세요."
