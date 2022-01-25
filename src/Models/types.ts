@@ -55,6 +55,13 @@ export interface MissionCompletionType {
   userDurationTime: number;
 }
 
+export interface RoutineReviewType {
+  routineStatusId: number;
+  emoji: number;
+  content: string;
+  deletedImages: number[];
+}
+
 export interface RoutinePostType {
   postId: number;
   title: string;
