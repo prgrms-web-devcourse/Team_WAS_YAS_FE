@@ -110,14 +110,15 @@ const RoutineReviewContainer = styled.div<{ posted: boolean }>`
   ${({ posted }) =>
     posted
       ? `
-    flex-direction: 'row';
+    flex-direction: row;
     justify-content: initial;
     align-items: initial;
     `
       : `
-    flex-direction: 'column';
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 2.5rem;
   `}
   padding: 1.75rem;
   overflow: hidden;
