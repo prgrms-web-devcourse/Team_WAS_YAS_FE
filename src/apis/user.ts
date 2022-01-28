@@ -17,6 +17,10 @@ interface UserApiType {
   getUser: () => Promise<AxiosResponse>;
   updateUser: (formData: FormData) => Promise<AxiosResponse>;
   validateEmail: (email: string) => Promise<AxiosResponse>;
+  updatePassword: (
+    currentPassword: string,
+    newPassword: string,
+  ) => Promise<AxiosResponse>;
 }
 
 const userApi: UserApiType = {
@@ -29,6 +33,13 @@ const userApi: UserApiType = {
   },
   validateEmail: (email) => {
     return request.get('/users/email', { params: { value: email } });
+  },
+  updatePassword: (currentPassword: string, newPassword: string) => {
+    return authRequest.put('/users/password', {
+      newPassword: newPassword,
+      newPasswordCheck: newPassword,
+      nowPassword: currentPassword,
+    });
   },
 };
 

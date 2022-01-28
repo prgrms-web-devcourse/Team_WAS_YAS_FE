@@ -141,10 +141,10 @@ const UserEditPage = (): JSX.Element => {
         colorType="white"
         type="button"
         onClick={() => {
-          history.goBack();
+          history.push('/mypage/edit/password');
         }}
       >
-        취소하기
+        비밀번호 수정하기
       </Button>
       {isSubmitting && <Spinner />}
     </StyledContainer>

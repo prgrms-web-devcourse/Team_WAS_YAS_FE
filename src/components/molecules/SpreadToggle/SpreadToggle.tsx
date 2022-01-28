@@ -59,7 +59,7 @@ const SpreadButton = styled.button`
     }
   }
 
-  &: active {
+  :active {
     color: ${Colors.pointLight};
   }
 `;
