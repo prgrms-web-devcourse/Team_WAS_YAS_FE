@@ -1,33 +1,123 @@
-import { Button } from '@/components';
+import { Button, SpreadToggle } from '@/components';
+import { EMOTION, EMOTIONTEXT } from '@/constants';
 import { good } from '@/images';
-import { Colors, FontSize } from '@/styles';
+import { Colors, FontSize, FontWeight } from '@/styles';
 import styled from '@emotion/styled';
-import { HTMLAttributes } from 'react';
+import { Fragment, HTMLAttributes, useEffect, useRef, useState } from 'react';
+
+type ReviewDataType = {
+  routineStatusId: number;
+  dateTime: string;
+  emoji: string;
+  content: string;
+  routineStatusImage: {
+    routineStatusImageId: number;
+    imageUrl: string;
+  }[];
+  routineDetailResponse: {
+    name: string;
+    emoji: string;
+    color: string;
+    startGoalTime: string;
+    durationGoalTime: number;
+    routineCategory: string[];
+    weeks: string[];
+    missionDetailResponses: {
+      missionId: number;
+      name: string;
+      durationGoalTime: number;
+      orders: number;
+      emoji: string;
+      color: string;
+    }[];
+    posted: boolean;
+  };
+};
+
+export type RoutineReviewProps = {
+  reviewData: ReviewDataType;
+} & HTMLAttributes<HTMLDivElement>;
 
 const RoutineReview = ({
+  reviewData,
   ...props
-}: HTMLAttributes<HTMLDivElement>): JSX.Element => {
+}: RoutineReviewProps): JSX.Element => {
+  const [opened, setOpened] = useState<boolean>(false);
+  const [paragraphHeight, setParagraphHeight] = useState<number>(0);
+  const ref = useRef<HTMLParagraphElement>(null);
+  const { emoji, content, routineStatusImage, routineDetailResponse } =
+    reviewData;
+  const { posted } = routineDetailResponse;
+
+  const handleClickSpreadToggle = () => {
+    setOpened((opened) => !opened);
+  };
+
+  useEffect(() => {
+    if (ref.current) {
+      setParagraphHeight(ref.current.scrollHeight);
+    }
+  }, []);
+
   return (
-    <RoutineReviewContainer {...props}>
-      <ReviewText>후기가 없습니다. 지금 후기를 작성해볼까요?</ReviewText>
-      <ReviewEmoji src={good} alt="good" />
-      <StyledButton>후기 작성하기</StyledButton>
+    <RoutineReviewContainer posted={posted} {...props}>
+      {posted ? (
+        <Fragment>
+          <ReviewEmotionContainer>
+            <ReviewEmotion src={EMOTION[emoji]} alt={EMOTIONTEXT[emoji]} />
+            <ReviewEmotionText>{EMOTIONTEXT[emoji]}</ReviewEmotionText>
+          </ReviewEmotionContainer>
+          <ReviewContentContainer>
+            <ReviewImageContainer>
+              {routineStatusImage.map(({ imageUrl }, i) => (
+                <img
+                  key={`reviewImage-${i}`}
+                  src={imageUrl}
+                  alt="리뷰 이미지"
+                />
+              ))}
+            </ReviewImageContainer>
+            <ReviewContent ref={ref} opened={opened} height={paragraphHeight}>
+              {content}
+            </ReviewContent>
+            {paragraphHeight < 40 ? null : (
+              <StyledSpreadToggle onClick={handleClickSpreadToggle} />
+            )}
+          </ReviewContentContainer>
+        </Fragment>
+      ) : (
+        <Fragment>
+          <ReviewText>후기가 없습니다. 지금 후기를 작성해볼까요?</ReviewText>
+          <ReviewEmotion src={good} alt="good" />
+          <StyledButton>후기 작성하기</StyledButton>
+        </Fragment>
+      )}
     </RoutineReviewContainer>
   );
 };
 
 export default RoutineReview;
 
-const RoutineReviewContainer = styled.div`
-  height: 20rem;
+const RoutineReviewContainer = styled.div<{ posted: boolean }>`
   background-color: ${Colors.backgroundModal};
   border-radius: 1rem;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
   display: flex;
-  flex-flow: column;
-  justify-content: center;
-  align-items: center;
-  gap: 3rem;
+  ${({ posted }) =>
+    posted
+      ? `
+    flex-direction: 'row';
+    justify-content: initial;
+    align-items: initial;
+    `
+      : `
+    flex-direction: 'column';
+    justify-content: center;
+    align-items: center;
+  `}
+  padding: 1.75rem;
+  overflow: hidden;
+  height: 100%;
 `;
 
 const ReviewText = styled.p`
@@ -35,11 +125,71 @@ const ReviewText = styled.p`
   color: ${Colors.textTertiary};
 `;
 
-const ReviewEmoji = styled.img`
+const ReviewEmotion = styled.img`
   width: 73px;
   height: 73px;
 `;
 
 const StyledButton = styled(Button)`
   width: 16.875rem;
+`;
+
+const ReviewEmotionContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 1.125rem;
+  padding-right: 1.5rem;
+  border-right: 1px solid ${Colors.backgroundMenu};
+`;
+
+const ReviewEmotionText = styled.span`
+  font-size: ${FontSize.micro};
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  background-color: ${Colors.backgroundMenu};
+  box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
+`;
+
+const ReviewContentContainer = styled.div`
+  display: inline-flex;
+  flex-direction: column;
+  margin-left: 1.5rem;
+  flex-grow: 1;
+  overflow-x: auto;
+`;
+
+const ReviewImageContainer = styled.div`
+  display: flex;
+  flex-grow: 1;
+  flex-shrink: 0;
+  gap: 1.125rem;
+  height: 12.5rem;
+  margin-bottom: 2rem;
+  overflow-x: auto;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  img {
+    height: 12.5rem;
+    border-radius: 1rem;
+  }
+`;
+
+const ReviewContent = styled.p<{ opened: boolean; height: number }>`
+  font-size: ${FontSize.medium};
+  color: ${Colors.textPrimary};
+  font-weight: ${FontWeight.medium};
+  white-space: break-spaces;
+  line-height: 1.625rem;
+  overflow: hidden;
+  height: ${({ opened, height }) => (opened ? `${height}` : '2rem')};
+`;
+
+const StyledSpreadToggle = styled(SpreadToggle)`
+  display: flex;
+  justify-content: center;
 `;
