@@ -53,7 +53,13 @@ const DUMMY_DATA = {
 export const Default = ({ ...args }): JSX.Element => {
   return (
     <>
-      <RoutineReview reviewData={DUMMY_DATA} {...args} />
+      <RoutineReview
+        reviewData={DUMMY_DATA}
+        {...args}
+        onClickWriteReview={() => {
+          return;
+        }}
+      />
     </>
   );
 };

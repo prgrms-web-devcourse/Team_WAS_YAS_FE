@@ -36,10 +36,12 @@ type ReviewDataType = {
 
 export type RoutineReviewProps = {
   reviewData: ReviewDataType;
+  onClickWriteReview: () => void;
 } & HTMLAttributes<HTMLDivElement>;
 
 const RoutineReview = ({
   reviewData,
+  onClickWriteReview,
   ...props
 }: RoutineReviewProps): JSX.Element => {
   const [opened, setOpened] = useState<boolean>(false);
@@ -89,7 +91,9 @@ const RoutineReview = ({
         <Fragment>
           <ReviewText>후기가 없습니다. 지금 후기를 작성해볼까요?</ReviewText>
           <ReviewEmotion src={good} alt="good" />
-          <StyledButton>후기 작성하기</StyledButton>
+          <StyledButton onClick={onClickWriteReview}>
+            후기 작성하기
+          </StyledButton>
         </Fragment>
       )}
     </RoutineReviewContainer>
