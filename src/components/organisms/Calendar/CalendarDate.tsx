@@ -68,17 +68,18 @@ const DateText = styled.p<
     return selected ? Colors.textQuaternary : Colors.textPrimary;
   }};
   background-color: ${({ highlight, selected }) => {
-    if (selected) return '#FFCD53';
+    if (selected) return Colors.datePoint;
     if (!highlight) return 'transparent';
     if (highlight <= 0) return 'transparent';
-    if (highlight >= 4) return '#879BF8';
-    if (highlight >= 2) return '#B1BEFC';
-    if (highlight >= 1) return '#E8ECFF';
+    if (highlight >= 4) return Colors.dateHighLightTertiary;
+    if (highlight >= 2) return Colors.dateHighLightSecondary;
+    if (highlight >= 1) return Colors.dateHighLightPrimary;
   }};
 
   @media (hover: hover) {
     :hover {
-      background-color: ${({ disabled }) => (disabled ? null : '#FFE6A9')};
+      background-color: ${({ disabled }) =>
+        disabled ? null : Colors.datePointLight};
     }
   }
 `;
@@ -86,7 +87,7 @@ const DateText = styled.p<
 const Dot = styled.div`
   position: absolute;
   margin: 0 auto;
-  background-color: #fe7e6d;
+  background-color: ${Colors.dateDotColor};
   width: 8px;
   height: 8px;
   border-radius: 50%;

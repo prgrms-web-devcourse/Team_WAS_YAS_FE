@@ -30,4 +30,11 @@ export const Colors = Object.freeze({
   functionConfirm: '#39DBB2',
   functionPositive: '#395DDB',
   functionNegative: '#E93550',
+
+  dateHighLightPrimary: '#E8ECFF',
+  dateHighLightSecondary: '#B1BEFC',
+  dateHighLightTertiary: '#879BF8',
+  datePoint: '#FFCD53',
+  datePointLight: '#FFE6A9',
+  dateDotColor: '#FF9A2F',
 });
