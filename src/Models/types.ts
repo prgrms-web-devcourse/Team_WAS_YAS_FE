@@ -57,9 +57,14 @@ export interface MissionCompletionType {
 
 export interface RoutineReviewType {
   routineStatusId: number;
-  emoji: number;
+  emotion: number;
   content: string;
   deletedImages: number[];
+  routineStatusImage: {
+    routineStatusImageId: number | string;
+    imageUrl: string;
+  }[];
+  reviewImages: { routineStatusImageId: string; file: File }[];
 }
 
 export interface RoutinePostType {
