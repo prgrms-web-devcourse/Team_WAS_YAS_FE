@@ -21,7 +21,7 @@ const RoutineFinishPage = (): JSX.Element => {
   const [todayMissionStatus, setTodayMissionStatus] = useState<any>([]);
   const [routineInfo, setRoutineInfo] = useState<any>([]);
   const [visible, setVisible] = useState<boolean>(false);
-  const [reviewInfo, setReviewInfo] = useState<RoutineReviewType>({
+  const reviewInfo: RoutineReviewType = {
     routineStatusId: Number(routineId),
     emotion: 2,
     content: '안녕하세요',
@@ -34,7 +34,7 @@ const RoutineFinishPage = (): JSX.Element => {
     ],
     deletedImages: [],
     reviewImages: [],
-  });
+  };
 
   const getFinishedRoutineDetail = async () => {
     if (!routineId) return;
