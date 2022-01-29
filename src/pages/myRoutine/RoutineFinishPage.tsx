@@ -7,7 +7,6 @@ import { missionStatusApi, routineApi } from '@/apis';
 import Swal from 'sweetalert2';
 import { RoutineReviewModal } from '@/components/organisms/RoutineReviewModal';
 import { RoutineReviewType } from '@/Models';
-import { ReviewProps } from '@/components/organisms/RoutineReviewModal/RoutineReviewModal';
 
 interface RoutineInfoType {
   emoji: string;
