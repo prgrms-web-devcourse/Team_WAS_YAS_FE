@@ -28,9 +28,6 @@ const Calendar = ({
     (dayjs.Dayjs | undefined)[][]
   >([]);
   const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs>(dayjs());
-  // const markedDates: string[] = useMemo(() => {
-  //   return rawMarkedDates.map((date) => date.format('YYYY-MM-DD'));
-  // }, [rawMarkedDates]);
 
   const handleChangeYearMonth = (yearMonth: dayjs.Dayjs) => {
     const newCalendarDates = generateCalendarDates(
