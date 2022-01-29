@@ -10,18 +10,18 @@ import { generateCalendarDates } from './utils';
 
 dayjs.extend(isBetween);
 
-type MarkedDatesType = {
+type highlightDatesType = {
   [key: string]: number;
 };
 
 export interface CalendarProps extends React.ComponentProps<'div'> {
   onClickDate?: (date: dayjs.Dayjs) => void;
-  markedDates?: MarkedDatesType;
+  highlightDates?: highlightDatesType;
 }
 
 const Calendar = ({
   onClickDate,
-  markedDates,
+  highlightDates,
   ...props
 }: CalendarProps): JSX.Element => {
   const [calendarDates, setCalendarDates] = useState<
@@ -96,8 +96,8 @@ const Calendar = ({
                       //   markedDates.includes(date.format('YYYY-MM-DD'))
                       // }
                       highlight={
-                        markedDates && date
-                          ? markedDates[date.format('YYYY-MM-DD')]
+                        highlightDates && date
+                          ? highlightDates[date.format('YYYY-MM-DD')]
                           : undefined
                       }
                       onClickDate={handleClickDate}
