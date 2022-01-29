@@ -10,7 +10,7 @@ import { EditBox } from '../ToolBox';
 type ReviewDataType = {
   routineStatusId: number;
   dateTime: string;
-  emoji: string;
+  emotion: string;
   content: string;
   routineStatusImage: {
     routineStatusImageId: number;
@@ -54,7 +54,7 @@ const RoutineReview = ({
   const [paragraphHeight, setParagraphHeight] = useState<number>(0);
   const [visible, setVisible] = useState<boolean>(false);
   const ref = useRef<HTMLParagraphElement>(null);
-  const { emoji, content, routineStatusImage, routineDetailResponse } =
+  const { emotion, content, routineStatusImage, routineDetailResponse } =
     reviewData;
   const { posted } = routineDetailResponse;
 
@@ -87,40 +87,84 @@ const RoutineReview = ({
   return (
     <RoutineReviewContainer posted={posted} {...props}>
       {posted ? (
-        <Fragment>
-          <ReviewEmotionContainer>
-            <ReviewEmotion src={EMOTION[emoji]} alt={EMOTIONTEXT[emoji]} />
-            <ReviewEmotionText>{EMOTIONTEXT[emoji]}</ReviewEmotionText>
-          </ReviewEmotionContainer>
-          <ReviewContentContainer>
-            <ReviewImageContainer>
-              {routineStatusImage.map(({ imageUrl }, i) => (
-                <img
-                  key={`reviewImage-${i}`}
-                  src={imageUrl}
-                  alt="리뷰 이미지"
-                />
-              ))}
-            </ReviewImageContainer>
-            <ReviewContent ref={ref} opened={opened} height={paragraphHeight}>
-              {content}
-            </ReviewContent>
-            {paragraphHeight < 40 ? null : (
-              <StyledSpreadToggle onClick={handleClickSpreadToggle} />
-            )}
-          </ReviewContentContainer>
-          <ToolBoxContainer onClick={() => setVisible(true)}>
-            <ToolBoxButtonIcon />
-            <EditBox
-              style={{ transform: 'translate(-110px, -48px)', width: 110 }}
-              visible={visible}
-              onClick={onClickToolBox}
-              onClose={handleCloseToolBox}
-              onClickUpdateButton={handleClickUpdateButton}
-              onClickDeleteButton={handleClickDeleteButton}
-            />
-          </ToolBoxContainer>
-        </Fragment>
+        !routineStatusImage.length ? (
+          <Fragment>
+            <ReviewEmotionContainer>
+              <ReviewEmotion
+                src={EMOTION[emotion]}
+                alt={EMOTIONTEXT[emotion]}
+              />
+              <ReviewEmotionText>{EMOTIONTEXT[emotion]}</ReviewEmotionText>
+            </ReviewEmotionContainer>
+            <ReviewContentContainer>
+              <ReviewContent
+                ref={ref}
+                opened={opened}
+                height={paragraphHeight}
+                withPhoto={false}
+              >
+                {content}
+              </ReviewContent>
+              {paragraphHeight < 70 ? null : (
+                <StyledSpreadToggle onClick={handleClickSpreadToggle} />
+              )}
+            </ReviewContentContainer>
+            <ToolBoxContainer onClick={() => setVisible(true)}>
+              <ToolBoxButtonIcon />
+              <EditBox
+                style={{ transform: 'translate(-110px, -48px)', width: 110 }}
+                visible={visible}
+                onClick={onClickToolBox}
+                onClose={handleCloseToolBox}
+                onClickUpdateButton={handleClickUpdateButton}
+                onClickDeleteButton={handleClickDeleteButton}
+              />
+            </ToolBoxContainer>
+          </Fragment>
+        ) : (
+          <Fragment>
+            <ReviewEmotionContainer>
+              <ReviewEmotion
+                src={EMOTION[emotion]}
+                alt={EMOTIONTEXT[emotion]}
+              />
+              <ReviewEmotionText>{EMOTIONTEXT[emotion]}</ReviewEmotionText>
+            </ReviewEmotionContainer>
+            <ReviewContentContainer>
+              <ReviewImageContainer>
+                {routineStatusImage.map(({ imageUrl }, i) => (
+                  <img
+                    key={`reviewImage-${i}`}
+                    src={imageUrl}
+                    alt="리뷰 이미지"
+                  />
+                ))}
+              </ReviewImageContainer>
+              <ReviewContent
+                ref={ref}
+                opened={opened}
+                height={paragraphHeight}
+                withPhoto={true}
+              >
+                {content}
+              </ReviewContent>
+              {paragraphHeight < 40 ? null : (
+                <StyledSpreadToggle onClick={handleClickSpreadToggle} />
+              )}
+            </ReviewContentContainer>
+            <ToolBoxContainer onClick={() => setVisible(true)}>
+              <ToolBoxButtonIcon />
+              <EditBox
+                style={{ transform: 'translate(-110px, -48px)', width: 110 }}
+                visible={visible}
+                onClick={onClickToolBox}
+                onClose={handleCloseToolBox}
+                onClickUpdateButton={handleClickUpdateButton}
+                onClickDeleteButton={handleClickDeleteButton}
+              />
+            </ToolBoxContainer>
+          </Fragment>
+        )
       ) : (
         <Fragment>
           <ReviewText>후기가 없습니다. 지금 후기를 작성해볼까요?</ReviewText>
@@ -193,10 +237,11 @@ const ReviewEmotionText = styled.span`
 
 const ReviewContentContainer = styled.div`
   display: inline-flex;
-  flex-direction: column;
   margin-left: 1.5rem;
   flex-grow: 1;
   overflow-x: auto;
+  flex-direction: column;
+  justify-content: center;
 `;
 
 const ReviewImageContainer = styled.div`
@@ -218,14 +263,19 @@ const ReviewImageContainer = styled.div`
   }
 `;
 
-const ReviewContent = styled.p<{ opened: boolean; height: number }>`
+const ReviewContent = styled.p<{
+  opened: boolean;
+  height: number;
+  withPhoto: boolean;
+}>`
   font-size: ${FontSize.medium};
   color: ${Colors.textPrimary};
   font-weight: ${FontWeight.medium};
   white-space: break-spaces;
   line-height: 1.625rem;
   overflow: hidden;
-  height: ${({ opened, height }) => (opened ? `${height}` : '2rem')};
+  height: ${({ opened, height, withPhoto }) =>
+    opened ? `${height}` : withPhoto ? '2rem' : '3.2rem'};
 `;
 
 const StyledSpreadToggle = styled(SpreadToggle)`

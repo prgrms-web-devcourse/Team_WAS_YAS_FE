@@ -11,7 +11,7 @@ export default {
 const DUMMY_DATA = {
   routineStatusId: 42,
   dateTime: '2021-12-24T12:23:19Z',
-  emoji: '3',
+  emotion: '3',
   content:
     '오늘 날씨가 좋아서 즐겁게 루틴 수행했습니다!\n아침에 기분이 안좋았는데 산책으로 힐링했어요~~~',
   routineStatusImage: [
@@ -49,12 +49,93 @@ const DUMMY_DATA = {
     posted: true,
   },
 };
+const DUMMY_DATA2 = {
+  routineStatusId: 42,
+  dateTime: '2021-12-24T12:23:19Z',
+  emotion: '1',
+  content:
+    '오늘 날씨가 좋아서 즐겁게 루틴 수행했습니다!\n아침에 기분이 안좋았는데 산책으로 힐링했어요~~~',
+  routineStatusImage: [],
+  routineDetailResponse: {
+    name: '음주',
+    emoji: '😍',
+    color: '#FCCC5B',
+    startGoalTime: '2021-12-24T09:47:00.000Z',
+    durationGoalTime: 600,
+    routineCategory: ['HOBBY', 'LIFE'],
+    weeks: ['SUN', 'FRI', 'SAT'],
+    missionDetailResponses: [
+      {
+        missionId: 512,
+        name: '먹고쥭자',
+        durationGoalTime: 600,
+        orders: 0,
+        emoji: '💩',
+        color: '#FCCC5B',
+      },
+    ],
+    posted: true,
+  },
+};
+const DUMMY_DATA3 = {
+  routineStatusId: 42,
+  dateTime: '2021-12-24T12:23:19Z',
+  emotion: '',
+  content: '',
+  routineStatusImage: [],
+  routineDetailResponse: {
+    name: '음주',
+    emoji: '😍',
+    color: '#FCCC5B',
+    startGoalTime: '2021-12-24T09:47:00.000Z',
+    durationGoalTime: 600,
+    routineCategory: ['HOBBY', 'LIFE'],
+    weeks: ['SUN', 'FRI', 'SAT'],
+    missionDetailResponses: [
+      {
+        missionId: 512,
+        name: '먹고쥭자',
+        durationGoalTime: 600,
+        orders: 0,
+        emoji: '💩',
+        color: '#FCCC5B',
+      },
+    ],
+    posted: false,
+  },
+};
 
 export const Default = ({ ...args }): JSX.Element => {
   return (
     <>
       <RoutineReview
         reviewData={DUMMY_DATA}
+        updateRoutine={() => {
+          return;
+        }}
+        deleteRoutine={() => {
+          return;
+        }}
+        onClickWriteReview={() => {
+          return;
+        }}
+        {...args}
+      />
+      <RoutineReview
+        reviewData={DUMMY_DATA2}
+        updateRoutine={() => {
+          return;
+        }}
+        deleteRoutine={() => {
+          return;
+        }}
+        onClickWriteReview={() => {
+          return;
+        }}
+        {...args}
+      />
+      <RoutineReview
+        reviewData={DUMMY_DATA3}
         updateRoutine={() => {
           return;
         }}
