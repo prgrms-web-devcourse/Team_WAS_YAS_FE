@@ -16,13 +16,24 @@ const markedDates = [
   dayjs('2022-01-15'),
 ];
 
+const markedDates2 = {
+  '2022-01-01': 2,
+  '2022-01-04': 5,
+  '2022-01-05': 3,
+  '2022-01-12': 1,
+  '2022-01-15': 4,
+};
+
 export const Default = (): JSX.Element => {
   const handleClickDate = (date: dayjs.Dayjs) => {
     console.log(date);
   };
   return (
     <Container>
-      <StyledCalendar markedDates={markedDates} onClickDate={handleClickDate} />
+      <StyledCalendar
+        markedDates={markedDates2}
+        onClickDate={handleClickDate}
+      />
     </Container>
   );
 };

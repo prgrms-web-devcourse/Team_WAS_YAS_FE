@@ -8,6 +8,7 @@ export interface CalendarDateProps extends React.ComponentProps<'td'> {
   disabled?: boolean;
   selected?: boolean;
   marked?: boolean;
+  highlight?: number;
   onClickDate?: (date: dayjs.Dayjs) => void;
 }
 
@@ -16,6 +17,7 @@ const CalendarDate = ({
   disabled = false,
   selected = false,
   marked = false,
+  highlight = 0,
   onClickDate,
   ...props
 }: CalendarDateProps): JSX.Element => {
@@ -26,7 +28,12 @@ const CalendarDate = ({
 
   return (
     <TableData {...props}>
-      <DateText disabled={disabled} selected={selected} onClick={handleClick}>
+      <DateText
+        disabled={disabled}
+        selected={selected}
+        onClick={handleClick}
+        highlight={highlight}
+      >
         {date?.get('date')}
       </DateText>
       {marked && <Dot />}
@@ -45,6 +52,7 @@ const DateText = styled.p<
   React.ComponentProps<'p'> & {
     disabled?: boolean;
     selected?: boolean;
+    highlight?: number;
   }
 >`
   display: flex;
@@ -59,12 +67,18 @@ const DateText = styled.p<
     if (disabled) return 'lightgray';
     return selected ? Colors.textQuaternary : Colors.textPrimary;
   }};
-  background-color: ${({ selected }) => (selected ? '#2F3A8F' : 'transparent')};
+  background-color: ${({ highlight, selected }) => {
+    if (selected) return '#FF5959';
+    if (!highlight) return 'transparent';
+    if (highlight <= 0) return 'transparent';
+    if (highlight >= 4) return '#919bdc';
+    if (highlight >= 2) return '#CDDEFF';
+    if (highlight >= 1) return '#EEF2FF';
+  }};
 
   @media (hover: hover) {
     :hover {
-      background-color: ${({ disabled }) =>
-        disabled ? null : Colors.pointLight};
+      background-color: ${({ disabled }) => (disabled ? null : '#ffacac')};
     }
   }
 `;
