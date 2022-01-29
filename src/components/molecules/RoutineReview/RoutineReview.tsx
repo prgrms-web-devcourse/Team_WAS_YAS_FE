@@ -39,15 +39,15 @@ type ReviewDataType = {
 export type RoutineReviewProps = {
   reviewData: ReviewDataType;
   onClickWriteReview: () => void;
-  updateRoutine: () => void;
-  deleteRoutine: () => void;
+  updateReview: () => void;
+  deleteReview: () => void;
 } & HTMLAttributes<HTMLDivElement>;
 
 const RoutineReview = ({
   reviewData,
   onClickWriteReview,
-  updateRoutine,
-  deleteRoutine,
+  updateReview,
+  deleteReview,
   ...props
 }: RoutineReviewProps): JSX.Element => {
   const [opened, setOpened] = useState<boolean>(false);
@@ -73,11 +73,11 @@ const RoutineReview = ({
   };
 
   const handleClickDeleteButton = () => {
-    deleteRoutine && deleteRoutine();
+    deleteReview && deleteReview();
   };
 
   const handleClickUpdateButton = () => {
-    updateRoutine && updateRoutine();
+    updateReview && updateReview();
   };
 
   const onClickToolBox = (e: React.MouseEvent<HTMLElement>) => {

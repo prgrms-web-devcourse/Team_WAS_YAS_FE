@@ -110,10 +110,10 @@ export const Default = ({ ...args }): JSX.Element => {
     <>
       <RoutineReview
         reviewData={DUMMY_DATA}
-        updateRoutine={() => {
+        updateReview={() => {
           return;
         }}
-        deleteRoutine={() => {
+        deleteReview={() => {
           return;
         }}
         onClickWriteReview={() => {
@@ -123,10 +123,10 @@ export const Default = ({ ...args }): JSX.Element => {
       />
       <RoutineReview
         reviewData={DUMMY_DATA2}
-        updateRoutine={() => {
+        updateReview={() => {
           return;
         }}
-        deleteRoutine={() => {
+        deleteReview={() => {
           return;
         }}
         onClickWriteReview={() => {
@@ -136,10 +136,10 @@ export const Default = ({ ...args }): JSX.Element => {
       />
       <RoutineReview
         reviewData={DUMMY_DATA3}
-        updateRoutine={() => {
+        updateReview={() => {
           return;
         }}
-        deleteRoutine={() => {
+        deleteReview={() => {
           return;
         }}
         onClickWriteReview={() => {
