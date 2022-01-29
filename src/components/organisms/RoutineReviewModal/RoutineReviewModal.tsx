@@ -1,96 +1,119 @@
 import { Button, Modal, Text } from '@/components';
-import EmotionPicker from './EmotionPicker';
 import { Colors, FontSize, Media } from '@/styles';
 import styled from '@emotion/styled';
-import React, { ChangeEvent, FormEvent, useState } from 'react';
-import Swal from 'sweetalert2';
+import React, { ChangeEvent, FormEvent, Fragment, useState } from 'react';
 import ImageUploader from './ImageUploader';
+import { RoutineReviewType } from '@/Models';
+import { EMOTION } from '@/constants';
+import { v4 } from 'uuid';
 
 export interface ReviewProps {
   visible: boolean;
   onClose?: () => void;
-  onSubmit: (review: {
-    emotion: string;
-    text: string;
-    urlList: { id: string; url: string }[];
-  }) => void;
+  onSubmit: (review: RoutineReviewType) => void;
+  initReview: RoutineReviewType;
 }
 
 const RoutineReviewModal = ({
   visible,
   onClose,
+  initReview,
   onSubmit,
 }: ReviewProps): JSX.Element => {
-  const [review, setReview] = useState<{
-    emotion: string;
-    text: string;
-    urlList: { id: string; url: string }[];
-  }>({
-    emotion: '1',
-    text: '',
-    urlList: [],
-  });
+  const [review, setReview] = useState<RoutineReviewType>(initReview);
+  const emotionList = Object.keys(EMOTION);
 
-  const handleEmotionChange = (emotion: string) => {
-    setReview((review) => ({ ...review, emotion }));
+  const handleEmotionChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setReview((review) => ({ ...review, emotion: Number(e.target.value) }));
   };
 
-  const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setReview((review) => ({ ...review, text: e.target.value }));
+  const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setReview((review) => ({ ...review, content: e.target.value }));
   };
 
-  const handleImageChange = (newUrl: { id: string; url: string }) => {
+  const handleImageChange = (fileList: File[]) => {
+    if (fileList) {
+      fileList.forEach((file) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = () => {
+          const id = v4();
+          const newUrl = {
+            routineStatusImageId: id,
+            imageUrl: fileReader.result as string,
+          };
+          const newFile = {
+            routineStatusImageId: id,
+            file,
+          };
+          setReview((review) => ({
+            ...review,
+            routineStatusImage: [...review.routineStatusImage, newUrl],
+            reviewImages: [...review.reviewImages, newFile],
+          }));
+        };
+      });
+    }
+  };
+
+  const handleImageDelete = (routineStatusImageId: string | number) => {
+    if (typeof routineStatusImageId === 'number') {
+      setReview((review) => ({
+        ...review,
+        deletedImages: [...review.deletedImages, routineStatusImageId],
+      }));
+    }
+    const newUrlList = review.routineStatusImage.filter(
+      (image) => image.routineStatusImageId !== routineStatusImageId,
+    );
+    const newFileList = review.reviewImages.filter(
+      (image) => image.routineStatusImageId !== routineStatusImageId,
+    );
     setReview((review) => ({
       ...review,
-      urlList: [...review.urlList, newUrl],
+      reviewImages: newFileList,
+      routineStatusImage: newUrlList,
     }));
-  };
-
-  const handleImageDelete = (id: string) => {
-    const newUrlList = review.urlList.filter((url) => url.id !== id);
-    setReview((review) => ({ ...review, urlList: [...newUrlList] }));
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!review.text) {
-      Swal.fire({
-        icon: 'error',
-        text: '루틴 후기를 작성해주세요',
-        showConfirmButton: false,
-        timer: 1000,
-      });
-    } else if (review.urlList.length > 5) {
-      Swal.fire({
-        icon: 'error',
-        text: '사진은 최대 5장까지 업로드가 가능합니다',
-        showConfirmButton: false,
-        timer: 1000,
-      });
-    } else {
-      Swal.fire({
-        icon: 'success',
-        text: '루틴 후기 등록에 성공했습니다!🎉',
-      });
-    }
+    onSubmit && onSubmit(review);
   };
 
   return (
     <StyledModal visible={visible} onClose={onClose}>
       <Title>오늘의 루틴은 어떠셨나요?</Title>
       <Form onSubmit={handleSubmit}>
-        <EmotionPicker onChange={handleEmotionChange} />
+        <EmotionContainer>
+          {emotionList.map((emotion: string) => (
+            <Fragment key={emotion}>
+              <Input
+                type="radio"
+                id={emotion}
+                name="emotion"
+                value={emotion}
+                onChange={handleEmotionChange}
+                checked={review.emotion === Number(emotion)}
+              />
+              <label htmlFor={emotion}>
+                <Image src={EMOTION[emotion]} alt="emotionImg" />
+              </label>
+            </Fragment>
+          ))}
+        </EmotionContainer>
         <ImageUploader
-          onChange={handleImageChange}
+          routineImages={review.routineStatusImage}
+          onImageChange={handleImageChange}
           onImageDelete={handleImageDelete}
         />
         <TextArea
           name="text"
           placeholder="루틴 후기를 입력해주세요."
-          value={review.text}
-          onChange={handleTextChange}
+          value={review.content}
+          onChange={handleContentChange}
         />
-        {review.text ? (
+        {review.content ? (
           <Span>&nbsp;</Span>
         ) : (
           <Span>루틴 후기를 입력해주세요</Span>
@@ -211,4 +234,35 @@ const Span = styled.span`
   @media ${Media.lg} {
     font-size: ${FontSize.medium};
   }
+`;
+
+const Input = styled.input`
+  display: none;
+  :checked + label > img {
+    opacity: 0.4;
+  }
+`;
+
+const Image = styled.img`
+  @media ${Media.sm} {
+    width: 28px;
+    height: 28px;
+    margin: 0.6rem;
+  }
+  @media ${Media.md} {
+    width: 48px;
+    height: 48px;
+    margin: 0.8rem;
+  }
+  @media ${Media.lg} {
+    width: 48px;
+    height: 48px;
+    margin: 0.8rem;
+  }
+  cursor: pointer;
+`;
+
+const EmotionContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
 `;

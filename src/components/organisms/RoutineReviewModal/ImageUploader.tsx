@@ -1,56 +1,45 @@
 import { camera } from '@/images';
 import { Colors, FontSize, Media } from '@/styles';
 import styled from '@emotion/styled';
-import React, { ChangeEvent, useState } from 'react';
-import { v4 } from 'uuid';
+import React, { ChangeEvent } from 'react';
 
 export interface ImageProps {
-  onChange: (newUrl: { id: string; url: string }) => void;
-  onImageDelete: (id: string) => void;
+  routineImages: { routineStatusImageId: number | string; imageUrl: string }[];
+  onImageChange: (fileList: File[]) => void;
+  onImageDelete: (routineStatusImageId: string | number) => void;
 }
 
 const ImageUploader = ({
-  onChange,
+  routineImages,
+  onImageChange,
   onImageDelete,
 }: ImageProps): JSX.Element => {
-  const [fileList, setFileList] = useState<File[]>([]);
-  const [urlList, setUrlList] = useState<{ id: string; url: string }[]>([]);
-
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const newFileList = [...e.target.files];
-      setFileList((fileList) => [...fileList, ...newFileList]);
-      newFileList.forEach((file) => {
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(file);
-        fileReader.onload = () => {
-          const newUrl = { id: v4(), url: fileReader.result as string };
-          onChange && onChange(newUrl);
-          setUrlList((urlList) => [...urlList, newUrl]);
-        };
-      });
+      const fileList = [...e.target.files];
+      onImageChange && onImageChange(fileList);
       e.target.value = '';
     }
   };
 
-  const handleImageDelete = (id: string) => {
-    const newUrlList = urlList.filter((url) => url.id !== id);
-    setUrlList(newUrlList);
-    onImageDelete && onImageDelete(id);
+  const handleImageDelete = (routineStatusImageId: string | number) => {
+    onImageDelete && onImageDelete(routineStatusImageId);
   };
 
   return (
     <>
-      {urlList && (
+      {routineImages && (
         <Ul
           style={{
-            justifyContent: `${urlList.length ? 'flex-start' : 'center'}`,
+            justifyContent: `${routineImages.length ? 'flex-start' : 'center'}`,
           }}
         >
-          {urlList.map(({ id, url }, idx) => (
-            <Li key={id}>
-              <Image src={url} alt={fileList[idx].name} />
-              <DeleteButton onClick={() => handleImageDelete(id)}>
+          {routineImages.map(({ routineStatusImageId, imageUrl }) => (
+            <Li key={routineStatusImageId}>
+              <Image src={imageUrl} alt="후기 사진" />
+              <DeleteButton
+                onClick={() => handleImageDelete(routineStatusImageId)}
+              >
                 x
               </DeleteButton>
             </Li>
@@ -138,16 +127,13 @@ const Image = styled.img`
   @media ${Media.sm} {
     height: 100px;
     margin: 0.5rem 0;
-    max-width: 80px;
   }
   @media ${Media.md} {
     height: 140px;
-    max-width: 140px;
     margin: 0.5rem 0;
   }
   @media ${Media.lg} {
     height: 140px;
-    min-width: 140px;
     margin: 0.5rem 0;
   }
 `;
