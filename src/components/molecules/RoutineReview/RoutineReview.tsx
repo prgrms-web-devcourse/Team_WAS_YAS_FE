@@ -4,6 +4,8 @@ import { good } from '@/images';
 import { Colors, FontSize, FontWeight } from '@/styles';
 import styled from '@emotion/styled';
 import { Fragment, HTMLAttributes, useEffect, useRef, useState } from 'react';
+import ToolBoxButtonIcon from '../Routine/ToolBoxButtonIcon';
+import { EditBox } from '../ToolBox';
 
 type ReviewDataType = {
   routineStatusId: number;
@@ -37,15 +39,20 @@ type ReviewDataType = {
 export type RoutineReviewProps = {
   reviewData: ReviewDataType;
   onClickWriteReview: () => void;
+  updateRoutine: () => void;
+  deleteRoutine: () => void;
 } & HTMLAttributes<HTMLDivElement>;
 
 const RoutineReview = ({
   reviewData,
   onClickWriteReview,
+  updateRoutine,
+  deleteRoutine,
   ...props
 }: RoutineReviewProps): JSX.Element => {
   const [opened, setOpened] = useState<boolean>(false);
   const [paragraphHeight, setParagraphHeight] = useState<number>(0);
+  const [visible, setVisible] = useState<boolean>(false);
   const ref = useRef<HTMLParagraphElement>(null);
   const { emoji, content, routineStatusImage, routineDetailResponse } =
     reviewData;
@@ -60,6 +67,22 @@ const RoutineReview = ({
       setParagraphHeight(ref.current.scrollHeight);
     }
   }, []);
+
+  const handleCloseToolBox = () => {
+    setVisible(false);
+  };
+
+  const handleClickDeleteButton = () => {
+    deleteRoutine && deleteRoutine();
+  };
+
+  const handleClickUpdateButton = () => {
+    updateRoutine && updateRoutine();
+  };
+
+  const onClickToolBox = (e: React.MouseEvent<HTMLElement>) => {
+    e.stopPropagation();
+  };
 
   return (
     <RoutineReviewContainer posted={posted} {...props}>
@@ -86,6 +109,17 @@ const RoutineReview = ({
               <StyledSpreadToggle onClick={handleClickSpreadToggle} />
             )}
           </ReviewContentContainer>
+          <ToolBoxContainer onClick={() => setVisible(true)}>
+            <ToolBoxButtonIcon />
+            <EditBox
+              style={{ transform: 'translate(-110px, -48px)', width: 110 }}
+              visible={visible}
+              onClick={onClickToolBox}
+              onClose={handleCloseToolBox}
+              onClickUpdateButton={handleClickUpdateButton}
+              onClickDeleteButton={handleClickDeleteButton}
+            />
+          </ToolBoxContainer>
         </Fragment>
       ) : (
         <Fragment>
@@ -121,8 +155,8 @@ const RoutineReviewContainer = styled.div<{ posted: boolean }>`
     gap: 2.5rem;
   `}
   padding: 1.75rem;
-  overflow: hidden;
   height: 100%;
+  position: relative;
 `;
 
 const ReviewText = styled.p`
@@ -197,4 +231,18 @@ const ReviewContent = styled.p<{ opened: boolean; height: number }>`
 const StyledSpreadToggle = styled(SpreadToggle)`
   display: flex;
   justify-content: center;
+`;
+
+const ToolBoxContainer = styled.div`
+  background-color: initial;
+  border: none;
+  padding: 1rem;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  path {
+    fill: ${Colors.textTertiary};
+  }
 `;

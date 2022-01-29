@@ -55,10 +55,16 @@ export const Default = ({ ...args }): JSX.Element => {
     <>
       <RoutineReview
         reviewData={DUMMY_DATA}
-        {...args}
+        updateRoutine={() => {
+          return;
+        }}
+        deleteRoutine={() => {
+          return;
+        }}
         onClickWriteReview={() => {
           return;
         }}
+        {...args}
       />
     </>
   );
