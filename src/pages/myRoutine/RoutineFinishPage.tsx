@@ -6,6 +6,8 @@ import { useHistory, useParams } from 'react-router-dom';
 import { missionStatusApi, routineApi } from '@/apis';
 import Swal from 'sweetalert2';
 import { RoutineReviewModal } from '@/components/organisms/RoutineReviewModal';
+import { RoutineReviewType } from '@/Models';
+import { ReviewProps } from '@/components/organisms/RoutineReviewModal/RoutineReviewModal';
 
 interface RoutineInfoType {
   emoji: string;
@@ -20,6 +22,20 @@ const RoutineFinishPage = (): JSX.Element => {
   const [todayMissionStatus, setTodayMissionStatus] = useState<any>([]);
   const [routineInfo, setRoutineInfo] = useState<any>([]);
   const [visible, setVisible] = useState<boolean>(false);
+  const [reviewInfo, setReviewInfo] = useState<RoutineReviewType>({
+    routineStatusId: Number(routineId),
+    emotion: 2,
+    content: '안녕하세요',
+    routineStatusImage: [
+      {
+        routineStatusImageId: 1,
+        imageUrl:
+          'https://yas-bucket.s3.ap-northeast-2.amazonaws.com/static/review/sun.nio.ch.ChannelInputStream%4012b30cf7',
+      },
+    ],
+    deletedImages: [],
+    reviewImages: [],
+  });
 
   const getFinishedRoutineDetail = async () => {
     if (!routineId) return;
@@ -98,8 +114,40 @@ const RoutineFinishPage = (): JSX.Element => {
     }
   };
 
-  const handleReviewSubmit = () => {
-    // console.log('API 연동하기');
+  const handleReviewSubmit = async (review: RoutineReviewType) => {
+    if (!review.content) {
+      Swal.fire({
+        icon: 'error',
+        text: '루틴 후기를 작성해주세요',
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    } else if (review.routineStatusImage.length > 5) {
+      Swal.fire({
+        icon: 'error',
+        text: '사진은 최대 5장까지 업로드가 가능합니다',
+        showConfirmButton: false,
+        timer: 1000,
+      });
+    } else {
+      Swal.fire({
+        icon: 'success',
+        text: '루틴 후기 등록에 성공했습니다!🎉',
+      });
+
+      const fileFormData = new FormData();
+      const files = review.reviewImages.map(({ file }) => file);
+      files.forEach((file) => {
+        fileFormData.append('file', file);
+      });
+      const { routineStatusId, emotion, content, deletedImages } = review;
+      const reviewDataBlob = new Blob(
+        [JSON.stringify({ routineStatusId, emotion, content, deletedImages })],
+        { type: 'application/json' },
+      );
+      fileFormData.append('routineStatusCreateRequest', reviewDataBlob);
+      // await routineApi.creatRoutineReview(fileFormData);
+    }
   };
 
   useEffect(() => {
@@ -127,6 +175,7 @@ const RoutineFinishPage = (): JSX.Element => {
         visible={visible}
         onClose={() => setVisible(false)}
         onSubmit={handleReviewSubmit}
+        initReview={reviewInfo}
       />
     </Container>
   );
