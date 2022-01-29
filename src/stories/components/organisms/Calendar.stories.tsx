@@ -8,13 +8,14 @@ export default {
   component: Calendar,
 };
 
-const markedDates = [
-  dayjs('2022-01-01'),
-  dayjs('2022-01-04'),
-  dayjs('2022-01-05'),
-  dayjs('2022-01-12'),
-  dayjs('2022-01-15'),
-];
+// * markedDates 테스트를 위한 더미데이터
+// const markedDates = [
+//   dayjs('2022-01-01'),
+//   dayjs('2022-01-04'),
+//   dayjs('2022-01-05'),
+//   dayjs('2022-01-12'),
+//   dayjs('2022-01-15'),
+// ];
 
 const highlightDates = {
   '2022-01-01': 2,
