@@ -68,17 +68,17 @@ const DateText = styled.p<
     return selected ? Colors.textQuaternary : Colors.textPrimary;
   }};
   background-color: ${({ highlight, selected }) => {
-    if (selected) return '#FF5959';
+    if (selected) return '#FFCD53';
     if (!highlight) return 'transparent';
     if (highlight <= 0) return 'transparent';
-    if (highlight >= 4) return '#919bdc';
-    if (highlight >= 2) return '#CDDEFF';
-    if (highlight >= 1) return '#EEF2FF';
+    if (highlight >= 4) return '#879BF8';
+    if (highlight >= 2) return '#B1BEFC';
+    if (highlight >= 1) return '#E8ECFF';
   }};
 
   @media (hover: hover) {
     :hover {
-      background-color: ${({ disabled }) => (disabled ? null : '#ffacac')};
+      background-color: ${({ disabled }) => (disabled ? null : '#FFE6A9')};
     }
   }
 `;
