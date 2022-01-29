@@ -31,6 +31,7 @@ const YearMonthPicker = ({
 
   const handleChange = (date: any) => {
     // TODO: DatePicker의 date타입을 제네릭을 이용하여 dayjs.Dayjs으로 변경하기
+    if (isNaN(date.get('year')) || isNaN(date.get('month'))) return;
     setDate(date);
     onChangeYearMonth && onChangeYearMonth(date);
   };
@@ -66,8 +67,11 @@ const YearMonthPicker = ({
           renderInput={(params) => (
             <YearMonthTextField
               type="text"
-              // TODO: inputProps 적용되지 않음, 해결방법 찾아보기
-              inputProps={{ style: { textAlign: 'center' }, readOnly: true }}
+              label="Read Only"
+              // TODO: InputProps 적용되지 않음, 해결방법 찾아보기
+              InputProps={{
+                readOnly: true,
+              }}
               variant="standard"
               {...params}
             />
