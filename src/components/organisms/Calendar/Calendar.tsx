@@ -17,17 +17,22 @@ type highlightDatesType = {
 export interface CalendarProps extends React.ComponentProps<'div'> {
   onClickDate?: (date: dayjs.Dayjs) => void;
   highlightDates?: highlightDatesType;
+  markedDates?: dayjs.Dayjs[];
 }
 
 const Calendar = ({
   onClickDate,
   highlightDates,
+  markedDates: rawMarkedDates = [],
   ...props
 }: CalendarProps): JSX.Element => {
   const [calendarDates, setCalendarDates] = useState<
     (dayjs.Dayjs | undefined)[][]
   >([]);
   const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs>(dayjs());
+  const markedDates: string[] = useMemo(() => {
+    return rawMarkedDates.map((date) => date.format('YYYY-MM-DD'));
+  }, [rawMarkedDates]);
 
   const handleChangeYearMonth = (yearMonth: dayjs.Dayjs) => {
     const newCalendarDates = generateCalendarDates(
@@ -87,11 +92,11 @@ const Calendar = ({
                           : true
                       }
                       selected={date && date.isSame(selectedDate, 'day')}
-                      // marked={
-                      //   markedDates &&
-                      //   date &&
-                      //   markedDates.includes(date.format('YYYY-MM-DD'))
-                      // }
+                      marked={
+                        markedDates &&
+                        date &&
+                        markedDates.includes(date.format('YYYY-MM-DD'))
+                      }
                       highlight={
                         highlightDates && date
                           ? highlightDates[date.format('YYYY-MM-DD')]
