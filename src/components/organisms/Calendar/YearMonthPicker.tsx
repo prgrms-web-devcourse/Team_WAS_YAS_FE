@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import styled from '@emotion/styled';
-import { DatePicker } from '@mui/lab';
+import { DesktopDatePicker } from '@mui/lab';
 import DateAdapter from '@mui/lab/AdapterDayjs';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import {
@@ -91,7 +91,7 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const Picker = styled(DatePicker)`
+const Picker = styled(DesktopDatePicker)`
   display: block;
   width: 100%;
 `;
