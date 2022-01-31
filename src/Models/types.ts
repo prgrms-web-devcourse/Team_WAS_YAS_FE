@@ -124,3 +124,14 @@ export interface CommentLikeType {
   commentId: number;
   userId: number;
 }
+
+export interface RoutineStatusType {
+  routineStatusId: number;
+  dateTime: string;
+  routineListResponse: {
+    routineId: number;
+    name: string;
+    color: string;
+    emoji: string;
+  };
+}
