@@ -67,7 +67,6 @@ const AnalysisPage = (): JSX.Element => {
   };
 
   const handleClickRoutine = (routineStatusId: number) => {
-    console.log('handleClickRoutine', routineStatusId);
     history.push(`/analysis/detail/${routineStatusId}`);
   };
 
