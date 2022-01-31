@@ -16,12 +16,14 @@ type highlightDatesType = {
 
 export interface CalendarProps extends React.ComponentProps<'div'> {
   onClickDate?: (date: dayjs.Dayjs) => void;
+  onChangeYearMonth?: (date: dayjs.Dayjs) => void;
   highlightDates?: highlightDatesType;
   markedDates?: dayjs.Dayjs[];
 }
 
 const Calendar = ({
   onClickDate,
+  onChangeYearMonth,
   highlightDates,
   markedDates: rawMarkedDates = [],
   ...props
@@ -39,6 +41,7 @@ const Calendar = ({
       yearMonth.get('year'),
       yearMonth.get('month'),
     );
+    onChangeYearMonth && onChangeYearMonth(yearMonth);
     setCalendarDates(newCalendarDates);
   };
 
