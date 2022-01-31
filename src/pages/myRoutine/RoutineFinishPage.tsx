@@ -145,13 +145,20 @@ const RoutineFinishPage = (): JSX.Element => {
         { type: 'application/json' },
       );
       fileFormData.append('routineStatusCreateRequest', reviewDataBlob);
-      // await routineApi.creatRoutineReview(fileFormData);
+      await routineApi.creatRoutineReview(fileFormData);
     }
+  };
+
+  const getInitReview = async () => {
+    if (!routineId) return;
+    const result = await routineApi.getRoutineStatus(routineId);
+    console.log(result);
   };
 
   useEffect(() => {
     getFinishedRoutineDetail();
     getRoutineInfo();
+    getInitReview();
     // eslint-disable-next-line
   }, []);
 
