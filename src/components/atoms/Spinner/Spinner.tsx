@@ -2,6 +2,7 @@ import { Colors } from '@/styles';
 import styled from '@emotion/styled';
 import { RingLoader } from 'react-spinners';
 import { Portal } from '@/components';
+import { useState } from 'react';
 
 export interface SpinnerProps {
   color?: string;
@@ -11,17 +12,24 @@ export interface SpinnerProps {
 }
 
 const Spinner = ({ ...props }: SpinnerProps): JSX.Element => {
+  const [visible, setVisible] = useState<boolean>(false);
+
+  setTimeout(() => {
+    setVisible(true);
+  }, 500);
+
   return (
     <Portal>
-      <BackgroundDim>
+      <BackgroundDim visible={visible}>
         <RingLoader color={Colors.yellow} {...props} />
       </BackgroundDim>
     </Portal>
   );
 };
 
-const BackgroundDim = styled.div`
+const BackgroundDim = styled.div<{ visible: boolean }>`
   display: flex;
+  visibility: ${({ visible }) => (visible ? 'visible' : 'hidden')};
   justify-content: center;
   align-items: center;
   position: fixed;
