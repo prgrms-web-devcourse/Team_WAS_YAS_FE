@@ -41,3 +41,11 @@ export const EMOTION: ConstantType = Object.freeze({
   4: sad,
   5: angry,
 });
+
+export const EMOTIONTEXT: ConstantType = Object.freeze({
+  1: '좋아요',
+  2: '짜릿해요',
+  3: '아파요',
+  4: '슬퍼요',
+  5: '화나요',
+});

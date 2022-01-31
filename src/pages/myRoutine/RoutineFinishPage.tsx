@@ -40,32 +40,21 @@ const RoutineFinishPage = (): JSX.Element => {
       } else {
         const result = await missionStatusApi.getMissionStatus(routineId);
         const missionStatus = result.data.data
-          ?.filter(
-            (status: {
-              missionStatusDetailResponse: { startTime: string };
-            }) => {
-              const missionDate = new Date(
-                status.missionStatusDetailResponse.startTime,
-              ).toLocaleDateString();
-              const today = new Date().toLocaleDateString();
-
-              return missionDate === today;
-            },
-          )
           .map(
             (status: {
               missionStatusDetailResponse: {
                 userDurationTime: number;
+                startTime: string | null;
                 endTime: string | null;
               };
             }) => {
-              const { userDurationTime, endTime } =
+              const { userDurationTime, endTime, startTime } =
                 status.missionStatusDetailResponse;
 
               return {
                 ...status,
                 userDurationTime: endTime === null ? null : userDurationTime,
-                isPassed: endTime === null ? true : false,
+                isPassed: endTime === null || startTime === null ? true : false,
               };
             },
           )

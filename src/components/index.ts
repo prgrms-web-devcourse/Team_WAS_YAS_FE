@@ -56,6 +56,8 @@ export { UserToolBox } from './molecules/ToolBox';
 export type { UserToolBoxProps } from './molecules/ToolBox';
 export { RoutinePostContent } from './molecules/RoutinePostContent';
 export type { RoutinePostContentProps } from './molecules/RoutinePostContent';
+export { RoutineReview } from './molecules/RoutineReview';
+export type { RoutineReviewProps } from './molecules/RoutineReview';
 
 //! Organism Component
 export { RoutineAddButton } from './organisms/RoutineAddButton';
