@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import styled from '@emotion/styled';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Media } from '@/styles';
 import { routineStatusApi } from '@/apis';
 import { Container, Calendar, Routine, Spinner } from '@/components';
@@ -11,23 +11,6 @@ interface highlightDatesType {
   [key: string]: number;
 }
 
-const parseHighlightDates = (
-  routineStatusData: RoutineStatusType[],
-): highlightDatesType => {
-  const highlightDates: highlightDatesType = {};
-
-  routineStatusData.forEach((routineStatus: RoutineStatusType) => {
-    const date = dayjs(routineStatus.dateTime.slice(0, 11)).format(
-      'YYYY-MM-DD',
-    );
-    highlightDates[date]
-      ? (highlightDates[date] += 1)
-      : (highlightDates[date] = 1);
-  });
-
-  return highlightDates;
-};
-
 const AnalysisPage = (): JSX.Element => {
   const history = useHistory();
   const [loading, setLoading] = useState<boolean>(false);
@@ -36,18 +19,34 @@ const AnalysisPage = (): JSX.Element => {
     [],
   );
 
-  const getRoutineStatusByDate = useCallback(
-    async (date: string): Promise<RoutineStatusType[]> => {
-      try {
-        const res = await routineStatusApi.getRoutineStatusByDate(date);
-        const routineStatus = res.data.data;
-        return routineStatus;
-      } catch (error) {
-        return [];
-      }
-    },
-    [],
-  );
+  const getRoutineStatusByDate = async (
+    date: string,
+  ): Promise<RoutineStatusType[]> => {
+    try {
+      const res = await routineStatusApi.getRoutineStatusByDate(date);
+      const routineStatus = res.data.data;
+      return routineStatus;
+    } catch (error) {
+      return [];
+    }
+  };
+
+  const parseHighlightDates = (
+    routineStatusData: RoutineStatusType[],
+  ): highlightDatesType => {
+    const highlightDates: highlightDatesType = {};
+
+    routineStatusData.forEach((routineStatus: RoutineStatusType) => {
+      const date = dayjs(routineStatus.dateTime.slice(0, 11)).format(
+        'YYYY-MM-DD',
+      );
+      highlightDates[date]
+        ? (highlightDates[date] += 1)
+        : (highlightDates[date] = 1);
+    });
+
+    return highlightDates;
+  };
 
   const handleClickDate = async (date: dayjs.Dayjs) => {
     setLoading(true);
@@ -85,7 +84,7 @@ const AnalysisPage = (): JSX.Element => {
     };
 
     init();
-  }, [getRoutineStatusByDate]);
+  }, []);
 
   return (
     <Container navBar>
