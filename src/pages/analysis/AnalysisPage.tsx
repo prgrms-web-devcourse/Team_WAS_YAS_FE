@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import styled from '@emotion/styled';
 import { useEffect, useState } from 'react';
-import { Media } from '@/styles';
+import { Media, Colors, FontSize } from '@/styles';
 import { routineStatusApi } from '@/apis';
 import { Container, Calendar, Routine, Spinner } from '@/components';
 import { useHistory } from 'react-router-dom';
@@ -106,6 +106,12 @@ const AnalysisPage = (): JSX.Element => {
           );
         })}
       </RoutineStatusContainer>
+      {routineStatuses.length <= 0 && (
+        <InfoContainer>
+          <EmojiText>😅</EmojiText>
+          <Text>해당 날짜에는 수행한 루틴이 없습니다.</Text>
+        </InfoContainer>
+      )}
       {loading && <Spinner />}
     </Container>
   );
@@ -134,6 +140,25 @@ const RoutineStatusContainer = styled.div`
       grid-template-columns: repeat(2, 1fr);
     }
   }
+`;
+
+const InfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 1rem;
+`;
+
+const EmojiText = styled.p`
+  font-size: 40px;
+  margin: 2rem 0;
+`;
+
+const Text = styled.p`
+  color: ${Colors.textPrimary};
+  font-size: ${FontSize.medium};
 `;
 
 export default AnalysisPage;
