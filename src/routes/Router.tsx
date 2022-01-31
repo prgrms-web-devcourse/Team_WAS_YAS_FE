@@ -94,7 +94,7 @@ const Router = (): JSX.Element => {
         component={SignUpPage}
       />
 
-      <PublicRoute path="/analysis" exact component={AnalysisPage} />
+      <PrivateRoute path="/analysis" exact component={AnalysisPage} />
 
       <PublicRoute path="/onboarding" exact component={OnBoardingPage} />
 
