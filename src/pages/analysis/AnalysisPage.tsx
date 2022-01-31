@@ -115,6 +115,7 @@ const AnalysisPage = (): JSX.Element => {
 
 const StyledCalendar = styled(Calendar)`
   margin-top: 1rem;
+  min-height: 510px;
 `;
 
 const RoutineStatusContainer = styled.div`
