@@ -2,7 +2,7 @@ import { Colors } from '@/styles';
 import styled from '@emotion/styled';
 import { RingLoader } from 'react-spinners';
 import { Portal } from '@/components';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export interface SpinnerProps {
   color?: string;
@@ -14,9 +14,15 @@ export interface SpinnerProps {
 const Spinner = ({ ...props }: SpinnerProps): JSX.Element => {
   const [visible, setVisible] = useState<boolean>(false);
 
-  setTimeout(() => {
-    setVisible(true);
-  }, 500);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setVisible(true);
+    }, 500);
+
+    return () => {
+      timer && clearTimeout(timer);
+    };
+  }, []);
 
   return (
     <Portal>
