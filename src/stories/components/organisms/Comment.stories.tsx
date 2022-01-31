@@ -1,11 +1,13 @@
 import { Comment, CommentProps } from '@/components';
 // import { UserType, CommentType } from '@/Models';
-import styled from '@emotion/styled';
+// import styled from '@emotion/styled';
 
 export default {
   title: 'Components/Organisms/Comment',
   component: Comment,
 };
+
+// TODO: Comment 컴포넌트, 더미데이터로 스토리북 작성하기
 
 // const user1: UserType = {
 //   userId: 123,
@@ -41,22 +43,22 @@ export default {
 //   likes: [],
 // };
 
-const StyledComment = styled(Comment)`
-  margin-top: 4rem;
-`;
+// const StyledComment = styled(Comment)`
+//   margin-top: 4rem;
+// `;
 
 export const Default = ({ ...args }: CommentProps): JSX.Element => {
-  const handleClickLike = (commentId: number) => {
-    console.log('좋아요 버튼 클릭', commentId);
-  };
+  // const handleClickLike = (commentId: number) => {
+  //   console.log('좋아요 버튼 클릭', commentId);
+  // };
 
-  const handleEditComment = (commentId: number, editedText: string) => {
-    console.log('댓글 수정', commentId, editedText);
-  };
+  // const handleEditComment = (commentId: number, editedText: string) => {
+  //   console.log('댓글 수정', commentId, editedText);
+  // };
 
-  const handleDeleteComment = (commentId: number) => {
-    console.log('댓글 삭제', commentId);
-  };
+  // const handleDeleteComment = (commentId: number) => {
+  //   console.log('댓글 삭제', commentId);
+  // };
 
   return (
     <>
