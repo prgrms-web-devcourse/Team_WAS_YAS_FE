@@ -17,6 +17,7 @@ type highlightDatesType = {
 export interface CalendarProps extends React.ComponentProps<'div'> {
   onClickDate?: (date: dayjs.Dayjs) => void;
   onChangeYearMonth?: (date: dayjs.Dayjs) => void;
+  initialSelectedDate?: dayjs.Dayjs;
   highlightDates?: highlightDatesType;
   markedDates?: dayjs.Dayjs[];
 }
@@ -25,13 +26,15 @@ const Calendar = ({
   onClickDate,
   onChangeYearMonth,
   highlightDates,
+  initialSelectedDate = dayjs(),
   markedDates: rawMarkedDates = [],
   ...props
 }: CalendarProps): JSX.Element => {
   const [calendarDates, setCalendarDates] = useState<
     (dayjs.Dayjs | undefined)[][]
   >([]);
-  const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs>(dayjs());
+  const [selectedDate, setSelectedDate] =
+    useState<dayjs.Dayjs>(initialSelectedDate);
   const markedDates: string[] = useMemo(() => {
     return rawMarkedDates.map((date) => date.format('YYYY-MM-DD'));
   }, [rawMarkedDates]);
