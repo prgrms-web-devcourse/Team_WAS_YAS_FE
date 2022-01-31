@@ -71,6 +71,7 @@ export interface RoutinePostType {
   postId: number;
   title: string;
   user: Omit<UserType, 'email'>;
+  content: string;
   routine: {
     routineId: number;
     name: string;

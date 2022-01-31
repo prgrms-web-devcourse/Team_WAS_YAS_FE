@@ -9,6 +9,7 @@ import {
   Spinner,
   IconButton,
   SpreadToggle,
+  RoutinePostContent,
 } from '@/components';
 import Swal from 'sweetalert2';
 import styled from '@emotion/styled';
@@ -171,6 +172,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
           count={postData && postData.likes.length}
         />
       </RoutineInfoHeader>
+      <RoutinePostContent content={postData && postData.content} />
       <RoutineInfo
         createdAt={postData && postData.createdAt}
         routineObject={{
