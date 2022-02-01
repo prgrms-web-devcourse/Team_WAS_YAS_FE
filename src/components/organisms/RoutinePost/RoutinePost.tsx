@@ -22,7 +22,6 @@ const RoutinePost = ({
     user,
     routine,
     likesResponse: likes,
-    createdAt,
     updatedAt,
   },
   onClickRoutinePost,
