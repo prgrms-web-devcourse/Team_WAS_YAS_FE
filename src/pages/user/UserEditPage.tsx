@@ -71,7 +71,7 @@ const UserEditPage = (): JSX.Element => {
       } catch (error: any) {
         Swal.fire({
           icon: 'error',
-          text: `${error.message}`,
+          text: `${error?.fieldErrors?.reason ?? '오류가 발생했습니다.'}`,
           confirmButtonColor: Colors.point,
         });
       }
