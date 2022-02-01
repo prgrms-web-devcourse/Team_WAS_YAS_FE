@@ -233,6 +233,7 @@ const RoutinePostDetailPage = (): JSX.Element => {
               likeToggled={comment.likes.some(
                 (like) => like.userId === loginUser?.userId,
               )}
+              likesToggleInteractive={loginUser ? true : false}
               likeCount={comment.likes.length}
               comment={comment}
             />
