@@ -1,5 +1,5 @@
 import { IconButtonProps } from './IconButton';
-import { Colors, Media, Shadow } from '@/styles';
+import { Colors, Media } from '@/styles';
 import styled from '@emotion/styled';
 
 const Add = ({ ...props }: IconButtonProps): JSX.Element => {
