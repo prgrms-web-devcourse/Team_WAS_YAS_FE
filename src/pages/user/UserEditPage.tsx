@@ -68,10 +68,10 @@ const UserEditPage = (): JSX.Element => {
         }).then(() => {
           history.push(`/mypage`);
         });
-      } catch (error) {
+      } catch (error: any) {
         Swal.fire({
           icon: 'error',
-          text: `${error}`,
+          text: `${error.message}`,
           confirmButtonColor: Colors.point,
         });
       }
