@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { IconButton, IconButtonProps, Button, Icon } from '@/components';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
-import { Colors, FontSize, FontWeight, Media } from '@/styles';
+import { Colors, FontSize, FontWeight, Media, Shadow } from '@/styles';
 import { useHistory } from 'react-router-dom';
 
 export type RoutineAddButtonProps = React.ComponentProps<'div'>;
@@ -35,12 +35,14 @@ const RoutineAddButton = ({ ...props }: RoutineAddButtonProps): JSX.Element => {
           </StyledButton>
         </ButtonWrapper>
       )}
-      <AddButton
-        open={active}
-        onClick={() => {
-          setActive((active) => !active);
-        }}
-      />
+      <AddButtonWrapper>
+        <AddButton
+          open={active}
+          onClick={() => {
+            setActive((active) => !active);
+          }}
+        />
+      </AddButtonWrapper>
     </Container>
   );
 };
@@ -91,8 +93,14 @@ const StyledButton = styled(Button)`
   }
 `;
 
-const AddButton = styled(IconButton.Add)<IconButtonProps & { open: boolean }>`
+const AddButtonWrapper = styled.div`
   align-self: flex-end;
+  box-shadow: ${Shadow.button};
+  border-radius: 50%;
+  background-color: transparent;
+`;
+
+const AddButton = styled(IconButton.Add)<IconButtonProps & { open: boolean }>`
   transition: 0.125s all ease-out;
 
   ${({ open }) =>

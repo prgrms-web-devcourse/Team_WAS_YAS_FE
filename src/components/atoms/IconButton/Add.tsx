@@ -29,7 +29,6 @@ const StyledButton = styled.button`
   border-radius: 50%;
   background-color: ${Colors.point};
   cursor: pointer;
-  box-shadow: ${Shadow.button};
 
   @media ${Media.sm} {
     width: 42px;
