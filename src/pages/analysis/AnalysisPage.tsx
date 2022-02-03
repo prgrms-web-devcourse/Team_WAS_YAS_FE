@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import styled from '@emotion/styled';
-import { useCallback, useEffect, useState } from 'react';
-import { Media } from '@/styles';
+import { useEffect, useState } from 'react';
+import { Media, Colors, FontSize } from '@/styles';
 import { routineStatusApi } from '@/apis';
 import { Container, Calendar, Routine, Spinner } from '@/components';
 import { useHistory } from 'react-router-dom';
@@ -11,23 +11,6 @@ interface highlightDatesType {
   [key: string]: number;
 }
 
-const parseHighlightDates = (
-  routineStatusData: RoutineStatusType[],
-): highlightDatesType => {
-  const highlightDates: highlightDatesType = {};
-
-  routineStatusData.forEach((routineStatus: RoutineStatusType) => {
-    const date = dayjs(routineStatus.dateTime.slice(0, 11)).format(
-      'YYYY-MM-DD',
-    );
-    highlightDates[date]
-      ? (highlightDates[date] += 1)
-      : (highlightDates[date] = 1);
-  });
-
-  return highlightDates;
-};
-
 const AnalysisPage = (): JSX.Element => {
   const history = useHistory();
   const [loading, setLoading] = useState<boolean>(false);
@@ -36,18 +19,32 @@ const AnalysisPage = (): JSX.Element => {
     [],
   );
 
-  const getRoutineStatusByDate = useCallback(
-    async (date: string): Promise<RoutineStatusType[]> => {
-      try {
-        const res = await routineStatusApi.getRoutineStatusByDate(date);
-        const routineStatus = res.data.data;
-        return routineStatus;
-      } catch (error) {
-        return [];
-      }
-    },
-    [],
-  );
+  const getRoutineStatusByDate = async (
+    date: string,
+  ): Promise<RoutineStatusType[]> => {
+    try {
+      const res = await routineStatusApi.getRoutineStatusByDate(date);
+      const routineStatus = res.data.data;
+      return routineStatus;
+    } catch (error) {
+      return [];
+    }
+  };
+
+  const parseHighlightDates = (
+    routineStatusData: RoutineStatusType[],
+  ): highlightDatesType => {
+    const highlightDates: highlightDatesType = {};
+
+    routineStatusData.forEach((routineStatus: RoutineStatusType) => {
+      const date = dayjs(routineStatus.dateTime).format('YYYY-MM-DD');
+      highlightDates[date]
+        ? (highlightDates[date] += 1)
+        : (highlightDates[date] = 1);
+    });
+
+    return highlightDates;
+  };
 
   const handleClickDate = async (date: dayjs.Dayjs) => {
     setLoading(true);
@@ -85,7 +82,7 @@ const AnalysisPage = (): JSX.Element => {
     };
 
     init();
-  }, [getRoutineStatusByDate]);
+  }, []);
 
   return (
     <Container navBar>
@@ -107,6 +104,12 @@ const AnalysisPage = (): JSX.Element => {
           );
         })}
       </RoutineStatusContainer>
+      {routineStatuses.length <= 0 && (
+        <InfoContainer>
+          <EmojiText>😅</EmojiText>
+          <Text>해당 날짜에는 수행한 루틴이 없습니다.</Text>
+        </InfoContainer>
+      )}
       {loading && <Spinner />}
     </Container>
   );
@@ -135,6 +138,25 @@ const RoutineStatusContainer = styled.div`
       grid-template-columns: repeat(2, 1fr);
     }
   }
+`;
+
+const InfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 1rem;
+`;
+
+const EmojiText = styled.p`
+  font-size: 40px;
+  margin: 2rem 0;
+`;
+
+const Text = styled.p`
+  color: ${Colors.textPrimary};
+  font-size: ${FontSize.medium};
 `;
 
 export default AnalysisPage;

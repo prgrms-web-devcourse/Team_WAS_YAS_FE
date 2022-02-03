@@ -73,6 +73,7 @@ export { RoutineProgressModal } from './organisms/RoutineProgressModal';
 export { RoutineProgress } from './organisms/RoutineProgressModal';
 export { RoutinePost } from './organisms/RoutinePost';
 export { Calendar } from './organisms/Calendar';
+export type { CalendarProps } from './organisms/Calendar';
 
 //! Template Component
 export { Container } from './templates/Container';
