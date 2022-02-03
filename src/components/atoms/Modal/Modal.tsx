@@ -19,15 +19,10 @@ const Modal = ({
     onClose && onClose();
   });
 
-  const handleClickCloseButton = () => {
-    onClose && onClose();
-  };
-
   return (
     <Portal>
       <BackgroundDim visible={visible ? visible : false}>
         <ModalContainer ref={ref} {...props}>
-          <CloseButton onClick={handleClickCloseButton} />
           {children}
         </ModalContainer>
       </BackgroundDim>
@@ -61,12 +56,6 @@ const ModalContainer = styled.div`
   background-color: ${Colors.backgroundModal};
   box-shadow: ${Shadow.modal};
   box-sizing: border-box;
-`;
-
-const CloseButton = styled(IconButton.Close)`
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
 `;
 
 export default Modal;
