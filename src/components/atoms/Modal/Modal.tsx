@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { Colors, Shadow } from '@/styles';
 import { useClickAway } from '@/hooks';
-import { IconButton, Portal } from '@/components';
+import { Portal } from '@/components';
 
 export interface ModalProps extends React.ComponentProps<'div'> {
   visible?: boolean;
