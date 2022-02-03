@@ -15,3 +15,4 @@ export { default as happy } from './emotion/happy.png';
 export { default as sick } from './emotion/sick.png';
 export { default as sad } from './emotion/sad.png';
 export { default as angry } from './emotion/angry.png';
+export { default as camera } from './etc/camera.png';

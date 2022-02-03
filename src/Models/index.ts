@@ -10,6 +10,7 @@ export type { CommentType } from './types';
 export type { PostLikeType } from './types';
 export type { CommentLikeType } from './types';
 export type { RoutineStatusType } from './types';
+export type { RoutineReviewType } from './types';
 
 // !Dummy
 export { userDummy } from './dummy';
