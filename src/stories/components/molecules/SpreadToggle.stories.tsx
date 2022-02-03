@@ -5,6 +5,6 @@ export default {
   component: SpreadToggle,
 };
 
-export const Default = ({ ...args }: SpreadToggleProps) => {
+export const Default = ({ ...args }: SpreadToggleProps): JSX.Element => {
   return <SpreadToggle open />;
 };
