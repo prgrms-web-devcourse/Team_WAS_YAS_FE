@@ -13,7 +13,7 @@ const Portal = ({ children }: PortalProps): JSX.Element => {
     return () => {
       document.body.removeChild(element);
     };
-  });
+  }, [element]);
 
   return createPortal(children, element);
 };

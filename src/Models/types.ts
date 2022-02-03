@@ -55,6 +55,18 @@ export interface MissionCompletionType {
   userDurationTime: number;
 }
 
+export interface RoutineReviewType {
+  routineStatusId: number;
+  emotion: number;
+  content: string;
+  deletedImages: number[];
+  routineStatusImage: {
+    routineStatusImageId: number | string;
+    imageUrl: string;
+  }[];
+  reviewImages: { routineStatusImageId: string; file: File }[];
+}
+
 export interface RoutinePostType {
   postId: number;
   title: string;
