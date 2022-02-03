@@ -9,31 +9,12 @@ import { EditBox } from '../ToolBox';
 
 type ReviewDataType = {
   routineStatusId: number;
-  // dateTime: string;
   emotion: number;
   content: string;
   routineStatusImage: {
     routineStatusImageId: number | string;
     imageUrl: string;
   }[];
-  // routineDetailResponse: {
-  //   name: string;
-  //   emoji: string;
-  //   color: string;
-  //   startGoalTime: string;
-  //   durationGoalTime: number;
-  //   routineCategory: string[];
-  //   weeks: string[];
-  //   missionDetailResponses: {
-  //     missionId: number;
-  //     name: string;
-  //     durationGoalTime: number;
-  //     orders: number;
-  //     emoji: string;
-  //     color: string;
-  //   }[];
-  //   posted: boolean;
-  // };
 };
 
 export type RoutineReviewProps = {
@@ -55,7 +36,6 @@ const RoutineReview = ({
   const [visible, setVisible] = useState<boolean>(false);
   const ref = useRef<HTMLParagraphElement>(null);
   const { emotion, content, routineStatusImage } = reviewData;
-  // const { posted } = routineDetailResponse;
 
   const handleClickSpreadToggle = () => {
     setOpened((opened) => !opened);
@@ -65,7 +45,8 @@ const RoutineReview = ({
     if (ref.current) {
       setParagraphHeight(ref.current.scrollHeight);
     }
-  }, []);
+    // eslint-disable-next-line
+  }, [ref.current]);
 
   const handleCloseToolBox = () => {
     setVisible(false);
@@ -258,10 +239,10 @@ const ReviewContentContainer = styled.div`
 
 const ReviewImageContainer = styled.div`
   display: flex;
+  align-items: center;
   flex-grow: 1;
   flex-shrink: 0;
   gap: 1.125rem;
-  height: 12.5rem;
   margin-bottom: 1.5rem;
   overflow-x: auto;
   -ms-overflow-style: none;
