@@ -37,9 +37,7 @@ const AnalysisPage = (): JSX.Element => {
     const highlightDates: highlightDatesType = {};
 
     routineStatusData.forEach((routineStatus: RoutineStatusType) => {
-      const date = dayjs(routineStatus.dateTime.slice(0, 11)).format(
-        'YYYY-MM-DD',
-      );
+      const date = dayjs(routineStatus.dateTime).format('YYYY-MM-DD');
       highlightDates[date]
         ? (highlightDates[date] += 1)
         : (highlightDates[date] = 1);
