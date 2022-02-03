@@ -1,7 +1,7 @@
 import { Button, SpreadToggle } from '@/components';
 import { EMOTION, EMOTIONTEXT } from '@/constants';
 import { good } from '@/images';
-import { Colors, FontSize, FontWeight } from '@/styles';
+import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import styled from '@emotion/styled';
 import { Fragment, HTMLAttributes, useEffect, useRef, useState } from 'react';
 import ToolBoxButtonIcon from '../Routine/ToolBoxButtonIcon';
@@ -9,31 +9,31 @@ import { EditBox } from '../ToolBox';
 
 type ReviewDataType = {
   routineStatusId: number;
-  dateTime: string;
-  emotion: string;
+  // dateTime: string;
+  emotion: number;
   content: string;
   routineStatusImage: {
-    routineStatusImageId: number;
+    routineStatusImageId: number | string;
     imageUrl: string;
   }[];
-  routineDetailResponse: {
-    name: string;
-    emoji: string;
-    color: string;
-    startGoalTime: string;
-    durationGoalTime: number;
-    routineCategory: string[];
-    weeks: string[];
-    missionDetailResponses: {
-      missionId: number;
-      name: string;
-      durationGoalTime: number;
-      orders: number;
-      emoji: string;
-      color: string;
-    }[];
-    posted: boolean;
-  };
+  // routineDetailResponse: {
+  //   name: string;
+  //   emoji: string;
+  //   color: string;
+  //   startGoalTime: string;
+  //   durationGoalTime: number;
+  //   routineCategory: string[];
+  //   weeks: string[];
+  //   missionDetailResponses: {
+  //     missionId: number;
+  //     name: string;
+  //     durationGoalTime: number;
+  //     orders: number;
+  //     emoji: string;
+  //     color: string;
+  //   }[];
+  //   posted: boolean;
+  // };
 };
 
 export type RoutineReviewProps = {
@@ -54,9 +54,8 @@ const RoutineReview = ({
   const [paragraphHeight, setParagraphHeight] = useState<number>(0);
   const [visible, setVisible] = useState<boolean>(false);
   const ref = useRef<HTMLParagraphElement>(null);
-  const { emotion, content, routineStatusImage, routineDetailResponse } =
-    reviewData;
-  const { posted } = routineDetailResponse;
+  const { emotion, content, routineStatusImage } = reviewData;
+  // const { posted } = routineDetailResponse;
 
   const handleClickSpreadToggle = () => {
     setOpened((opened) => !opened);
@@ -85,8 +84,8 @@ const RoutineReview = ({
   };
 
   return (
-    <RoutineReviewContainer posted={posted} {...props}>
-      {posted ? (
+    <RoutineReviewContainer reviewData={reviewData} {...props}>
+      {reviewData.content ? (
         !routineStatusImage.length ? (
           <Fragment>
             <ReviewEmotionContainer>
@@ -180,13 +179,16 @@ const RoutineReview = ({
 
 export default RoutineReview;
 
-const RoutineReviewContainer = styled.div<{ posted: boolean }>`
+const RoutineReviewContainer = styled.div<{ reviewData: ReviewDataType }>`
   background-color: ${Colors.backgroundModal};
   border-radius: 1rem;
   box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.25);
   display: flex;
-  ${({ posted }) =>
-    posted
+  flex-direction: row;
+  justify-content: initial;
+  align-items: initial;
+  ${({ reviewData }) =>
+    reviewData.content
       ? `
     flex-direction: row;
     justify-content: initial;
@@ -209,8 +211,18 @@ const ReviewText = styled.p`
 `;
 
 const ReviewEmotion = styled.img`
-  width: 73px;
-  height: 73px;
+  @media ${Media.sm} {
+    width: 40px;
+    height: 40px;
+  }
+  @media ${Media.md} {
+    width: 48px;
+    height: 48px;
+  }
+  @media ${Media.lg} {
+    width: 48px;
+    height: 48px;
+  }
 `;
 
 const StyledButton = styled(Button)`
@@ -250,7 +262,7 @@ const ReviewImageContainer = styled.div`
   flex-shrink: 0;
   gap: 1.125rem;
   height: 12.5rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   overflow-x: auto;
   -ms-overflow-style: none;
   &::-webkit-scrollbar {
@@ -258,8 +270,16 @@ const ReviewImageContainer = styled.div`
   }
 
   img {
-    height: 12.5rem;
     border-radius: 1rem;
+    @media ${Media.sm} {
+      height: 100px;
+    }
+    @media ${Media.md} {
+      height: 120px;
+    }
+    @media ${Media.lg} {
+      height: 120px;
+    }
   }
 `;
 

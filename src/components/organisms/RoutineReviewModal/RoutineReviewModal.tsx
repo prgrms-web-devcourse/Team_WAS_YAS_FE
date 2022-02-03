@@ -1,16 +1,19 @@
 import { Button, Modal, Text } from '@/components';
 import { Colors, FontSize, Media } from '@/styles';
 import styled from '@emotion/styled';
-import React, { ChangeEvent, FormEvent, Fragment, useState } from 'react';
+import React, { ChangeEvent, FormEvent, Fragment } from 'react';
 import ImageUploader from './ImageUploader';
 import { RoutineReviewType } from '@/Models';
 import { EMOTION } from '@/constants';
-import { v4 } from 'uuid';
 
 export interface ReviewProps {
   visible: boolean;
   onClose?: () => void;
-  onSubmit: (review: RoutineReviewType) => void;
+  onSubmit: () => void;
+  onEmotionChange: (emotion: number) => void;
+  onContentChange: (content: string) => void;
+  onImageChange: (fileList: File[]) => void;
+  onImageDelete: (routineStatusImageId: string | number) => void;
   initReview: RoutineReviewType;
 }
 
@@ -18,67 +21,32 @@ const RoutineReviewModal = ({
   visible,
   onClose,
   initReview,
+  onEmotionChange,
+  onContentChange,
+  onImageChange,
+  onImageDelete,
   onSubmit,
 }: ReviewProps): JSX.Element => {
-  const [review, setReview] = useState<RoutineReviewType>(initReview);
   const emotionList = Object.keys(EMOTION);
-
   const handleEmotionChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setReview((review) => ({ ...review, emotion: Number(e.target.value) }));
+    onEmotionChange && onEmotionChange(Number(e.target.value));
   };
 
   const handleContentChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    setReview((review) => ({ ...review, content: e.target.value }));
+    onContentChange && onContentChange(e.target.value);
   };
 
   const handleImageChange = (fileList: File[]) => {
-    if (fileList) {
-      fileList.forEach((file) => {
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(file);
-        fileReader.onload = () => {
-          const id = v4();
-          const newUrl = {
-            routineStatusImageId: id,
-            imageUrl: fileReader.result as string,
-          };
-          const newFile = {
-            routineStatusImageId: id,
-            file,
-          };
-          setReview((review) => ({
-            ...review,
-            routineStatusImage: [...review.routineStatusImage, newUrl],
-            reviewImages: [...review.reviewImages, newFile],
-          }));
-        };
-      });
-    }
+    onImageChange && onImageChange(fileList);
   };
 
   const handleImageDelete = (routineStatusImageId: string | number) => {
-    if (typeof routineStatusImageId === 'number') {
-      setReview((review) => ({
-        ...review,
-        deletedImages: [...review.deletedImages, routineStatusImageId],
-      }));
-    }
-    const newUrlList = review.routineStatusImage.filter(
-      (image) => image.routineStatusImageId !== routineStatusImageId,
-    );
-    const newFileList = review.reviewImages.filter(
-      (image) => image.routineStatusImageId !== routineStatusImageId,
-    );
-    setReview((review) => ({
-      ...review,
-      reviewImages: newFileList,
-      routineStatusImage: newUrlList,
-    }));
+    onImageDelete && onImageDelete(routineStatusImageId);
   };
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit && onSubmit(review);
+    onSubmit && onSubmit();
   };
 
   return (
@@ -94,7 +62,7 @@ const RoutineReviewModal = ({
                 name="emotion"
                 value={emotion}
                 onChange={handleEmotionChange}
-                checked={review.emotion === Number(emotion)}
+                checked={initReview.emotion === Number(emotion)}
               />
               <label htmlFor={emotion}>
                 <Image src={EMOTION[emotion]} alt="emotionImg" />
@@ -103,23 +71,23 @@ const RoutineReviewModal = ({
           ))}
         </EmotionContainer>
         <ImageUploader
-          routineImages={review.routineStatusImage}
+          routineImages={initReview.routineStatusImage}
           onImageChange={handleImageChange}
           onImageDelete={handleImageDelete}
         />
         <TextArea
           name="text"
           placeholder="루틴 후기를 입력해주세요."
-          value={review.content}
+          value={initReview.content}
           onChange={handleContentChange}
         />
-        {review.content ? (
+        {initReview.content ? (
           <Span>&nbsp;</Span>
         ) : (
           <Span>루틴 후기를 입력해주세요</Span>
         )}
         <ButtonContainer>
-          <Button type="button" colorType="white">
+          <Button type="button" colorType="white" onClick={onClose}>
             취소하기
           </Button>
           <Button type="submit">등록하기</Button>

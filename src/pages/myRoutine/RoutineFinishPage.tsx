@@ -1,5 +1,12 @@
 import { useEffect, useState } from 'react';
-import { Button, Container, RoutineInfo, RoutineProgress } from '@/components';
+import {
+  Button,
+  Container,
+  RoutineInfo,
+  RoutineProgress,
+  RoutineReview,
+  Spinner,
+} from '@/components';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import styled from '@emotion/styled';
 import { useHistory, useParams } from 'react-router-dom';
@@ -7,6 +14,7 @@ import { missionStatusApi, routineApi } from '@/apis';
 import Swal from 'sweetalert2';
 import { RoutineReviewModal } from '@/components/organisms/RoutineReviewModal';
 import { RoutineReviewType } from '@/Models';
+import { v4 } from 'uuid';
 
 interface RoutineInfoType {
   emoji: string;
@@ -17,34 +25,31 @@ interface RoutineInfoType {
 const RoutineFinishPage = (): JSX.Element => {
   const history = useHistory();
   const params = useParams();
-  const routineId = params['id'] && +params['id'];
+  const currentRoutineId = params['id'] && +params['id'];
   const [todayMissionStatus, setTodayMissionStatus] = useState<any>([]);
   const [routineInfo, setRoutineInfo] = useState<any>([]);
   const [visible, setVisible] = useState<boolean>(false);
-  const reviewInfo: RoutineReviewType = {
-    routineStatusId: Number(routineId),
-    emotion: 2,
-    content: '안녕하세요',
-    routineStatusImage: [
-      {
-        routineStatusImageId: 1,
-        imageUrl:
-          'https://yas-bucket.s3.ap-northeast-2.amazonaws.com/static/review/sun.nio.ch.ChannelInputStream%4012b30cf7',
-      },
-    ],
+  const [loading, setLoading] = useState<boolean>(false);
+  const initialReview = {
+    routineStatusId: 0,
+    emotion: 1,
+    content: '',
+    routineStatusImage: [],
     deletedImages: [],
     reviewImages: [],
   };
+  const [reviewInfo, setReviewInfo] =
+    useState<RoutineReviewType>(initialReview);
 
   const getFinishedRoutineDetail = async () => {
-    if (!routineId) return;
+    if (!currentRoutineId) return;
     try {
       const notFinishedRoutines = await routineApi.getNotFinishedRoutines();
       const notFinishedRoutineIds = notFinishedRoutines.data.data.map(
         (routine: { routineId: number }) => routine.routineId,
       );
 
-      if (notFinishedRoutineIds.includes(routineId)) {
+      if (notFinishedRoutineIds.includes(currentRoutineId)) {
         Swal.fire({
           position: 'center',
           icon: 'info',
@@ -53,9 +58,11 @@ const RoutineFinishPage = (): JSX.Element => {
           showConfirmButton: false,
           timer: 2000,
         });
-        history.replace(`/routine/${routineId}`);
+        history.replace(`/routine/${currentRoutineId}`);
       } else {
-        const result = await missionStatusApi.getMissionStatus(routineId);
+        const result = await missionStatusApi.getMissionStatus(
+          currentRoutineId,
+        );
         const missionStatus = result.data.data
           .map(
             (status: {
@@ -87,10 +94,73 @@ const RoutineFinishPage = (): JSX.Element => {
     }
   };
 
+  const handleEmotionChange = (emotion: number) => {
+    setReviewInfo((reviewInfo) => ({
+      ...reviewInfo,
+      emotion,
+    }));
+  };
+  const handleContentChange = (content: string) => {
+    setReviewInfo((reviewInfo) => ({
+      ...reviewInfo,
+      content,
+    }));
+  };
+
+  const handleImageChange = (fileList: File[]) => {
+    if (fileList) {
+      fileList.forEach((file) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = () => {
+          const id = v4();
+          const newUrl = {
+            routineStatusImageId: id,
+            imageUrl: fileReader.result as string,
+          };
+          const newFile = {
+            routineStatusImageId: id,
+            file,
+          };
+          setReviewInfo((reviewInfo) => ({
+            ...reviewInfo,
+            routineStatusImage: [...reviewInfo.routineStatusImage, newUrl],
+            reviewImages: [...reviewInfo.reviewImages, newFile],
+          }));
+        };
+      });
+    }
+  };
+
+  const handleImageDelete = (routineStatusImageId: number | string) => {
+    if (typeof routineStatusImageId === 'number') {
+      setReviewInfo((reviewInfo) => ({
+        ...reviewInfo,
+        deletedImages: [...reviewInfo.deletedImages, routineStatusImageId],
+      }));
+    }
+    const newUrlList = reviewInfo.routineStatusImage.filter(
+      (image) => image.routineStatusImageId !== routineStatusImageId,
+    );
+    const newFileList = reviewInfo.reviewImages.filter(
+      (image) => image.routineStatusImageId !== routineStatusImageId,
+    );
+    setReviewInfo((reviewInfo) => ({
+      ...reviewInfo,
+      reviewImages: newFileList,
+      routineStatusImage: newUrlList,
+    }));
+  };
+
+  const handleCloseClick = () => {
+    setVisible(false);
+    window.location.replace(`/routine/${currentRoutineId}/finish`);
+  };
+
   const getRoutineInfo = async () => {
-    if (!routineId) return;
+    if (!currentRoutineId) return;
     try {
-      const result = await routineApi.getRoutine(routineId);
+      const result = await routineApi.getRoutine(currentRoutineId);
       const routineInfo: RoutineInfoType = {
         emoji: result.data.data.emoji,
         name: result.data.data.name,
@@ -102,15 +172,15 @@ const RoutineFinishPage = (): JSX.Element => {
     }
   };
 
-  const handleReviewSubmit = async (review: RoutineReviewType) => {
-    if (!review.content) {
+  const handleReviewSubmit = async () => {
+    if (!reviewInfo.content) {
       Swal.fire({
         icon: 'error',
         text: '루틴 후기를 작성해주세요',
         showConfirmButton: false,
         timer: 1000,
       });
-    } else if (review.routineStatusImage.length > 5) {
+    } else if (reviewInfo.routineStatusImage.length > 5) {
       Swal.fire({
         icon: 'error',
         text: '사진은 최대 5장까지 업로드가 가능합니다',
@@ -124,11 +194,11 @@ const RoutineFinishPage = (): JSX.Element => {
       });
 
       const fileFormData = new FormData();
-      const files = review.reviewImages.map(({ file }) => file);
+      const files = reviewInfo.reviewImages.map(({ file }) => file);
       files.forEach((file) => {
         fileFormData.append('file', file);
       });
-      const { routineStatusId, emotion, content, deletedImages } = review;
+      const { routineStatusId, emotion, content, deletedImages } = reviewInfo;
       const reviewDataBlob = new Blob(
         [JSON.stringify({ routineStatusId, emotion, content, deletedImages })],
         { type: 'application/json' },
@@ -139,9 +209,21 @@ const RoutineFinishPage = (): JSX.Element => {
   };
 
   const getInitReview = async () => {
-    if (!routineId) return;
-    const result = await routineApi.getRoutineStatus(routineId);
-    console.log(result);
+    if (!currentRoutineId) return;
+    setLoading(true);
+    const result = await routineApi.getRoutineStatus(83);
+    const { routineStatusId, emotion, content, routineStatusImage } =
+      result.data.data;
+    const initReview = {
+      routineStatusId,
+      emotion,
+      content,
+      routineStatusImage,
+      deletedImages: [],
+      reviewImages: [],
+    };
+    setReviewInfo(initReview);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -155,6 +237,14 @@ const RoutineFinishPage = (): JSX.Element => {
     <Container>
       <Title>루틴 요약</Title>
       <RoutineInfo routineObject={routineInfo} />
+      <RoutineReviewContainer>
+        <RoutineReview
+          reviewData={reviewInfo}
+          onClickWriteReview={() => setVisible(true)}
+          updateReview={() => setVisible(true)}
+          deleteReview={() => console.log('delete')}
+        />
+      </RoutineReviewContainer>
       <RoutineProgressContainer>
         <StyledRoutineProgress>
           <RoutineProgress missionObject={todayMissionStatus} />
@@ -166,12 +256,19 @@ const RoutineFinishPage = (): JSX.Element => {
         </Button>
         <Button onClick={() => setVisible(true)}>후기 작성하기</Button>
       </ButtonContainer>
-      <RoutineReviewModal
-        visible={visible}
-        onClose={() => setVisible(false)}
-        onSubmit={handleReviewSubmit}
-        initReview={reviewInfo}
-      />
+      {visible && (
+        <RoutineReviewModal
+          visible={visible}
+          onClose={handleCloseClick}
+          onSubmit={handleReviewSubmit}
+          onEmotionChange={handleEmotionChange}
+          onContentChange={handleContentChange}
+          onImageChange={handleImageChange}
+          onImageDelete={handleImageDelete}
+          initReview={reviewInfo}
+        />
+      )}
+      {loading && <Spinner />}
     </Container>
   );
 };
@@ -192,6 +289,11 @@ const Title = styled.h1`
     font-weight: ${FontWeight.medium};
     font-size: ${FontSize.large};
   }
+`;
+
+const RoutineReviewContainer = styled.div`
+  margin-top: 1.5rem;
+  width: 85%;
 `;
 
 const RoutineProgressContainer = styled.div`
