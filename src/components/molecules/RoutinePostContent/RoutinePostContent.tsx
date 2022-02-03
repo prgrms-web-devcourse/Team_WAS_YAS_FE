@@ -62,7 +62,6 @@ const TextArea = styled.textarea<
   }
 >`
   width: 100%;
-  height: ${({ opened, height }) => (opened ? `${height}px` : '1.8rem')};
   overflow-y: hidden;
   text-overflow: ellipsis;
   background-color: transparent;
@@ -73,12 +72,15 @@ const TextArea = styled.textarea<
 
   @media ${Media.sm} {
     font-size: ${FontSize.small};
+    height: ${({ opened, height }) => (opened ? `${height}px` : '1.5rem')};
   }
   @media ${Media.md} {
     font-size: ${FontSize.base};
+    height: ${({ opened, height }) => (opened ? `${height}px` : '1.8rem')};
   }
   @media ${Media.lg} {
     font-size: ${FontSize.base};
+    height: ${({ opened, height }) => (opened ? `${height}px` : '1.8rem')};
   }
 `;
 

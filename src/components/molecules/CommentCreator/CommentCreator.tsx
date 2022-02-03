@@ -3,23 +3,34 @@ import styled from '@emotion/styled';
 import { Colors, Media, FontSize } from '@/styles';
 import { useSelector } from 'react-redux';
 import { RootState } from '@/store';
+import Swal from 'sweetalert2';
 
 export interface CommentCreatorProps
   extends Omit<React.ComponentProps<'form'>, 'onChange' | 'onSubmit'> {
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onSubmit?: (value: string) => void;
+  contentLimit?: number;
 }
 
 const CommentCreator = ({
   onChange,
   onSubmit,
+  contentLimit = 127,
   ...props
 }: CommentCreatorProps): JSX.Element => {
   const [content, setContent] = useState<string>('');
   const user = useSelector((state: RootState) => state.user.data);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>): void => {
-    setContent(e.target.value);
+    const content = e.target.value;
+    if (content.length > 127) {
+      Swal.fire({
+        icon: 'warning',
+        text: '댓글은 127글자 이내로 작성해주세요.',
+      });
+      return;
+    }
+    setContent(content);
     onChange && onChange(e);
   };
 

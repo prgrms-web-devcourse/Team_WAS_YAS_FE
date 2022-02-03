@@ -17,6 +17,7 @@ export interface CommentProps extends React.ComponentProps<'div'> {
   onClickLikeToggle?: (commentId: number, prevToggled: boolean) => void;
   likeToggled?: boolean;
   likeCount?: number;
+  likesToggleInteractive?: boolean;
 }
 
 const Comment = ({
@@ -27,6 +28,7 @@ const Comment = ({
   onClickLikeToggle,
   likeToggled,
   likeCount,
+  likesToggleInteractive = false,
   ...props
 }: CommentProps): JSX.Element => {
   const ref = useRef<HTMLTextAreaElement>(null);
@@ -92,7 +94,7 @@ const Comment = ({
         </UserInfoContainer>
         <ToolWrapper>
           <LikeBox
-            interactive
+            interactive={likesToggleInteractive}
             active={likeToggled}
             count={likeCount ? likeCount : 0}
             onClick={handleClickLikeButton}

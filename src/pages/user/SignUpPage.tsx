@@ -84,10 +84,10 @@ const SignUpPage = (): JSX.Element => {
         }).then(() => {
           history.push('/mypage/signin');
         });
-      } catch (error) {
+      } catch (error: any) {
         Swal.fire({
           icon: 'error',
-          text: `회원가입에 실패하였습니다.`,
+          text: `${error?.fieldErrors?.reason ?? '회원가입에 실패하였습니다.'}`,
           confirmButtonColor: Colors.point,
         });
       }

@@ -68,10 +68,10 @@ const UserEditPage = (): JSX.Element => {
         }).then(() => {
           history.push(`/mypage`);
         });
-      } catch (error) {
+      } catch (error: any) {
         Swal.fire({
           icon: 'error',
-          text: `${error}`,
+          text: `${error?.fieldErrors?.reason ?? '오류가 발생했습니다.'}`,
           confirmButtonColor: Colors.point,
         });
       }
