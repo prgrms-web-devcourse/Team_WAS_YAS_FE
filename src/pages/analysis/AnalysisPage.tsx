@@ -37,7 +37,7 @@ const AnalysisPage = (): JSX.Element => {
     const highlightDates: highlightDatesType = {};
 
     routineStatusData.forEach((routineStatus: RoutineStatusType) => {
-      const date = dayjs(routineStatus.dateTime).format('YYYY-MM-DD');
+      const date = dayjs(routineStatus.startTime).format('YYYY-MM-DD');
       highlightDates[date]
         ? (highlightDates[date] += 1)
         : (highlightDates[date] = 1);
@@ -91,24 +91,27 @@ const AnalysisPage = (): JSX.Element => {
         onClickDate={handleClickDate}
         onChangeYearMonth={handleChangeYearMonth}
       />
-      <RoutineStatusContainer>
-        {routineStatuses.map((routineStatus) => {
-          const routine = routineStatus.routineListResponse;
-          return (
-            <Routine
-              key={routine.routineId}
-              type="create"
-              routineObject={routine}
-              onClick={() => handleClickRoutine(routineStatus.routineStatusId)}
-            />
-          );
-        })}
-      </RoutineStatusContainer>
-      {routineStatuses.length <= 0 && (
+      {routineStatuses.length <= 0 ? (
         <InfoContainer>
           <EmojiText>😅</EmojiText>
           <Text>해당 날짜에는 수행한 루틴이 없습니다.</Text>
         </InfoContainer>
+      ) : (
+        <RoutineStatusContainer>
+          {routineStatuses.map((routineStatus) => {
+            const routine = routineStatus.routineListResponse;
+            return (
+              <Routine
+                key={routine.routineId}
+                type="create"
+                routineObject={routine}
+                onClick={() =>
+                  handleClickRoutine(routineStatus.routineStatusId)
+                }
+              />
+            );
+          })}
+        </RoutineStatusContainer>
       )}
       {loading && <Spinner />}
     </Container>
@@ -127,6 +130,7 @@ const RoutineStatusContainer = styled.div`
   justify-items: center;
   gap: 40px 0;
   width: 100%;
+  margin-bottom: 6rem;
   padding: 40px 0;
 
   @media ${Media.sm} {
@@ -144,9 +148,9 @@ const InfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin: 1rem 0 6rem;
   align-items: center;
   width: 100%;
-  margin-top: 1rem;
 `;
 
 const EmojiText = styled.p`
