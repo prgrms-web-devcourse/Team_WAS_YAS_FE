@@ -139,7 +139,7 @@ export interface CommentLikeType {
 
 export interface RoutineStatusType {
   routineStatusId: number;
-  dateTime: string;
+  startTime: string;
   routineListResponse: {
     routineId: number;
     name: string;
