@@ -40,9 +40,12 @@ const RoutineFinishPage = (): JSX.Element => {
   };
   const [reviewInfo, setReviewInfo] =
     useState<RoutineReviewType>(initialReview);
-
   const getFinishedRoutineDetail = async () => {
-    if (!currentRoutineId) return;
+    setLoading(true);
+    if (!currentRoutineId) {
+      setLoading(false);
+      return;
+    }
     try {
       const notFinishedRoutines = await routineApi.getNotFinishedRoutines();
       const notFinishedRoutineIds = notFinishedRoutines.data.data.map(
@@ -63,6 +66,8 @@ const RoutineFinishPage = (): JSX.Element => {
         const result = await missionStatusApi.getMissionStatus(
           currentRoutineId,
         );
+        const { routineStatusId } = result.data.data[0];
+        setReviewInfo((reviewInfo) => ({ ...reviewInfo, routineStatusId }));
         const missionStatus = result.data.data
           .map(
             (status: {
@@ -86,12 +91,13 @@ const RoutineFinishPage = (): JSX.Element => {
             (a: { orders: number }, b: { orders: number }) =>
               a.orders - b.orders,
           );
-
+        getInitReview(routineStatusId);
         setTodayMissionStatus(missionStatus);
       }
     } catch (e) {
       console.error('getFinishedRoutineDetail: ', e);
     }
+    setLoading(false);
   };
 
   const handleEmotionChange = (emotion: number) => {
@@ -152,13 +158,50 @@ const RoutineFinishPage = (): JSX.Element => {
     }));
   };
 
+  const handleReviewDelete = async () => {
+    const fileFormData = new FormData();
+    const { routineStatusId, routineStatusImage } = reviewInfo;
+    const deletedImages = routineStatusImage.map(
+      (image) => image.routineStatusImageId,
+    );
+    const reviewDataBlob = new Blob(
+      [
+        JSON.stringify({
+          routineStatusId,
+          emotion: 1,
+          content: '',
+          deletedImages,
+        }),
+      ],
+      { type: 'application/json' },
+    );
+    fileFormData.append('routineStatusCreateRequest', reviewDataBlob);
+    try {
+      await routineApi.creatRoutineReview(fileFormData);
+      Swal.fire({
+        icon: 'success',
+        text: '루틴 후기가 삭제 되었습니다!',
+      });
+      setReviewInfo(initialReview);
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        text: '오류로 인해 루틴 후기 삭제에 실패했습니다!',
+      });
+    }
+  };
+
   const handleCloseClick = () => {
     setVisible(false);
     window.location.replace(`/routine/${currentRoutineId}/finish`);
   };
 
   const getRoutineInfo = async () => {
-    if (!currentRoutineId) return;
+    setLoading(true);
+    if (!currentRoutineId) {
+      setLoading(false);
+      return;
+    }
     try {
       const result = await routineApi.getRoutine(currentRoutineId);
       const routineInfo: RoutineInfoType = {
@@ -170,6 +213,7 @@ const RoutineFinishPage = (): JSX.Element => {
     } catch (e) {
       console.error('getRoutineInfo: ', e);
     }
+    setLoading(false);
   };
 
   const handleReviewSubmit = async () => {
@@ -188,11 +232,6 @@ const RoutineFinishPage = (): JSX.Element => {
         timer: 1000,
       });
     } else {
-      Swal.fire({
-        icon: 'success',
-        text: '루틴 후기 등록에 성공했습니다!🎉',
-      });
-
       const fileFormData = new FormData();
       const files = reviewInfo.reviewImages.map(({ file }) => file);
       files.forEach((file) => {
@@ -204,32 +243,39 @@ const RoutineFinishPage = (): JSX.Element => {
         { type: 'application/json' },
       );
       fileFormData.append('routineStatusCreateRequest', reviewDataBlob);
-      await routineApi.creatRoutineReview(fileFormData);
+      try {
+        await routineApi.creatRoutineReview(fileFormData);
+        Swal.fire({
+          icon: 'success',
+          text: '루틴 후기 등록에 성공했습니다!🎉',
+        });
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          text: '오류로 인해 루틴 후기 등록에 실패했습니다!',
+        });
+      }
     }
   };
 
-  const getInitReview = async () => {
-    if (!currentRoutineId) return;
-    setLoading(true);
-    const result = await routineApi.getRoutineStatus(83);
-    const { routineStatusId, emotion, content, routineStatusImage } =
-      result.data.data;
-    const initReview = {
-      routineStatusId,
-      emotion,
-      content,
-      routineStatusImage,
-      deletedImages: [],
-      reviewImages: [],
-    };
-    setReviewInfo(initReview);
-    setLoading(false);
+  const getInitReview = async (routineStatusId: number) => {
+    try {
+      const result = await routineApi.getRoutineStatus(routineStatusId);
+      const { emotion, content, routineStatusImage } = result.data.data;
+      setReviewInfo((reviewInfo) => ({
+        ...reviewInfo,
+        emotion,
+        content,
+        routineStatusImage,
+      }));
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
     getFinishedRoutineDetail();
     getRoutineInfo();
-    getInitReview();
     // eslint-disable-next-line
   }, []);
 
@@ -242,7 +288,7 @@ const RoutineFinishPage = (): JSX.Element => {
           reviewData={reviewInfo}
           onClickWriteReview={() => setVisible(true)}
           updateReview={() => setVisible(true)}
-          deleteReview={() => console.log('delete')}
+          deleteReview={handleReviewDelete}
         />
       </RoutineReviewContainer>
       <RoutineProgressContainer>
@@ -254,7 +300,6 @@ const RoutineFinishPage = (): JSX.Element => {
         <Button colorType="white" onClick={() => history.push('/')}>
           종료하기
         </Button>
-        <Button onClick={() => setVisible(true)}>후기 작성하기</Button>
       </ButtonContainer>
       {visible && (
         <RoutineReviewModal
@@ -314,21 +359,16 @@ const StyledRoutineProgress = styled.div`
 
 const ButtonContainer = styled.div`
   position: fixed;
-  bottom: 1rem;
+  bottom: 1.5rem;
   z-index: 1000;
   margin-top: 3rem;
   @media ${Media.sm} {
     width: 240px;
   }
   @media ${Media.md} {
-    display: flex;
     width: 480px;
   }
   @media ${Media.lg} {
-    display: flex;
     width: 480px;
-  }
-  > button {
-    margin: 0 1rem 1rem 0;
   }
 `;
