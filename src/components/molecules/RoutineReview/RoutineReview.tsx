@@ -40,13 +40,11 @@ const RoutineReview = ({
   const handleClickSpreadToggle = () => {
     setOpened((opened) => !opened);
   };
-
   useEffect(() => {
     if (ref.current) {
       setParagraphHeight(ref.current.scrollHeight);
     }
-    // eslint-disable-next-line
-  }, [ref.current]);
+  }, [reviewData.content]);
 
   const handleCloseToolBox = () => {
     setVisible(false);
@@ -187,8 +185,9 @@ const RoutineReviewContainer = styled.div<{ reviewData: ReviewDataType }>`
 `;
 
 const ReviewText = styled.p`
-  font-size: ${FontSize.medium};
   color: ${Colors.textTertiary};
+  font-size: ${FontSize.medium};
+  word-break: keep-all;
 `;
 
 const ReviewEmotion = styled.img`
@@ -207,7 +206,7 @@ const ReviewEmotion = styled.img`
 `;
 
 const StyledButton = styled(Button)`
-  width: 16.875rem;
+  width: 60%;
 `;
 
 const ReviewEmotionContainer = styled.div`
@@ -253,7 +252,7 @@ const ReviewImageContainer = styled.div`
   img {
     border-radius: 1rem;
     @media ${Media.sm} {
-      height: 100px;
+      height: 80px;
     }
     @media ${Media.md} {
       height: 120px;
@@ -269,14 +268,23 @@ const ReviewContent = styled.p<{
   height: number;
   withPhoto: boolean;
 }>`
-  font-size: ${FontSize.medium};
   color: ${Colors.textPrimary};
   font-weight: ${FontWeight.medium};
   white-space: break-spaces;
+  word-break: keep-all;
   line-height: 1.625rem;
   overflow: hidden;
   height: ${({ opened, height, withPhoto }) =>
     opened ? `${height}` : withPhoto ? '2rem' : '3.2rem'};
+  @media ${Media.sm} {
+    font-size: ${FontSize.small};
+  }
+  @media ${Media.md} {
+    font-size: ${FontSize.medium};
+  }
+  @media ${Media.lg} {
+    font-size: ${FontSize.medium};
+  }
 `;
 
 const StyledSpreadToggle = styled(SpreadToggle)`

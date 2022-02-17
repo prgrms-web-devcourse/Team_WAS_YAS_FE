@@ -32,7 +32,8 @@ interface RoutineApiType {
     missionCreateRequest: MissionType[];
   }) => Promise<AxiosResponse>;
   creatRoutineReview: (formData: FormData) => Promise<AxiosResponse>;
-  getRoutineStatus: (routineId: number) => Promise<AxiosResponse>;
+  getRoutineStatus: (routineStatusId: number) => Promise<AxiosResponse>;
+  deleteRoutineReview: (routineStatusId: number) => Promise<AxiosResponse>;
 }
 
 const routineApi: RoutineApiType = {
@@ -48,8 +49,10 @@ const routineApi: RoutineApiType = {
     authRequest.post('/routines/my', routineInfo),
   creatRoutineReview: (formData) =>
     authRequest.put('/routines/routineStatus', formData),
-  getRoutineStatus: (routineId) =>
-    authRequest.get(`/routines/routineStatus/${routineId}`),
+  getRoutineStatus: (routineStatusId) =>
+    authRequest.get(`/routines/routineStatus/${routineStatusId}`),
+  deleteRoutineReview: (routineStatusId) =>
+    authRequest.delete(`/routines/routineStatus/${routineStatusId}`),
 };
 
 export default routineApi;
