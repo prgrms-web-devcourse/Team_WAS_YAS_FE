@@ -176,19 +176,31 @@ const RoutineFinishPage = (): JSX.Element => {
       { type: 'application/json' },
     );
     fileFormData.append('routineStatusCreateRequest', reviewDataBlob);
-    try {
-      await routineApi.creatRoutineReview(fileFormData);
-      Swal.fire({
-        icon: 'success',
-        text: '루틴 후기가 삭제 되었습니다!',
-      });
-      setReviewInfo(initialReview);
-    } catch (error) {
-      Swal.fire({
-        icon: 'error',
-        text: '오류로 인해 루틴 후기 삭제에 실패했습니다!',
-      });
-    }
+    Swal.fire({
+      icon: 'question',
+      text: '루틴 후기를 삭제하시겠습니까?',
+      showCancelButton: true,
+      confirmButtonColor: `${Colors.functionPositive}`,
+      cancelButtonColor: `${Colors.functionNegative}`,
+      confirmButtonText: '네',
+      cancelButtonText: '아니오',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await routineApi.creatRoutineReview(fileFormData);
+          Swal.fire({
+            icon: 'success',
+            text: '루틴 후기가 삭제 되었습니다!',
+          });
+          setReviewInfo(initialReview);
+        } catch (error) {
+          Swal.fire({
+            icon: 'error',
+            text: '오류로 인해 루틴 후기 삭제에 실패했습니다!',
+          });
+        }
+      }
+    });
   };
 
   const handleCloseClick = () => {
