@@ -5,6 +5,7 @@ import {
   RoutineInfo,
   RoutineProgress,
   RoutineReview,
+  RoutineReviewModal,
   Spinner,
 } from '@/components';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
@@ -12,7 +13,6 @@ import styled from '@emotion/styled';
 import { useHistory, useParams } from 'react-router-dom';
 import { missionStatusApi, routineApi } from '@/apis';
 import Swal from 'sweetalert2';
-import { RoutineReviewModal } from '@/components/organisms/RoutineReviewModal';
 import { RoutineReviewType } from '@/Models';
 import { v4 } from 'uuid';
 
