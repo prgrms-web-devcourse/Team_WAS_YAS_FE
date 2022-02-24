@@ -1,19 +1,25 @@
 import { useParams } from 'react-router-dom';
 import React, { useCallback, useEffect, useState } from 'react';
 import { routineApi } from '@/apis';
-import { Container, RoutineInfo, RoutineReview } from '@/components';
+import {
+  Container,
+  RoutineInfo,
+  RoutineProgress,
+  RoutineReview,
+  RoutineReviewModal,
+} from '@/components';
 import styled from '@emotion/styled';
 import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import { RoutineReviewType, RoutineType } from '@/Models';
 import { v4 } from 'uuid';
 import Swal from 'sweetalert2';
-import { RoutineReviewModal } from '@/components/organisms/RoutineReviewModal';
 
 const AnalysisDetailPage = (): JSX.Element => {
   const { id } = useParams<Record<string, string>>();
   const [routineInfo, setRoutineInfo] = useState<
     Pick<RoutineType, 'emoji' | 'name' | 'durationGoalTime'>
   >({ emoji: '', name: '', durationGoalTime: 0 });
+  const [todayMissionStatus, setTodayMissionStatus] = useState<any>([]);
   const initialReview = {
     routineStatusId: 0,
     emotion: 1,
@@ -183,29 +189,59 @@ const AnalysisDetailPage = (): JSX.Element => {
 
   const getRoutineStatus = useCallback(async () => {
     if (!id) return;
-    const result = await routineApi.getRoutineStatus(parseInt(id));
-    const { emoji, name, durationGoalTime } =
-      result.data.data.routineDetailResponse;
-    setRoutineInfo(() => ({
-      emoji,
-      name,
-      durationGoalTime,
-    }));
-    const { emotion, startTime, content, routineStatusImage } =
-      result.data.data;
-    const date = new Date(startTime);
-    setDate({
-      year: date.getFullYear(),
-      month: date.getMonth() + 1,
-      day: date.getDate(),
-    });
-    setReviewInfo((reviewInfo) => ({
-      ...reviewInfo,
-      routineStatusId: parseInt(id),
-      emotion,
-      content,
-      routineStatusImage,
-    }));
+    try {
+      const result = await routineApi.getRoutineStatus(parseInt(id));
+      const { emoji, name, durationGoalTime } = result.data.data.routineDto;
+      const missionStatus = result.data.data.missionDetailStatusResponses
+        .map(
+          (status: {
+            missionStatusDetailResponse: {
+              userDurationTime: number;
+              startTime: string | null;
+              endTime: string | null;
+            };
+          }) => {
+            const { userDurationTime, endTime, startTime } =
+              status.missionStatusDetailResponse;
+
+            return {
+              ...status,
+              userDurationTime: endTime === null ? null : userDurationTime,
+              isPassed: endTime === null || startTime === null ? true : false,
+            };
+          },
+        )
+        .sort(
+          (a: { orders: number }, b: { orders: number }) => a.orders - b.orders,
+        );
+      setTodayMissionStatus(missionStatus);
+      setRoutineInfo(() => ({
+        emoji,
+        name,
+        durationGoalTime,
+      }));
+      const { emotion, startTime, content, routineStatusImage } =
+        result.data.data;
+      const date = new Date(startTime);
+      setDate({
+        year: date.getFullYear(),
+        month: date.getMonth() + 1,
+        day: date.getDate(),
+      });
+      setReviewInfo((reviewInfo) => ({
+        ...reviewInfo,
+        routineStatusId: parseInt(id),
+        emotion,
+        content,
+        routineStatusImage,
+      }));
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        text: '오류로 인해 루틴 완료 데이터 로드에 실패했습니다.',
+        confirmButtonColor: Colors.point,
+      });
+    }
   }, [id]);
 
   useEffect(() => {
@@ -226,6 +262,11 @@ const AnalysisDetailPage = (): JSX.Element => {
           deleteReview={handleReviewDelete}
         />
       </RoutineReviewContainer>
+      <RoutineProgressContainer>
+        <StyledRoutineProgress>
+          <RoutineProgress missionObject={todayMissionStatus} />
+        </StyledRoutineProgress>
+      </RoutineProgressContainer>
       {visible && (
         <RoutineReviewModal
           visible={visible}
@@ -269,6 +310,22 @@ const DateText = styled.p`
   @media ${Media.sm} {
     font-size: ${FontSize.micro};
   }
+`;
+
+const RoutineProgressContainer = styled.div`
+  width: 85%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: ${Colors.backgroundModal};
+  border-radius: 16px;
+  max-height: 700px;
+  margin-top: 2rem;
+  overflow-y: auto;
+`;
+
+const StyledRoutineProgress = styled.div`
+  margin: 3rem 0;
 `;
 
 const RoutineReviewContainer = styled.div`
