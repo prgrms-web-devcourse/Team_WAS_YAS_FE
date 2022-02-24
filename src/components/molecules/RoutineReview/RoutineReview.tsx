@@ -145,7 +145,8 @@ const RoutineReview = ({
         )
       ) : (
         <Fragment>
-          <ReviewText>후기가 없습니다. 지금 후기를 작성해볼까요?</ReviewText>
+          <ReviewText>후기가 없습니다.</ReviewText>
+          <ReviewText>지금 후기를 작성해볼까요?</ReviewText>
           <ReviewEmotion src={good} alt="good" />
           <StyledButton onClick={onClickWriteReview}>
             후기 작성하기
@@ -177,17 +178,18 @@ const RoutineReviewContainer = styled.div<{ reviewData: ReviewDataType }>`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 2.5rem;
+    gap: 1.5rem;
   `}
   padding: 1.75rem;
   height: 100%;
   position: relative;
 `;
 
-const ReviewText = styled.p`
+const ReviewText = styled.span`
   color: ${Colors.textTertiary};
   font-size: ${FontSize.medium};
   word-break: keep-all;
+  text-align: center;
 `;
 
 const ReviewEmotion = styled.img`
