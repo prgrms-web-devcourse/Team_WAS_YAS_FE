@@ -1,35 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react';
+import { routineApi } from '@/apis';
 import {
-  Button,
   Container,
   RoutineInfo,
   RoutineProgress,
   RoutineReview,
   RoutineReviewModal,
-  Spinner,
 } from '@/components';
-import { Colors, FontSize, FontWeight, Media } from '@/styles';
 import styled from '@emotion/styled';
-import { useHistory, useParams } from 'react-router-dom';
-import { missionStatusApi, routineApi } from '@/apis';
-import Swal from 'sweetalert2';
-import { RoutineReviewType } from '@/Models';
+import { Colors, FontSize, FontWeight, Media } from '@/styles';
+import { RoutineReviewType, RoutineType } from '@/Models';
 import { v4 } from 'uuid';
+import Swal from 'sweetalert2';
 
-interface RoutineInfoType {
-  emoji: string;
-  name: string;
-  durationGoalTime: number;
-}
-
-const RoutineFinishPage = (): JSX.Element => {
-  const history = useHistory();
-  const params = useParams();
-  const currentRoutineId = params['id'] && +params['id'];
+const AnalysisDetailPage = (): JSX.Element => {
+  const { id } = useParams<Record<string, string>>();
+  const [routineInfo, setRoutineInfo] = useState<
+    Pick<RoutineType, 'emoji' | 'name' | 'durationGoalTime'>
+  >({ emoji: '', name: '', durationGoalTime: 0 });
   const [todayMissionStatus, setTodayMissionStatus] = useState<any>([]);
-  const [routineInfo, setRoutineInfo] = useState<any>([]);
-  const [visible, setVisible] = useState<boolean>(false);
-  const [loading, setLoading] = useState<boolean>(false);
   const initialReview = {
     routineStatusId: 0,
     emotion: 1,
@@ -40,65 +30,12 @@ const RoutineFinishPage = (): JSX.Element => {
   };
   const [reviewInfo, setReviewInfo] =
     useState<RoutineReviewType>(initialReview);
-  const getFinishedRoutineDetail = async () => {
-    setLoading(true);
-    if (!currentRoutineId) {
-      setLoading(false);
-      return;
-    }
-    try {
-      const notFinishedRoutines = await routineApi.getNotFinishedRoutines();
-      const notFinishedRoutineIds = notFinishedRoutines.data.data.map(
-        (routine: { routineId: number }) => routine.routineId,
-      );
-
-      if (notFinishedRoutineIds.includes(currentRoutineId)) {
-        Swal.fire({
-          position: 'center',
-          icon: 'info',
-          title: '루틴을 수행하지 않았네요!',
-          text: '해당 루틴페이지로 이동합니다',
-          showConfirmButton: false,
-          timer: 2000,
-        });
-        history.replace(`/routine/${currentRoutineId}`);
-      } else {
-        const result = await missionStatusApi.getMissionStatus(
-          currentRoutineId,
-        );
-        const { routineStatusId } = result.data.data[0];
-        setReviewInfo((reviewInfo) => ({ ...reviewInfo, routineStatusId }));
-        const missionStatus = result.data.data
-          .map(
-            (status: {
-              missionStatusDetailResponse: {
-                userDurationTime: number;
-                startTime: string | null;
-                endTime: string | null;
-              };
-            }) => {
-              const { userDurationTime, endTime, startTime } =
-                status.missionStatusDetailResponse;
-
-              return {
-                ...status,
-                userDurationTime: endTime === null ? null : userDurationTime,
-                isPassed: endTime === null || startTime === null ? true : false,
-              };
-            },
-          )
-          .sort(
-            (a: { orders: number }, b: { orders: number }) =>
-              a.orders - b.orders,
-          );
-        getInitReview(routineStatusId);
-        setTodayMissionStatus(missionStatus);
-      }
-    } catch (e) {
-      console.error('getFinishedRoutineDetail: ', e);
-    }
-    setLoading(false);
-  };
+  const [visible, setVisible] = useState<boolean>(false);
+  const [date, setDate] = useState<{
+    year: number;
+    month: number;
+    day: number;
+  }>({ year: 0, month: 0, day: 0 });
 
   const handleEmotionChange = (emotion: number) => {
     setReviewInfo((reviewInfo) => ({
@@ -205,27 +142,7 @@ const RoutineFinishPage = (): JSX.Element => {
 
   const handleCloseClick = () => {
     setVisible(false);
-    window.location.replace(`/routine/${currentRoutineId}/finish`);
-  };
-
-  const getRoutineInfo = async () => {
-    setLoading(true);
-    if (!currentRoutineId) {
-      setLoading(false);
-      return;
-    }
-    try {
-      const result = await routineApi.getRoutine(currentRoutineId);
-      const routineInfo: RoutineInfoType = {
-        emoji: result.data.data.emoji,
-        name: result.data.data.name,
-        durationGoalTime: result.data.data.durationGoalTime,
-      };
-      setRoutineInfo(routineInfo);
-    } catch (e) {
-      console.error('getRoutineInfo: ', e);
-    }
-    setLoading(false);
+    window.location.replace(`/analysis/detail/${id}`);
   };
 
   const handleReviewSubmit = async () => {
@@ -270,30 +187,72 @@ const RoutineFinishPage = (): JSX.Element => {
     }
   };
 
-  const getInitReview = async (routineStatusId: number) => {
+  const getRoutineStatus = useCallback(async () => {
+    if (!id) return;
     try {
-      const result = await routineApi.getRoutineStatus(routineStatusId);
-      const { emotion, content, routineStatusImage } = result.data.data;
+      const result = await routineApi.getRoutineStatus(parseInt(id));
+      const { emoji, name, durationGoalTime } = result.data.data.routineDto;
+      const missionStatus = result.data.data.missionDetailStatusResponses
+        .map(
+          (status: {
+            missionStatusDetailResponse: {
+              userDurationTime: number;
+              startTime: string | null;
+              endTime: string | null;
+            };
+          }) => {
+            const { userDurationTime, endTime, startTime } =
+              status.missionStatusDetailResponse;
+
+            return {
+              ...status,
+              userDurationTime: endTime === null ? null : userDurationTime,
+              isPassed: endTime === null || startTime === null ? true : false,
+            };
+          },
+        )
+        .sort(
+          (a: { orders: number }, b: { orders: number }) => a.orders - b.orders,
+        );
+      setTodayMissionStatus(missionStatus);
+      setRoutineInfo(() => ({
+        emoji,
+        name,
+        durationGoalTime,
+      }));
+      const { emotion, startTime, content, routineStatusImage } =
+        result.data.data;
+      const date = new Date(startTime);
+      setDate({
+        year: date.getFullYear(),
+        month: date.getMonth() + 1,
+        day: date.getDate(),
+      });
       setReviewInfo((reviewInfo) => ({
         ...reviewInfo,
+        routineStatusId: parseInt(id),
         emotion,
         content,
         routineStatusImage,
       }));
     } catch (error) {
-      console.log(error);
+      Swal.fire({
+        icon: 'error',
+        text: '오류로 인해 루틴 완료 데이터 로드에 실패했습니다.',
+        confirmButtonColor: Colors.point,
+      });
     }
-  };
+  }, [id]);
 
   useEffect(() => {
-    getFinishedRoutineDetail();
-    getRoutineInfo();
-    // eslint-disable-next-line
-  }, []);
-
+    getRoutineStatus();
+  }, [getRoutineStatus]);
   return (
     <Container>
       <Title>루틴 요약</Title>
+      <DateText>
+        {date.year}년 {date.month}월 {date.day}일
+      </DateText>
       <RoutineInfo routineObject={routineInfo} />
       <RoutineReviewContainer>
         <RoutineReview
@@ -308,11 +267,6 @@ const RoutineFinishPage = (): JSX.Element => {
           <RoutineProgress missionObject={todayMissionStatus} />
         </StyledRoutineProgress>
       </RoutineProgressContainer>
-      <ButtonContainer>
-        <Button colorType="white" onClick={() => history.push('/')}>
-          종료하기
-        </Button>
-      </ButtonContainer>
       {visible && (
         <RoutineReviewModal
           visible={visible}
@@ -325,12 +279,11 @@ const RoutineFinishPage = (): JSX.Element => {
           initReview={reviewInfo}
         />
       )}
-      {loading && <Spinner />}
     </Container>
   );
 };
 
-export default RoutineFinishPage;
+export default AnalysisDetailPage;
 
 const Title = styled.h1`
   margin: 1.5rem 0;
@@ -348,9 +301,15 @@ const Title = styled.h1`
   }
 `;
 
-const RoutineReviewContainer = styled.div`
-  margin-top: 1.5rem;
-  width: 85%;
+const DateText = styled.p`
+  font-size: ${FontSize.medium};
+  font-weight: ${FontWeight.bold};
+  color: ${Colors.textTertiary};
+  margin-bottom: 0.5rem;
+
+  @media ${Media.sm} {
+    font-size: ${FontSize.micro};
+  }
 `;
 
 const RoutineProgressContainer = styled.div`
@@ -369,18 +328,7 @@ const StyledRoutineProgress = styled.div`
   margin: 3rem 0;
 `;
 
-const ButtonContainer = styled.div`
-  position: fixed;
-  bottom: 1.5rem;
-  z-index: 1000;
-  margin-top: 3rem;
-  @media ${Media.sm} {
-    width: 240px;
-  }
-  @media ${Media.md} {
-    width: 480px;
-  }
-  @media ${Media.lg} {
-    width: 480px;
-  }
+const RoutineReviewContainer = styled.div`
+  margin-top: 1.5rem;
+  width: 85%;
 `;

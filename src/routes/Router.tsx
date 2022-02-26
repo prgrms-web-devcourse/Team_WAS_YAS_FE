@@ -21,6 +21,7 @@ import {
   AnalysisPage,
   NotFoundPage,
   OnBoardingPage,
+  AnalysisDetailPage,
 } from '@/pages';
 import { RoutineUpdatePage } from '@/pages/myRoutine';
 import RoutinePostWritePage from '@/pages/routineCommunity/RoutinePostWritePage';
@@ -95,6 +96,11 @@ const Router = (): JSX.Element => {
       />
 
       <PrivateRoute path="/analysis" exact component={AnalysisPage} />
+      <PrivateRoute
+        path="/analysis/detail/:id"
+        exact
+        component={AnalysisDetailPage}
+      />
 
       <PublicRoute path="/onboarding" exact component={OnBoardingPage} />
 
